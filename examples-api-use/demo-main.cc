@@ -552,14 +552,14 @@ private:
     int num=0;
     if (torus_) {
       // Edges are connected (torus)
-      num += values_[(x-1+width_)%width_][(y-1+height_)%height_];
-      num += values_[(x-1+width_)%width_][y                    ];
-      num += values_[(x-1+width_)%width_][(y+1        )%height_];
-      num += values_[(x+1       )%width_][(y-1+height_)%height_];
-      num += values_[(x+1       )%width_][y                    ];
-      num += values_[(x+1       )%width_][(y+1        )%height_];
-      num += values_[x                  ][(y-1+height_)%height_];
-      num += values_[x                  ][(y+1        )%height_];
+      num += values_[(x-1+width_)%width_][(y-1+height_)%height_] > 0;
+      num += values_[(x-1+width_)%width_][y                    ] > 0;
+      num += values_[(x-1+width_)%width_][(y+1        )%height_] > 0;
+      num += values_[(x+1       )%width_][(y-1+height_)%height_] > 0;
+      num += values_[(x+1       )%width_][y                    ] > 0;
+      num += values_[(x+1       )%width_][(y+1        )%height_] > 0;
+      num += values_[x                  ][(y-1+height_)%height_] > 0;
+      num += values_[x                  ][(y+1        )%height_] > 0;
     }
     else {
       // Edges are not connected (no torus)

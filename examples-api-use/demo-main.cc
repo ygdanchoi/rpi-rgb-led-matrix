@@ -597,12 +597,13 @@ private:
       for (int y=0; y<height_; ++y) {
         int num = numAliveNeighbours(x,y);
         if (values_[x][y]) {
+          // cell is dead
           newValues_[x][y] = values_[x][y] + 1;
           if (num == 3)
             newValues_[x][y] = 0;
-          
         }
         else {
+          // cell is alive
           if (num < 2 || num > 3)
             newValues_[x][y] = 1;
         }

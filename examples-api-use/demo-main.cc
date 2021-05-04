@@ -598,7 +598,7 @@ private:
         int num = numAliveNeighbours(x,y);
         if (values_[x][y]) {
           if (num < 2 || num > 3)
-            newValues_[x][y] += 1;
+            newValues_[x][y] = values_[x][y] + 1;
         }
         else {
           if (num == 3)

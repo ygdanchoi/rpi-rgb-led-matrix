@@ -541,7 +541,7 @@ public:
       for (int x=0; x<width_; ++x) {
         for (int y=0; y<height_; ++y) {
           if (values_[x][y])
-            canvas()->SetPixel(x, y, r_, g_, b_);
+            canvas()->SetPixel(x, y, max(r_ - values_[x][y], 0), max(g_ - values_[x][y], 0), max(b_ - values_[x][y], 0));
           else
             canvas()->SetPixel(x, y, 0, 0, 0);
         }
@@ -614,12 +614,16 @@ private:
     // copy newValues to values
     for (int x=0; x<width_; ++x) {
       for (int y=0; y<height_; ++y) {
-        values_[x][y] = newValues_[x][y];
+        if (newValues_[x][y]) {
+          values_[x][y] += 1;
+        } else {
+          values_[x][y] = 0;
+        }
       }
     }
 
     for (int x=0; x<width_; ++x) {
-      values_[x][height_ - 1] = rand()%2;
+      values_[x][height_ - 1] = (rand()%3 == 0);
     }
   }
 

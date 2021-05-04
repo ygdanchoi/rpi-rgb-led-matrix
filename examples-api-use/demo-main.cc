@@ -480,7 +480,7 @@ private:
 // Contributed by: Vliedel
 class GameLife : public ThreadedCanvasManipulator {
 public:
-  GameLife(Canvas *m, int delay_ms=500, bool torus=true)
+  GameLife(Canvas *m, int delay_ms=500, bool torus=false)
     : ThreadedCanvasManipulator(m), delay_ms_(delay_ms), torus_(torus) {
     width_ = canvas()->width();
     height_ = canvas()->height();
@@ -616,6 +616,10 @@ private:
       for (int y=0; y<height_; ++y) {
         values_[x][y] = newValues_[x][y];
       }
+    }
+
+    for (int x=0; x<width_; ++x) {
+      values_[x][height_ - 1] = rand()%2;
     }
   }
 

@@ -565,22 +565,22 @@ private:
       // Edges are not connected (no torus)
       if (x>0) {
         if (y>0)
-          num += values_[x-1][y-1];
+          num += values_[x-1][y-1] > 0;
         if (y<height_-1)
-          num += values_[x-1][y+1];
-        num += values_[x-1][y];
+          num += values_[x-1][y+1] > 0;
+        num += values_[x-1][y] > 0;
       }
       if (x<width_-1) {
         if (y>0)
-          num += values_[x+1][y-1];
+          num += values_[x+1][y-1] > 0;
         if (y<31)
-          num += values_[x+1][y+1];
-        num += values_[x+1][y];
+          num += values_[x+1][y+1] > 0;
+        num += values_[x+1][y] > 0;
       }
       if (y>0)
-        num += values_[x][y-1];
+        num += values_[x][y-1] > 0;
       if (y<height_-1)
-        num += values_[x][y+1];
+        num += values_[x][y+1] > 0;
     }
     return num;
   }
@@ -599,23 +599,19 @@ private:
         if (values_[x][y]) {
           // cell is alive
           if (num < 2 || num > 3)
-            newValues_[x][y] = 0;
+            newValues_[x][y] += 1;
         }
         else {
           // cell is dead
           if (num == 3)
-            newValues_[x][y] = 1;
+            newValues_[x][y] = 0;
         }
       }
     }
     // copy newValues to values
     for (int x=0; x<width_; ++x) {
       for (int y=0; y<height_; ++y) {
-        if (newValues_[x][y]) {
-          values_[x][y] += 1;
-        } else {
-          values_[x][y] = 0;
-        }
+        values_[x][y] = newValues_[x][y];
       }
     }
 

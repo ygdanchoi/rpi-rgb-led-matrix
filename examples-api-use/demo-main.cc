@@ -541,7 +541,7 @@ public:
       for (int x=0; x<width_; ++x) {
         for (int y=0; y<height_; ++y) {
           if (values_[x][y])
-            canvas()->SetPixel(x, y, max(r_ - values_[x][y] / 8, 0), max(g_ - values_[x][y] / 8, 0), max(b_ - values_[x][y] / 8, 0));
+            canvas()->SetPixel(x, y, max(r_ - values_[x][y] / 64, 0), max(g_ - values_[x][y] / 64, 0), max(b_ - values_[x][y] / 64, 0));
           else
             canvas()->SetPixel(x, y, 0, 0, 0);
         }

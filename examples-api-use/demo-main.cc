@@ -540,7 +540,7 @@ public:
 
       for (int x=0; x<width_; ++x) {
         for (int y=0; y<height_; ++y) {
-          canvas()->SetPixel(x, y, max(r_ - values_[x][y], 0), max(g_ - values_[x][y], 0), max(b_ - values_[x][y], 0));  
+          canvas()->SetPixel(x, y, max(r_ - values_[x][y] * 8, 0), max(g_ - values_[x][y] * 8, 0), max(b_ - values_[x][y] * 8, 0));  
         }
       }
       usleep(delay_ms_ * 1000); // ms
@@ -597,12 +597,14 @@ private:
       for (int y=0; y<height_; ++y) {
         int num = numAliveNeighbours(x,y);
         if (values_[x][y]) {
-          if (num < 2 || num > 3)
-            newValues_[x][y] = values_[x][y] + 1;
-        }
-        else {
+          newValues_[x][y] = values_[x][y] + 1;
           if (num == 3)
             newValues_[x][y] = 0;
+          
+        }
+        else {
+          if (num < 2 || num > 3)
+            newValues_[x][y] = 1;
         }
       }
     }

@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
   char line[1024];
   fp = fopen("arrivals.txt" , "r");
 
-  while (fgets(line, sizeof(line), stdin)) {
+  while (fgets(line, sizeof(line), fp)) {
     const size_t last = strlen(line);
     if (last > 0) line[last - 1] = '\0';  // remove newline.
     bool line_empty = strlen(line) == 0;

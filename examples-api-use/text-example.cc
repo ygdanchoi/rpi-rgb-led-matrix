@@ -15,11 +15,6 @@
 
 using namespace rgb_matrix;
 
-volatile bool interrupt_received = false;
-static void InterruptHandler(int signo) {
-  interrupt_received = true;
-}
-
 static int usage(const char *progname) {
   fprintf(stderr, "usage: %s [options]\n", progname);
   fprintf(stderr, "Reads text from stdin and displays it. "
@@ -178,8 +173,7 @@ int main(int argc, char *argv[]) {
     y += font.height();
   }
 
-  while (!interrupt_received) {
-  }
+  sleep(59);
 
   // Finished. Shut down the RGB matrix.
   canvas->Clear();

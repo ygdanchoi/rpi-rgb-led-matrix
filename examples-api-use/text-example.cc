@@ -177,5 +177,7 @@ int main(int argc, char *argv[]) {
   canvas->Clear();
   delete canvas;
 
+  sleep(60);
+
   return 0;
 }

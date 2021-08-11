@@ -8,18 +8,12 @@
 #include "graphics.h"
 
 #include <getopt.h>
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 using namespace rgb_matrix;
-
-volatile bool interrupt_received = false;
-static void InterruptHandler(int signo) {
-  interrupt_received = true;
-}
 
 static int usage(const char *progname) {
   fprintf(stderr, "usage: %s [options]\n", progname);
@@ -152,12 +146,8 @@ int main(int argc, char *argv[]) {
            "Supports UTF-8. CTRL-D for exit.\n");
   }
 
-  
-  FILE *fp;
   char line[1024];
-  fp = fopen("arrivals.txt" , "r");
-
-  while (fgets(line, sizeof(line), fp)) {
+  while (fgets(line, sizeof(line), stdin)) {
     const size_t last = strlen(line);
     if (last > 0) line[last - 1] = '\0';  // remove newline.
     bool line_empty = strlen(line) == 0;
@@ -183,12 +173,7 @@ int main(int argc, char *argv[]) {
     y += font.height();
   }
 
-  fclose(fp);
-  signal(SIGTERM, InterruptHandler);
-  signal(SIGINT, InterruptHandler);
-
-  while (!interrupt_received) {
-  }
+  sleep(30);
 
   // Finished. Shut down the RGB matrix.
   canvas->Clear();

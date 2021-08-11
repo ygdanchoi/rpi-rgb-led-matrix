@@ -152,7 +152,11 @@ int main(int argc, char *argv[]) {
            "Supports UTF-8. CTRL-D for exit.\n");
   }
 
+  
+  FILE *fp;
   char line[1024];
+  fp = fopen("arrivals.txt" , "r");
+
   while (fgets(line, sizeof(line), stdin)) {
     const size_t last = strlen(line);
     if (last > 0) line[last - 1] = '\0';  // remove newline.
@@ -179,9 +183,10 @@ int main(int argc, char *argv[]) {
     y += font.height();
   }
 
+  fclose(fp);
   signal(SIGTERM, InterruptHandler);
   signal(SIGINT, InterruptHandler);
-  
+
   while (!interrupt_received) {
   }
 

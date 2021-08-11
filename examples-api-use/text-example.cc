@@ -179,6 +179,9 @@ int main(int argc, char *argv[]) {
     y += font.height();
   }
 
+  signal(SIGTERM, InterruptHandler);
+  signal(SIGINT, InterruptHandler);
+  
   while (!interrupt_received) {
   }
 

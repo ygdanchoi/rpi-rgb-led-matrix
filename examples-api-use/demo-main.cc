@@ -480,7 +480,7 @@ private:
 // Contributed by: Vliedel
 class GameLife : public ThreadedCanvasManipulator {
 public:
-  GameLife(Canvas *m, int delay_ms=500, bool torus=true)
+  GameLife(Canvas *m, int delay_ms=500, bool torus=false)
     : ThreadedCanvasManipulator(m), delay_ms_(delay_ms), torus_(torus) {
     width_ = canvas()->width();
     height_ = canvas()->height();
@@ -540,10 +540,7 @@ public:
 
       for (int x=0; x<width_; ++x) {
         for (int y=0; y<height_; ++y) {
-          if (values_[x][y])
-            canvas()->SetPixel(x, y, r_, g_, b_);
-          else
-            canvas()->SetPixel(x, y, 0, 0, 0);
+          canvas()->SetPixel(x, y, max(r_ - values_[x][y] * 32, 0), max(g_ - values_[x][y] * 64, 0), max(b_ - values_[x][y] * 8, 0));  
         }
       }
       usleep(delay_ms_ * 1000); // ms
@@ -555,35 +552,35 @@ private:
     int num=0;
     if (torus_) {
       // Edges are connected (torus)
-      num += values_[(x-1+width_)%width_][(y-1+height_)%height_];
-      num += values_[(x-1+width_)%width_][y                    ];
-      num += values_[(x-1+width_)%width_][(y+1        )%height_];
-      num += values_[(x+1       )%width_][(y-1+height_)%height_];
-      num += values_[(x+1       )%width_][y                    ];
-      num += values_[(x+1       )%width_][(y+1        )%height_];
-      num += values_[x                  ][(y-1+height_)%height_];
-      num += values_[x                  ][(y+1        )%height_];
+      num += values_[(x-1+width_)%width_][(y-1+height_)%height_] == 0;
+      num += values_[(x-1+width_)%width_][y                    ] == 0;
+      num += values_[(x-1+width_)%width_][(y+1        )%height_] == 0;
+      num += values_[(x+1       )%width_][(y-1+height_)%height_] == 0;
+      num += values_[(x+1       )%width_][y                    ] == 0;
+      num += values_[(x+1       )%width_][(y+1        )%height_] == 0;
+      num += values_[x                  ][(y-1+height_)%height_] == 0;
+      num += values_[x                  ][(y+1        )%height_] == 0;
     }
     else {
       // Edges are not connected (no torus)
       if (x>0) {
         if (y>0)
-          num += values_[x-1][y-1];
+          num += values_[x-1][y-1] == 0;
         if (y<height_-1)
-          num += values_[x-1][y+1];
-        num += values_[x-1][y];
+          num += values_[x-1][y+1] == 0;
+        num += values_[x-1][y] == 0;
       }
       if (x<width_-1) {
         if (y>0)
-          num += values_[x+1][y-1];
+          num += values_[x+1][y-1] == 0;
         if (y<31)
-          num += values_[x+1][y+1];
-        num += values_[x+1][y];
+          num += values_[x+1][y+1] == 0;
+        num += values_[x+1][y] == 0;
       }
       if (y>0)
-        num += values_[x][y-1];
+        num += values_[x][y-1] == 0;
       if (y<height_-1)
-        num += values_[x][y+1];
+        num += values_[x][y+1] == 0;
     }
     return num;
   }
@@ -600,13 +597,14 @@ private:
       for (int y=0; y<height_; ++y) {
         int num = numAliveNeighbours(x,y);
         if (values_[x][y]) {
-          // cell is alive
-          if (num < 2 || num > 3)
+          // cell is dead
+          newValues_[x][y] = values_[x][y] + 1;
+          if (num == 3)
             newValues_[x][y] = 0;
         }
         else {
-          // cell is dead
-          if (num == 3)
+          // cell is alive
+          if (num < 2 || num > 3)
             newValues_[x][y] = 1;
         }
       }
@@ -616,6 +614,10 @@ private:
       for (int y=0; y<height_; ++y) {
         values_[x][y] = newValues_[x][y];
       }
+    }
+
+    for (int x=0; x<width_; ++x) {
+      values_[x][height_ - 1] = (rand()%3 == 0);
     }
   }
 

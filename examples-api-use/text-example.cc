@@ -173,7 +173,7 @@ int main(int argc, char *argv[]) {
     y += font.height();
   }
 
-  sleep(59);
+  sleep(30);
 
   // Finished. Shut down the RGB matrix.
   canvas->Clear();

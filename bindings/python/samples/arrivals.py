@@ -15,7 +15,7 @@ import threading
 import time
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id'])
-Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'etas', 'color'])
+Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
 
 cached_arrivals = sortedcollections.OrderedDict()
 trips = {}
@@ -180,7 +180,7 @@ class FetchArrivals(threading.Thread):
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=trips[trip_id].trip_headsign,
-                    etas=eta,
+                    eta=eta,
                     color=colors[route_id]
                 ))
 
@@ -202,7 +202,7 @@ class FetchArrivals(threading.Thread):
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=trips[trip_id].trip_headsign,
-                    etas=eta,
+                    eta=eta,
                     color=colors[route_id]
                 ))
 
@@ -236,23 +236,23 @@ class DrawArrivals(SampleBase):
 
             offscreen_canvas.Clear()
             rows = list(cached_arrivals.items())
-            print(cached_arrivals)
+
             for i, item in enumerate(rows + rows):
                 route_id = item[0]
                 row = item[1]
 
                 line = f'{route_id}'
                 line += ' ' * (5 - len(line))
-                line += row.trip_headsign[:12]
+                line += row[0].trip_headsign[:12]
                 line += ' ' * (17 - len(line))
-                line += ' ' + ', '.join([str(eta) for eta in row.etas[:3]]) + ' min'
+                line += ' ' + ', '.join([str(eta.eta) for eta in row[:3]]) + ' min'
                 
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
                     1,
                     7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
-                    graphics.Color(*row.color) if is_light_mode else dark_mode,
+                    graphics.Color(*row[0].color) if is_light_mode else dark_mode,
                     line
                 )
 

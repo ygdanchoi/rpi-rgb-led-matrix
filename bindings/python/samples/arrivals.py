@@ -11,10 +11,11 @@ import sortedcollections
 import threading
 import time
 
-
+Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 
 lines = []
-trips = {}
+trips_list = []
+trips_dict = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -23,9 +24,15 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
         route_id = row[0]
         trip_id = '_'.join(row[2].split('_')[1:])[:-3]
         trip_headsign = row[3]
-        print(f'{route_id}\t{trip_id}\t{trip_headsign}')
 
-Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
+        key = f'{route_id} {trip_id}'
+
+        trips_list.append(key)
+        trips_dict[key] = trip_headsign
+    
+    trips_list.sort()
+    print(trips_list)
+
 
 class FetchArrivals(threading.Thread):
     def run(self):

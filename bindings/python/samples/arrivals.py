@@ -121,7 +121,7 @@ class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
     
-    async step(self):
+    def async step(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/5x7.bdf")

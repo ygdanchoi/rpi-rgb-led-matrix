@@ -159,9 +159,9 @@ class DrawArrivals(SampleBase):
                     offscreen_canvas,
                     font,
                     1,
-                    offscreen_canvas.height,
+                    offscreen_canvas.height - 1,
                     graphics.Color(255, 255, 255),
-                    datetime.now().strftime('%H:%M:%S %p')
+                    datetime.now().strftime('%a, %b %d, %Y - %T %p')
                 )
             
             if (len(rows) > 4):

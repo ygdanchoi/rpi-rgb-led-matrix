@@ -205,7 +205,7 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
             trip_id = trip_update.trip.trip_id
 
-            if eta >= 0 and trips[trip_id].direction == direction_id:
+            if eta >= 0 and trips[trip_id].direction_id == direction_id:
                 route_id = trips[trip_id].route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []

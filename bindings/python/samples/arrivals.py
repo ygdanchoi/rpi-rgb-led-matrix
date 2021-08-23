@@ -73,7 +73,6 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
-        # merged_arrivals = self.get_merged_arrivals(arrivals)
         self.update_rows(arrivals)
 
     def put_arrivals(self, url, stop_id, arrivals, current_time):
@@ -130,7 +129,7 @@ class DrawArrivals(SampleBase):
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         offset = 0
-        offset_slowdown = 3
+        offset_slowdown = 2
         height = 7
         
         while True:

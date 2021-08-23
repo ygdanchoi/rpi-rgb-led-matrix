@@ -112,7 +112,7 @@ async def fetch_arrivals():
             await asyncio.gather(*tasks)
 
             update_lines(get_merged_arrivals(arrivals))
-        await asyncio.sleep(30)
+        await asyncio.sleep(10)
 
 async def draw_arrivals():
     arrivals = Arrivals()

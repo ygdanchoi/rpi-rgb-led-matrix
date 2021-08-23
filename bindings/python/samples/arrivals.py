@@ -139,7 +139,7 @@ class DrawArrivals(SampleBase):
                     line
                 )
 
-            if (lines > 0):
+            if (len(lines) > 0):
                 offset += 1
                 if offset // offset_slowdown > 8 * len(lines):
                     offset = 0

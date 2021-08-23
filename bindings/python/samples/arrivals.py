@@ -2,8 +2,6 @@
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-import aiohttp
-import asyncio
 import collections
 import gtfs_realtime_pb2
 import requests

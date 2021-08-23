@@ -40,6 +40,7 @@ async def put_arrivals(url, stop_id, arrivals, session, current_time, countdown_
                 arrivals[route_id].append(eta)
         
         countdown_latch.count -= 1
+        print(countdown_latch)
         if (countdown_latch.count == 0):
             update_lines(get_merged_arrivals(arrivals))
 
@@ -96,26 +97,26 @@ async def fetch_arrivals():
     while True:
         async with aiohttp.ClientSession() as session:
             arrivals = collections.defaultdict(list)
-            tasks = []
             current_time = time.time()
             countdown_latch = {'count': 2}
 
-            tasks.append(asyncio.ensure_future(put_arrivals(
+            asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
                 'Q05S', # 96 St
                 arrivals,
                 session,
                 current_time,
                 countdown_latch
-            )))
-            tasks.append(asyncio.ensure_future(put_arrivals(
+            ))
+            asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 arrivals,
                 session,
                 current_time,
                 countdown_latch
-            )))
+            ))
+        
         await asyncio.sleep(10)
 
 async def draw_arrivals():

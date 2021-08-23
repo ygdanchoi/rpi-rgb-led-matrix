@@ -165,9 +165,7 @@ class FetchArrivals(threading.Thread):
                 arrivals[route_id].append(eta)
 
     def put_gtfs_arrivals_ferry(self, stop_id, arrivals, current_time):
-        response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate', headers={
-            'x-api-key': secrets.real_time_access_key
-        })
+        response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
         feed = gtfs_realtime_pb2.FeedMessage()
         feed.ParseFromString(response.content)
         entities = feed.entity

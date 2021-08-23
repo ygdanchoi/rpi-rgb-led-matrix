@@ -168,7 +168,7 @@ class DrawArrivals(SampleBase):
             offscreen_canvas.Clear()
             for i, row in enumerate(rows + rows):
                 line = f'{row.route_id}'
-                line += ' ' * (4 - len(line))
+                line += ' ' * (5 - len(line))
                 line += row.trip_headsign[:12]
                 line += ' ' * (16 - len(line))
                 line += f' {row.etas} min'

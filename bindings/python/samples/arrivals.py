@@ -152,7 +152,7 @@ class DrawArrivals(SampleBase):
             
             if (len(rows) > 4):
                 offset += 1
-                if offset // offset_slowdown > height * len(rows):
+                if offset // offset_slowdown >= height * len(rows):
                     offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

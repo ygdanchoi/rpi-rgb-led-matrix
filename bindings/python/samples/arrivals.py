@@ -107,6 +107,7 @@ async def main():
         )))
         await asyncio.gather(*tasks)
 
+        print(arrivals)
         for line in format_arrivals(get_merged_arrivals(arrivals)):
             print(line)
 

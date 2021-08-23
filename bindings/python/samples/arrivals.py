@@ -18,6 +18,7 @@ Row = collections.namedtuple('Row', ['route_id', 'trip_headsign', 'etas', 'color
 rows = []
 trips = {}
 colors = {}
+ferry_routes = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -60,8 +61,10 @@ with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
             should_skip_header_row = False
             continue
         route_id = row[0]
+        trip_id = row[2]
         trip_headsign = row[3]
         trips[route_id] = trip_headsign
+        ferry_routes[trip_id] = route_id
 
 with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -111,10 +114,8 @@ class FetchArrivals(threading.Thread):
             arrivals,
             current_time
         )
-        self.put_gtfs_arrivals(
-            'http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate',
+        self.put_gtfs_arrivals_ferry(
             '113', # 86 St
-            '',
             arrivals,
             current_time
         )
@@ -158,8 +159,25 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
 
             if eta >= 0 and direction in trip_update.trip.trip_id:
-                print(trip_update)
                 route_id = trip_update.trip.route_id
+                if route_id not in arrivals:
+                    arrivals[route_id] = []    
+                arrivals[route_id].append(eta)
+
+    def put_gtfs_arrivals_ferry(self, stop_id, arrivals, current_time):
+        response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate', headers={
+            'x-api-key': secrets.real_time_access_key
+        })
+        feed = gtfs_realtime_pb2.FeedMessage()
+        feed.ParseFromString(response.content)
+        entities = feed.entity
+
+        for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
+            trip_update = entity.trip_update
+            eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
+
+            if eta >= 0:
+                route_id = ferry_routes[trip_update.trip.trip_id]
                 if route_id not in arrivals:
                     arrivals[route_id] = []    
                 arrivals[route_id].append(eta)

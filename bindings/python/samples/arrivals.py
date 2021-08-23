@@ -84,6 +84,9 @@ def update_lines(arrivals):
         line += ' ' * (7 - len(line))
         line += f'{etas} min'
         lines.append(line)
+    
+    while (len(lines) < 4):
+        lines.append('')
 
 async def fetch_arrivals():
     while True:
@@ -125,6 +128,7 @@ class Arrivals(SampleBase):
         self.offscreen_canvas = None
         self.font = None
         self.textColor = None
+        self.offset = 0
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
@@ -138,16 +142,18 @@ class Arrivals(SampleBase):
         
         self.offscreen_canvas.Clear()
 
-        for i, line in enumerate(lines):
+        for i, line in enumerate(lines + lines):
             graphics.DrawText(
                 self.offscreen_canvas,
                 self.font,
                 1,
-                7 + i * 8,
+                7 + i * 8 - self.offset,
                 self.textColor,
                 line
             )
 
+        self.offset += 1
+        if self.offset > 8 * len(lines)
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
 # Main function

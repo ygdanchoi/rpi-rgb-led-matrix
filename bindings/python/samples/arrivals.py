@@ -220,7 +220,7 @@ class DrawArrivals(SampleBase):
         textbox_height = 7
         
         while True:
-            is_light_mode = datetime.datetime.now().timestamp() // 1 % 2 == 1.0
+            is_light_mode = datetime.now().timestamp() // 1 % 2 == 1.0
 
             offscreen_canvas.Clear()
             for i, row in enumerate(rows + rows):

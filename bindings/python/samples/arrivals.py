@@ -113,9 +113,11 @@ async def fetch_arrivals():
         await asyncio.sleep(10)
 
 async def draw_arrivals():
-    arrivals = Arrivals()
-    if (not arrivals.process()):
-        arrivals.print_help()
+    while True:
+        arrivals = Arrivals()
+        if (not arrivals.process()):
+            arrivals.print_help()
+        await asyncio.sleep(0.05)
 
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -127,17 +129,15 @@ class Arrivals(SampleBase):
         font.LoadFont("../../../fonts/5x7.bdf")
         textColor = graphics.Color(255, 255, 0)
         pos = 0
+        
+        offscreen_canvas.Clear()
+        for i in range(8):
+            graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, lines[i % len(lines)])
+        pos += 1
+        if (pos >= 8 * len(lines)):
+            pos = 0
 
-        while True:
-            offscreen_canvas.Clear()
-            for i in range(8):
-                graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, lines[i % len(lines)])
-            pos += 1
-            if (pos >= 8 * len(lines)):
-                pos = 0
-
-            time.sleep(0.05)
-            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 # Main function
 if __name__ == "__main__":

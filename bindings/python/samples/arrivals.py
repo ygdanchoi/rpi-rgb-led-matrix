@@ -129,7 +129,6 @@ class DrawArrivals(SampleBase):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
-        textColor = graphics.Color(127, 0, 255)
         offset = 0
         offset_slowdown = 3
         height = 7
@@ -148,7 +147,7 @@ class DrawArrivals(SampleBase):
                     font,
                     0,
                     7 + i * height - offset // offset_slowdown,
-                    textColor,
+                    graphics.Color(*row.color),
                     line
                 )
             

@@ -41,7 +41,15 @@ with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
         route_id = row[0]
         route_color = row[7]
 
-        colors[route_id] = route_color
+        if len(route_color) == 6:
+            colors[route_id] = [
+                int(route_color[0:2], 16),
+                int(route_color[2:4], 16),
+                int(route_color[4:6], 16)
+            ]
+        else:
+            colors[route_id] = [255, 255, 255]
+        
     print(colors)
 
 class FetchArrivals(threading.Thread):

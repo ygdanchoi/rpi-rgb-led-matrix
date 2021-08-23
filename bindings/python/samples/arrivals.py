@@ -89,8 +89,13 @@ class FetchArrivals(threading.Thread):
             'MonitoringRef': stop_id
         })
 
-        monitored_stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
-        print([monitored_stop_visit['MonitoredVehicleJourney'] for monitored_stop_visit in monitored_stop_visits])
+        stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
+        vehicle_journeys = [stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_visits]
+        for vehicle_journey in vehicle_journeys:
+            published_line_name = vehicle_journey['PublishedLineName']
+            destination_name = vehicle_journey['DestinationName']
+            expected_arrival_time = vehicle_journey['ExpectedArrivalTime']
+            print(f'{published_line_name} {destination_name} {expected_arrival_time}')
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

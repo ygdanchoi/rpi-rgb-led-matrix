@@ -271,10 +271,9 @@ class DrawArrivals(SampleBase):
                     datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
                 )
             
-            if (len(rows) > 3):
-                vertical_offset += 1
-                if vertical_offset // vertical_offset_slowdown >= textbox_height * len(rows):
-                    vertical_offset = 0
+            vertical_offset += 1
+            if len(cached_rows) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(cached_rows):
+                vertical_offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 

@@ -27,9 +27,10 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
         direction = row[2].split('_')[2].split('..')[0]
         trip_headsign = row[3]
 
+        print(f'{route_id} {trip_headsign} {direction}')
         if (direction == '..S'):
             trips[route_id] = trip_headsign
-    print(trips)
+    
 
 class FetchArrivals(threading.Thread):
     def run(self):

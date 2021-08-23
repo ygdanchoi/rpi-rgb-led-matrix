@@ -153,7 +153,8 @@ class Arrivals(SampleBase):
             )
 
         self.offset += 1
-        if self.offset > 8 * len(lines)
+        if self.offset > 8 * len(lines):
+            self.offset = 0
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
 # Main function

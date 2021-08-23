@@ -129,6 +129,7 @@ class Arrivals(SampleBase):
 
         while True:
             offscreen_canvas.Clear()
+            len = 0
             for i, line in enumerate(lines):
                 len = max(
                     len,

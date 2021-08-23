@@ -109,7 +109,6 @@ async def fetch_arrivals():
             await asyncio.gather(*tasks)
 
             update_lines(get_merged_arrivals(arrivals))
-            print(lines)
         await asyncio.sleep(10)
 
 async def draw_arrivals():
@@ -138,7 +137,7 @@ class Arrivals(SampleBase):
             return
         
         self.offscreen_canvas.Clear()
-        
+
         for i, line in enumerate(lines):
             graphics.DrawText(
                 self.offscreen_canvas,

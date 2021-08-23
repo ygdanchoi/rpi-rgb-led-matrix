@@ -90,7 +90,7 @@ class FetchArrivals(threading.Thread):
         })
 
         monitored_stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
-        print([monitored_stop_visit['MonitoredVechicleJourney'] for monitored_stop_visit in monitored_stop_visits])
+        print([monitored_stop_visit['MonitoredVehicleJourney'] for monitored_stop_visit in monitored_stop_visits])
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

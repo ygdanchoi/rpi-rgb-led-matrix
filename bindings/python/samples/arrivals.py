@@ -108,8 +108,8 @@ async def main():
         await asyncio.gather(*tasks)
 
         print(arrivals)
-        format_arrivals(get_merged_arrivals(arrivals)):
-        for line in lines
+        format_arrivals(get_merged_arrivals(arrivals))
+        for line in lines:
             print(line)
     
     arrivals = Arrivals()

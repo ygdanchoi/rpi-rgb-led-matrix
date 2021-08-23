@@ -99,7 +99,7 @@ class FetchArrivals(threading.Thread):
                 monitored_call['ExpectedArrivalTime'] if 'ExpectedArrivalTime' in monitored_call else monitored_call['AimedArrivalTime']
             )
             eta = 0
-            print(f'{published_line_name} {expected_arrival_time}')
+            print(f'{published_line_name} {expected_arrival_time.timestamp()} {current_time}')
 
             if published_line_name not in arrivals:
                 arrivals[published_line_name] = []   

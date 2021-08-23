@@ -218,6 +218,7 @@ class DrawArrivals(SampleBase):
         vertical_offset = 0
         vertical_offset_slowdown = 1
         textbox_height = 7
+        dark_mode = graphics.Color(15, 0, 0)
         
         while True:
             is_light_mode = datetime.now().timestamp() // 1 % 2 == 1.0
@@ -235,7 +236,7 @@ class DrawArrivals(SampleBase):
                     font,
                     1,
                     7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
-                    graphics.Color(*row.color) if is_light_mode else graphics.Color(15, 15, 15),
+                    graphics.Color(*row.color) if is_light_mode else dark_mode,
                     line
                 )
 
@@ -248,7 +249,7 @@ class DrawArrivals(SampleBase):
                     font,
                     1,
                     offscreen_canvas.height - 1,
-                    graphics.Color(255, 255, 255) if is_light_mode else graphics.Color(15, 15, 15),
+                    graphics.Color(255, 255, 255) if is_light_mode else dark_mode,
                     datetime.now().strftime('%a, %b %d, %Y %-I:%M:%S %p')
                 )
             

@@ -200,9 +200,10 @@ class FetchArrivals(threading.Thread):
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
+            trip_id = trip_update.trip.trip_id
 
             if eta >= 0:
-                route_id = trips[trip_update.trip.trip_id].route_id
+                route_id = trips[trip_id].route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []
                 arrivals[route_id].append(Row(

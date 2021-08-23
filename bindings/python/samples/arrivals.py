@@ -109,6 +109,7 @@ async def fetch_arrivals():
             await asyncio.gather(*tasks)
 
             update_lines(get_merged_arrivals(arrivals))
+            print(lines)
         await asyncio.sleep(10)
 
 async def draw_arrivals():
@@ -135,7 +136,7 @@ class Arrivals(SampleBase):
             if (pos >= 8 * len(lines)):
                 pos = 0
 
-            time.sleep(0.05)
+            asyncio.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 # Main function

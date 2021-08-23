@@ -21,7 +21,7 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     count = 0
     for row in csv_reader:
         route_id = row[0]
-        trip_id = ''.join(row[2].split('_')[1:2])[:-3]
+        trip_id = ''.join(row[2].split('_')[1:])[:-3]
         trip_headsign = row[3]
         print(f'{route_id}\t{trip_id}\t{trip_headsign}')
 

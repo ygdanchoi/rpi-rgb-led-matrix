@@ -133,7 +133,7 @@ class Arrivals(SampleBase):
             for i, line in enumerate(lines):
                 len = max(
                     len,
-                    graphics.DrawText(offscreen_canvas, font, pos, 10 + i, textColor, line)
+                    graphics.DrawText(offscreen_canvas, font, pos, 10 + i * 10, textColor, line)
                 )
             pos -= 1
             if (pos + len < 0):

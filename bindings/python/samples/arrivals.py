@@ -52,7 +52,7 @@ class FetchArrivals(threading.Thread):
 
             if eta >= 0 and '..S' in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
-                if not arrivals.has_key(route_id):
+                if route_id not in arrivals:
                     arrivals[route_id] = []    
                 arrivals[route_id].append(eta)
 

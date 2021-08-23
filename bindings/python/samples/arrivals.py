@@ -87,7 +87,8 @@ class FetchArrivals(threading.Thread):
             'key': secrets.bus_time_api_key,
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
-        }))
+        }).content)
+
         print(response['Siri']['ServiceDelivery']['StopMonitoringDelivery']['MonitoredStopVisit'][0])
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):

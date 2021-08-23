@@ -127,22 +127,22 @@ class Arrivals(SampleBase):
         
         while True:
 
-            self.offscreen_canvas.Clear()
+            offscreen_canvas.Clear()
 
             for i, line in enumerate(lines + lines):
                 graphics.DrawText(
-                    self.offscreen_canvas,
-                    self.font,
+                    offscreen_canvas,
+                    font,
                     1,
-                    7 + i * 8 - self.offset,
-                    self.textColor,
+                    7 + i * 8 - offset,
+                    textColor,
                     line
                 )
 
-            self.offset += 1
-            if self.offset > 8 * len(lines):
-                self.offset = 0
-            self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+            offset += 1
+            if offset > 8 * len(lines):
+                offset = 0
+            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
             time.sleep(0.05)
 

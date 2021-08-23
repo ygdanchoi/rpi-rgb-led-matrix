@@ -13,12 +13,12 @@ import sortedcollections
 import threading
 import time
 
-Row = collections.namedtuple('Row', ['route_id', 'trip_headsign', 'etas', 'color'])
+Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id'])
+Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'etas', 'color'])
 
 rows = []
 trips = {}
 colors = {}
-ferry_routes = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -28,11 +28,13 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
             should_skip_header_row = False
             continue
         route_id = row[0]
-        trip_id_digest = row[2].split('_')[2]
+        trip_id = '_'.join(row[2].split('_')[1:2])
         trip_headsign = row[3]
 
-        if ('..S' in trip_id_digest):
-            trips[route_id] = trip_headsign
+        trips[trip_id] = Trip(
+            trip_headsign=trip_headsign,
+            route_id=route_id
+        )
 
 with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -63,8 +65,11 @@ with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
         route_id = row[0]
         trip_id = row[2]
         trip_headsign = row[3]
-        trips[route_id] = trip_headsign
-        ferry_routes[trip_id] = route_id
+
+        trips[trip_id] = Trip(
+            trip_headsign=trip_headsign,
+            route_id=route_id
+        )
 
 with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
@@ -157,12 +162,19 @@ class FetchArrivals(threading.Thread):
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
+            trip_id = trip_update.trip.trip_id
 
-            if eta >= 0 and direction in trip_update.trip.trip_id:
+            if eta >= 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []    
-                arrivals[route_id].append(eta)
+                arrivals[route_id].append(Row(
+                    route_id=route_id,
+                    trip_id=trip_id,
+                    trip_headsign=trips[trip_id].trip_headsign,
+                    etas=eta,
+                    color=colors[route_id]
+                ))
 
     def put_gtfs_arrivals_ferry(self, stop_id, arrivals, current_time):
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
@@ -175,10 +187,16 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
 
             if eta >= 0:
-                route_id = ferry_routes[trip_update.trip.trip_id]
+                route_id = trips[trip_update.trip.trip_id].route_id
                 if route_id not in arrivals:
-                    arrivals[route_id] = []    
-                arrivals[route_id].append(eta)
+                    arrivals[route_id] = []
+                arrivals[route_id].append(Row(
+                    route_id=route_id,
+                    trip_id=trip_id,
+                    trip_headsign=trips[trip_id].trip_headsign,
+                    etas=eta,
+                    color=colors[route_id]
+                ))
 
     def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
@@ -195,17 +213,7 @@ class FetchArrivals(threading.Thread):
         rows.clear()
 
         for item in arrivals.items():
-            route_id = item[0]
-            etas = ', '.join([str(eta) for eta in item[1][:3]])
-            trip_headsign = trips[route_id]
-            color = colors[route_id]
-
-            rows.append(Row(
-                route_id,
-                trip_headsign,
-                etas,
-                color
-            ))
+            rows.append(item[1])
 
 class DrawArrivals(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -230,7 +238,7 @@ class DrawArrivals(SampleBase):
                 line += ' ' * (5 - len(line))
                 line += row.trip_headsign[:12]
                 line += ' ' * (17 - len(line))
-                line += f' {row.etas} min'
+                line += ' ' + ', '.join([str(eta) for eta in row.etas[:3]]) + ' min'
                 
                 graphics.DrawText(
                     offscreen_canvas,

@@ -85,6 +85,8 @@ def format_arrivals(arrivals):
         line += f'{etas} min'
         lines.append(line)
 
+    return lines
+
 async def main():
     async with aiohttp.ClientSession() as session:
         arrivals = collections.defaultdict(list)

@@ -18,8 +18,11 @@ trips = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    count = 0
+    should_skip = True
     for row in csv_reader:
+        if should_skip:
+            should_skip = False
+            continue
         route_id = row[0]
         direction = row[2].split('_')[2].split('..')[0]
         trip_headsign = row[3]

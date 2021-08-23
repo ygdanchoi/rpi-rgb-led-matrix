@@ -113,10 +113,8 @@ async def fetch_arrivals():
         await asyncio.sleep(10)
 
 async def draw_arrivals():
+    arrivals = Arrivals()
     while True:
-        arrivals = Arrivals()
-        if (not arrivals.process()):
-            arrivals.print_help()
         await asyncio.sleep(0.05)
 
 class Arrivals(SampleBase):

@@ -12,7 +12,7 @@ import time
 
 lines = []
 
-Row = collections.namedtuple('Row', 'route_id', 'route_text_color', 'trip_headsign', 'etas')
+Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 
 class FetchArrivals(threading.Thread):
     def run(self):

@@ -240,6 +240,7 @@ class DrawArrivals(SampleBase):
             for i, item in enumerate(rows + rows):
                 route_id = item[0]
                 row = item[1]
+                print(row)
 
                 line = f'{route_id}'
                 line += ' ' * (5 - len(line))

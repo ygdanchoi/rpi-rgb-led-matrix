@@ -97,7 +97,7 @@ class FetchArrivals(threading.Thread):
             line = f'{route_id}'
             line += ' ' * (4 - len(line))
             line += trip_headsign[:12]
-            line += ' ' * (16 - len(line))
+            line += ' ' * (17 - len(line))
             line += f' {etas} m'
             lines.append(line)
         

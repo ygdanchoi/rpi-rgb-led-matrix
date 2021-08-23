@@ -88,7 +88,7 @@ class FetchArrivals(threading.Thread):
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
         })
-        siri = json.loads(response)
+        siri = json.loads(response.content)
         print(siri)
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):

@@ -220,6 +220,8 @@ class DrawArrivals(SampleBase):
         textbox_height = 7
         
         while True:
+            is_light_mode = datetime.datetime.now().timestamp() // 1 % 2 == 1.0
+
             offscreen_canvas.Clear()
             for i, row in enumerate(rows + rows):
                 line = f'{row.route_id}'
@@ -233,7 +235,7 @@ class DrawArrivals(SampleBase):
                     font,
                     1,
                     7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
-                    graphics.Color(*row.color),
+                    graphics.Color(*row.color) if is_light_mode else graphics.Color(15, 15, 15),
                     line
                 )
 
@@ -246,7 +248,7 @@ class DrawArrivals(SampleBase):
                     font,
                     1,
                     offscreen_canvas.height - 1,
-                    graphics.Color(255, 255, 255),
+                    graphics.Color(255, 255, 255) if is_light_mode else graphics.Color(15, 15, 15),
                     datetime.now().strftime('%a, %b %d, %Y %-I:%M:%S %p')
                 )
             

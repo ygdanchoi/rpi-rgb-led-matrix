@@ -89,7 +89,7 @@ class FetchArrivals(threading.Thread):
             'MonitoringRef': stop_id
         }).content)
 
-        print(response['Siri']['ServiceDelivery']['StopMonitoringDelivery']['MonitoredStopVisit'][0])
+        print(response['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit'])
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

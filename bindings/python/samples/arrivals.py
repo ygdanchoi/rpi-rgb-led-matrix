@@ -116,8 +116,6 @@ class Arrivals(SampleBase):
         self.parser.add_argument("-t", "--text", help="The text to scroll on the RGB LED panel", default="Hello world!")
 
     def run(self):
-        asyncio.run(main())
-
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/7x13.bdf")
@@ -141,3 +139,5 @@ if __name__ == "__main__":
     arrivals = Arrivals()
     if (not arrivals.process()):
         arrivals.print_help()
+        
+asyncio.run(main())

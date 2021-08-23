@@ -22,10 +22,6 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     for row in csv_reader:
         trip_id = row[2]
         trip_headsign = row[3]
-        print(trip_id + '\t' + trip_headsign)
-        count += 1
-        if count > 5:
-            break
 
 Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 
@@ -140,7 +136,7 @@ class DrawArrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/4x6.bdf")
+        font.LoadFont("../../../fonts/5x7.bdf")
         textColor = graphics.Color(127, 0, 255)
         offset = 0
         offset_slowdown = 3

@@ -251,7 +251,7 @@ class DrawArrivals(SampleBase):
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:14]
                 line += ' ' * (19 - len(line))
-                line += ' ' + ', '.join([str(eta.eta) for eta in row[:3]]) + ' m'
+                line += ' ' + ' '.join([str(eta.eta) for eta in row[:3]]) + ' m'
                 
                 graphics.DrawText(
                     offscreen_canvas,

@@ -14,25 +14,19 @@ import time
 Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 
 lines = []
-trips_list = []
-trips_dict = {}
+trips = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     count = 0
     for row in csv_reader:
         route_id = row[0]
-        trip_id = '_'.join(row[2].split('_')[1:])[:-3]
+        direction = row[2].split('_')[2].split('..')[0]
         trip_headsign = row[3]
 
-        key = f'{route_id} {trip_id}'
-
-        trips_list.append(key)
-        trips_dict[key] = trip_headsign
-    
-    trips_list.sort()
-    print(trips_list)
-
+        if (direction == '..S'):
+            trips[route_id] = trip_headsign
+    print(trips)
 
 class FetchArrivals(threading.Thread):
     def run(self):
@@ -129,6 +123,8 @@ class FetchArrivals(threading.Thread):
         for item in arrivals.items():
             route_id = item[0]
             etas = ', '.join([str(eta) for eta in item[1][:4]])
+            
+            trip_headsign = 
 
             line = f'({route_id})'
             line += ' ' * (7 - len(line))

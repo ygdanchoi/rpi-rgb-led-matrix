@@ -150,8 +150,8 @@ class DrawArrivals(SampleBase):
                     line
                 )
 
-                for y in range(self.matrix.width - 7, self.matrix.width):
-                    for x in range(0, self.matrix.height):
+                for y in range(self.matrix.height - 7, self.matrix.height):
+                    for x in range(0, self.matrix.width):
                         self.matrix.SetPixel(x, y, 255, 255, 255)
             
             if (len(rows) > 4):

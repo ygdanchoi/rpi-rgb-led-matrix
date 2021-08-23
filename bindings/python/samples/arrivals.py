@@ -123,8 +123,7 @@ class FetchArrivals(threading.Thread):
         for item in arrivals.items():
             route_id = item[0]
             etas = ', '.join([str(eta) for eta in item[1][:4]])
-            
-            trip_headsign = 
+            trip_headsign = trips[route_id]
 
             line = f'({route_id})'
             line += ' ' * (7 - len(line))

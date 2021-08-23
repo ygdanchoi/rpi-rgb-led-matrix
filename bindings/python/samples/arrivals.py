@@ -91,8 +91,6 @@ with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
         else:
             colors[route_id] = [255, 255, 255]
 
-print(trips)
-
 class FetchArrivals(threading.Thread):
     def run(self):
         while True:

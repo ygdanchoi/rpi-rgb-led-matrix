@@ -17,7 +17,7 @@ import time
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id'])
 Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
 
-cached_arrivals = sortedcollections.OrderedDict()
+cached_rows = []
 trips = {}
 colors = {}
 
@@ -126,8 +126,8 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
-        cached_arrivals.clear()
-        cached_arrivals.update(arrivals)
+        cached_rows.clear()
+        cached_rows.extend(arrivals.values())
     
     def put_siri_arrivals(self, stop_id, arrivals, current_time):
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
@@ -241,13 +241,9 @@ class DrawArrivals(SampleBase):
             is_light_mode = 5 <= hh and hh <= 22
 
             offscreen_canvas.Clear()
-            rows = list(cached_arrivals.items())
 
-            for i, item in enumerate(rows + rows):
-                route_id = item[0]
-                row = item[1]
-
-                line = f'{route_id}'
+            for i, row in enumerate(cached_rows + cached_rows):
+                line = f'{row[0].route_id}'
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:16]
                 line += ' ' * (22 - len(line))

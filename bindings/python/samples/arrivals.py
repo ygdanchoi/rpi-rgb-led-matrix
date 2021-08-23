@@ -129,14 +129,13 @@ class Arrivals(SampleBase):
             if (pos + len < 0):
                 pos = offscreen_canvas.width
 
-            # time.sleep(0.05)
+            time.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 
 # Main function
 if __name__ == "__main__":
+    asyncio.run(main())
     arrivals = Arrivals()
     if (not arrivals.process()):
         arrivals.print_help()
-
-asyncio.run(main())

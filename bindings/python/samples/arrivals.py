@@ -123,6 +123,7 @@ class Arrivals(SampleBase):
 
         while True:
             my_text = ' | '.join(lines)
+            print(my_text)
             offscreen_canvas.Clear()
             len = graphics.DrawText(offscreen_canvas, font, pos, 10, textColor, my_text)
             pos -= 1

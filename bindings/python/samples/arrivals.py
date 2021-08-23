@@ -136,7 +136,7 @@ class Arrivals(SampleBase):
             if (pos >= 8 * len(lines)):
                 pos = 0
 
-            asyncio.sleep(0.05)
+            await asyncio.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 # Main function

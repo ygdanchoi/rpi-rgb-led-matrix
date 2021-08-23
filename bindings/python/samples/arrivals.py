@@ -235,7 +235,7 @@ class DrawArrivals(SampleBase):
             is_light_mode = 5 <= hh and hh <= 22
 
             offscreen_canvas.Clear()
-            rows = cached_arrivals.items()
+            rows = list(cached_arrivals.items())
             print(cached_arrivals)
             for i, item in enumerate(rows + rows):
                 route_id = item[0]

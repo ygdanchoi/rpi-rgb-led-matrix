@@ -115,7 +115,7 @@ async def fetch_arrivals():
 async def draw_arrivals():
     arrivals = Arrivals()
     while True:
-        arrivals.step()
+        await arrivals.step()
         await asyncio.sleep(0.05)
 
 class Arrivals(SampleBase):

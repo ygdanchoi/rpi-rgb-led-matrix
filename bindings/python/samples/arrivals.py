@@ -130,7 +130,7 @@ class DrawArrivals(SampleBase):
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         vertical_offset = 0
-        vertical_offset_slowdown = 2
+        vertical_offset_slowdown = 1
         textbox_height = 7
         
         while True:
@@ -171,7 +171,7 @@ class DrawArrivals(SampleBase):
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
-            time.sleep(0.05)
+            time.sleep(0.1)
 
 # Main function
 if __name__ == "__main__":

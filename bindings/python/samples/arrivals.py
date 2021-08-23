@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
@@ -128,9 +129,9 @@ class DrawArrivals(SampleBase):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
-        offset = 0
-        offset_slowdown = 2
-        height = 7
+        vertical_offset = 0
+        vertical_offset_slowdown = 2
+        textbox_height = 7
         
         while True:
             offscreen_canvas.Clear()
@@ -145,19 +146,28 @@ class DrawArrivals(SampleBase):
                     offscreen_canvas,
                     font,
                     1,
-                    7 + i * height - offset // offset_slowdown,
+                    7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
                     graphics.Color(*row.color),
                     line
                 )
 
                 for y in range(offscreen_canvas.height - 7, offscreen_canvas.height):
                     for x in range(0, offscreen_canvas.width):
-                        offscreen_canvas.SetPixel(x, y, 255, 255, 255)
+                        offscreen_canvas.SetPixel(x, y, 0, 0, 0)
+                
+                graphics.DrawText(
+                    offscreen_canvas,
+                    font,
+                    1,
+                    offscreen_canvas.height - 7,
+                    graphics.Color(0, 0, 0),
+                    datetime.now().strftime('%H:%M:%S %p')
+                )
             
             if (len(rows) > 4):
-                offset += 1
-                if offset // offset_slowdown >= height * len(rows):
-                    offset = 0
+                vertical_offset += 1
+                if vertical_offset // vertical_offset_slowdown >= textbox_height * len(rows):
+                    vertical_offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 

@@ -272,7 +272,7 @@ class DrawArrivals(SampleBase):
                     1,
                     offscreen_canvas.height - 1,
                     graphics.Color(255, 255, 255) if is_light_mode else dark_mode,
-                    datetime.now().strftime('%a, %b %d, %Y %-I:%M:%S %p')
+                    datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
                 )
             
             if (len(rows) > 3):

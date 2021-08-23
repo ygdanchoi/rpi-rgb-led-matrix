@@ -121,7 +121,7 @@ class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
 
-    async def run(self):
+    def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/5x7.bdf")
@@ -136,7 +136,7 @@ class Arrivals(SampleBase):
             if (pos >= 8 * len(lines)):
                 pos = 0
 
-            await asyncio.sleep(0.05)
+            sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 # Main function

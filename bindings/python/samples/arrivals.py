@@ -98,13 +98,13 @@ async def fetch_arrivals():
         'Q05S', # 96 St
         arrivals,
         current_time
-    )))
+    )
     put_arrivals(
         'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
         '626S', # 86 St
         arrivals,
         current_time
-    )))
+    )
 
     update_lines(get_merged_arrivals(arrivals))
 

@@ -20,8 +20,10 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     count = 0
     for row in csv_reader:
-        trip_id = row[2]
+        route_id = row[0]
+        trip_id = row[2].split('_')[1][:-3]
         trip_headsign = row[3]
+        print(f'{route_id}\t{trip_id}\t{trip_headsign}')
 
 Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 

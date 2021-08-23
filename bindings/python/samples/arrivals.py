@@ -126,6 +126,7 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
+        print(arrivals)
         self.update_rows(arrivals)
     
     def put_siri_arrivals(self, stop_id, arrivals, current_time):

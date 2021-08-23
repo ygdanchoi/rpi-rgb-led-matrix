@@ -11,9 +11,9 @@ import sortedcollections
 import threading
 import time
 
-Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
+Row = collections.namedtuple('Row', ['route_id', 'trip_headsign', 'etas', 'color'])
 
-lines = []
+rows = []
 trips = {}
 colors = {}
 
@@ -76,7 +76,7 @@ class FetchArrivals(threading.Thread):
         )
 
         # merged_arrivals = self.get_merged_arrivals(arrivals)
-        self.update_lines(arrivals)
+        self.update_rows(arrivals)
 
     def put_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={
@@ -107,23 +107,21 @@ class FetchArrivals(threading.Thread):
         else:
             return int(round((arrival_time - current_time) / 60, 0))
 
-    def update_lines(self, arrivals):
-        lines.clear()
+    def update_rows(self, arrivals):
+        rows.clear()
 
         for item in arrivals.items():
             route_id = item[0]
             etas = ', '.join([str(eta) for eta in item[1][:3]])
             trip_headsign = trips[route_id]
+            color = colors[route_id]
 
-            line = f'{route_id}'
-            line += ' ' * (4 - len(line))
-            line += trip_headsign[:12]
-            line += ' ' * (17 - len(line))
-            line += f' {etas} m'
-            lines.append(line)
-        
-        while (len(lines) < 4):
-            lines.append('')
+            rows.append(Row(
+                route_id,
+                trip_headsign,
+                etas,
+                color
+            ))
 
 class DrawArrivals(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -141,7 +139,14 @@ class DrawArrivals(SampleBase):
         while True:
             offscreen_canvas.Clear()
 
-            for i, line in enumerate(lines + lines):
+            lines = []
+            for i, row in enumerate(rows):
+                line = f'{row.route_id}'
+                line += ' ' * (4 - len(line))
+                line += row.trip_headsign[:12]
+                line += ' ' * (17 - len(line))
+                line += f' {row.etas} m'
+                
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
@@ -150,6 +155,9 @@ class DrawArrivals(SampleBase):
                     textColor,
                     line
                 )
+            
+            while (len(lines)) < 4:
+                    lines.append('')
 
             if (len(lines) > 4):
                 offset += 1

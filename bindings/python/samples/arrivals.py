@@ -126,7 +126,6 @@ class Arrivals(SampleBase):
         self.offscreen_canvas = None
         self.font = None
         self.textColor = None
-        self.pos = 0
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
@@ -138,13 +137,17 @@ class Arrivals(SampleBase):
         if (not self.offscreen_canvas):
             return
         
-        print(self.offscreen_canvas)
         self.offscreen_canvas.Clear()
-        for i in range(8):
-            graphics.DrawText(self.offscreen_canvas, self.font, 1, 7 + i * 8 - self.pos, self.textColor, lines[i % len(lines)])
-        self.pos += 1
-        if (self.pos >= 8 * len(lines)):
-            self.pos = 0
+        
+        for i, line in enumerate(lines):
+            graphics.DrawText(
+                self.offscreen_canvas,
+                self.font,
+                1,
+                7 + i * 8,
+                self.textColor,
+                line
+            )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 

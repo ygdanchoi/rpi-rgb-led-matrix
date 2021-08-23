@@ -125,19 +125,16 @@ class Arrivals(SampleBase):
         font = graphics.Font()
         font.LoadFont("../../../fonts/5x7.bdf")
         textColor = graphics.Color(255, 255, 0)
-        pos = offscreen_canvas.width
+        pos = 0
 
         while True:
             offscreen_canvas.Clear()
             len = 0
             for i, line in enumerate(lines + lines):
-                len = max(
-                    len,
-                    graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 7, textColor, line)
-                )
+                graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, line)
             pos -= 1
-            if (pos + len < 0):
-                pos = offscreen_canvas.width
+            if (pos + len(lines + lines) * 8 < 0):
+                pos = 0
 
             time.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

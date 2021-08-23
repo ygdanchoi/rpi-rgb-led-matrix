@@ -126,7 +126,8 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
-        cached_arrivals = arrivals
+        cached_arrivals.clear()
+        cached_arrivals.update(arrivals)
     
     def put_siri_arrivals(self, stop_id, arrivals, current_time):
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={

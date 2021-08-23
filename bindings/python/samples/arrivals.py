@@ -87,40 +87,6 @@ class FetchArrivals(threading.Thread):
         else:
             return int(round((arrival_time - current_time) / 60, 0))
 
-    def get_merged_arrivals(self, arrivals):
-        merged_arrivals = sortedcollections.OrderedDict()
-
-        groups = [
-            {'2', '4', '5'},
-            {'6', '6X'},
-            {'Q'},
-            {} # wildcard
-        ]
-
-        for group in groups:
-            keys = list(sorted(filter(lambda key: len(group) == 0 or key in group, arrivals.keys())))
-
-            if (len(keys) == 0):
-                continue
-
-            merged_key = '/'.join(keys) if len(keys) == 2 else ''.join(keys)
-            if merged_key == '245':
-                merged_key = '2-5'
-            elif merged_key == '2/4':
-                merged_key = '2-4'
-            elif merged_key == '4/5':
-                merged_key = '4-5'
-            merged_arrivals[merged_key] = []
-
-            for key in keys:
-                etas = arrivals[key]
-                merged_arrivals[merged_key].extend(etas)
-                del arrivals[key]
-            
-            merged_arrivals[merged_key].sort()
-        
-        return merged_arrivals
-
     def update_lines(self, arrivals):
         lines.clear()
 
@@ -130,7 +96,8 @@ class FetchArrivals(threading.Thread):
             trip_headsign = trips[route_id]
 
             line = f'({route_id})'
-            line += ' ' * (7 - len(line))
+            line += ' ' * (4 - len(line))
+            line += trip_headsign[:3]
             line += f'{etas} min'
             lines.append(line)
         
@@ -144,10 +111,11 @@ class DrawArrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/5x7.bdf")
+        font.LoadFont("../../../fonts/4x6.bdf")
         textColor = graphics.Color(127, 0, 255)
         offset = 0
         offset_slowdown = 3
+        height = 7
         
         while True:
             offscreen_canvas.Clear()
@@ -157,14 +125,14 @@ class DrawArrivals(SampleBase):
                     offscreen_canvas,
                     font,
                     1,
-                    7 + i * 8 - offset // offset_slowdown,
+                    7 + i * height - offset // offset_slowdown,
                     textColor,
                     line
                 )
 
             if (len(lines) > 4):
                 offset += 1
-                if offset // offset_slowdown > 8 * len(lines):
+                if offset // offset_slowdown > height * len(lines):
                     offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

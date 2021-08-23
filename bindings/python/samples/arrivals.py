@@ -54,8 +54,8 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
-        merged_arrivals = self.get_merged_arrivals(arrivals)
-        self.update_lines(merged_arrivals)
+        # merged_arrivals = self.get_merged_arrivals(arrivals)
+        self.update_lines(arrivals)
 
     def put_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

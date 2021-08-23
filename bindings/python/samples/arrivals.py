@@ -132,8 +132,8 @@ class Arrivals(SampleBase):
             for i, line in enumerate(lines + lines):
                 graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, line)
             pos += 1
-            if (pos >= 8 * len(lines)):
-                pos = 0
+            # if (pos >= 8 * len(lines)):
+            #     pos = 0
 
             time.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

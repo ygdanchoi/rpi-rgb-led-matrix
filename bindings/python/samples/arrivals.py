@@ -73,7 +73,7 @@ def get_merged_arrivals(arrivals):
     
     return merged_arrivals
 
-def format_arrivals(arrivals):
+def update_lines(arrivals):
     lines.clear()
 
     for item in arrivals.items():
@@ -85,33 +85,33 @@ def format_arrivals(arrivals):
         line += f'{etas} min'
         lines.append(line)
 
-async def main():
-    async with aiohttp.ClientSession() as session:
-        arrivals = collections.defaultdict(list)
-        tasks = []
-        current_time = time.time()
+async def fetch_arrivals():
+    while True:
+        async with aiohttp.ClientSession() as session:
+            arrivals = collections.defaultdict(list)
+            tasks = []
+            current_time = time.time()
 
-        tasks.append(asyncio.ensure_future(put_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
-            'Q05S', # 96 St
-            arrivals,
-            session,
-            current_time
-        )))
-        tasks.append(asyncio.ensure_future(put_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
-            '626S', # 86 St
-            arrivals,
-            session,
-            current_time
-        )))
-        await asyncio.gather(*tasks)
+            tasks.append(asyncio.ensure_future(put_arrivals(
+                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
+                'Q05S', # 96 St
+                arrivals,
+                session,
+                current_time
+            )))
+            tasks.append(asyncio.ensure_future(put_arrivals(
+                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
+                '626S', # 86 St
+                arrivals,
+                session,
+                current_time
+            )))
+            await asyncio.gather(*tasks)
 
-        print(arrivals)
-        format_arrivals(get_merged_arrivals(arrivals))
-        for line in lines:
-            print(line)
-    
+            update_lines(get_merged_arrivals(arrivals))
+        await asyncio.sleep(10)
+
+async def draw_arrivals():
     arrivals = Arrivals()
     if (not arrivals.process()):
         arrivals.print_help()
@@ -138,7 +138,8 @@ class Arrivals(SampleBase):
             time.sleep(0.05)
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
-
 # Main function
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.ensure_future(fetch_arrivals())
+    asyncio.ensure_future(draw_arrivals())
+    asyncio.get_event_loop().run_forever()

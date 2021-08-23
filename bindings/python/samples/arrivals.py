@@ -85,8 +85,6 @@ def format_arrivals(arrivals):
         line += f'{etas} min'
         lines.append(line)
 
-    return lines
-
 async def main():
     async with aiohttp.ClientSession() as session:
         arrivals = collections.defaultdict(list)
@@ -110,7 +108,8 @@ async def main():
         await asyncio.gather(*tasks)
 
         print(arrivals)
-        for line in format_arrivals(get_merged_arrivals(arrivals)):
+        format_arrivals(get_merged_arrivals(arrivals)):
+        for line in lines
             print(line)
     
     arrivals = Arrivals()

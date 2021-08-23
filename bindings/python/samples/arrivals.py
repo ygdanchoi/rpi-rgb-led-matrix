@@ -282,7 +282,7 @@ class DrawArrivals(SampleBase):
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
-            time.sleep(1 / 16)
+            time.sleep(0.05)
 
 # Main function
 if __name__ == "__main__":

@@ -130,10 +130,10 @@ class Arrivals(SampleBase):
         while True:
             offscreen_canvas.Clear()
             len = 0
-            for i, line in enumerate(lines):
+            for i, line in enumerate(lines + lines):
                 len = max(
                     len,
-                    graphics.DrawText(offscreen_canvas, font, 1, 6 + i * 7, textColor, line)
+                    graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 7, textColor, line)
                 )
             pos -= 1
             if (pos + len < 0):

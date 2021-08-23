@@ -135,7 +135,7 @@ class DrawArrivals(SampleBase):
         
         while True:
             offscreen_canvas.Clear()
-            for i, row in enumerate(rows):
+            for i, row in enumerate(rows + rows):
                 line = f'{row.route_id}'
                 line += ' ' * (4 - len(line))
                 line += row.trip_headsign[:12]

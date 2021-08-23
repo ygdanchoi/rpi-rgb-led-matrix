@@ -98,10 +98,9 @@ class FetchArrivals(threading.Thread):
             expected_arrival_time = datetime.fromisoformat(
                 monitored_call['ExpectedArrivalTime'] if 'ExpectedArrivalTime' in monitored_call else monitored_call['AimedArrivalTime']
             )
-            eta = 0
-            print(f'{published_line_name} {expected_arrival_time.timestamp()} {current_time}')
+            eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
 
-            if published_line_name not in arrivals:
+            if eta >= 0 and published_line_name not in arrivals:
                 arrivals[published_line_name] = []   
                 trips[published_line_name] = destination_name
                 colors[published_line_name] = [0, 57, 166]

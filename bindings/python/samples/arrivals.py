@@ -130,7 +130,10 @@ class Arrivals(SampleBase):
         while True:
             offscreen_canvas.Clear()
             for i, line in enumerate(lines):
-            len = graphics.DrawText(offscreen_canvas, font, pos, 10 + i, textColor, line)
+                len = max(
+                    len,
+                    graphics.DrawText(offscreen_canvas, font, pos, 10 + i, textColor, line)
+                )
             pos -= 1
             if (pos + len < 0):
                 pos = offscreen_canvas.width

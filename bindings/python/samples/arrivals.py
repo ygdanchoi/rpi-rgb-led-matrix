@@ -99,23 +99,25 @@ async def fetch_arrivals():
             arrivals = collections.defaultdict(list)
             current_time = time.time()
             countdown_latch = {'count': 2}
+            tasks = []
 
-            asyncio.ensure_future(put_arrivals(
+            tasks.append(asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
                 'Q05S', # 96 St
                 arrivals,
                 session,
                 current_time,
                 countdown_latch
-            ))
-            asyncio.ensure_future(put_arrivals(
+            )))
+            tasks.append(asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 arrivals,
                 session,
                 current_time,
                 countdown_latch
-            ))
+            )))
+            await asyncio.gather(*tasks)
         
         await asyncio.sleep(10)
 

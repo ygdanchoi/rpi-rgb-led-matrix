@@ -60,13 +60,13 @@ class FetchArrivals(threading.Thread):
         arrivals = sortedcollections.OrderedDict()
         current_time = time.time()
 
-        self.put_arrivals(
+        self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
             'Q05S', # 96 St
             arrivals,
             current_time
         )
-        self.put_arrivals(
+        self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
             '626S', # 86 St
             arrivals,
@@ -75,7 +75,7 @@ class FetchArrivals(threading.Thread):
 
         self.update_rows(arrivals)
 
-    def put_arrivals(self, url, stop_id, arrivals, current_time):
+    def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={
             'x-api-key': secrets.real_time_access_key
         })
@@ -149,6 +149,10 @@ class DrawArrivals(SampleBase):
                     graphics.Color(*row.color),
                     line
                 )
+
+                for y in range(self.matrix.width - 7, self.matrix.width):
+                    for x in range(0, self.matrix.height):
+                        self.matrix.SetPixel(x, y, 255, 255, 255)
             
             if (len(rows) > 4):
                 offset += 1

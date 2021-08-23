@@ -160,7 +160,7 @@ class DrawArrivals(SampleBase):
                     font,
                     1,
                     offscreen_canvas.height - 7,
-                    graphics.Color(0, 0, 0),
+                    graphics.Color(255, 255, 255),
                     datetime.now().strftime('%H:%M:%S %p')
                 )
             

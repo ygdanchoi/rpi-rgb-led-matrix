@@ -3,6 +3,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
+import bisect
 import collections
 import csv
 import gtfs_realtime_pb2
@@ -90,8 +91,6 @@ with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
         else:
             colors[route_id] = [255, 255, 255]
 
-print(trips)
-
 class FetchArrivals(threading.Thread):
     def run(self):
         while True:
@@ -169,7 +168,14 @@ class FetchArrivals(threading.Thread):
             if eta >= 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
-                    arrivals[route_id] = []    
+                    arrivals[route_id] = []
+                adjusted_trip_id = trip_id
+                if (trip_id not in trips):
+                    trip_keys = trips.keys()
+                    i = bisect.bisect_left(trip_keys, adjusted_trip_id)
+                    adjusted_trip_id = trip_keys[i]
+                    print(adjusted_trip_id)
+                    print(trip_id)
                 arrivals[route_id].append(Row(
                     route_id=route_id,
                     trip_id=trip_id,

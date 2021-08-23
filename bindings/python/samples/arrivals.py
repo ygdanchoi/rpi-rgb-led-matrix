@@ -39,8 +39,8 @@ async def put_arrivals(url, stop_id, arrivals, session, current_time, countdown_
                 route_id = trip_update.trip.route_id
                 arrivals[route_id].append(eta)
         
-        countdown_latch.count -= 1
         print(countdown_latch)
+        countdown_latch.count -= 1
         if (countdown_latch.count == 0):
             update_lines(get_merged_arrivals(arrivals))
 

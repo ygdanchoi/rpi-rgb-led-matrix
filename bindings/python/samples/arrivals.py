@@ -104,6 +104,7 @@ class FetchArrivals(threading.Thread):
             if published_line_name not in arrivals:
                 arrivals[published_line_name] = []   
                 trips[published_line_name] = destination_name
+                colors[published_line_name] = [0, 57, 166]
             arrivals[published_line_name].append(eta)
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):

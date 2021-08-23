@@ -94,10 +94,10 @@ class FetchArrivals(threading.Thread):
             etas = ', '.join([str(eta) for eta in item[1][:3]])
             trip_headsign = trips[route_id]
 
-            line = f'({route_id})'
-            line += ' ' * (5 - len(line))
-            line += trip_headsign[:11]
-            line += f' {etas} min'
+            line = f'{route_id}'
+            line += ' ' * (4 - len(line))
+            line += trip_headsign[:13]
+            line += f' {etas} m'
             lines.append(line)
         
         while (len(lines) < 4):

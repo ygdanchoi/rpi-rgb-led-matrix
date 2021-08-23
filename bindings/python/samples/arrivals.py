@@ -17,7 +17,7 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     for row in csv_reader:
         print('\t'.join(row))
         count += 1
-        if count > 5
+        if count > 5:
             break
 
 lines = []

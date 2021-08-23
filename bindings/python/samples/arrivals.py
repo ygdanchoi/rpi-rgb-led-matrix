@@ -13,8 +13,12 @@ import time
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
+    count = 0
     for row in csv_reader:
         print('\t'.join(row))
+        count += 1
+        if count > 5
+            break
 
 lines = []
 

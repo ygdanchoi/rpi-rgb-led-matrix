@@ -95,8 +95,16 @@ class FetchArrivals(threading.Thread):
             published_line_name = vehicle_journey['PublishedLineName']
             destination_name = vehicle_journey['DestinationName']
             monitored_call = vehicle_journey['MonitoredCall']
-            expected_arrival_time = monitored_call['ExpectedArrivalTime'] if 'ExpectedArrivalTime' in monitored_call else monitored_call['AimedArrivalTime']
-            print(f'{published_line_name} {destination_name} {expected_arrival_time}')
+            expected_arrival_time = datetime.fromisoformat(
+                monitored_call['ExpectedArrivalTime'] if 'ExpectedArrivalTime' in monitored_call else monitored_call['AimedArrivalTime']
+            )
+            eta = 0
+            print(f'{published_line_name} {expected_arrival_time}')
+
+            if published_line_name not in arrivals:
+                arrivals[published_line_name] = []   
+                trips[published_line_name] = destination_name
+            arrivals[published_line_name].append(eta)
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

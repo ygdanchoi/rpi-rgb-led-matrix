@@ -39,7 +39,6 @@ async def put_arrivals(url, stop_id, arrivals, session, current_time, countdown_
                 route_id = trip_update.trip.route_id
                 arrivals[route_id].append(eta)
         
-        print(countdown_latch)
         countdown_latch['count'] -= 1
         if (countdown_latch['count'] == 0):
             update_lines(get_merged_arrivals(arrivals))
@@ -101,7 +100,7 @@ async def fetch_arrivals():
             countdown_latch = {'count': 2}
             tasks = []
 
-            tasks.append(asyncio.ensure_future(put_arrivals(
+            tasks.append(asyncio.create_task(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
                 'Q05S', # 96 St
                 arrivals,
@@ -109,7 +108,7 @@ async def fetch_arrivals():
                 current_time,
                 countdown_latch
             )))
-            tasks.append(asyncio.ensure_future(put_arrivals(
+            tasks.append(asyncio.create_task(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 arrivals,
@@ -117,7 +116,6 @@ async def fetch_arrivals():
                 current_time,
                 countdown_latch
             )))
-            await asyncio.gather(*tasks)
         
         await asyncio.sleep(10)
 

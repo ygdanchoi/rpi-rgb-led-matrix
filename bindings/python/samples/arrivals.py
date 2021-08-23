@@ -113,7 +113,7 @@ class FetchArrivals(threading.Thread):
             fetch_arrivals()
             time.sleep(30)
 
-class Arrivals(SampleBase):
+class DrawArrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
 
@@ -148,6 +148,4 @@ class Arrivals(SampleBase):
 # Main function
 if __name__ == "__main__":
     FetchArrivals().start()
-    arrivals = Arrivals()
-    if (not arrivals.process()):
-        arrivals.print_help()
+    DrawArrivals().process()

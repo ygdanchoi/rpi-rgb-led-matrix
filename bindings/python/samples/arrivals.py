@@ -150,9 +150,9 @@ class DrawArrivals(SampleBase):
                     line
                 )
 
-                for y in range(self.matrix.height - 7, self.matrix.height):
-                    for x in range(0, self.matrix.width):
-                        self.matrix.SetPixel(x, y, 255, 255, 255)
+                for y in range(offscreen_canvas.height - 7, offscreen_canvas.height):
+                    for x in range(0, offscreen_canvas.width):
+                        offscreen_canvas.SetPixel(x, y, 255, 255, 255)
             
             if (len(rows) > 4):
                 offset += 1

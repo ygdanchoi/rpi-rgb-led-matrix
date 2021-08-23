@@ -8,6 +8,7 @@ import collections
 import gtfs_realtime_pb2
 import secrets
 import sortedcollections
+import threading
 import time
 
 lines = ['hello world', 'uwu','','']
@@ -23,25 +24,21 @@ def get_eta(trip_update, stop_id, current_time):
     else:
         return int(round((arrival_time - current_time) / 60, 0))
 
-async def put_arrivals(url, stop_id, arrivals, session, current_time, countdown_latch):
-    async with session.get(url, headers={
+async def put_arrivals(url, stop_id, arrivals, current_time):
+    response = requests.get(url, headers={
         'x-api-key': secrets.real_time_access_key
-    }) as response:
-        feed = gtfs_realtime_pb2.FeedMessage()
-        feed.ParseFromString(await response.read())
-        entities = feed.entity
+    })
+    feed = gtfs_realtime_pb2.FeedMessage()
+    feed.ParseFromString(response.content)
+    entities = feed.entity
 
-        for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
-            trip_update = entity.trip_update
-            eta = get_eta(trip_update, stop_id, current_time)
+    for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
+        trip_update = entity.trip_update
+        eta = get_eta(trip_update, stop_id, current_time)
 
-            if eta >= 0 and '..S' in trip_update.trip.trip_id:
-                route_id = trip_update.trip.route_id
-                arrivals[route_id].append(eta)
-        
-        countdown_latch['count'] -= 1
-        if (countdown_latch['count'] == 0):
-            update_lines(get_merged_arrivals(arrivals))
+        if eta >= 0 and '..S' in trip_update.trip.trip_id:
+            route_id = trip_update.trip.route_id
+            arrivals[route_id].append(eta)
 
 def get_merged_arrivals(arrivals):
     merged_arrivals = sortedcollections.OrderedDict()
@@ -93,77 +90,65 @@ def update_lines(arrivals):
         lines.append('')
 
 async def fetch_arrivals():
-    while True:
-        async with aiohttp.ClientSession() as session:
-            arrivals = collections.defaultdict(list)
-            current_time = time.time()
-            countdown_latch = {'count': 2}
-            tasks = []
+    arrivals = collections.defaultdict(list)
+    current_time = time.time()
 
-            tasks.append(asyncio.run(put_arrivals(
-                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
-                'Q05S', # 96 St
-                arrivals,
-                session,
-                current_time,
-                countdown_latch
-            )))
-            tasks.append(asyncio.run(put_arrivals(
-                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
-                '626S', # 86 St
-                arrivals,
-                session,
-                current_time,
-                countdown_latch
-            )))
-        
-        await asyncio.sleep(10)
+    put_arrivals(
+        'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
+        'Q05S', # 96 St
+        arrivals,
+        current_time
+    )))
+    put_arrivals(
+        'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
+        '626S', # 86 St
+        arrivals,
+        current_time
+    )))
 
-async def draw_arrivals():
-    arrivals = Arrivals()
-    if (not arrivals.process()):
-        arrivals.print_help()
-    while True:
-        await arrivals.step()
-        await asyncio.sleep(0.05)
+    update_lines(get_merged_arrivals(arrivals))
+
+class FetchArrivals(threading.Thread):
+    def run(self):
+        while True:
+            fetch_arrivals()
+            time.sleep(10)
 
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
-        self.offscreen_canvas = None
-        self.font = None
-        self.textColor = None
-        self.offset = 0
 
     def run(self):
-        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
-        self.font = graphics.Font()
-        self.font.LoadFont("../../../fonts/5x7.bdf")
-        self.textColor = graphics.Color(127, 0, 255)
-    
-    async def step(self):
-        if (not self.offscreen_canvas):
-            return
+        offscreen_canvas = self.matrix.CreateFrameCanvas()
+        font = graphics.Font()
+        font.LoadFont("../../../fonts/5x7.bdf")
+        textColor = graphics.Color(127, 0, 255)
+        offset = 0
         
-        self.offscreen_canvas.Clear()
+        while True:
 
-        for i, line in enumerate(lines + lines):
-            graphics.DrawText(
-                self.offscreen_canvas,
-                self.font,
-                1,
-                7 + i * 8 - self.offset,
-                self.textColor,
-                line
-            )
+            self.offscreen_canvas.Clear()
 
-        self.offset += 1
-        if self.offset > 8 * len(lines):
-            self.offset = 0
-        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+            for i, line in enumerate(lines + lines):
+                graphics.DrawText(
+                    self.offscreen_canvas,
+                    self.font,
+                    1,
+                    7 + i * 8 - self.offset,
+                    self.textColor,
+                    line
+                )
+
+            self.offset += 1
+            if self.offset > 8 * len(lines):
+                self.offset = 0
+            self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+
+            time.sleep(0.05)
 
 # Main function
 if __name__ == "__main__":
-    asyncio.ensure_future(fetch_arrivals())
-    asyncio.ensure_future(draw_arrivals())
-    asyncio.get_event_loop().run_forever()
+    FetchArrivals().start()
+    arrivals = Arrivals()
+    if (not arrivals.process()):
+        arrivals.print_help()

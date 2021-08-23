@@ -106,15 +106,15 @@ class FetchArrivals(threading.Thread):
             arrivals,
             current_time
         )
+        self.put_siri_arrivals(
+            '404947',
+            arrivals,
+            current_time
+        )
         self.put_gtfs_arrivals(
             'http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate',
             '113', # 86 St
             '',
-            arrivals,
-            current_time
-        )
-        self.put_siri_arrivals(
-            '404947',
             arrivals,
             current_time
         )
@@ -155,7 +155,7 @@ class FetchArrivals(threading.Thread):
 
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
-            eta = self.get_stfs_eta(trip_update, stop_id, current_time)
+            eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
 
             if eta >= 0 and direction in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
@@ -163,7 +163,7 @@ class FetchArrivals(threading.Thread):
                     arrivals[route_id] = []    
                 arrivals[route_id].append(eta)
 
-    def get_stfs_eta(self, trip_update, stop_id, current_time):
+    def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None

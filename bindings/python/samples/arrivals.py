@@ -111,7 +111,7 @@ class FetchArrivals(threading.Thread):
     def run(self):
         while True:
             fetch_arrivals()
-            time.sleep(10)
+            time.sleep(5)
 
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):

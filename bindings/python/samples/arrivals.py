@@ -94,7 +94,7 @@ class FetchArrivals(threading.Thread):
         for vehicle_journey in vehicle_journeys:
             published_line_name = vehicle_journey['PublishedLineName']
             destination_name = vehicle_journey['DestinationName']
-            expected_arrival_time = vehicle_journey['ExpectedArrivalTime']
+            expected_arrival_time = vehicle_journey['MonitoredCall']['ExpectedArrivalTime']
             print(f'{published_line_name} {destination_name} {expected_arrival_time}')
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):

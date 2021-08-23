@@ -158,7 +158,7 @@ class DrawArrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/5x7.bdf")
+        font.LoadFont("../../../fonts/tom-thumb.bdf")
         vertical_offset = 0
         vertical_offset_slowdown = 1
         textbox_height = 7

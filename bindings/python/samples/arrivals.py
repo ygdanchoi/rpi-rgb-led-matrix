@@ -10,7 +10,7 @@ import sortedcollections
 import threading
 import time
 
-lines = ['hello world', 'uwu','','']
+lines = []
 
 class FetchArrivals(threading.Thread):
     def run(self):

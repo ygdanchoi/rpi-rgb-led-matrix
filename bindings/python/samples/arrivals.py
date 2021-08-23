@@ -109,7 +109,7 @@ async def fetch_arrivals():
             await asyncio.gather(*tasks)
 
             update_lines(get_merged_arrivals(arrivals))
-        await asyncio.sleep(10)
+        await asyncio.sleep(30)
 
 async def draw_arrivals():
     arrivals = Arrivals()
@@ -130,7 +130,7 @@ class Arrivals(SampleBase):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont("../../../fonts/5x7.bdf")
-        self.textColor = graphics.Color(255, 255, 0)
+        self.textColor = graphics.Color(127, 0, 255)
     
     async def step(self):
         if (not self.offscreen_canvas):

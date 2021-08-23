@@ -91,12 +91,12 @@ class FetchArrivals(threading.Thread):
 
         for item in arrivals.items():
             route_id = item[0]
-            etas = ', '.join([str(eta) for eta in item[1][:4]])
+            etas = ', '.join([str(eta) for eta in item[1][:3]])
             trip_headsign = trips[route_id]
 
             line = f'({route_id})'
             line += ' ' * (5 - len(line))
-            line += trip_headsign[:8]
+            line += trip_headsign[:11]
             line += f' {etas} min'
             lines.append(line)
         
@@ -123,7 +123,7 @@ class DrawArrivals(SampleBase):
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
-                    1,
+                    0,
                     7 + i * height - offset // offset_slowdown,
                     textColor,
                     line

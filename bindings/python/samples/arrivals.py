@@ -147,11 +147,16 @@ class FetchArrivals(threading.Thread):
             )
             eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
 
-            if eta >= 0 and published_line_name not in arrivals:
-                arrivals[published_line_name] = []   
-                trips[published_line_name] = destination_name
-                colors[published_line_name] = [0, 57, 166]
-            arrivals[published_line_name].append(eta)
+            if eta >= 0:
+                if published_line_name not in arrivals:
+                    arrivals[published_line_name] = []   
+                arrivals[published_line_name].append(Row(
+                    route_id=published_line_name,
+                    trip_id=published_line_name,
+                    trip_headsign=destination_name,
+                    eta=eta,
+                    color=[0, 57, 166]
+                ))
 
     def put_gtfs_arrivals(self, url, stop_id, direction, arrivals, current_time):
         response = requests.get(url, headers={

@@ -129,8 +129,8 @@ class Arrivals(SampleBase):
 
         while True:
             offscreen_canvas.Clear()
-            for i, line in enumerate(lines + lines):
-                graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, line)
+            for i in range(8):
+                graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, lines[i % 8])
             pos += 1
             if (pos >= 8 * len(lines)):
                 pos = 0

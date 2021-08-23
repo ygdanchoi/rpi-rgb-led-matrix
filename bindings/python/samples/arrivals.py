@@ -169,13 +169,12 @@ class FetchArrivals(threading.Thread):
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []
-                adjusted_trip_id = trip_id
+
                 if (trip_id not in trips):
                     trip_keys = list(filter(lambda key: '_' in key and key.split('_')[1] == trip_id.split('_')[1], trips.keys()))
-                    i = bisect.bisect_left(trip_keys, adjusted_trip_id)
-                    adjusted_trip_id = trip_keys[i]
-                    print(adjusted_trip_id)
-                    print(trip_id)
+                    i = bisect.bisect_left(trip_keys, trip_id)
+                    trip_id = trip_keys[i]
+                    
                 arrivals[route_id].append(Row(
                     route_id=route_id,
                     trip_id=trip_id,

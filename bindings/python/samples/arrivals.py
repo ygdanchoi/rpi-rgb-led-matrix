@@ -19,7 +19,7 @@ class FetchArrivals(threading.Thread):
             time.sleep(30)
     
     def fetch_arrivals(self):
-        arrivals = collections.defaultdict(list)
+        arrivals = sortedcollections.OrderedDict()
         current_time = time.time()
 
         self.put_arrivals(
@@ -52,6 +52,8 @@ class FetchArrivals(threading.Thread):
 
             if eta >= 0 and '..S' in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
+                if not arrivals.has_key(route_id):
+                    arrivals[route_id] = []    
                 arrivals[route_id].append(eta)
 
     def get_eta(self, trip_update, stop_id, current_time):
@@ -139,7 +141,7 @@ class DrawArrivals(SampleBase):
                     line
                 )
 
-            if (len(lines) > 0):
+            if (len(lines) > 4):
                 offset += 1
                 if offset // offset_slowdown > 8 * len(lines):
                     offset = 0

@@ -63,7 +63,7 @@ class FetchArrivals(threading.Thread):
         current_time = time.time()
 
         self.put_gtfs_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
+            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
             'Q05S', # 96 St
             arrivals,
             current_time
@@ -71,6 +71,12 @@ class FetchArrivals(threading.Thread):
         self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
             '626S', # 86 St
+            arrivals,
+            current_time
+        )
+        self.put_gtfs_arrivals(
+            'http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate',
+            'uhh', # 86 St
             arrivals,
             current_time
         )
@@ -117,6 +123,8 @@ class FetchArrivals(threading.Thread):
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
             eta = self.get_stfs_eta(trip_update, stop_id, current_time)
+            if stop_id == 'uhh':
+                print(entity)
 
             if eta >= 0 and '..S' in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id

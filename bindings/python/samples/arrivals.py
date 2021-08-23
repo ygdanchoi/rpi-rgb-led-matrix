@@ -146,7 +146,7 @@ class Arrivals(SampleBase):
         if (self.pos >= 8 * len(lines)):
             self.pos = 0
 
-        self.offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
 # Main function
 if __name__ == "__main__":

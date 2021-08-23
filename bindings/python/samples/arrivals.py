@@ -115,7 +115,7 @@ class FetchArrivals(threading.Thread):
 
 class DrawArrivals(SampleBase):
     def __init__(self, *args, **kwargs):
-        super(Arrivals, self).__init__(*args, **kwargs)
+        super(DrawArrivals, self).__init__(*args, **kwargs)
 
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()

@@ -112,6 +112,10 @@ async def main():
         print(arrivals)
         for line in format_arrivals(get_merged_arrivals(arrivals)):
             print(line)
+    
+    arrivals = Arrivals()
+    if (not arrivals.process()):
+        arrivals.print_help()
 
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -139,6 +143,3 @@ class Arrivals(SampleBase):
 # Main function
 if __name__ == "__main__":
     asyncio.run(main())
-    arrivals = Arrivals()
-    if (not arrivals.process()):
-        arrivals.print_help()

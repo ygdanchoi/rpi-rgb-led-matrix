@@ -221,7 +221,8 @@ class DrawArrivals(SampleBase):
         dark_mode = graphics.Color(15, 0, 0)
         
         while True:
-            is_light_mode = datetime.now().timestamp() // 1 % 2 == 1.0
+            hh = datetime.now().hour
+            is_light_mode = 5 <= hh and hh <= 22
 
             offscreen_canvas.Clear()
             for i, row in enumerate(rows + rows):

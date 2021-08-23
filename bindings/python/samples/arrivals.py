@@ -114,6 +114,8 @@ async def fetch_arrivals():
 
 async def draw_arrivals():
     arrivals = Arrivals()
+    if (not arrivals.process()):
+        arrivals.print_help()
     while True:
         await arrivals.step()
         await asyncio.sleep(0.05)

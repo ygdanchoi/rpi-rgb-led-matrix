@@ -11,16 +11,21 @@ import sortedcollections
 import threading
 import time
 
+
+
+lines = []
+trips = {}
+
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     count = 0
     for row in csv_reader:
-        print('\t'.join(row))
+        trip_id = row[2]
+        trip_headsign = row[3]
+        print(trip_id + '\t' + trip_headsign)
         count += 1
         if count > 5:
             break
-
-lines = []
 
 Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_headsign', 'etas'])
 

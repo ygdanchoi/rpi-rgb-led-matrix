@@ -15,13 +15,14 @@ Row = collections.namedtuple('Row', ['route_id', 'route_text_color', 'trip_heads
 
 lines = []
 trips = {}
+colors = {}
 
 with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    should_skip = True
+    should_skip_header_row = True
     for row in csv_reader:
-        if should_skip:
-            should_skip = False
+        if should_skip_header_row:
+            should_skip_header_row = False
             continue
         route_id = row[0]
         trip_id_digest = row[2].split('_')[2]
@@ -29,7 +30,19 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
 
         if ('..S' in trip_id_digest):
             trips[route_id] = trip_headsign
-    
+
+with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    should_skip_header_row = True
+    for row in csv_reader:
+        if should_skip_header_row:
+            should_skip_header_row = False
+            continue
+        route_id = row[0]
+        route_color = row[7]
+
+        colors[route_id] = route_color
+    print(colors)
 
 class FetchArrivals(threading.Thread):
     def run(self):

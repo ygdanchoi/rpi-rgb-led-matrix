@@ -27,7 +27,6 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
         trip_id_digest = row[2].split('_')[2]
         trip_headsign = row[3]
 
-        print(f'{route_id} {trip_headsign} {trip_id_digest}')
         if ('..S' in trip_id_digest):
             trips[route_id] = trip_headsign
     
@@ -96,9 +95,9 @@ class FetchArrivals(threading.Thread):
             trip_headsign = trips[route_id]
 
             line = f'({route_id})'
-            line += ' ' * (4 - len(line))
-            line += trip_headsign[:3]
-            line += f'{etas} min'
+            line += ' ' * (5 - len(line))
+            line += trip_headsign[:6]
+            line += f' {etas} min'
             lines.append(line)
         
         while (len(lines) < 4):
@@ -111,7 +110,7 @@ class DrawArrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/4x6.bdf")
+        font.LoadFont("../../../fonts/tom-thumb.bdf")
         textColor = graphics.Color(127, 0, 255)
         offset = 0
         offset_slowdown = 3

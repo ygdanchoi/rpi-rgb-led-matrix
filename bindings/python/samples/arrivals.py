@@ -3,12 +3,18 @@ from samplebase import SampleBase
 from rgbmatrix import graphics
 
 import collections
+import csv
 import gtfs_realtime_pb2
 import requests
 import secrets
 import sortedcollections
 import threading
 import time
+
+with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    for row in csv_reader:
+        print('\t'.join(row))
 
 lines = []
 

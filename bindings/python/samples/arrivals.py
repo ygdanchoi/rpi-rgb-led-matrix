@@ -126,7 +126,6 @@ class FetchArrivals(threading.Thread):
             current_time
         )
 
-        print(arrivals)
         cached_arrivals = arrivals
     
     def put_siri_arrivals(self, stop_id, arrivals, current_time):
@@ -236,6 +235,7 @@ class DrawArrivals(SampleBase):
 
             offscreen_canvas.Clear()
             rows = cached_arrivals.items()
+            print(cached_arrivals)
             for i, item in enumerate(rows + rows):
                 route_id = item[0]
                 row = item[1]

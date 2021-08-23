@@ -140,7 +140,7 @@ class DrawArrivals(SampleBase):
                 line += ' ' * (4 - len(line))
                 line += row.trip_headsign[:12]
                 line += ' ' * (17 - len(line))
-                line += f' {row.etas} m'
+                line += f' {row.etas} min'
                 
                 graphics.DrawText(
                     offscreen_canvas,

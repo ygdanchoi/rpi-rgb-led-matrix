@@ -10,7 +10,7 @@ import secrets
 import sortedcollections
 import time
 
-lines = []
+lines = ['hello world']
 
 def get_eta(trip_update, stop_id, current_time):
     arrival_time = next(

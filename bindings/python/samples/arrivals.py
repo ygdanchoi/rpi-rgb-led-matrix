@@ -6,6 +6,7 @@ from rgbmatrix import graphics
 import collections
 import csv
 import gtfs_realtime_pb2
+import json
 import requests
 import secrets
 import sortedcollections
@@ -73,8 +74,22 @@ class FetchArrivals(threading.Thread):
             arrivals,
             current_time
         )
+        self.put_siri_arrivals(
+            '404947',
+            arrivals,
+            current_time
+        )
 
         self.update_rows(arrivals)
+    
+    def put_siri_arrivals(self, stop_id, arrivals, current_time):
+        response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
+            'key': secrets.bus_time_api_key,
+            'OperatorRef': 'MTA',
+            'MonitoringRef': stop_id
+        })
+        siri = json.loads(response)
+        print(siri)
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={
@@ -86,7 +101,7 @@ class FetchArrivals(threading.Thread):
 
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
-            eta = self.get_eta(trip_update, stop_id, current_time)
+            eta = self.get_stfs_eta(trip_update, stop_id, current_time)
 
             if eta >= 0 and '..S' in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
@@ -94,7 +109,7 @@ class FetchArrivals(threading.Thread):
                     arrivals[route_id] = []    
                 arrivals[route_id].append(eta)
 
-    def get_eta(self, trip_update, stop_id, current_time):
+    def get_stfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None
@@ -164,7 +179,7 @@ class DrawArrivals(SampleBase):
                     datetime.now().strftime('%a %b %d, %Y  %T %p')
                 )
             
-            if (len(rows) > 4):
+            if (len(rows) > 3):
                 vertical_offset += 1
                 if vertical_offset // vertical_offset_slowdown >= textbox_height * len(rows):
                     vertical_offset = 0

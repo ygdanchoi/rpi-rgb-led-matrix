@@ -123,7 +123,7 @@ class Arrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/5x7.bdf")
+        font.LoadFont("../../../fonts/4x6.bdf")
         textColor = graphics.Color(255, 255, 0)
         pos = offscreen_canvas.width
 
@@ -133,7 +133,7 @@ class Arrivals(SampleBase):
             for i, line in enumerate(lines):
                 len = max(
                     len,
-                    graphics.DrawText(offscreen_canvas, font, pos, 10 + i * 10, textColor, line)
+                    graphics.DrawText(offscreen_canvas, font, pos, 10 + i * 7, textColor, line)
                 )
             pos -= 1
             if (pos + len < 0):

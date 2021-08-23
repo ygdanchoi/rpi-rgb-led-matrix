@@ -51,6 +51,36 @@ with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
             ]
         else:
             colors[route_id] = [255, 255, 255]
+        
+with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    should_skip_header_row = True
+    for row in csv_reader:
+        if should_skip_header_row:
+            should_skip_header_row = False
+            continue
+        route_id = row[0]
+        trip_headsign = row[3]
+        trips[route_id] = trip_headsign
+
+with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    should_skip_header_row = True
+    for row in csv_reader:
+        if should_skip_header_row:
+            should_skip_header_row = False
+            continue
+        route_id = row[0]
+        route_color = row[7]
+
+        if len(route_color) == 6:
+            colors[route_id] = [
+                int(route_color[0:2], 16),
+                int(route_color[2:4], 16),
+                int(route_color[4:6], 16)
+            ]
+        else:
+            colors[route_id] = [255, 255, 255]
 
 class FetchArrivals(threading.Thread):
     def run(self):
@@ -64,19 +94,22 @@ class FetchArrivals(threading.Thread):
 
         self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
-            'Q05S', # 96 St
+            'Q05S', # 96 St,
+            '..S',
             arrivals,
             current_time
         )
         self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
             '626S', # 86 St
+            '..S',
             arrivals,
             current_time
         )
         self.put_gtfs_arrivals(
             'http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate',
-            'uhh', # 86 St
+            '113', # 86 St
+            '',
             arrivals,
             current_time
         )
@@ -112,7 +145,7 @@ class FetchArrivals(threading.Thread):
                 colors[published_line_name] = [0, 57, 166]
             arrivals[published_line_name].append(eta)
 
-    def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
+    def put_gtfs_arrivals(self, url, stop_id, direction, arrivals, current_time):
         response = requests.get(url, headers={
             'x-api-key': secrets.real_time_access_key
         })
@@ -123,10 +156,8 @@ class FetchArrivals(threading.Thread):
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
             eta = self.get_stfs_eta(trip_update, stop_id, current_time)
-            if stop_id == 'uhh':
-                print(entity)
 
-            if eta >= 0 and '..S' in trip_update.trip.trip_id:
+            if eta >= 0 and direction in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []    

@@ -24,11 +24,11 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
             should_skip = False
             continue
         route_id = row[0]
-        direction = row[2].split('_')[2].split('..')[0]
+        trip_id_digest = row[2].split('_')[2]
         trip_headsign = row[3]
 
-        print(f'{route_id} {trip_headsign} {direction}')
-        if (direction == '..S'):
+        print(f'{route_id} {trip_headsign} {trip_id_digest}')
+        if ('..S' in trip_id_digest):
             trips[route_id] = trip_headsign
     
 

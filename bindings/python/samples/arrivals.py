@@ -173,9 +173,6 @@ class FetchArrivals(threading.Thread):
                 if (trip_id not in trips):
                     trip_keys = list(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], trips.keys()))
                     i = bisect.bisect_left(trip_keys, trip_id)
-                    print(trip_id)
-                    print(trip_keys)
-                    print(i)
                     trip_id = trip_keys[i]
 
                 arrivals[route_id].append(Row(

@@ -124,7 +124,7 @@ class DrawArrivals(SampleBase):
         font.LoadFont("../../../fonts/5x7.bdf")
         textColor = graphics.Color(127, 0, 255)
         offset = 0
-        offset_slowdown = 2
+        offset_slowdown = 3
         
         while True:
             offscreen_canvas.Clear()
@@ -139,9 +139,10 @@ class DrawArrivals(SampleBase):
                     line
                 )
 
-            offset += 1
-            if offset // offset_slowdown > 8 * len(lines):
-                offset = 0
+            if (lines > 0):
+                offset += 1
+                if offset // offset_slowdown > 8 * len(lines):
+                    offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 

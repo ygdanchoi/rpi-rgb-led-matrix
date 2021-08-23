@@ -14,7 +14,7 @@ import sortedcollections
 import threading
 import time
 
-Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id'])
+Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
 
 cached_rows = []
@@ -31,10 +31,12 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
         route_id = row[0]
         trip_id = '_'.join(row[2].split('_')[1:])[:-3]
         trip_headsign = row[3]
+        direction_id = row[4]
 
         trips[trip_id] = Trip(
             trip_headsign=trip_headsign,
-            route_id=route_id
+            route_id=route_id,
+            direction_id=direction_id
         )
 
 with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
@@ -66,10 +68,12 @@ with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
         route_id = row[0]
         trip_id = row[2]
         trip_headsign = row[3]
+        direction_id = row[5]
 
         trips[trip_id] = Trip(
             trip_headsign=trip_headsign,
-            route_id=route_id
+            route_id=route_id,
+            direction_id=direction_id
         )
 
 with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
@@ -122,6 +126,7 @@ class FetchArrivals(threading.Thread):
         )
         self.put_gtfs_arrivals_ferry(
             '113', # 86 St
+            0,
             arrivals,
             current_time
         )
@@ -189,7 +194,7 @@ class FetchArrivals(threading.Thread):
                     color=colors[route_id]
                 ))
 
-    def put_gtfs_arrivals_ferry(self, stop_id, arrivals, current_time):
+    def put_gtfs_arrivals_ferry(self, stop_id, direction_id, arrivals, current_time):
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
         feed = gtfs_realtime_pb2.FeedMessage()
         feed.ParseFromString(response.content)
@@ -200,7 +205,7 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
             trip_id = trip_update.trip.trip_id
 
-            if eta >= 0:
+            if eta >= 0 and trips[trip_id].direction == direction_id:
                 route_id = trips[trip_id].route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []

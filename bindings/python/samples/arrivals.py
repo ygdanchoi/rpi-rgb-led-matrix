@@ -136,8 +136,6 @@ class DrawArrivals(SampleBase):
         
         while True:
             offscreen_canvas.Clear()
-            lines = []
-            
             for i, row in enumerate(rows):
                 line = f'{row.route_id}'
                 line += ' ' * (4 - len(line))
@@ -154,12 +152,9 @@ class DrawArrivals(SampleBase):
                     line
                 )
             
-            while (len(lines)) < 4:
-                lines.append('')
-
-            if (len(lines) > 4):
+            if (len(rows) > 4):
                 offset += 1
-                if offset // offset_slowdown > height * len(lines):
+                if offset // offset_slowdown > height * len(rows):
                     offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

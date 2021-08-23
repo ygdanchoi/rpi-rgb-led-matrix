@@ -136,6 +136,7 @@ class Arrivals(SampleBase):
         if (not self.offscreen_canvas):
             return
         
+        print(self.offscreen_canvas)
         self.offscreen_canvas.Clear()
         for i in range(8):
             graphics.DrawText(self.offscreen_canvas, self.font, 1, 7 + i * 8 - pos, self.textColor, lines[i % len(lines)])

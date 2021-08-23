@@ -120,9 +120,9 @@ class Arrivals(SampleBase):
         font.LoadFont("../../../fonts/7x13.bdf")
         textColor = graphics.Color(255, 255, 0)
         pos = offscreen_canvas.width
-        my_text = ' | '.join(lines)
 
         while True:
+            my_text = ' | '.join(lines)
             offscreen_canvas.Clear()
             len = graphics.DrawText(offscreen_canvas, font, pos, 10, textColor, my_text)
             pos -= 1

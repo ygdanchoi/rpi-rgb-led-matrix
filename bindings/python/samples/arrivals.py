@@ -126,7 +126,7 @@ class FetchArrivals(threading.Thread):
         )
         self.put_gtfs_arrivals_ferry(
             '113', # 86 St
-            1,
+            '1',
             arrivals,
             current_time
         )

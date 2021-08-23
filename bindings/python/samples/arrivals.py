@@ -100,7 +100,7 @@ async def fetch_arrivals():
             countdown_latch = {'count': 2}
             tasks = []
 
-            tasks.append(asyncio.create_task(put_arrivals(
+            tasks.append(asyncio.run(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
                 'Q05S', # 96 St
                 arrivals,
@@ -108,7 +108,7 @@ async def fetch_arrivals():
                 current_time,
                 countdown_latch
             )))
-            tasks.append(asyncio.create_task(put_arrivals(
+            tasks.append(asyncio.run(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 arrivals,

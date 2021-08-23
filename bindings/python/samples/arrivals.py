@@ -123,7 +123,7 @@ class DrawArrivals(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/5x7.bdf")
+        font.LoadFont("../../../fonts/4x6.bdf")
         textColor = graphics.Color(127, 0, 255)
         offset = 0
         offset_slowdown = 3

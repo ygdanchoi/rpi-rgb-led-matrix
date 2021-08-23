@@ -24,7 +24,7 @@ def get_eta(trip_update, stop_id, current_time):
     else:
         return int(round((arrival_time - current_time) / 60, 0))
 
-async def put_arrivals(url, stop_id, arrivals, current_time):
+def put_arrivals(url, stop_id, arrivals, current_time):
     response = requests.get(url, headers={
         'x-api-key': secrets.real_time_access_key
     })
@@ -89,7 +89,7 @@ def update_lines(arrivals):
     while (len(lines) < 4):
         lines.append('')
 
-async def fetch_arrivals():
+def fetch_arrivals():
     arrivals = collections.defaultdict(list)
     current_time = time.time()
 

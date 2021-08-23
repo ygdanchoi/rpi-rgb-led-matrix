@@ -121,13 +121,16 @@ async def draw_arrivals():
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
+        self.offscreen_canvas = None
+        self.font = None
+        self.textColor = None
+        self.pos = 0
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont("../../../fonts/5x7.bdf")
         self.textColor = graphics.Color(255, 255, 0)
-        self.pos = 0
     
     async def step(self):
         self.offscreen_canvas.Clear()

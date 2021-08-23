@@ -96,7 +96,7 @@ class FetchArrivals(threading.Thread):
 
             line = f'({route_id})'
             line += ' ' * (5 - len(line))
-            line += trip_headsign[:6]
+            line += trip_headsign[:8]
             line += f' {etas} min'
             lines.append(line)
         

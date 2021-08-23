@@ -49,8 +49,6 @@ with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
             ]
         else:
             colors[route_id] = [255, 255, 255]
-        
-    print(colors)
 
 class FetchArrivals(threading.Thread):
     def run(self):
@@ -138,8 +136,8 @@ class DrawArrivals(SampleBase):
         
         while True:
             offscreen_canvas.Clear()
-
             lines = []
+            
             for i, row in enumerate(rows):
                 line = f'{row.route_id}'
                 line += ' ' * (4 - len(line))
@@ -157,7 +155,7 @@ class DrawArrivals(SampleBase):
                 )
             
             while (len(lines)) < 4:
-                    lines.append('')
+                lines.append('')
 
             if (len(lines) > 4):
                 offset += 1

@@ -111,11 +111,10 @@ async def main():
         format_arrivals(get_merged_arrivals(arrivals))
         for line in lines:
             print(line)
-
-    async:
-        arrivals = Arrivals()
-        if (not arrivals.process()):
-            arrivals.print_help()
+    
+    arrivals = Arrivals()
+    if (not arrivals.process()):
+        arrivals.print_help()
 
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):

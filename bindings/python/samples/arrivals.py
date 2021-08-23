@@ -6,6 +6,7 @@ import aiohttp
 import asyncio
 import collections
 import gtfs_realtime_pb2
+import requests
 import secrets
 import sortedcollections
 import threading

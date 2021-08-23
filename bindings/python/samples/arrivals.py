@@ -108,14 +108,14 @@ class FetchArrivals(threading.Thread):
         self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
             'Q05S', # 96 St,
-            '0',
+            '..S',
             arrivals,
             current_time
         )
         self.put_gtfs_arrivals(
             'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
             '626S', # 86 St
-            '0',
+            '..S',
             arrivals,
             current_time
         )
@@ -174,17 +174,17 @@ class FetchArrivals(threading.Thread):
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
-
             trip_id = trip_update.trip.trip_id
-            if (trip_id not in trips):
-                trip_keys = list(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], trips.keys()))
-                i = bisect.bisect_left(trip_keys, trip_id)
-                trip_id = trip_keys[i]
 
-            if eta >= 0 and direction == trips[trip_id].direction_id:
+            if eta >= 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []
+
+                if (trip_id not in trips):
+                    trip_keys = list(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], trips.keys()))
+                    i = bisect.bisect_left(trip_keys, trip_id)
+                    trip_id = trip_keys[i]
 
                 arrivals[route_id].append(Row(
                     route_id=route_id,

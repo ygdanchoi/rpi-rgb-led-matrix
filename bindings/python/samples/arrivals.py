@@ -71,7 +71,7 @@ with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
             should_skip_header_row = False
             continue
         route_id = row[0]
-        route_color = row[7]
+        route_color = row[5]
 
         if len(route_color) == 6:
             colors[route_id] = [

@@ -121,22 +121,22 @@ async def draw_arrivals():
 class Arrivals(SampleBase):
     def __init__(self, *args, **kwargs):
         super(Arrivals, self).__init__(*args, **kwargs)
+
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+        self.font = graphics.Font()
+        self.font.LoadFont("../../../fonts/5x7.bdf")
+        self.textColor = graphics.Color(255, 255, 0)
+        self.pos = 0
     
     async def step(self):
-        offscreen_canvas = self.matrix.CreateFrameCanvas()
-        font = graphics.Font()
-        font.LoadFont("../../../fonts/5x7.bdf")
-        textColor = graphics.Color(255, 255, 0)
-        pos = 0
-        
-        offscreen_canvas.Clear()
+        self.offscreen_canvas.Clear()
         for i in range(8):
-            graphics.DrawText(offscreen_canvas, font, 1, 7 + i * 8 - pos, textColor, lines[i % len(lines)])
-        pos += 1
-        if (pos >= 8 * len(lines)):
-            pos = 0
+            graphics.DrawText(self.offscreen_canvas, self.font, 1, 7 + i * 8 - pos, self.textColor, lines[i % len(lines)])
+        self.pos += 1
+        if (self.pos >= 8 * len(lines)):
+            self.pos = 0
 
-        offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
+        self.offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
 
 # Main function
 if __name__ == "__main__":

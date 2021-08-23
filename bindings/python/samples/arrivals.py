@@ -83,13 +83,12 @@ class FetchArrivals(threading.Thread):
         self.update_rows(arrivals)
     
     def put_siri_arrivals(self, stop_id, arrivals, current_time):
-        response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
+        response = json.loads(requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
             'key': secrets.bus_time_api_key,
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
-        })
-        siri = json.loads(response.content)
-        print(siri['ServiceDelivery']['StopMonitoringDelivery']['MonitoredStopVisit'][0])
+        }))
+        print(response['Siri']['ServiceDelivery']['StopMonitoringDelivery']['MonitoredStopVisit'][0])
 
     def put_gtfs_arrivals(self, url, stop_id, arrivals, current_time):
         response = requests.get(url, headers={

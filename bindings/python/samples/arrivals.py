@@ -23,7 +23,7 @@ def get_eta(trip_update, stop_id, current_time):
     else:
         return int(round((arrival_time - current_time) / 60, 0))
 
-async def put_arrivals(url, stop_id, arrivals, session, current_time):
+async def put_arrivals(url, stop_id, arrivals, session, current_time, countdown_latch):
     async with session.get(url, headers={
         'x-api-key': secrets.real_time_access_key
     }) as response:
@@ -38,6 +38,10 @@ async def put_arrivals(url, stop_id, arrivals, session, current_time):
             if eta >= 0 and '..S' in trip_update.trip.trip_id:
                 route_id = trip_update.trip.route_id
                 arrivals[route_id].append(eta)
+        
+        countdown_latch.count -= 1
+        if (countdown_latch == 0):
+            update_lines(get_merged_arrivals(arrivals))
 
 def get_merged_arrivals(arrivals):
     merged_arrivals = sortedcollections.OrderedDict()
@@ -94,24 +98,24 @@ async def fetch_arrivals():
             arrivals = collections.defaultdict(list)
             tasks = []
             current_time = time.time()
+            countdown_latch = {'count': 2}
 
             tasks.append(asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw', #NQRW
                 'Q05S', # 96 St
                 arrivals,
                 session,
-                current_time
+                current_time,
+                countdown_latch
             )))
             tasks.append(asyncio.ensure_future(put_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 arrivals,
                 session,
-                current_time
+                current_time,
+                countdown_latch
             )))
-            await asyncio.gather(*tasks)
-
-            update_lines(get_merged_arrivals(arrivals))
         await asyncio.sleep(10)
 
 async def draw_arrivals():

@@ -144,7 +144,7 @@ class DrawArrivals(SampleBase):
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
-                    0,
+                    1,
                     7 + i * height - offset // offset_slowdown,
                     graphics.Color(*row.color),
                     line

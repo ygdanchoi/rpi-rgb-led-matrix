@@ -134,7 +134,7 @@ class FetchArrivals(threading.Thread):
             arrivals['ERR!'] = [Row(
                 route_id='ERR!',
                 trip_id='ERR!',
-                trip_headsign=error,
+                trip_headsign=str(error),
                 eta=500,
                 color=[255, 0, 0]
             )]

@@ -256,7 +256,7 @@ class DrawArrivals(SampleBase):
                 
                 line += ' ' + etas[0]
                 e = 1
-                while (len(line) + 1 + len(etas[e]) + 1 < 32):
+                while (e < len(etas) and len(line) + 1 + len(etas[e]) + 1 < 32):
                     line += ',' + etas[e]
                     e += 1
                 line += 'm'

@@ -256,7 +256,7 @@ class DrawArrivals(SampleBase):
 
             offscreen_canvas.Clear()
 
-            for i, row in enumerate(cached_rows + cached_rows):
+            for i, row in enumerate(cached_rows if len(cached_rows) < 4 else cached_rows + cached_rows):
                 line = f'{row[0].route_id}'
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:17]

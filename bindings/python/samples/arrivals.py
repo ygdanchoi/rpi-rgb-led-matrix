@@ -131,13 +131,13 @@ class FetchArrivals(threading.Thread):
                 current_time
             )
         except Exception as error:
-            arrivals.append(Row(
+            arrivals['ERR!'] = [Row(
                 route_id='ERR!',
-                trip_id='ERROR',
+                trip_id='ERR!',
                 trip_headsign=error,
                 eta=0,
                 color=[255, 0, 0]
-            ))
+            )]
             print(error)
 
         cached_rows.clear()

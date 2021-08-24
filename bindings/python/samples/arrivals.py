@@ -151,7 +151,7 @@ class FetchArrivals(threading.Thread):
             )
             eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
 
-            if eta >= 0:
+            if eta > 0:
                 if published_line_name not in arrivals:
                     arrivals[published_line_name] = []   
                 arrivals[published_line_name].append(Row(
@@ -175,7 +175,7 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
             trip_id = trip_update.trip.trip_id
 
-            if eta >= 0 and direction in trip_id:
+            if eta > 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []
@@ -204,7 +204,7 @@ class FetchArrivals(threading.Thread):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
             trip_id = trip_update.trip.trip_id
 
-            if eta >= 0 and trips[trip_id].direction_id == direction_id:
+            if eta > 0 and trips[trip_id].direction_id == direction_id:
                 route_id = trips[trip_id].route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []

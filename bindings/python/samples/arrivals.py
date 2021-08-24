@@ -104,31 +104,41 @@ class FetchArrivals(threading.Thread):
         arrivals = collections.OrderedDict()
         current_time = time.time()
 
-        self.put_gtfs_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
-            '626S', # 86 St
-            '..S',
-            arrivals,
-            current_time
-        )
-        self.put_gtfs_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
-            'Q05S', # 96 St,
-            '..S',
-            arrivals,
-            current_time
-        )
-        self.put_siri_arrivals(
-            '404947',
-            arrivals,
-            current_time
-        )
-        self.put_gtfs_arrivals_ferry(
-            '113', # 86 St
-            '0', # southbound
-            arrivals,
-            current_time
-        )
+        try:
+            self.put_gtfs_arrivals(
+                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
+                '626S', # 86 St
+                '..S',
+                arrivals,
+                current_time
+            )
+            self.put_gtfs_arrivals(
+                'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
+                'Q05S', # 96 St,
+                '..S',
+                arrivals,
+                current_time
+            )
+            self.put_siri_arrivals(
+                '404947',
+                arrivals,
+                current_time
+            )
+            self.put_gtfs_arrivals_ferry(
+                '113', # 86 St
+                '0', # southbound
+                arrivals,
+                current_time
+            )
+        except Exception as error:
+            arrivals.append(Row(
+                route_id='ERR!',
+                trip_id='ERROR',
+                trip_headsign=error,
+                eta=0,
+                color=[255, 0, 0]
+            ))
+            print(error)
 
         cached_rows.clear()
         cached_rows.extend(arrivals.values())

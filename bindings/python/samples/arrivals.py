@@ -248,7 +248,7 @@ class DrawArrivals(SampleBase):
         vertical_offset = 0
         vertical_offset_slowdown = 1
         textbox_height = 7
-        dark_mode = graphics.Color(15, 0, 0)
+        dark_mode = graphics.Color(31, 0, 0)
         
         while True:
             hh = datetime.now().hour

@@ -12,6 +12,7 @@ import requests
 import secrets
 import threading
 import time
+import traceback
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
@@ -138,7 +139,7 @@ class FetchArrivals(threading.Thread):
                 eta=0,
                 color=[255, 0, 0]
             )]
-            print(error)
+            traceback.print_exc()
 
         cached_rows.clear()
         cached_rows.extend(arrivals.values())

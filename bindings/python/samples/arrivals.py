@@ -250,11 +250,10 @@ class DrawArrivals(SampleBase):
                 line = f'{row[0].route_id}'
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:16]
-                line += ' ' * (22 - len(line))
+                line += ' ' * (23 - len(line))
 
                 etas = [str(eta.eta) for eta in sorted(row)]
-                
-                line += ' ' + etas[0]
+                line += etas[0]
                 e = 1
                 while (e < len(etas) and len(line) + 1 + len(etas[e]) + 1 <= 32):
                     line += ',' + etas[e]

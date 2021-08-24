@@ -105,15 +105,15 @@ class FetchArrivals(threading.Thread):
         current_time = time.time()
 
         self.put_gtfs_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
-            'Q05S', # 96 St,
+            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
+            '626S', # 86 St
             '..S',
             arrivals,
             current_time
         )
         self.put_gtfs_arrivals(
-            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
-            '626S', # 86 St
+            'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
+            'Q05S', # 96 St,
             '..S',
             arrivals,
             current_time
@@ -142,7 +142,7 @@ class FetchArrivals(threading.Thread):
 
         stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
         vehicle_journeys = [stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_visits]
-        for vehicle_journey in vehicle_journeys:
+        for vehicle_journey in sorted(vehicle_journeys, key=lambda vehicle_journey: vehicle_journey['PublishedLineName']):
             published_line_name = vehicle_journey['PublishedLineName']
             destination_name = vehicle_journey['DestinationName']
             monitored_call = vehicle_journey['MonitoredCall']

@@ -135,7 +135,7 @@ class FetchArrivals(threading.Thread):
                 route_id='ERR!',
                 trip_id='ERR!',
                 trip_headsign=str(error),
-                eta=500,
+                eta=0,
                 color=[255, 0, 0]
             )]
             print(error)

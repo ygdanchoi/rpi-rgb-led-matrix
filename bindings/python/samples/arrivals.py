@@ -10,7 +10,6 @@ import gtfs_realtime_pb2
 import json
 import requests
 import secrets
-import sortedcollections
 import threading
 import time
 
@@ -102,7 +101,7 @@ class FetchArrivals(threading.Thread):
             time.sleep(30)
     
     def fetch_arrivals(self):
-        arrivals = sortedcollections.OrderedDict()
+        arrivals = collections.OrderedDict()
         current_time = time.time()
 
         self.put_gtfs_arrivals(
@@ -252,7 +251,7 @@ class DrawArrivals(SampleBase):
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:16]
                 line += ' ' * (22 - len(line))
-                line += ' ' + ','.join([str(eta.eta) for eta in row[:3]]) + 'm'
+                line += ' ' + ','.join(sorted([str(eta.eta) for eta in row[:3]])) + 'm'
                 
                 graphics.DrawText(
                     offscreen_canvas,

@@ -253,7 +253,7 @@ class DrawArrivals(SampleBase):
         
         while True:
             hh = datetime.now().hour
-            is_light_mode = 5 <= hh and hh < 22
+            is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
 

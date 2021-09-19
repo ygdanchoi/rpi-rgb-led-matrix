@@ -18,7 +18,7 @@ if os.name != 'nt':
     from rgbmatrix import graphics
 
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
-TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_headsign', 'etas', 'color'])
+TransitLine = collections.namedtuple('TransitLine', ['route_id', 'direction', 'trip_headsign', 'etas', 'color'])
 Row = collections.namedtuple('Row', ['text', 'color'])
 
 # class TransitLineNew:
@@ -152,6 +152,7 @@ class MtaSubwayService(GtfsService):
                 if route_id not in transit_lines_by_key:
                     transit_lines_by_key[route_id] = TransitLine(
                         route_id=route_id,
+                        direction=self.trips[trip_id].direction_id,
                         trip_headsign=self.trips[trip_id].trip_headsign,
                         etas=[],
                         color=self.colors[route_id]
@@ -173,6 +174,7 @@ class MtaBusService(BaseTransitService):
         stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
         vehicle_journeys = [stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_visits]
         for vehicle_journey in sorted(vehicle_journeys, key=lambda vehicle_journey: vehicle_journey['PublishedLineName']):
+            direction_ref = vehicle_journey['DirectionRef']
             published_line_name = vehicle_journey['PublishedLineName']
             destination_name = vehicle_journey['DestinationName']
             monitored_call = vehicle_journey['MonitoredCall']
@@ -185,6 +187,7 @@ class MtaBusService(BaseTransitService):
                 if published_line_name not in transit_lines_by_key:
                     transit_lines_by_key[published_line_name] = TransitLine(
                         route_id=published_line_name,
+                        direction=direction_ref,
                         trip_headsign=destination_name,
                         etas=[],
                         color=[0, 57, 166]
@@ -232,11 +235,12 @@ class NycFerryService(GtfsService):
                 route_id = self.trips[trip_id].route_id
                 if route_id not in transit_lines_by_key:
                     transit_lines_by_key[route_id] = TransitLine(
-                    route_id=route_id,
-                    trip_headsign=self.trips[trip_id].trip_headsign,
-                    etas=[],
-                    color=self.colors[route_id]
-                )
+                        route_id=route_id,
+                        direction=self.trips[trip_id].direction_id,
+                        trip_headsign=self.trips[trip_id].trip_headsign,
+                        etas=[],
+                        color=self.colors[route_id]
+                    )
                 transit_lines_by_key[route_id].etas.append(eta)
 
         return transit_lines_by_key.values()
@@ -276,6 +280,7 @@ class CompositeTransitService(BaseTransitService):
         except Exception as error:
             transit_lines.append([TransitLine(
                 route_id='ERR!',
+                direction='0',
                 trip_headsign=str(error),
                 etas=[current_time],
                 color=[255, 0, 0]

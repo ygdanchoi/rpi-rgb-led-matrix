@@ -327,7 +327,6 @@ class TransitFeed(threading.Thread):
 
 # Main function
 if __name__ == "__main__":
-    print(os.name)
     if os.name == 'posix':
         class RgbMatrixView(SampleBase):
             def __init__(self, *args, **kwargs):
@@ -388,7 +387,5 @@ if __name__ == "__main__":
         transit_service = CompositeTransitService()
         row_factory = RowFactory()
         transit_lines = transit_service.get_transit_lines()
-        # for transit_line in transit_lines:
-        #     print(transit_line)
         for row in row_factory.create_rows(transit_lines):
             print(row.text)

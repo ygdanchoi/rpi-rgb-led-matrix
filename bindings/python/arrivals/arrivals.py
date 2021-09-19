@@ -21,7 +21,7 @@ cached_rows = []
 trips = {}
 colors = {}
 
-with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
+with open('./gtfs/mta-subway/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     should_skip_header_row = True
     for row in csv_reader:
@@ -39,7 +39,7 @@ with open('../../../../arrivals/google_transit/trips.txt') as csv_file:
             direction_id=direction_id
         )
 
-with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
+with open('./gtfs/mta-subway/google_transit/routes.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     should_skip_header_row = True
     for row in csv_reader:
@@ -58,7 +58,7 @@ with open('../../../../arrivals/google_transit/routes.txt') as csv_file:
         else:
             colors[route_id] = [255, 255, 255]
         
-with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
+with open('./gtfs/nyc-ferry/google_transit/trips.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     should_skip_header_row = True
     for row in csv_reader:
@@ -76,7 +76,7 @@ with open('../../../../arrivals/google_transit_ferry/trips.txt') as csv_file:
             direction_id=direction_id
         )
 
-with open('../../../../arrivals/google_transit_ferry/routes.txt') as csv_file:
+with open('./gtfs/nyc-ferry/google_transit/routes.txt') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     should_skip_header_row = True
     for row in csv_reader:

@@ -29,11 +29,11 @@ Row = collections.namedtuple('Row', ['text', 'color'])
 #     def key(self):
 #         return f'{self.name}-{self.direction}'
 
-class TransitService:
+class BaseTransitService:
     def get_transit_lines():
         return []
 
-class GtfsService(TransitService):
+class GtfsService(BaseTransitService):
     def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
@@ -121,7 +121,7 @@ class MtaSubwayService(GtfsService):
                 ))
         return transit_lines.values()
 
-class MtaBusService:
+class MtaBusService(BaseTransitService):
     def __init__(self):
         self.trips = {}
     
@@ -227,45 +227,13 @@ class NycFerryService(GtfsService):
 
         return transit_lines.values()
 
-class RowFactory:
-    def create_rows(self, transit_lines):
-        rows = []
-
-        for transit_line in transit_lines:
-            text = f'{transit_line[0].route_id}'
-            text += ' ' * (5 - len(text))
-            text += transit_line[0].trip_headsign[:17]
-            text += ' ' * (24 - len(text))
-
-            etas = [str(eta.eta) for eta in sorted(transit_line)]
-            text += etas[0]
-            e = 1
-            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
-                text += ',' + etas[e]
-                e += 1
-            text += 'm'
-            rows.append(Row(
-                text=text,
-                color=transit_line[0].color
-            ))
-
-        return rows
-
-
-class TransitFeed(threading.Thread):
-    def run(self):
-        self.cached_transit_lines = []
-        self.row_factory = RowFactory()
-
+class CompositeTransitService(BaseTransitService):
+    def __init__(self):
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
 
-        while True:
-            self.fetch_arrivals()
-            time.sleep(30)
-    
-    def fetch_arrivals(self):
+    def get_transit_lines(self):
         transit_lines = []
         current_time = time.time()
 
@@ -301,11 +269,47 @@ class TransitFeed(threading.Thread):
             )])
             traceback.print_exc()
 
-        self.cached_transit_lines.clear()
-        self.cached_transit_lines.extend(transit_lines)
+        return transit_lines
+
+class RowFactory:
+    def create_rows(self, transit_lines):
+        rows = []
+
+        for transit_line in transit_lines:
+            text = f'{transit_line[0].route_id}'
+            text += ' ' * (5 - len(text))
+            text += transit_line[0].trip_headsign[:17]
+            text += ' ' * (24 - len(text))
+
+            etas = [str(eta.eta) for eta in sorted(transit_line)]
+            text += etas[0]
+            e = 1
+            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
+                text += ',' + etas[e]
+                e += 1
+            text += 'm'
+            rows.append(Row(
+                text=text,
+                color=transit_line[0].color
+            ))
+
+        return rows
+
+class TransitFeed(threading.Thread):
+    def run(self):
+        self.transit_lines = []
+        self.row_factory = RowFactory()
+        self.transit_service = CompositeTransitService()
+
+        while True:
+            self.fetch_arrivals()
+            time.sleep(30)
+    
+    def fetch_arrivals(self):
+        self.transit_lines = self.transit_service.get_transit_lines()
 
     def get_rows(self):
-        return self.row_factory.create_rows(self.cached_transit_lines)
+        return self.row_factory.create_rows(self.transit_lines)
 
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):

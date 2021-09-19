@@ -86,16 +86,11 @@ class GtfsService(BaseTransitService):
     def get_route_color(self, row):
         pass
 
-    def get_gtfs_eta(self, trip_update, stop_id, current_time):
-        arrival_time = next(
+    def get_gtfs_eta(self, trip_update, stop_id):
+        return next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None
         )
-
-        if arrival_time is None:
-            return -1
-        else:
-            return arrival_time
 
 class MtaSubwayService(GtfsService):
     def get_routes_path(self):
@@ -119,7 +114,7 @@ class MtaSubwayService(GtfsService):
     def get_route_color(self, row):
         return row[7]
     
-    def get_transit_lines(self, url, stop_id, direction, current_time):
+    def get_transit_lines(self, url, stop_id, direction):
         transit_lines_by_key = {}
 
         response = requests.get(url, headers={
@@ -131,15 +126,14 @@ class MtaSubwayService(GtfsService):
 
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
-            eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
+            eta = self.get_gtfs_eta(trip_update, stop_id)
             trip_id = trip_update.trip.trip_id
+            if (trip_id not in self.trips):
+                trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
+                i = bisect.bisect_left(trip_keys, trip_id)
+                trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 
-            if eta > current_time and direction in trip_id:
-                if (trip_id not in self.trips):
-                    trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
-                    i = bisect.bisect_left(trip_keys, trip_id)
-                    trip_id = trip_keys[min(i, len(trip_keys) - 1)]
-
+            if eta and self.trips[trip_id].direction_id == direction:
                 route_id = trip_update.trip.route_id
                 if route_id not in transit_lines_by_key:
                     transit_lines_by_key[route_id] = TransitLine(
@@ -154,7 +148,7 @@ class MtaSubwayService(GtfsService):
         return transit_lines_by_key.values()
 
 class MtaBusService(BaseTransitService):
-    def get_transit_lines(self, stop_id, current_time):
+    def get_transit_lines(self, stop_id):
         transit_lines_by_key = {}
 
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
@@ -175,16 +169,15 @@ class MtaBusService(BaseTransitService):
             )
             eta = expected_arrival_time.timestamp()
 
-            if eta > current_time:
-                if published_line_name not in transit_lines_by_key:
-                    transit_lines_by_key[published_line_name] = TransitLine(
-                        name=published_line_name,
-                        direction=direction_ref,
-                        description=destination_name,
-                        etas=[],
-                        color=[0, 57, 166]
-                    )   
-                transit_lines_by_key[published_line_name].etas.append(eta)
+            if published_line_name not in transit_lines_by_key:
+                transit_lines_by_key[published_line_name] = TransitLine(
+                    name=published_line_name,
+                    direction=direction_ref,
+                    description=destination_name,
+                    etas=[],
+                    color=[0, 57, 166]
+                )   
+            transit_lines_by_key[published_line_name].etas.append(eta)
         
         return transit_lines_by_key.values()
 
@@ -210,7 +203,7 @@ class NycFerryService(GtfsService):
     def get_route_color(self, row):
         return row[5]
 
-    def get_transit_lines(self, stop_id, direction_id, current_time):
+    def get_transit_lines(self, stop_id, direction):
         transit_lines_by_key = {}
 
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
@@ -220,10 +213,10 @@ class NycFerryService(GtfsService):
 
         for entity in filter(lambda entity: entity.HasField('trip_update'), entities):
             trip_update = entity.trip_update
-            eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
+            eta = self.get_gtfs_eta(trip_update, stop_id)
             trip_id = trip_update.trip.trip_id
 
-            if eta > 0 and self.trips[trip_id].direction_id == direction_id:
+            if eta and self.trips[trip_id].direction_id == direction:
                 route_id = self.trips[trip_id].route_id
                 if route_id not in transit_lines_by_key:
                     transit_lines_by_key[route_id] = TransitLine(
@@ -245,29 +238,24 @@ class CompositeTransitService(BaseTransitService):
 
     def get_transit_lines(self):
         transit_lines = []
-        current_time = time.time()
 
         try:
             transit_lines.extend(self.mta_subway_service.get_transit_lines(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
-                '..S',
-                current_time
+                '1' # southbound
             ))
             transit_lines.extend(self.mta_subway_service.get_transit_lines(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
                 'Q05S', # 96 St,
-                '..S',
-                current_time
+                '1' # southbound
             ))
             transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '404947',
-                current_time
+                '404947'
             ))
             transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
                 '113', # 86 St
-                '0', # southbound
-                current_time
+                '0' # southbound
             ))
         except Exception as error:
             transit_lines.append([TransitLine(
@@ -287,12 +275,15 @@ class RowFactory:
         current_time = time.time()
 
         for transit_line in transit_lines:
+            etas = [str(int(math.ceil((eta - current_time) / 60))) for eta in sorted(transit_line.etas) if current_time // 60 < eta // 60]
+
+            if not etas:
+                continue
+
             text = f'{transit_line.name}'
             text += ' ' * (5 - len(text))
             text += transit_line.description[:17]
             text += ' ' * (24 - len(text))
-
-            etas = [str(int(math.ceil((eta - current_time) / 60))) for eta in sorted(transit_line.etas) if current_time // 60 < eta // 60]
             text += etas[0]
             e = 1
             while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):

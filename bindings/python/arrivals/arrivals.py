@@ -305,7 +305,7 @@ class TransitFeed(threading.Thread):
         self.cached_transit_lines.extend(transit_lines)
 
     def get_rows(self):
-        self.row_factory.create_rows(self.cached_transit_lines)
+        return self.row_factory.create_rows(self.cached_transit_lines)
 
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):

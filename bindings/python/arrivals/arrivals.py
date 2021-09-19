@@ -214,12 +214,16 @@ class NycFerryService(GtfsService):
                 ))
 
 class FetchArrivals(threading.Thread):
-    def __init__(self):
+    # def __init__(self):
+    #     self.mta_subway_service = MtaSubwayService()
+    #     self.mta_bus_service = MtaBusService()
+    #     self.nyc_ferry_service = NycFerryService()
+
+    def run(self):
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
 
-    def run(self):
         while True:
             self.fetch_arrivals()
             time.sleep(30)

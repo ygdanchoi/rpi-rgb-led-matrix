@@ -6,6 +6,7 @@ import collections
 import csv
 import gtfs_realtime_pb2
 import json
+import math
 import os
 import requests
 import secrets
@@ -300,7 +301,7 @@ class RowFactory:
             text += transit_line.trip_headsign[:17]
             text += ' ' * (24 - len(text))
 
-            etas = [str(int(round((eta - current_time) / 60, 0))) for eta in sorted(transit_line.etas)]
+            etas = [str(int(math.ceil((eta - current_time) / 60))) for eta in sorted(transit_line.etas) if current_time // 60 < eta // 60]
             text += etas[0]
             e = 1
             while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):

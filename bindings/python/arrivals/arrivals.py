@@ -278,7 +278,7 @@ class TransitFeed(threading.Thread):
         self.cached_transit_lines.extend(transit_lines)
 
 class RowFactory:
-    def create_rows(transit_lines):
+    def create_rows(self, transit_lines):
         rows = []
 
         for transit_line in transit_lines:

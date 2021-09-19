@@ -17,7 +17,6 @@ class TransitFeedViewModel():
     def run(self):
         while True:
             self.transit_lines = self.transit_service.get_transit_lines()
-            print('updated')
             time.sleep(30)
     
     def get_rows(self):

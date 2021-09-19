@@ -9,12 +9,15 @@ from rgbmatrix import graphics
 from row_factory import RowFactory
 from transit_service import CompositeTransitService as TransitService, TransitLine
 
-class TransitFeed(threading.Thread):
-    def run(self):
+class TransitFeed():
+    def __init__(self, transit_service, row_factory):
         self.transit_lines: list[TransitLine] = []
-        self.row_factory = RowFactory()
-        self.transit_service = TransitService()
+        self.transit_service = transit_service
+        self.row_factory = row_factory
 
+        threading.Thread(target=self.run).start()
+
+    def run(self):
         while True:
             self.transit_lines = self.transit_service.get_transit_lines()
             time.sleep(30)
@@ -25,11 +28,9 @@ class TransitFeed(threading.Thread):
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(TransitFeedView, self).__init__(*args, **kwargs)
+        self.transit_feed = TransitFeed(TransitService(), RowFactory())
 
     def run(self):
-        transit_feed = TransitFeed()
-        transit_feed.start()
-
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
@@ -42,7 +43,7 @@ class TransitFeedView(SampleBase):
             is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
-            rows = transit_feed.get_rows()
+            rows = self.transit_feed.get_rows()
 
             for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                 graphics.DrawText(

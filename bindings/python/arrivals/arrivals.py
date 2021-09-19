@@ -34,7 +34,7 @@ Row = collections.namedtuple('Row', ['text', 'color'])
 
 class BaseTransitService:
     def get_transit_lines():
-        return []
+        pass
 
 class GtfsService(BaseTransitService):
     def get_gtfs_eta(self, trip_update, stop_id, current_time):

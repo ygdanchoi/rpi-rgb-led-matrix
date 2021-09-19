@@ -300,7 +300,7 @@ class RowFactory:
 
 class TransitFeed(threading.Thread):
     def run(self):
-        self.transit_lines = []
+        self.transit_lines: list[TransitLine] = []
         self.row_factory = RowFactory()
         self.transit_service = CompositeTransitService()
 

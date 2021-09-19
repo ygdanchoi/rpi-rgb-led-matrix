@@ -228,7 +228,7 @@ class NycFerryService(GtfsService):
 
 class TransitFeed(threading.Thread):
     def run(self):
-        self.self.cached_transit_lines = []
+        self.cached_transit_lines = []
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()

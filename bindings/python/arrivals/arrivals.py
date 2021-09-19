@@ -227,9 +227,36 @@ class NycFerryService(GtfsService):
 
         return transit_lines.values()
 
+class RowFactory:
+    def create_rows(self, transit_lines):
+        rows = []
+
+        for transit_line in transit_lines:
+            text = f'{transit_line[0].route_id}'
+            text += ' ' * (5 - len(text))
+            text += transit_line[0].trip_headsign[:17]
+            text += ' ' * (24 - len(text))
+
+            etas = [str(eta.eta) for eta in sorted(transit_line)]
+            text += etas[0]
+            e = 1
+            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
+                text += ',' + etas[e]
+                e += 1
+            text += 'm'
+            rows.append(Row(
+                text=text,
+                color=transit_line[0].color
+            ))
+
+        return rows
+
+
 class TransitFeed(threading.Thread):
     def run(self):
         self.cached_transit_lines = []
+        self.row_factory = RowFactory()
+
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
@@ -277,29 +304,8 @@ class TransitFeed(threading.Thread):
         self.cached_transit_lines.clear()
         self.cached_transit_lines.extend(transit_lines)
 
-class RowFactory:
-    def create_rows(self, transit_lines):
-        rows = []
-
-        for transit_line in transit_lines:
-            text = f'{transit_line[0].route_id}'
-            text += ' ' * (5 - len(text))
-            text += transit_line[0].trip_headsign[:17]
-            text += ' ' * (24 - len(text))
-
-            etas = [str(eta.eta) for eta in sorted(transit_line)]
-            text += etas[0]
-            e = 1
-            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
-                text += ',' + etas[e]
-                e += 1
-            text += 'm'
-            rows.append(Row(
-                text=text,
-                color=transit_line[0].color
-            ))
-
-        return rows
+    def get_rows(self):
+        self.row_factory.create_rows(self.cached_transit_lines)
 
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -308,7 +314,6 @@ class RgbMatrixView(SampleBase):
     def run(self):
         transit_feed = TransitFeed()
         transit_feed.start()
-        row_factory = RowFactory()
 
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
@@ -323,7 +328,7 @@ class RgbMatrixView(SampleBase):
             is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
-            rows = row_factory.create_rows(transit_feed.cached_transit_lines)
+            rows = transit_feed.get_rows()
 
             for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                 graphics.DrawText(

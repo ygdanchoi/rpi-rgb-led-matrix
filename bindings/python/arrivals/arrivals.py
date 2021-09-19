@@ -314,17 +314,16 @@ class RowFactory:
 
 class TransitFeed(threading.Thread):
     def run(self):
-        self.rows: list[Row] = []
+        self.transit_lines: list[TransitLine] = []
         self.row_factory = RowFactory()
         self.transit_service = CompositeTransitService()
 
         while True:
-            transit_lines = self.transit_service.get_transit_lines()
-            self.rows = self.row_factory.create_rows(transit_lines)
+            self.transit_lines = self.transit_service.get_transit_lines()
             time.sleep(30)
     
     def get_rows(self):
-        return self.rows
+        return self.row_factory.create_rows(self.transit_lines)
 
 # Main function
 if __name__ == "__main__":
@@ -351,7 +350,7 @@ if __name__ == "__main__":
                     offscreen_canvas.Clear()
                     rows = transit_feed.get_rows()
 
-                    for i, row in enumerate(rows if len(rows) < 4 else rows + rows):
+                    for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                         graphics.DrawText(
                             offscreen_canvas,
                             font,

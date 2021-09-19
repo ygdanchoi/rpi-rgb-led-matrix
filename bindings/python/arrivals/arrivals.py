@@ -37,7 +37,7 @@ class BaseTransitService:
         self.trips = {}
         self.colors = {}
 
-    def get_transit_lines() -> list[TransitLine]:
+    def get_transit_lines():
         pass
 
 class GtfsService(BaseTransitService):
@@ -98,7 +98,7 @@ class GtfsService(BaseTransitService):
     def get_route_color(self, row):
         pass
 
-    def get_gtfs_eta(self, trip_update, stop_id, current_time) -> int:
+    def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None
@@ -293,7 +293,7 @@ class CompositeTransitService(BaseTransitService):
         return transit_lines
 
 class RowFactory:
-    def create_rows(self, transit_lines) -> list[Row]:
+    def create_rows(self, transit_lines):
         rows = []
         current_time = time.time()
 

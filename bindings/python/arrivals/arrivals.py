@@ -103,7 +103,7 @@ class MtaSubwayService(GtfsService):
                     arrivals[route_id] = []
 
                 if (trip_id not in self.trips):
-                    trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], trips.keys())))
+                    trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
                     i = bisect.bisect_left(trip_keys, trip_id)
                     trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 

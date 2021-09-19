@@ -33,11 +33,11 @@ Row = collections.namedtuple('Row', ['text', 'color'])
 #         return f'{self.name}-{self.direction}'
 
 class BaseTransitService:
-    def get_transit_lines():
+    def get_transit_lines() -> list[TransitLine]:
         pass
 
 class GtfsService(BaseTransitService):
-    def get_gtfs_eta(self, trip_update, stop_id, current_time):
+    def get_gtfs_eta(self, trip_update, stop_id, current_time) -> int:
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None
@@ -91,7 +91,7 @@ class MtaSubwayService(GtfsService):
                     self.colors[route_id] = [255, 255, 255]
     
     def get_transit_lines(self, url, stop_id, direction, current_time):
-        transit_lines = {}
+        transit_lines_by_key = {}
 
         response = requests.get(url, headers={
             'x-api-key': secrets.real_time_access_key
@@ -107,29 +107,29 @@ class MtaSubwayService(GtfsService):
 
             if eta > 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
-                if route_id not in transit_lines:
-                    transit_lines[route_id] = []
+                if route_id not in transit_lines_by_key:
+                    transit_lines_by_key[route_id] = []
 
                 if (trip_id not in self.trips):
                     trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
                     i = bisect.bisect_left(trip_keys, trip_id)
                     trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 
-                transit_lines[route_id].append(TransitLine(
+                transit_lines_by_key[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=self.trips[trip_id].trip_headsign,
                     eta=eta,
                     color=self.colors[route_id]
                 ))
-        return transit_lines.values()
+        return transit_lines_by_key.values()
 
 class MtaBusService(BaseTransitService):
     def __init__(self):
         self.trips = {}
     
     def get_transit_lines(self, stop_id, current_time):
-        transit_lines = {}
+        transit_lines_by_key = {}
 
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
             'key': secrets.bus_time_api_key,
@@ -149,9 +149,9 @@ class MtaBusService(BaseTransitService):
             eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
 
             if eta > 0:
-                if published_line_name not in transit_lines:
-                    transit_lines[published_line_name] = []   
-                transit_lines[published_line_name].append(TransitLine(
+                if published_line_name not in transit_lines_by_key:
+                    transit_lines_by_key[published_line_name] = []   
+                transit_lines_by_key[published_line_name].append(TransitLine(
                     route_id=published_line_name,
                     trip_id=published_line_name,
                     trip_headsign=destination_name,
@@ -159,7 +159,7 @@ class MtaBusService(BaseTransitService):
                     color=[0, 57, 166]
                 ))
         
-        return transit_lines.values()
+        return transit_lines_by_key.values()
 
 class NycFerryService(GtfsService):
     def __init__(self):
@@ -204,7 +204,7 @@ class NycFerryService(GtfsService):
                     self.colors[route_id] = [255, 255, 255]
 
     def get_transit_lines(self, stop_id, direction_id, current_time):
-        transit_lines = {}
+        transit_lines_by_key = {}
 
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
         feed = gtfs_realtime_pb2.FeedMessage()
@@ -218,9 +218,9 @@ class NycFerryService(GtfsService):
 
             if eta > 0 and self.trips[trip_id].direction_id == direction_id:
                 route_id = self.trips[trip_id].route_id
-                if route_id not in transit_lines:
-                    transit_lines[route_id] = []
-                transit_lines[route_id].append(TransitLine(
+                if route_id not in transit_lines_by_key:
+                    transit_lines_by_key[route_id] = []
+                transit_lines_by_key[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=self.trips[trip_id].trip_headsign,
@@ -228,7 +228,7 @@ class NycFerryService(GtfsService):
                     color=self.colors[route_id]
                 ))
 
-        return transit_lines.values()
+        return transit_lines_by_key.values()
 
 class CompositeTransitService(BaseTransitService):
     def __init__(self):
@@ -275,7 +275,7 @@ class CompositeTransitService(BaseTransitService):
         return transit_lines
 
 class RowFactory:
-    def create_rows(self, transit_lines):
+    def create_rows(self, transit_lines) -> list[Row]:
         rows = []
 
         for transit_line in transit_lines:
@@ -305,12 +305,9 @@ class TransitFeed(threading.Thread):
         self.transit_service = CompositeTransitService()
 
         while True:
-            self.fetch_arrivals()
+            self.transit_lines = self.transit_service.get_transit_lines()
             time.sleep(30)
     
-    def fetch_arrivals(self):
-        self.transit_lines = self.transit_service.get_transit_lines()
-
     def get_rows(self):
         return self.row_factory.create_rows(self.transit_lines)
 

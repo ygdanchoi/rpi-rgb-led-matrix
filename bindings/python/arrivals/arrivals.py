@@ -16,6 +16,7 @@ import traceback
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
+Row = collections.namedtuple('Row', ['text', 'color'])
 
 # class TransitLineNew:
 #     def __init__(self, name, direction, description, etas, color):
@@ -276,6 +277,30 @@ class TransitFeed(threading.Thread):
         self.cached_transit_lines.clear()
         self.cached_transit_lines.extend(transit_lines)
 
+class RowFactory:
+    def create_rows(transit_lines):
+        rows = []
+
+        for transit_line in transit_lines:
+            text = f'{transit_line[0].route_id}'
+            text += ' ' * (5 - len(text))
+            text += transit_line[0].trip_headsign[:17]
+            text += ' ' * (24 - len(text))
+
+            etas = [str(eta.eta) for eta in sorted(transit_line)]
+            text += etas[0]
+            e = 1
+            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
+                text += ',' + etas[e]
+                e += 1
+            text += 'm'
+            rows.append(Row(
+                text=text,
+                color=transit_line[0].color
+            ))
+
+        return rows
+
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(RgbMatrixView, self).__init__(*args, **kwargs)
@@ -283,6 +308,7 @@ class RgbMatrixView(SampleBase):
     def run(self):
         transit_feed = TransitFeed()
         transit_feed.start()
+        row_factory = RowFactory()
 
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
@@ -297,29 +323,16 @@ class RgbMatrixView(SampleBase):
             is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
-            cached_transit_lines = transit_feed.cached_transit_lines
+            rows = row_factory(transit_feed.cached_transit_lines)
 
-            for i, row in enumerate(cached_transit_lines if len(cached_transit_lines) < 4 else cached_transit_lines + cached_transit_lines):
-                line = f'{row[0].route_id}'
-                line += ' ' * (5 - len(line))
-                line += row[0].trip_headsign[:17]
-                line += ' ' * (24 - len(line))
-
-                etas = [str(eta.eta) for eta in sorted(row)]
-                line += etas[0]
-                e = 1
-                while (e < len(etas) and len(line) + 1 + len(etas[e]) + 1 <= 32):
-                    line += ',' + etas[e]
-                    e += 1
-                line += 'm'
-                
+            for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
                     1,
                     7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
-                    graphics.Color(*row[0].color) if is_light_mode else dark_mode,
-                    line
+                    graphics.Color(*row.color) if is_light_mode else dark_mode,
+                    row.text
                 )
 
                 for y in range(offscreen_canvas.height - 7, offscreen_canvas.height):
@@ -336,7 +349,7 @@ class RgbMatrixView(SampleBase):
                 )
             
             vertical_offset += 1
-            if len(cached_transit_lines) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(cached_transit_lines):
+            if len(rows) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(rows):
                 vertical_offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

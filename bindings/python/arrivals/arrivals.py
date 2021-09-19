@@ -16,7 +16,6 @@ import traceback
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
-cached_transit_lines = []
 
 # class TransitLineNew:
 #     def __init__(self, name, direction, description, etas, color):
@@ -33,7 +32,7 @@ class TransitService:
     def get_transit_lines():
         return []
 
-class GtfsService:
+class GtfsService(TransitService):
     def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
@@ -227,8 +226,9 @@ class NycFerryService(GtfsService):
 
         return transit_lines.values()
 
-class FetchArrivals(threading.Thread):
+class TransitFeed(threading.Thread):
     def run(self):
+        self.self.cached_transit_lines = []
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
@@ -273,14 +273,17 @@ class FetchArrivals(threading.Thread):
             )])
             traceback.print_exc()
 
-        cached_transit_lines.clear()
-        cached_transit_lines.extend(transit_lines)
+        self.cached_transit_lines.clear()
+        self.cached_transit_lines.extend(transit_lines)
 
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(RgbMatrixView, self).__init__(*args, **kwargs)
 
     def run(self):
+        transit_feed = TransitFeed()
+        transit_feed.start()
+
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
@@ -294,6 +297,7 @@ class RgbMatrixView(SampleBase):
             is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
+            cached_transit_lines = transit_feed.cached_transit_lines
 
             for i, row in enumerate(cached_transit_lines if len(cached_transit_lines) < 4 else cached_transit_lines + cached_transit_lines):
                 line = f'{row[0].route_id}'
@@ -341,5 +345,4 @@ class RgbMatrixView(SampleBase):
 
 # Main function
 if __name__ == "__main__":
-    FetchArrivals().start()
     RgbMatrixView().process()

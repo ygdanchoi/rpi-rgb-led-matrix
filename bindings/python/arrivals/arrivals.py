@@ -8,6 +8,7 @@ import collections
 import csv
 import gtfs_realtime_pb2
 import json
+import os
 import requests
 import secrets
 import threading
@@ -367,4 +368,10 @@ class RgbMatrixView(SampleBase):
 
 # Main function
 if __name__ == "__main__":
-    RgbMatrixView().process()
+    if os.name == 'nt':
+        transit_service = CompositeTransitService()
+        transit_lines = transit_service.get_transit_lines()
+        for transit_line in transit_lines:
+            print(transit_line.text)
+    else:
+        RgbMatrixView().process()

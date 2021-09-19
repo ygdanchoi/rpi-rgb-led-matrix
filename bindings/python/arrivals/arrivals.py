@@ -22,27 +22,21 @@ TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'tri
 Row = collections.namedtuple('Row', ['text', 'color'])
 
 # class TransitLineNew:
-#     def __init__(self, name, direction, description, etas, color):
+#     def __init__(self, key, name, direction, description, etas, color):
 #         self.name = name
 #         self.direction = direction
 #         self.description = description
 #         self.etas = etas
 #         self.color = color
 
-#     def key(self):
-#         return f'{self.name}-{self.direction}'
-
 class BaseTransitService:
-    def __init__(self):
-        self.trips = {}
-        self.colors = {}
-
     def get_transit_lines():
         pass
 
 class GtfsService(BaseTransitService):
     def __init__(self):
-        super().__init__()
+        self.trips = {}
+        self.colors = {}
 
         with open(self.get_trips_path()) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')

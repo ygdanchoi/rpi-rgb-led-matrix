@@ -17,6 +17,17 @@ import traceback
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
 
+class TransitLineNew():
+    def __init__(self, name, direction, description, etas, color):
+        self.name = name
+        self.direction = direction
+        self.description = description
+        self.etas = etas
+        self.color = color
+
+    def key(self):
+        return f'{self.name}-{self.direction}'
+
 cached_rows = []
 trips = {}
 colors = {}

@@ -323,7 +323,7 @@ class RgbMatrixView(SampleBase):
             is_light_mode = 6 <= hh and hh < 22
 
             offscreen_canvas.Clear()
-            rows = row_factory(transit_feed.cached_transit_lines)
+            rows = row_factory.create_rows(transit_feed.cached_transit_lines)
 
             for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                 graphics.DrawText(

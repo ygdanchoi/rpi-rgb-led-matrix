@@ -15,7 +15,7 @@ import time
 import traceback
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
-Row = collections.namedtuple('Row', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
+TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
 
 cached_rows = []
 trips = {}
@@ -132,7 +132,7 @@ class FetchArrivals(threading.Thread):
                 current_time
             )
         except Exception as error:
-            arrivals['ERR!'] = [Row(
+            arrivals['ERR!'] = [TransitLine(
                 route_id='ERR!',
                 trip_id='ERR!',
                 trip_headsign=str(error),
@@ -165,7 +165,7 @@ class FetchArrivals(threading.Thread):
             if eta > 0:
                 if published_line_name not in arrivals:
                     arrivals[published_line_name] = []   
-                arrivals[published_line_name].append(Row(
+                arrivals[published_line_name].append(TransitLine(
                     route_id=published_line_name,
                     trip_id=published_line_name,
                     trip_headsign=destination_name,
@@ -196,7 +196,7 @@ class FetchArrivals(threading.Thread):
                     i = bisect.bisect_left(trip_keys, trip_id)
                     trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 
-                arrivals[route_id].append(Row(
+                arrivals[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=trips[trip_id].trip_headsign,
@@ -219,7 +219,7 @@ class FetchArrivals(threading.Thread):
                 route_id = trips[trip_id].route_id
                 if route_id not in arrivals:
                     arrivals[route_id] = []
-                arrivals[route_id].append(Row(
+                arrivals[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=trips[trip_id].trip_headsign,
@@ -238,9 +238,9 @@ class FetchArrivals(threading.Thread):
         else:
             return int(round((arrival_time - current_time) / 60, 0))
 
-class DrawArrivals(SampleBase):
+class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):
-        super(DrawArrivals, self).__init__(*args, **kwargs)
+        super(RgbMatrixView, self).__init__(*args, **kwargs)
 
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
@@ -304,4 +304,4 @@ class DrawArrivals(SampleBase):
 # Main function
 if __name__ == "__main__":
     FetchArrivals().start()
-    DrawArrivals().process()
+    RgbMatrixView().process()

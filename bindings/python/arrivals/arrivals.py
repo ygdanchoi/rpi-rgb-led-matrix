@@ -14,7 +14,7 @@ import threading
 import time
 import traceback
 
-if os.name != 'nt':
+if os.name == 'posix':
     from samplebase import SampleBase
     from rgbmatrix import graphics
 
@@ -328,7 +328,7 @@ class TransitFeed(threading.Thread):
 # Main function
 if __name__ == "__main__":
     print(os.name)
-    if os.name != 'nt':
+    if os.name == 'posix':
         class RgbMatrixView(SampleBase):
             def __init__(self, *args, **kwargs):
                 super(RgbMatrixView, self).__init__(*args, **kwargs)

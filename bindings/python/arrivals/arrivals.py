@@ -327,6 +327,7 @@ class TransitFeed(threading.Thread):
 
 # Main function
 if __name__ == "__main__":
+    print(os.name)
     if os.name != 'nt':
         class RgbMatrixView(SampleBase):
             def __init__(self, *args, **kwargs):

@@ -297,7 +297,6 @@ class RowFactory:
         rows = []
         current_time = time.time()
 
-        print(transit_lines)
         for transit_line in transit_lines:
             text = f'{transit_line.route_id}'
             text += ' ' * (5 - len(text))

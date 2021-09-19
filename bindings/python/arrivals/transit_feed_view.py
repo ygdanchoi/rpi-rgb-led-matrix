@@ -6,12 +6,9 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-from row_factory import RowFactory
-from transit_service import CompositeTransitService as TransitService, TransitLine
-
-class TransitFeed():
+class TransitFeedViewModel():
     def __init__(self, transit_service, row_factory):
-        self.transit_lines: list[TransitLine] = []
+        self.transit_lines = []
         self.transit_service = transit_service
         self.row_factory = row_factory
 
@@ -20,6 +17,7 @@ class TransitFeed():
     def run(self):
         while True:
             self.transit_lines = self.transit_service.get_transit_lines()
+            print('updated')
             time.sleep(30)
     
     def get_rows(self):
@@ -28,7 +26,9 @@ class TransitFeed():
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(TransitFeedView, self).__init__(*args, **kwargs)
-        self.transit_feed = TransitFeed(TransitService(), RowFactory())
+        transit_service = kwargs['transit_service']
+        row_factory = kwargs['row_factory']
+        self.transit_feed = TransitFeedViewModel(transit_service, row_factory)
 
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()

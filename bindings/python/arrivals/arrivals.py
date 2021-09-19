@@ -29,6 +29,10 @@ cached_rows = []
 #     def key(self):
 #         return f'{self.name}-{self.direction}'
 
+class TransitService:
+    def get_arrivals():
+        return {}
+
 class GtfsService:
     def get_gtfs_eta(self, trip_update, stop_id, current_time):
         arrival_time = next(
@@ -40,7 +44,6 @@ class GtfsService:
             return -1
         else:
             return int(round((arrival_time - current_time) / 60, 0))
-
 
 class MtaSubwayService(GtfsService):
     def __init__(self):
@@ -84,7 +87,9 @@ class MtaSubwayService(GtfsService):
                 else:
                     self.colors[route_id] = [255, 255, 255]
     
-    def put_gtfs_arrivals(self, url, stop_id, direction, arrivals, current_time):
+    def get_arrivals(self, url, stop_id, direction, current_time):
+        arrivals = {}
+
         response = requests.get(url, headers={
             'x-api-key': secrets.real_time_access_key
         })
@@ -114,12 +119,15 @@ class MtaSubwayService(GtfsService):
                     eta=eta,
                     color=self.colors[route_id]
                 ))
+        return arrivals
 
 class MtaBusService:
     def __init__(self):
         self.trips = {}
     
-    def put_siri_arrivals(self, stop_id, arrivals, current_time):
+    def get_arrivals(self, stop_id, current_time):
+        arrivals = {}
+
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
             'key': secrets.bus_time_api_key,
             'OperatorRef': 'MTA',
@@ -147,6 +155,8 @@ class MtaBusService:
                     eta=eta,
                     color=[0, 57, 166]
                 ))
+        
+        return arrivals
 
 class NycFerryService(GtfsService):
     def __init__(self):
@@ -190,7 +200,9 @@ class NycFerryService(GtfsService):
                 else:
                     self.colors[route_id] = [255, 255, 255]
 
-    def put_gtfs_arrivals_ferry(self, stop_id, direction_id, arrivals, current_time):
+    def get_arrivals(self, stop_id, direction_id, current_time):
+        arrivals = {}
+
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
         feed = gtfs_realtime_pb2.FeedMessage()
         feed.ParseFromString(response.content)
@@ -213,12 +225,9 @@ class NycFerryService(GtfsService):
                     color=self.colors[route_id]
                 ))
 
-class FetchArrivals(threading.Thread):
-    # def __init__(self):
-    #     self.mta_subway_service = MtaSubwayService()
-    #     self.mta_bus_service = MtaBusService()
-    #     self.nyc_ferry_service = NycFerryService()
+        return arrivals
 
+class FetchArrivals(threading.Thread):
     def run(self):
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
@@ -229,35 +238,31 @@ class FetchArrivals(threading.Thread):
             time.sleep(30)
     
     def fetch_arrivals(self):
-        arrivals = collections.OrderedDict()
+        arrivals = {}
         current_time = time.time()
 
         try:
-            self.mta_subway_service.put_gtfs_arrivals(
+            arrivals.update(self.mta_subway_service.get_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 '..S',
-                arrivals,
                 current_time
-            )
-            self.mta_subway_service.put_gtfs_arrivals(
+            ))
+            arrivals.update(self.mta_subway_service.get_arrivals(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
                 'Q05S', # 96 St,
                 '..S',
-                arrivals,
                 current_time
-            )
-            self.mta_bus_service.put_siri_arrivals(
+            ))
+            arrivals.update(self.mta_bus_service.get_arrivals(
                 '404947',
-                arrivals,
                 current_time
-            )
-            self.nyc_ferry_service.put_gtfs_arrivals_ferry(
+            ))
+            arrivals.update(self.nyc_ferry_service.get_arrivals(
                 '113', # 86 St
                 '0', # southbound
-                arrivals,
                 current_time
-            )
+            ))
         except Exception as error:
             arrivals['ERR!'] = [TransitLine(
                 route_id='ERR!',

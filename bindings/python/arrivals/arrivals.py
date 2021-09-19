@@ -19,7 +19,7 @@ if os.name != 'nt':
     from rgbmatrix import graphics
 
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
-TransitLine = collections.namedtuple('TransitLine', ['name', 'direction', 'description', 'etas', 'color'])
+TransitLine = collections.namedtuple('TransitLine', ['key', 'name', 'direction', 'description', 'etas', 'color'])
 Row = collections.namedtuple('Row', ['text', 'color'])
 
 class BaseTransitService:
@@ -142,6 +142,7 @@ class MtaSubwayService(GtfsService):
                 key = f'{direction}-{route_id}'
                 if key not in transit_lines_by_key:
                     transit_lines_by_key[key] = TransitLine(
+                        key=key,
                         name=route_id,
                         direction=trip.direction_id,
                         description=trip.trip_headsign,
@@ -150,7 +151,7 @@ class MtaSubwayService(GtfsService):
                     )
                 transit_lines_by_key[key].etas.append(eta)
                 
-        return transit_lines_by_key.values()
+        return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
 
 class MtaBusService(BaseTransitService):
     def get_transit_lines(self, stop_id, direction):
@@ -178,6 +179,7 @@ class MtaBusService(BaseTransitService):
                 key = f'{direction}-{published_line_name}'
                 if key not in transit_lines_by_key:
                     transit_lines_by_key[key] = TransitLine(
+                        key=key,
                         name=published_line_name,
                         direction=direction_ref,
                         description=destination_name,
@@ -186,7 +188,7 @@ class MtaBusService(BaseTransitService):
                     )   
                 transit_lines_by_key[key].etas.append(eta)
         
-        return transit_lines_by_key.values()
+        return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
 
 class NycFerryService(GtfsService):
     def get_routes_path(self):
@@ -231,6 +233,7 @@ class NycFerryService(GtfsService):
                 key = f'{direction}-{trip.route_id}'
                 if key not in transit_lines_by_key:
                     transit_lines_by_key[key] = TransitLine(
+                        key=key,
                         name=trip.route_id,
                         direction=trip.direction_id,
                         description=trip.trip_headsign,
@@ -239,7 +242,7 @@ class NycFerryService(GtfsService):
                     )
                 transit_lines_by_key[key].etas.append(eta)
 
-        return transit_lines_by_key.values()
+        return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
 
 class CompositeTransitService(BaseTransitService):
     def __init__(self):

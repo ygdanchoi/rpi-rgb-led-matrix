@@ -270,13 +270,13 @@ class CompositeTransitService(BaseTransitService):
                 '0' # southbound
             ))
         except Exception as error:
-            transit_lines.append([TransitLine(
+            transit_lines.append(TransitLine(
                 name='ERR!',
                 direction='0',
                 description=str(error),
                 etas=[2147483647],
                 color=[255, 0, 0]
-            )])
+            ))
             traceback.print_exc()
 
         return transit_lines

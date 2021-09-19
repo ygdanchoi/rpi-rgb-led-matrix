@@ -18,7 +18,7 @@ if os.name != 'nt':
     from rgbmatrix import graphics
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
-TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
+TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'etas', 'color'])
 Row = collections.namedtuple('Row', ['text', 'color'])
 
 # class TransitLineNew:
@@ -46,11 +46,9 @@ class GtfsService(BaseTransitService):
 
         with open(self.get_trips_path()) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
+            next(csv_reader) # skip header
+
             for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
                 route_id = self.get_route_id(row)
                 trip_id = self.get_trip_id(row)
                 trip_headsign = self.get_trip_headsign(row)
@@ -64,11 +62,9 @@ class GtfsService(BaseTransitService):
 
         with open(self.get_routes_path()) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
+            next(csv_reader) # skip header
+
             for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
                 route_id = self.get_route_id(row)
                 route_color = self.get_route_color(row)
 
@@ -111,7 +107,7 @@ class GtfsService(BaseTransitService):
         if arrival_time is None:
             return -1
         else:
-            return int(round((arrival_time - current_time) / 60, 0))
+            return arrival_time
 
 class MtaSubwayService(GtfsService):
     def get_routes_path(self):
@@ -150,23 +146,23 @@ class MtaSubwayService(GtfsService):
             eta = self.get_gtfs_eta(trip_update, stop_id, current_time)
             trip_id = trip_update.trip.trip_id
 
-            if eta > 0 and direction in trip_id:
-                route_id = trip_update.trip.route_id
-                if route_id not in transit_lines_by_key:
-                    transit_lines_by_key[route_id] = []
-
+            if eta > current_time and direction in trip_id:
                 if (trip_id not in self.trips):
                     trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
                     i = bisect.bisect_left(trip_keys, trip_id)
                     trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 
-                transit_lines_by_key[route_id].append(TransitLine(
-                    route_id=route_id,
-                    trip_id=trip_id,
-                    trip_headsign=self.trips[trip_id].trip_headsign,
-                    eta=eta,
-                    color=self.colors[route_id]
-                ))
+                route_id = trip_update.trip.route_id
+                if route_id not in transit_lines_by_key:
+                    transit_lines_by_key[route_id] = TransitLine(
+                        route_id=route_id,
+                        trip_id=trip_id,
+                        trip_headsign=self.trips[trip_id].trip_headsign,
+                        etas=[],
+                        color=self.colors[route_id]
+                    )
+
+                transit_lines_by_key[route_id].etas.append(eta)
         return transit_lines_by_key.values()
 
 class MtaBusService(BaseTransitService):
@@ -188,18 +184,18 @@ class MtaBusService(BaseTransitService):
             expected_arrival_time = datetime.fromisoformat(
                 monitored_call['ExpectedArrivalTime'] if 'ExpectedArrivalTime' in monitored_call else monitored_call['AimedArrivalTime']
             )
-            eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
+            eta = expected_arrival_time.timestamp()
 
-            if eta > 0:
+            if eta > current_time:
                 if published_line_name not in transit_lines_by_key:
-                    transit_lines_by_key[published_line_name] = []   
-                transit_lines_by_key[published_line_name].append(TransitLine(
-                    route_id=published_line_name,
-                    trip_id=published_line_name,
-                    trip_headsign=destination_name,
-                    eta=eta,
-                    color=[0, 57, 166]
-                ))
+                    transit_lines_by_key[published_line_name] = TransitLine(
+                        route_id=published_line_name,
+                        trip_id=published_line_name,
+                        trip_headsign=destination_name,
+                        etas=[],
+                        color=[0, 57, 166]
+                    )   
+                transit_lines_by_key[published_line_name].etas.append(eta)
         
         return transit_lines_by_key.values()
 
@@ -241,14 +237,14 @@ class NycFerryService(GtfsService):
             if eta > 0 and self.trips[trip_id].direction_id == direction_id:
                 route_id = self.trips[trip_id].route_id
                 if route_id not in transit_lines_by_key:
-                    transit_lines_by_key[route_id] = []
-                transit_lines_by_key[route_id].append(TransitLine(
+                    transit_lines_by_key[route_id] = TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=self.trips[trip_id].trip_headsign,
-                    eta=eta,
+                    etas=[],
                     color=self.colors[route_id]
-                ))
+                )
+                transit_lines_by_key[route_id].etas.append(eta)
 
         return transit_lines_by_key.values()
 
@@ -289,7 +285,7 @@ class CompositeTransitService(BaseTransitService):
                 route_id='ERR!',
                 trip_id='ERR!',
                 trip_headsign=str(error),
-                eta=0,
+                etas=[current_time],
                 color=[255, 0, 0]
             )])
             traceback.print_exc()
@@ -299,14 +295,16 @@ class CompositeTransitService(BaseTransitService):
 class RowFactory:
     def create_rows(self, transit_lines) -> list[Row]:
         rows = []
+        current_time = time.time()
 
+        print(transit_lines)
         for transit_line in transit_lines:
-            text = f'{transit_line[0].route_id}'
+            text = f'{transit_line.route_id}'
             text += ' ' * (5 - len(text))
-            text += transit_line[0].trip_headsign[:17]
+            text += transit_line.trip_headsign[:17]
             text += ' ' * (24 - len(text))
 
-            etas = [str(eta.eta) for eta in sorted(transit_line)]
+            etas = [str(int(round((eta - current_time) / 60, 0))) for eta in sorted(transit_line.etas)]
             text += etas[0]
             e = 1
             while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
@@ -315,7 +313,7 @@ class RowFactory:
             text += 'm'
             rows.append(Row(
                 text=text,
-                color=transit_line[0].color
+                color=transit_line.color
             ))
 
         return rows

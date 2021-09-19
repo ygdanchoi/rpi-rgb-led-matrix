@@ -17,7 +17,6 @@ class TransitFeedViewModel():
     def run(self):
         while True:
             self.transit_lines = self.transit_service.get_transit_lines()
-            print('updated')
             time.sleep(30)
     
     def get_rows(self):
@@ -26,52 +25,57 @@ class TransitFeedViewModel():
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(TransitFeedView, self).__init__(*args, **kwargs)
+
         transit_service = kwargs['transit_service']
         row_factory = kwargs['row_factory']
         self.transit_feed = TransitFeedViewModel(transit_service, row_factory)
 
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+        self.font = graphics.Font()
+        self.font.LoadFont("../../../fonts/tom-thumb.bdf")
+
+        self.vertical_offset = 0
+        self.textbox_height = 7
+        self.dark_mode = graphics.Color(47, 0, 0)
+
+
     def run(self):
-        offscreen_canvas = self.matrix.CreateFrameCanvas()
-        font = graphics.Font()
-        font.LoadFont("../../../fonts/tom-thumb.bdf")
-        vertical_offset = 0
-        textbox_height = 7
-        dark_mode = graphics.Color(47, 0, 0)
-        
         while True:
-            hh = datetime.now().hour
-            is_light_mode = 6 <= hh and hh < 22
-
-            offscreen_canvas.Clear()
             rows = self.transit_feed.get_rows()
-
-            for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
-                graphics.DrawText(
-                    offscreen_canvas,
-                    font,
-                    1,
-                    7 + i * textbox_height - vertical_offset,
-                    graphics.Color(*row.color) if is_light_mode else dark_mode,
-                    row.text
-                )
-
-                for y in range(offscreen_canvas.height - 7, offscreen_canvas.height):
-                    for x in range(0, offscreen_canvas.width):
-                        offscreen_canvas.SetPixel(x, y, 0, 0, 0)
-                
-                graphics.DrawText(
-                    offscreen_canvas,
-                    font,
-                    1,
-                    offscreen_canvas.height - 1,
-                    graphics.Color(255, 255, 255) if is_light_mode else dark_mode,
-                    datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
-                )
-            
-            vertical_offset += 1
-            if len(rows) < 4 or vertical_offset >= textbox_height * len(rows):
-                vertical_offset = 0
-            
-            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-
+            self.render(rows)
             time.sleep(0.1)
+    
+    def render(self, rows):
+        hh = datetime.now().hour
+        is_light_mode = 6 <= hh and hh < 22
+
+        self.offscreen_canvas.Clear()
+
+        for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
+            graphics.DrawText(
+                self.offscreen_canvas,
+                self.font,
+                1,
+                7 + i * self.textbox_height - self.vertical_offset,
+                graphics.Color(*row.color) if is_light_mode else self.dark_mode,
+                row.text
+            )
+
+            for y in range(self.offscreen_canvas.height - 7, self.offscreen_canvas.height):
+                for x in range(0, self.offscreen_canvas.width):
+                    self.offscreen_canvas.SetPixel(x, y, 0, 0, 0)
+            
+            graphics.DrawText(
+                self.offscreen_canvas,
+                self.font,
+                1,
+                self.offscreen_canvas.height - 1,
+                graphics.Color(255, 255, 255) if is_light_mode else self.dark_mode,
+                datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
+            )
+        
+        self.vertical_offset += 1
+        if len(rows) < 4 or self.vertical_offset >= self.textbox_height * len(rows):
+            vertical_offset = 0
+        
+        offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

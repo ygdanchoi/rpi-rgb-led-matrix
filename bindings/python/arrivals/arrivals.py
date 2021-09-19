@@ -383,8 +383,6 @@ if __name__ == "__main__":
 
         RgbMatrixView().process()
     else:
-        transit_service = CompositeTransitService()
-        row_factory = RowFactory()
-        transit_lines = transit_service.get_transit_lines()
-        for row in row_factory.create_rows(transit_lines):
+        transit_lines = CompositeTransitService().get_transit_lines()
+        for row in RowFactory().create_rows(transit_lines):
             print(row.text)

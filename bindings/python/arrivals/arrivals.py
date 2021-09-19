@@ -33,10 +33,75 @@ Row = collections.namedtuple('Row', ['text', 'color'])
 #         return f'{self.name}-{self.direction}'
 
 class BaseTransitService:
+    def __init__(self):
+        self.trips = {}
+        self.colors = {}
+
     def get_transit_lines() -> list[TransitLine]:
         pass
 
 class GtfsService(BaseTransitService):
+    def __init__(self):
+        super().__init__()
+
+        with open(self.get_trips_path()) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            should_skip_header_row = True
+            for row in csv_reader:
+                if should_skip_header_row:
+                    should_skip_header_row = False
+                    continue
+                route_id = self.get_route_id(row)
+                trip_id = self.get_trip_id(row)
+                trip_headsign = self.get_trip_headsign(row)
+                direction_id = self.get_direction_id(row)
+
+                self.trips[trip_id] = Trip(
+                    trip_headsign=trip_headsign,
+                    route_id=route_id,
+                    direction_id=direction_id
+                )
+
+        with open(self.get_routes_path()) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            should_skip_header_row = True
+            for row in csv_reader:
+                if should_skip_header_row:
+                    should_skip_header_row = False
+                    continue
+                route_id = self.get_route_id(row)
+                route_color = self.get_route_color(row)
+
+                if len(route_color) == 6:
+                    self.colors[route_id] = [
+                        int(route_color[0:2], 16),
+                        int(route_color[2:4], 16),
+                        int(route_color[4:6], 16)
+                    ]
+                else:
+                    self.colors[route_id] = [255, 255, 255]
+    
+    def get_routes_path(self):
+        pass
+
+    def get_trips_path(self):
+        pass
+
+    def get_route_id(self, row):
+        pass
+
+    def get_trip_id(self, row):
+        pass
+
+    def get_trip_headsign(self, row):
+        pass
+
+    def get_direction_id(self, row):
+        pass
+
+    def get_route_color(self, row):
+        pass
+
     def get_gtfs_eta(self, trip_update, stop_id, current_time) -> int:
         arrival_time = next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
@@ -49,46 +114,26 @@ class GtfsService(BaseTransitService):
             return int(round((arrival_time - current_time) / 60, 0))
 
 class MtaSubwayService(GtfsService):
-    def __init__(self):
-        self.trips = {}
-        self.colors = {}
+    def get_routes_path(self):
+        return './gtfs/mta-subway/google_transit/routes.txt'
 
-        with open('./gtfs/mta-subway/google_transit/trips.txt') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
-            for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
-                route_id = row[0]
-                trip_id = '_'.join(row[2].split('_')[1:])[:-3]
-                trip_headsign = row[3]
-                direction_id = row[4]
+    def get_trips_path(self):
+        return './gtfs/mta-subway/google_transit/trips.txt'
+    
+    def get_route_id(self, row):
+        return row[0]
 
-                self.trips[trip_id] = Trip(
-                    trip_headsign=trip_headsign,
-                    route_id=route_id,
-                    direction_id=direction_id
-                )
+    def get_trip_id(self, row):
+        return '_'.join(row[2].split('_')[1:])[:-3]
+    
+    def get_trip_headsign(self, row):
+        return row[3]
 
-        with open('./gtfs/mta-subway/google_transit/routes.txt') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
-            for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
-                route_id = row[0]
-                route_color = row[7]
-
-                if len(route_color) == 6:
-                    self.colors[route_id] = [
-                        int(route_color[0:2], 16),
-                        int(route_color[2:4], 16),
-                        int(route_color[4:6], 16)
-                    ]
-                else:
-                    self.colors[route_id] = [255, 255, 255]
+    def get_direction_id(self, row):
+        return row[4]
+    
+    def get_route_color(self, row):
+        return row[7]
     
     def get_transit_lines(self, url, stop_id, direction, current_time):
         transit_lines_by_key = {}
@@ -125,9 +170,6 @@ class MtaSubwayService(GtfsService):
         return transit_lines_by_key.values()
 
 class MtaBusService(BaseTransitService):
-    def __init__(self):
-        self.trips = {}
-    
     def get_transit_lines(self, stop_id, current_time):
         transit_lines_by_key = {}
 
@@ -162,46 +204,26 @@ class MtaBusService(BaseTransitService):
         return transit_lines_by_key.values()
 
 class NycFerryService(GtfsService):
-    def __init__(self):
-        self.trips = {}
-        self.colors = {}
+    def get_routes_path(self):
+        return './gtfs/nyc-ferry/google_transit/routes.txt'
 
-        with open('./gtfs/nyc-ferry/google_transit/trips.txt') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
-            for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
-                route_id = row[0]
-                trip_id = row[2]
-                trip_headsign = row[3]
-                direction_id = row[5]
+    def get_trips_path(self):
+        return './gtfs/nyc-ferry/google_transit/trips.txt'
+    
+    def get_route_id(self, row):
+        return row[0]
 
-                self.trips[trip_id] = Trip(
-                    trip_headsign=trip_headsign,
-                    route_id=route_id,
-                    direction_id=direction_id
-                )
+    def get_trip_id(self, row):
+        return row[2]
+    
+    def get_trip_headsign(self, row):
+        return row[3]
 
-        with open('./gtfs/nyc-ferry/google_transit/routes.txt') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            should_skip_header_row = True
-            for row in csv_reader:
-                if should_skip_header_row:
-                    should_skip_header_row = False
-                    continue
-                route_id = row[0]
-                route_color = row[5]
-
-                if len(route_color) == 6:
-                    self.colors[route_id] = [
-                        int(route_color[0:2], 16),
-                        int(route_color[2:4], 16),
-                        int(route_color[4:6], 16)
-                    ]
-                else:
-                    self.colors[route_id] = [255, 255, 255]
+    def get_direction_id(self, row):
+        return row[4]
+    
+    def get_route_color(self, row):
+        return row[5]
 
     def get_transit_lines(self, stop_id, direction_id, current_time):
         transit_lines_by_key = {}
@@ -373,5 +395,7 @@ if __name__ == "__main__":
         transit_service = CompositeTransitService()
         row_factory = RowFactory()
         transit_lines = transit_service.get_transit_lines()
+        # for transit_line in transit_lines:
+        #     print(transit_line)
         for row in row_factory.create_rows(transit_lines):
             print(row.text)

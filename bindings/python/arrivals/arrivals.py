@@ -16,7 +16,7 @@ import traceback
 
 Trip = collections.namedtuple('Trip', ['trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['route_id', 'trip_id', 'trip_headsign', 'eta', 'color'])
-cached_lines = []
+cached_transit_lines = []
 
 # class TransitLineNew:
 #     def __init__(self, name, direction, description, etas, color):
@@ -30,7 +30,7 @@ cached_lines = []
 #         return f'{self.name}-{self.direction}'
 
 class TransitService:
-    def get_lines():
+    def get_transit_lines():
         return []
 
 class GtfsService:
@@ -87,8 +87,8 @@ class MtaSubwayService(GtfsService):
                 else:
                     self.colors[route_id] = [255, 255, 255]
     
-    def get_lines(self, url, stop_id, direction, current_time):
-        lines = {}
+    def get_transit_lines(self, url, stop_id, direction, current_time):
+        transit_lines = {}
 
         response = requests.get(url, headers={
             'x-api-key': secrets.real_time_access_key
@@ -104,29 +104,29 @@ class MtaSubwayService(GtfsService):
 
             if eta > 0 and direction in trip_id:
                 route_id = trip_update.trip.route_id
-                if route_id not in lines:
-                    lines[route_id] = []
+                if route_id not in transit_lines:
+                    transit_lines[route_id] = []
 
                 if (trip_id not in self.trips):
                     trip_keys = list(sorted(filter(lambda key: '_' in key and key.split('_')[1] in trip_id.split('_')[1], self.trips.keys())))
                     i = bisect.bisect_left(trip_keys, trip_id)
                     trip_id = trip_keys[min(i, len(trip_keys) - 1)]
 
-                lines[route_id].append(TransitLine(
+                transit_lines[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=self.trips[trip_id].trip_headsign,
                     eta=eta,
                     color=self.colors[route_id]
                 ))
-        return lines.values()
+        return transit_lines.values()
 
 class MtaBusService:
     def __init__(self):
         self.trips = {}
     
-    def get_lines(self, stop_id, current_time):
-        lines = {}
+    def get_transit_lines(self, stop_id, current_time):
+        transit_lines = {}
 
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
             'key': secrets.bus_time_api_key,
@@ -146,9 +146,9 @@ class MtaBusService:
             eta = int(round((expected_arrival_time.timestamp() - current_time) / 60, 0))
 
             if eta > 0:
-                if published_line_name not in lines:
-                    lines[published_line_name] = []   
-                lines[published_line_name].append(TransitLine(
+                if published_line_name not in transit_lines:
+                    transit_lines[published_line_name] = []   
+                transit_lines[published_line_name].append(TransitLine(
                     route_id=published_line_name,
                     trip_id=published_line_name,
                     trip_headsign=destination_name,
@@ -156,7 +156,7 @@ class MtaBusService:
                     color=[0, 57, 166]
                 ))
         
-        return lines.values()
+        return transit_lines.values()
 
 class NycFerryService(GtfsService):
     def __init__(self):
@@ -200,8 +200,8 @@ class NycFerryService(GtfsService):
                 else:
                     self.colors[route_id] = [255, 255, 255]
 
-    def get_lines(self, stop_id, direction_id, current_time):
-        lines = {}
+    def get_transit_lines(self, stop_id, direction_id, current_time):
+        transit_lines = {}
 
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
         feed = gtfs_realtime_pb2.FeedMessage()
@@ -215,9 +215,9 @@ class NycFerryService(GtfsService):
 
             if eta > 0 and self.trips[trip_id].direction_id == direction_id:
                 route_id = self.trips[trip_id].route_id
-                if route_id not in lines:
-                    lines[route_id] = []
-                lines[route_id].append(TransitLine(
+                if route_id not in transit_lines:
+                    transit_lines[route_id] = []
+                transit_lines[route_id].append(TransitLine(
                     route_id=route_id,
                     trip_id=trip_id,
                     trip_headsign=self.trips[trip_id].trip_headsign,
@@ -225,7 +225,7 @@ class NycFerryService(GtfsService):
                     color=self.colors[route_id]
                 ))
 
-        return lines.values()
+        return transit_lines.values()
 
 class FetchArrivals(threading.Thread):
     def run(self):
@@ -238,33 +238,33 @@ class FetchArrivals(threading.Thread):
             time.sleep(30)
     
     def fetch_arrivals(self):
-        lines = []
+        transit_lines = []
         current_time = time.time()
 
         try:
-            lines.extend(self.mta_subway_service.get_lines(
+            transit_lines.extend(self.mta_subway_service.get_transit_lines(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs', #1234567
                 '626S', # 86 St
                 '..S',
                 current_time
             ))
-            lines.extend(self.mta_subway_service.get_lines(
+            transit_lines.extend(self.mta_subway_service.get_transit_lines(
                 'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw',
                 'Q05S', # 96 St,
                 '..S',
                 current_time
             ))
-            lines.extend(self.mta_bus_service.get_lines(
+            transit_lines.extend(self.mta_bus_service.get_transit_lines(
                 '404947',
                 current_time
             ))
-            lines.extend(self.nyc_ferry_service.get_lines(
+            transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
                 '113', # 86 St
                 '0', # southbound
                 current_time
             ))
         except Exception as error:
-            lines.append([TransitLine(
+            transit_lines.append([TransitLine(
                 route_id='ERR!',
                 trip_id='ERR!',
                 trip_headsign=str(error),
@@ -273,8 +273,8 @@ class FetchArrivals(threading.Thread):
             )])
             traceback.print_exc()
 
-        cached_lines.clear()
-        cached_lines.extend(lines)
+        cached_transit_lines.clear()
+        cached_transit_lines.extend(transit_lines)
 
 class RgbMatrixView(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -295,7 +295,7 @@ class RgbMatrixView(SampleBase):
 
             offscreen_canvas.Clear()
 
-            for i, row in enumerate(cached_lines if len(cached_lines) < 4 else cached_lines + cached_lines):
+            for i, row in enumerate(cached_transit_lines if len(cached_transit_lines) < 4 else cached_transit_lines + cached_transit_lines):
                 line = f'{row[0].route_id}'
                 line += ' ' * (5 - len(line))
                 line += row[0].trip_headsign[:17]
@@ -332,7 +332,7 @@ class RgbMatrixView(SampleBase):
                 )
             
             vertical_offset += 1
-            if len(cached_lines) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(cached_lines):
+            if len(cached_transit_lines) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(cached_transit_lines):
                 vertical_offset = 0
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

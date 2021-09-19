@@ -229,7 +229,7 @@ class NycFerryService(GtfsService):
             trip_id = trip_update.trip.trip_id
             trip = self.trips[trip_id]
             
-            if not direction or trip.direction_id == direction:
+            if not direction or direction == trip.direction_id:
                 key = f'{direction}-{trip.route_id}'
                 if key not in transit_lines_by_key:
                     transit_lines_by_key[key] = TransitLine(
@@ -314,16 +314,17 @@ class RowFactory:
 
 class TransitFeed(threading.Thread):
     def run(self):
-        self.transit_lines: list[TransitLine] = []
+        self.rows: list[Row] = []
         self.row_factory = RowFactory()
         self.transit_service = CompositeTransitService()
 
         while True:
-            self.transit_lines = self.transit_service.get_transit_lines()
+            transit_lines = self.transit_service.get_transit_lines()
+            self.rows = self.row_factory.create_rows(transit_lines)
             time.sleep(30)
     
     def get_rows(self):
-        return self.row_factory.create_rows(self.transit_lines)
+        return self.rows
 
 # Main function
 if __name__ == "__main__":
@@ -340,7 +341,6 @@ if __name__ == "__main__":
                 font = graphics.Font()
                 font.LoadFont("../../../fonts/tom-thumb.bdf")
                 vertical_offset = 0
-                vertical_offset_slowdown = 1
                 textbox_height = 7
                 dark_mode = graphics.Color(47, 0, 0)
                 
@@ -351,12 +351,12 @@ if __name__ == "__main__":
                     offscreen_canvas.Clear()
                     rows = transit_feed.get_rows()
 
-                    for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
+                    for i, row in enumerate(rows if len(rows) < 4 else rows + rows):
                         graphics.DrawText(
                             offscreen_canvas,
                             font,
                             1,
-                            7 + i * textbox_height - vertical_offset // vertical_offset_slowdown,
+                            7 + i * textbox_height - vertical_offset,
                             graphics.Color(*row.color) if is_light_mode else dark_mode,
                             row.text
                         )
@@ -375,7 +375,7 @@ if __name__ == "__main__":
                         )
                     
                     vertical_offset += 1
-                    if len(rows) < 4 or vertical_offset // vertical_offset_slowdown >= textbox_height * len(rows):
+                    if len(rows) < 4 or vertical_offset >= textbox_height * len(rows):
                         vertical_offset = 0
                     
                     offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

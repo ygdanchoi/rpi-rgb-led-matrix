@@ -17,7 +17,7 @@ class RowFactory:
             if not etas:
                 continue
 
-            text = f'{transit_line.name:<5}{transit_line.description[:17]:<19}{etas[0]}'
+            text = f'{transit_line.name[:4]:<5}{transit_line.description[:17]:<19}{etas[0]}'
             for eta in etas[1:]:
                 if len(text) + 1 + len(eta) + 1 <= 32:
                     text += f',{eta}'

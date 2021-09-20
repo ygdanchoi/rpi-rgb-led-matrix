@@ -10,6 +10,7 @@ class TransitFeedViewModel():
     def __init__(self, transit_service, row_factory):
         self.transit_service = transit_service
         self.row_factory = row_factory
+        
         self.vertical_offset = 0
         self.row_height = 7
         self.max_rows = 4

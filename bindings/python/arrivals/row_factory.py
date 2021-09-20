@@ -24,6 +24,7 @@ class RowFactory:
                 else:
                     break
             text += 'm'
+            
             rows.append(Row(
                 text=text,
                 color=transit_line.color

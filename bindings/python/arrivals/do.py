@@ -4,7 +4,6 @@ import os
 from row_factory import RowFactory
 from transit_service import CompositeTransitService as TransitService
 
-# Main function
 if __name__ == "__main__":
     transit_service = TransitService()
     row_factory = RowFactory()

@@ -55,6 +55,7 @@ class TransitFeedView(SampleBase):
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         dark_mode_color = graphics.Color(47, 0, 0)
         
+        # for true MVVM, view should observe viewmodel.vertical_offset; however, this is very slow
         while True:
             offscreen_canvas.Clear()
             rows = self.viewmodel.rows

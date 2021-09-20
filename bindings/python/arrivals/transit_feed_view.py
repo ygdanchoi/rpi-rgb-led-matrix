@@ -66,7 +66,7 @@ class TransitFeedView(SampleBase):
                     offscreen_canvas,
                     font,
                     1,
-                    7 + i * self.viewmodel.row_height - self.viewmodel.vertical_offset,
+                    (i + 1) * self.viewmodel.row_height - self.viewmodel.vertical_offset,
                     graphics.Color(*row.color) if is_light_mode else dark_mode_color,
                     row.text
                 )

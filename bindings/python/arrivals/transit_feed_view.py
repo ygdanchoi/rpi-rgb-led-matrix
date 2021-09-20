@@ -42,9 +42,11 @@ class TransitFeedViewModel():
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):
         super(TransitFeedView, self).__init__(*args, **kwargs)
-        transit_service = kwargs['transit_service']
-        row_factory = kwargs['row_factory']
-        self.viewmodel = TransitFeedViewModel(transit_service, row_factory)
+        
+        self.viewmodel = TransitFeedViewModel(
+            transit_service=kwargs['transit_service'],
+            row_factory=kwargs['row_factory']
+        )
 
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()

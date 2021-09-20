@@ -264,6 +264,7 @@ class CompositeTransitService(BaseTransitService):
             ))
         except Exception as error:
             transit_lines.append(TransitLine(
+                key='ERR!',
                 name='ERR!',
                 description=str(error),
                 etas=[2147483647],

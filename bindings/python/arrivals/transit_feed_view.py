@@ -57,13 +57,14 @@ class TransitFeedView(SampleBase):
             transit_service=kwargs['transit_service'],
             row_factory=kwargs['row_factory']
         )
-        self.viewmodel.register_observer(self)
-
+        
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont("../../../fonts/tom-thumb.bdf")
         self.dark_mode_color = graphics.Color(47, 0, 0)
+
+        self.viewmodel.register_observer(self)
     
     def notify(self):
         self.offscreen_canvas.Clear()
@@ -94,5 +95,4 @@ class TransitFeedView(SampleBase):
             )
         
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
-        self.viewmodel.update_vertical_offset()
         time.sleep(0.1)

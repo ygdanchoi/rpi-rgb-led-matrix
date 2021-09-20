@@ -267,7 +267,7 @@ class CompositeTransitService(BaseTransitService):
                 key='ERR!',
                 name='ERR!',
                 description=str(error),
-                etas=[9999999 * 60],
+                etas=[2147483647],
                 color=[255, 0, 0]
             ))
             traceback.print_exc()

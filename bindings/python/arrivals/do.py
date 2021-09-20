@@ -2,7 +2,7 @@
 import os
 
 from row_factory import RowFactory
-from transit_service import CompositeTransitService as TransitService, TransitLine
+from transit_service import CompositeTransitService as TransitService
 
 # Main function
 if __name__ == "__main__":

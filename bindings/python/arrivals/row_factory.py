@@ -17,11 +17,9 @@ class RowFactory:
             if not etas:
                 continue
 
-            print(list(etas))
-
-            text = f'{transit_line.name:<5}{transit_line.description[:17]:<19}{next(etas)}'
-            for eta in etas:
-                if (len(text) + 1 + len(eta) + 1 <= 32):
+            text = f'{transit_line.name:<5}{transit_line.description[:17]:<19}{etas[0]}'
+            for eta in etas[1:]:
+                if len(text) + 1 + len(eta) + 1 <= 32:
                     text += f',{eta}'
                 else:
                     break
@@ -34,7 +32,7 @@ class RowFactory:
         return rows
     
     def get_etas(self, transit_line, current_time):
-        return (self.format_eta(eta, current_time) for eta in transit_line.etas if current_time // 60 < eta // 60)
+        return [self.format_eta(eta, current_time) for eta in transit_line.etas if current_time // 60 < eta // 60]
     
     def format_eta(self, eta, current_time):
         return str(int(math.ceil((eta - current_time) / 60)))

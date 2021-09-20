@@ -12,20 +12,17 @@ class RowFactory:
         current_time = time.time()
 
         for transit_line in transit_lines:
-            etas = [str(int(math.ceil((eta - current_time) / 60))) for eta in sorted(transit_line.etas) if current_time // 60 < eta // 60]
+            etas = self.get_etas(transit_line, current_time)
 
             if not etas:
                 continue
 
-            text = f'{transit_line.name}'
-            text += ' ' * (5 - len(text))
-            text += transit_line.description[:17]
-            text += ' ' * (24 - len(text))
-            text += etas[0]
-            e = 1
-            while (e < len(etas) and len(text) + 1 + len(etas[e]) + 1 <= 32):
-                text += ',' + etas[e]
-                e += 1
+            text = f'{transit_line.name:<5}{transit_line.description[:17]:<19}{next(etas)}'
+            for eta in etas:
+                if (len(text) + 1 + len(eta) + 1 <= 32):
+                    text += f',{eta}'
+                else:
+                    break
             text += 'm'
             rows.append(Row(
                 text=text,
@@ -33,3 +30,9 @@ class RowFactory:
             ))
 
         return rows
+    
+    def get_etas(self, transit_line, current_time):
+        return (self.format_eta(eta, current_time) for eta in transit_line.etas if current_time // 60 < eta // 60)
+    
+    def format_eta(self, eta, current_time):
+        return str(int(math.ceil((eta - current_time) / 60)))

@@ -33,7 +33,7 @@ class TransitFeedViewModel():
     
     def update_vertical_offset(self):
         self.vertical_offset += 1
-        if len(self.transit_lines) < self.max_rows or self.vertical_offset >= self.row_height * len(self.transit_lines):
+        if len(self.rows) < self.max_rows or self.vertical_offset >= self.row_height * len(self.rows):
             self.vertical_offset = 0
     
     def is_light_mode(self):

@@ -61,12 +61,16 @@ class TransitFeedView(SampleBase):
             rows = self.viewmodel.rows
             is_light_mode = self.viewmodel.is_light_mode()
 
-            for i, row in enumerate(rows if len(rows) < self.viewmodel.max_rows else rows + rows):                
+            for i, row in enumerate(rows):
+                y = (i + 1) * self.viewmodel.row_height - self.viewmodel.vertical_offset
+                if y < -self.viewmodel.row_height:
+                    y += len(rows) * self.viewmodel.row_height
+                
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
                     1,
-                    (i + 1) * self.viewmodel.row_height - self.viewmodel.vertical_offset,
+                    y,
                     graphics.Color(*row.color) if is_light_mode else dark_mode_color,
                     row.text
                 )

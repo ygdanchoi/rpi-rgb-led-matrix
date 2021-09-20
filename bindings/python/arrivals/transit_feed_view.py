@@ -66,7 +66,7 @@ class TransitFeedView(SampleBase):
                 if y < -self.viewmodel.row_height:
                     y += len(rows) * self.viewmodel.row_height
                 
-                if (y <= offscreen_canvas.height):
+                if (y < offscreen_canvas.height):
                     graphics.DrawText(
                         offscreen_canvas,
                         font,

@@ -12,6 +12,7 @@ class TransitFeedViewModel():
         self.row_factory = row_factory
         self.vertical_offset = 0
         self.row_height = 7
+        self.max_rows = 4
 
         self.transit_lines = []
         self.rows = []
@@ -31,7 +32,7 @@ class TransitFeedViewModel():
     
     def update_vertical_offset(self):
         self.vertical_offset += 1
-        if len(self.transit_lines) < 4 or self.vertical_offset >= self.row_height * len(self.transit_lines):
+        if len(self.transit_lines) < self.max_rows or self.vertical_offset >= self.row_height * len(self.transit_lines):
             self.vertical_offset = 0
     
     def is_light_mode(self):
@@ -56,7 +57,7 @@ class TransitFeedView(SampleBase):
             rows = self.viewmodel.rows
             is_light_mode = self.viewmodel.is_light_mode()
 
-            for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
+            for i, row in enumerate(rows if len(rows) < self.viewmodel.max_rows else rows + rows):                
                 graphics.DrawText(
                     offscreen_canvas,
                     font,
@@ -66,7 +67,7 @@ class TransitFeedView(SampleBase):
                     row.text
                 )
 
-                for y in range(offscreen_canvas.height - 7, offscreen_canvas.height):
+                for y in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
                     for x in range(0, offscreen_canvas.width):
                         offscreen_canvas.SetPixel(x, y, 0, 0, 0)
                 

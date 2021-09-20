@@ -54,7 +54,7 @@ class TransitFeedView(SampleBase):
         while True:
             offscreen_canvas.Clear()
             rows = self.viewmodel.rows
-            is_light_mode = self.viewmodel.is_light_mode
+            is_light_mode = self.viewmodel.is_light_mode()
 
             for i, row in enumerate(rows if len(rows) < 4 else rows + rows):                
                 graphics.DrawText(

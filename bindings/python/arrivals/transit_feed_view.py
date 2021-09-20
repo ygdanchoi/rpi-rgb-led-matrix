@@ -43,7 +43,7 @@ class TransitFeedViewModel():
                 self.vertical_offset = 0
             for observer in self.observers:
                 observer.notify()
-            time.sleep(0.01)
+            time.sleep(0.1)
     
     def is_light_mode(self):
         hh = datetime.now().hour

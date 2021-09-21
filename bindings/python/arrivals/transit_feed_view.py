@@ -86,12 +86,11 @@ class TransitFeedView(SampleBase):
                     graphics.DrawText(
                         offscreen_canvas,
                         font,
-                        1,
+                        1 + 5 * self.viewmodel.row_width,
                         y,
                         light_mode_color if is_light_mode else dark_mode_color,
                         f'{row.description[:17]:<19}{row.etas}'
                     )
-
 
                 for y in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
                     for x in range(0, offscreen_canvas.width):

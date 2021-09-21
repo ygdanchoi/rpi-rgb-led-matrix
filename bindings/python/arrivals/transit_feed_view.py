@@ -13,6 +13,7 @@ class TransitFeedViewModel():
         
         self.vertical_offset = 0
         self.row_height = 7
+        self.row_width = 4
         self.max_rows = 4
 
         self.transit_lines = []
@@ -75,6 +76,10 @@ class TransitFeedView(SampleBase):
                         graphics.Color(*row.color) if is_light_mode else dark_mode_color,
                         f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
                     )
+
+                for y in range(0, offscreen_canvas.height):
+                    for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
+                        offscreen_canvas.SetPixel(x, y, 0, 0, 255)
 
                 for y in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
                     for x in range(0, offscreen_canvas.width):

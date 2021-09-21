@@ -83,7 +83,7 @@ class TransitFeedView(SampleBase):
 
                     if should_scroll_name:
                         for yy in range(y - self.viewmodel.row_height + 2, y + 1):
-                            for xx in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
+                            for xx in range(4 * self.viewmodel.row_width, offscreen_canvas.width):
                                 offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                     
                         graphics.DrawText(

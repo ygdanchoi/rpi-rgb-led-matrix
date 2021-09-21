@@ -38,7 +38,7 @@ class TransitFeedViewModel():
     
     def is_light_mode(self):
         hh = datetime.now().hour
-        return 6 <= hh and hh < 22
+        return 7 <= hh and hh < 22
 
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):

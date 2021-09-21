@@ -77,6 +77,23 @@ class TransitFeedView(SampleBase):
                         graphics.DrawText(
                             offscreen_canvas,
                             font,
+                            min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 3 * self.viewmodel.row_height),
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            row.description
+                        )
+
+                        for yy in range(y - self.viewmodel.row_height + 2, y + 1):
+                            for xx in range(0, 5 * self.viewmodel.row_width):
+                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        
+                        for yy in range(y - self.viewmodel.row_height + 2, y + 1):
+                            for xx in range(23 * self.viewmodel.row_width, offscreen_canvas.width):
+                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
                             min(1, 1 + y - 4 - 3 * self.viewmodel.row_height),
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
@@ -90,10 +107,10 @@ class TransitFeedView(SampleBase):
                         graphics.DrawText(
                             offscreen_canvas,
                             font,
-                            1 + 5 * self.viewmodel.row_width,
+                            1 + 25 * self.viewmodel.row_width,
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
-                            f'{row.description[:17]:<19}{row.etas}'
+                            row.etas
                         )
                     elif should_scroll_name:
                         graphics.DrawText(

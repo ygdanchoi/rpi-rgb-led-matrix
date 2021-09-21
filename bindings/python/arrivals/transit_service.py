@@ -141,7 +141,7 @@ class MtaSubwayService(GtfsService):
         if (trip_id in self.trips):
             return self.trips[trip_id]
         else:
-            # TODO: account for route differences between weekday/Saturday/Sunday
+            # TODO: account for trip differences between weekday/Saturday/Sunday
             suffix = r'_\w+\.{2}[NS]'
             keys = sorted(key for key in self.trips.keys() if key and re.search(suffix, key).group() == re.search(suffix, trip_id).group())
             i = bisect.bisect_left(keys, trip_id)
@@ -278,7 +278,7 @@ class CompositeTransitService(BaseTransitService):
                 key='ERR!',
                 name='ERR!',
                 description=str(error),
-                etas=[float('inf')],
+                etas=[2147483647], # meaningless timestamp
                 color=[255, 0, 0]
             ))
             traceback.print_exc()

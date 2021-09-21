@@ -74,7 +74,7 @@ class TransitFeedView(SampleBase):
                     graphics.DrawText(
                         offscreen_canvas,
                         font,
-                        1,
+                        1 - y,
                         y,
                         light_mode_color if is_light_mode else dark_mode_color,
                         row.name

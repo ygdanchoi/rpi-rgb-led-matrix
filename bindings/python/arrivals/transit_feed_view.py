@@ -71,17 +71,18 @@ class TransitFeedView(SampleBase):
                 if (y < offscreen_canvas.height):
                     light_mode_color = graphics.Color(*row.color)
                     should_scroll_name = len(row.name) > 4
+                    should_scroll_description = len(row.description) > 17
 
-                    graphics.DrawText(
-                        offscreen_canvas,
-                        font,
-                        min(1, 1 + y - 4 - 3 * self.viewmodel.row_height) if should_scroll_name else 1,
-                        y,
-                        light_mode_color if is_light_mode else dark_mode_color,
-                        row.name if should_scroll_name else f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas[0]}'
-                    )
+                    if should_scroll_name and should_scroll_description:
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            min(1, 1 + y - 4 - 3 * self.viewmodel.row_height)1,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            row.name
+                        )
 
-                    if should_scroll_name:
                         for yy in range(y - self.viewmodel.row_height + 2, y + 1):
                             for xx in range(4 * self.viewmodel.row_width, offscreen_canvas.width):
                                 offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -93,6 +94,63 @@ class TransitFeedView(SampleBase):
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
                             f'{row.description[:17]:<19}{row.etas}'
+                        )
+                    elif should_scroll_name:
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            min(1, 1 + y - 4 - 3 * self.viewmodel.row_height)1,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            row.name
+                        )
+
+                        for yy in range(y - self.viewmodel.row_height + 2, y + 1):
+                            for xx in range(4 * self.viewmodel.row_width, offscreen_canvas.width):
+                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                    
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            1 + 5 * self.viewmodel.row_width,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            f'{row.description[:17]:<19}{row.etas}'
+                        )
+                    elif should_scroll_description:
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            min(5, 5 + y - 4 - 3 * self.viewmodel.row_height)1,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            row.description
+                        )
+
+                        for yy in range(y - self.viewmodel.row_height + 2, y + 1):
+                            for xx in range(0, 5 * self.viewmodel.row_width):
+                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        
+                        for yy in range(y - self.viewmodel.row_height + 2, y + 1):
+                            for xx in range(19 * self.viewmodel.row_width, offscreen_canvas.width):
+                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            1,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            f'{row.name[:4]:<19}{row.etas[0]}'
+                        )
+                    else:
+                        graphics.DrawText(
+                            offscreen_canvas,
+                            font,
+                            1,
+                            y,
+                            light_mode_color if is_light_mode else dark_mode_color,
+                            f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas[0]}'
                         )
 
                 for yy in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):

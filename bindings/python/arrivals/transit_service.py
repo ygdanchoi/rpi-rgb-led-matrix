@@ -262,6 +262,10 @@ class CompositeTransitService(BaseTransitService):
                 '1' # westbound
             ))
             transit_lines.extend(self.mta_bus_service.get_transit_lines(
+                '401957', # E 96 ST/3 AV
+                '1' # westbound
+            ))
+            transit_lines.extend(self.mta_bus_service.get_transit_lines(
                 '404947', # LEXINGTON AV/E 92 ST
                 '1' # southbound
             ))

@@ -119,7 +119,7 @@ class MtaSubwayService(GtfsService):
             if not eta:
                 continue
 
-            trip = self.get_nearest_trip(trip_update.trip.trip_id)
+            trip = self.get_nearest_trip(trip_update.trip.trip_id, trip_update.trip.route_id)
 
             if not direction or direction == trip.direction_id:
                 route_id = trip_update.trip.route_id
@@ -137,16 +137,21 @@ class MtaSubwayService(GtfsService):
                 
         return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
     
-    def get_nearest_trip(self, trip_id):
+    def get_nearest_trip(self, trip_id, route_id):
         if (trip_id in self.trips):
             return self.trips[trip_id]
         else:
             # TODO: account for trip differences between weekday/Saturday/Sunday
-            suffix = r'_\w+\.{2}[NS]'
-            keys = sorted(key for key in self.trips.keys() if key and re.search(suffix, key).group() == re.search(suffix, trip_id).group())
+            keys = sorted(key for key in self.trips.keys() if self.is_applicable_trip(key, trip_id, route_id))
             i = bisect.bisect_left(keys, trip_id)
+            if len(keys) == 0:
+                print(trip_id)
             nearest_trip_id = keys[min(i, len(keys) - 1)]
             return self.trips[nearest_trip_id]
+    
+    def is_applicable_trip(self, key, trip_id, route_id):
+        suffix = r'\.{2}[NS]'
+        return key and route_id == self.trips[key].route_id and re.search(suffix, key).group() == re.search(suffix, trip_id).group()
 
 class MtaBusService(BaseTransitService):
     def get_transit_lines(self, stop_id, direction):

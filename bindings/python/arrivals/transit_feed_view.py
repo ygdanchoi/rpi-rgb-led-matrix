@@ -106,18 +106,18 @@ class TransitFeedView(SampleBase):
                         row.etas
                     )
 
-                for yy in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
-                    for xx in range(0, offscreen_canvas.width):
-                        offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                # for yy in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
+                #     for xx in range(0, offscreen_canvas.width):
+                #         offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                 
-                graphics.DrawText(
-                    offscreen_canvas,
-                    font,
-                    1,
-                    offscreen_canvas.height - 1,
-                    graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
-                    datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
-                )
+                # graphics.DrawText(
+                #     offscreen_canvas,
+                #     font,
+                #     1,
+                #     offscreen_canvas.height - 1,
+                #     graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
+                #     datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
+                # )
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             self.viewmodel.update_vertical_offset()

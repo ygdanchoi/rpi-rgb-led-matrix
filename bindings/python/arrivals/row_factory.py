@@ -1,5 +1,4 @@
 import collections
-import math
 import time
 
 from transit_service import TransitLine
@@ -33,7 +32,7 @@ class RowFactory:
         return rows
     
     def format_etas(self, transit_line, current_time):
-        return [self.format_eta(eta, current_time) for eta in transit_line.etas if current_time // 60 < eta // 60]
+        return [self.format_eta(eta, current_time) for eta in transit_line.etas if (eta - current_time) // 60 > 0]
     
     def format_eta(self, eta, current_time):
-        return str(int(math.floor((eta - current_time) / 60)))
+        return str(int((eta - current_time) // 60))

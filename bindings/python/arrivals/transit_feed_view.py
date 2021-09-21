@@ -103,7 +103,7 @@ class TransitFeedView(SampleBase):
                             ),
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
-                            row.name[:(4 + max(0, 6 - y // self.viewmodel.row_width))]
+                            row.name[:(4 + max(0, 5 - y // self.viewmodel.row_width))]
                         )
 
                         for yy in range(y - self.viewmodel.row_height + 2, y + 1):

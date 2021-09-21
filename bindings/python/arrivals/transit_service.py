@@ -2,6 +2,7 @@ import bisect
 import collections
 import csv
 import json
+import re
 import requests
 import traceback
 
@@ -91,7 +92,8 @@ class MtaSubwayService(GtfsService):
         return row[0]
 
     def get_trip_id(self, row):
-        return '_'.join(row[2].split('_')[1:])[:-3]
+        match = re.search(r'\d{6}_\w+\.{2}[NS]', row[2])
+        return match.group() if match else '' 
     
     def get_trip_headsign(self, row):
         return row[3]
@@ -140,7 +142,8 @@ class MtaSubwayService(GtfsService):
             return self.trips[trip_id]
         else:
             # TODO: account for route differences between weekday/Saturday/Sunday
-            keys = sorted(key for key in self.trips.keys() if '_' in key and key.split('_')[1] in trip_id.split('_')[1])
+            suffix = r'_\w+\.{2}[NS]'
+            keys = sorted(key for key in self.trips.keys() if key and re.search(suffix, key).group() == re.search(suffix, trip_id).group())
             i = bisect.bisect_left(keys, trip_id)
             nearest_trip_id = keys[min(i, len(keys) - 1)]
             return self.trips[nearest_trip_id]

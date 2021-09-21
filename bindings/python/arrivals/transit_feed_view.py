@@ -80,9 +80,9 @@ class TransitFeedView(SampleBase):
                         row.name[:4]
                     )
 
-                    # for y in range(0, offscreen_canvas.height):
-                    #     for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
-                    #         offscreen_canvas.SetPixel(x, y, 0, 0, 31)
+                    for y in range(0, offscreen_canvas.height):
+                        for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
+                            offscreen_canvas.SetPixel(x, y, 0, 0, 0)
                     
                     graphics.DrawText(
                         offscreen_canvas,
@@ -92,6 +92,10 @@ class TransitFeedView(SampleBase):
                         light_mode_color if is_light_mode else dark_mode_color,
                         row.description[:17]
                     )
+
+                    for y in range(0, offscreen_canvas.height):
+                        for x in range(25 * self.viewmodel.row_width, offscreen_canvas.width):
+                            offscreen_canvas.SetPixel(x, y, 0, 0, 0)
 
                     graphics.DrawText(
                         offscreen_canvas,

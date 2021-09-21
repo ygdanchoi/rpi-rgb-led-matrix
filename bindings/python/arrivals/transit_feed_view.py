@@ -121,7 +121,7 @@ class TransitFeedView(SampleBase):
                         graphics.DrawText(
                             offscreen_canvas,
                             font,
-                            min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + 2 * y - 4 - 3 * self.viewmodel.row_height),
+                            min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 3 * self.viewmodel.row_height),
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
                             row.description

@@ -36,4 +36,4 @@ class RowFactory:
         return [self.format_eta(eta, current_time) for eta in transit_line.etas if current_time // 60 < eta // 60]
     
     def format_eta(self, eta, current_time):
-        return str(int(math.ceil((eta - current_time) / 60)))
+        return str(int(math.floor((eta - current_time) / 60)))

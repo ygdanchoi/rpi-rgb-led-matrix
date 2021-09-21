@@ -79,9 +79,9 @@ class TransitFeedView(SampleBase):
                         row.name
                     )
 
-                    for y in range(0, offscreen_canvas.height):
-                        for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
-                            offscreen_canvas.SetPixel(x, y, 0, 0, 31)
+                    # for y in range(0, offscreen_canvas.height):
+                    #     for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
+                    #         offscreen_canvas.SetPixel(x, y, 0, 0, 31)
                     
                     graphics.DrawText(
                         offscreen_canvas,

@@ -78,7 +78,7 @@ class TransitFeedView(SampleBase):
                             offscreen_canvas,
                             font,
                             max(
-                                min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 3 * self.viewmodel.row_height),
+                                min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 2 * self.viewmodel.row_height),
                                 1 + 5 * self.viewmodel.row_width + (17 - len(row.description)) * self.viewmodel.row_width
                             ),
                             y,
@@ -148,7 +148,7 @@ class TransitFeedView(SampleBase):
                             offscreen_canvas,
                             font,
                             max(
-                                min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 3 * self.viewmodel.row_height),
+                                min(1 + 5 * self.viewmodel.row_width, 1 + 5 * self.viewmodel.row_width + y - 4 - 2 * self.viewmodel.row_height),
                                 1 + 5 * self.viewmodel.row_width + (17 - len(row.description)) * self.viewmodel.row_width
                             ),
                             y,

@@ -73,7 +73,7 @@ class TransitFeedView(SampleBase):
                         1,
                         y,
                         graphics.Color(*row.color) if is_light_mode else dark_mode_color,
-                        row.text
+                        f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
                     )
 
                 for y in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):

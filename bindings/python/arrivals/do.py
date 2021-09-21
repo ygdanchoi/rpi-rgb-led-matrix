@@ -14,4 +14,4 @@ if __name__ == "__main__":
     else:
         transit_lines = transit_service.get_transit_lines()
         for row in row_factory.create_rows(transit_lines):
-            print(row.text)
+            print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')

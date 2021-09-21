@@ -3,7 +3,7 @@ import time
 
 from transit_service import TransitLine
 
-Row = collections.namedtuple('Row', ['text', 'color'])
+Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color'])
 
 class RowFactory:
     def create_rows(self, transit_lines):
@@ -11,28 +11,32 @@ class RowFactory:
         current_time = time.time()
 
         for transit_line in transit_lines:
-            etas = self.format_etas(transit_line, current_time)
+            etas = self.convert_etas(transit_line, current_time)
 
             if not etas:
                 continue
-
-            text = f'{transit_line.name[:4]:<5}{transit_line.description[:17]:<19}{etas[0]}'
-            for eta in etas[1:]:
-                if len(text) + 1 + len(eta) + 1 <= 32:
-                    text += f',{eta}'
-                else:
-                    break
-            text += 'm'
             
             rows.append(Row(
-                text=text,
+                name=transit_line.name,
+                description=transit_line.description,
+                etas=self.format_etas(etas),
                 color=transit_line.color
             ))
 
         return rows
+
+    def format_etas(self, etas):
+        text = f'{etas[0]}'
+        for eta in etas[1:]:
+            if len(text) + 1 + len(eta) + 1 <= 8:
+                text += f',{eta}'
+            else:
+                break
+        text += 'm'
+        return text
     
-    def format_etas(self, transit_line, current_time):
-        return [self.format_eta(eta, current_time) for eta in transit_line.etas if (eta - current_time) // 60 > 0]
+    def convert_etas(self, transit_line, current_time):
+        return [self.convert_eta(eta, current_time) for eta in transit_line.etas if (eta - current_time) // 60 > 0]
     
-    def format_eta(self, eta, current_time):
+    def convert_eta(self, eta, current_time):
         return str(int((eta - current_time) // 60))

@@ -77,12 +77,12 @@ class TransitFeedView(SampleBase):
                         1,
                         y,
                         light_mode_color if is_light_mode else dark_mode_color,
-                        row.name[:4]
+                        row.name
                     )
 
-                    # for y in range(0, offscreen_canvas.height):
-                    #     for x in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
-                    #         offscreen_canvas.SetPixel(x, y, 0, 0, 0)
+                    for yy in range(0, offscreen_canvas.height):
+                        for xx in range(5 * self.viewmodel.row_width, offscreen_canvas.width):
+                            offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                     
                     graphics.DrawText(
                         offscreen_canvas,
@@ -90,7 +90,7 @@ class TransitFeedView(SampleBase):
                         1 + 5 * self.viewmodel.row_width,
                         y,
                         light_mode_color if is_light_mode else dark_mode_color,
-                        row.description[:17]
+                        row.description
                     )
 
                     for yy in range(0, offscreen_canvas.height):
@@ -106,9 +106,9 @@ class TransitFeedView(SampleBase):
                         row.etas
                     )
 
-                for y in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
-                    for x in range(0, offscreen_canvas.width):
-                        offscreen_canvas.SetPixel(x, y, 0, 0, 0)
+                for yy in range(offscreen_canvas.height - self.viewmodel.row_height, offscreen_canvas.height):
+                    for xx in range(0, offscreen_canvas.width):
+                        offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                 
                 graphics.DrawText(
                     offscreen_canvas,

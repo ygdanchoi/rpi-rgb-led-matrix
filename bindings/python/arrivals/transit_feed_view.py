@@ -141,7 +141,7 @@ class TransitFeedView(SampleBase):
                             1,
                             y,
                             light_mode_color if is_light_mode else dark_mode_color,
-                            f'{row.name[:4]:<25}{row.etas[0]}'
+                            f'{row.name[:4]:<25}{row.etas}'
                         )
                     else:
                         graphics.DrawText(

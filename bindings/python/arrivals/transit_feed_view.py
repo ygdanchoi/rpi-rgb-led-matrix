@@ -7,7 +7,7 @@ from samplebase import SampleBase
 from rgbmatrix import graphics
 
 class TransitFeedViewModel():
-    def __init__(self, transit_service, row_factory):
+    def __init__(self, transit_service, row_factory, weather_service):
         self.transit_service = transit_service
         self.row_factory = row_factory
         
@@ -18,9 +18,11 @@ class TransitFeedViewModel():
 
         self.transit_lines = []
         self.rows = []
+        self.temperature = ''
 
         threading.Thread(target=self.update_transit_lines).start()
         threading.Thread(target=self.update_rows).start()
+        threading.Thread(target=self.update_weather).start()
 
     def update_transit_lines(self):
         while True:
@@ -31,6 +33,11 @@ class TransitFeedViewModel():
         while True:
             self.rows = self.row_factory.create_rows(self.transit_lines)
             time.sleep(1)
+
+    def update_weather(self):
+        while True:
+            self.temperature = self.weather_service.get_weather().temperature
+            time.sleep(60 * 60)
     
     def update_vertical_offset(self):
         self.vertical_offset += 1
@@ -47,7 +54,8 @@ class TransitFeedView(SampleBase):
         
         self.viewmodel = TransitFeedViewModel(
             transit_service=kwargs['transit_service'],
-            row_factory=kwargs['row_factory']
+            row_factory=kwargs['row_factory'],
+            weather_service=kwargs['weather_service']
         )
 
     def run(self):
@@ -197,7 +205,7 @@ class TransitFeedView(SampleBase):
                     1,
                     offscreen_canvas.height - 1,
                     graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
-                    datetime.now().strftime('%a, %b %d, %Y  %-I:%M:%S %p')
+                    datetime.now().strftime('%a, %b %d, %Y %-I:%M:%S %p ${self.viewmodel.temperature}')
                 )
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

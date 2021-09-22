@@ -28,15 +28,17 @@ class TransitFeedViewModel():
         update_weather_timer = 60 * 60
 
         while True:
-            update_transit_lines_timer -= 1
+            
             if update_transit_lines_timer == 0:
                 self.transit_lines = self.transit_service.get_transit_lines()
                 update_transit_lines_timer = 30
 
-            update_weather_timer -= 1
             if update_weather_timer == 0:
                 self.temperature = self.weather_service.get_weather().temperature
                 update_weather_timer = 60 * 60
+
+            update_transit_lines_timer -= 1
+            update_weather_timer -= 1
             
             self.rows = self.row_factory.create_rows(self.transit_lines)
             time.sleep(1)

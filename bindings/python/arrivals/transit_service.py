@@ -275,7 +275,7 @@ class CompositeTransitService(BaseTransitService):
                 '1' # southbound
             ))
             transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
-                '113', # 86 St
+                '113', # East 90th Street
                 '0' # southbound
             ))
         except Exception as error:

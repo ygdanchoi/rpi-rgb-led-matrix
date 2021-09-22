@@ -25,7 +25,7 @@ class TransitFeedViewModel():
 
     def update_loop(self):
         update_transit_lines_timer = 0
-        update_weather_timer = 60 * 60
+        update_weather_timer = 0
 
         while True:
             

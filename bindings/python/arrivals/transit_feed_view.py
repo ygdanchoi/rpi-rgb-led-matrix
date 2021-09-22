@@ -206,7 +206,7 @@ class TransitFeedView(SampleBase):
                     1,
                     offscreen_canvas.height - 1,
                     graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
-                    f"{datetime.now().strftime('%a, %b %-d, %Y %-I:%M:%S %p'):<25}{self.viewmodel.temperature:>5}"
+                    f"{datetime.now().strftime('%a, %b %-d, %Y %-I:%M:%S %p'):<30}{self.viewmodel.temperature:>5}"
                 )
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

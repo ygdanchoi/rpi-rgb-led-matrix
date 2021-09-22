@@ -13,7 +13,7 @@ class TransitFeedViewModel():
         
         self.vertical_offset = 0
         self.row_height = 7
-        self.row_width = 4
+        self.row_width = 4 # TODO: better name
         self.max_rows = 4
 
         self.transit_lines = []
@@ -72,7 +72,7 @@ class TransitFeedView(SampleBase):
                     light_mode_color = graphics.Color(*row.color)
                     should_scroll_name = len(row.name) > 4
                     should_scroll_description = len(row.description) > 17
-                    # TODO: test scrolling works if len(rows) < self.max_rows
+                    # TODO: test scrolling works if len(rows) < self.viewmodel.max_rows
 
                     if should_scroll_name and should_scroll_description:
                         graphics.DrawText(

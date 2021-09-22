@@ -19,7 +19,7 @@ class WeatherService:
                 'useQueryString': 'true'
             })
             weather = json.loads(response.content)['data'][0]        
-            return Weather(temperature=f" • {weather['temp']}°F")
+            return Weather(temperature=f" • {weather['temp']}°F") # TODO: don't render bullet here
         except Exception as error:
             traceback.print_exc()
             return Weather(temperature='')

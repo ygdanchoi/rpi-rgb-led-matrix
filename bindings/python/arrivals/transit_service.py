@@ -253,6 +253,7 @@ class CompositeTransitService(BaseTransitService):
 
         try:
             # TODO: use asyncio (?) to make parallel requests
+            oops = 1 / 0
             transit_lines.extend(self.mta_subway_service.get_transit_lines(
                 '626S', # 86 St
                 '1', # southbound

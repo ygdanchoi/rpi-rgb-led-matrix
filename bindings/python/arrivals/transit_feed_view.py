@@ -21,24 +21,25 @@ class TransitFeedViewModel():
         self.rows = []
         self.temperature = ''
 
-        threading.Thread(target=self.update_transit_lines).start()
-        threading.Thread(target=self.update_rows).start()
-        threading.Thread(target=self.update_weather).start()
+        threading.Thread(target=self.update_loop).start()
 
-    def update_transit_lines(self):
-        while True:
-            self.transit_lines = self.transit_service.get_transit_lines()
-            time.sleep(30)
+    def update_loop(self):
+        update_transit_lines_timer = 0
+        update_weather_timer = 60 * 60
 
-    def update_rows(self):
         while True:
+            update_transit_lines_timer -= 1
+            if update_transit_lines_timer == 0:
+                self.transit_lines = self.transit_service.get_transit_lines()
+                update_transit_lines_timer = 30
+
+            update_weather_timer -= 1
+            if update_weather_timer == 0:
+                self.temperature = self.weather_service.get_weather().temperature
+                update_weather_timer = 60 * 60
+            
             self.rows = self.row_factory.create_rows(self.transit_lines)
             time.sleep(1)
-
-    def update_weather(self):
-        while True:
-            self.temperature = self.weather_service.get_weather().temperature
-            time.sleep(60 * 60)
     
     def update_vertical_offset(self):
         self.vertical_offset += 1

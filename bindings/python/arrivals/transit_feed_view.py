@@ -55,6 +55,7 @@ class TransitFeedView(SampleBase):
         font = graphics.Font()
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         dark_mode_color = graphics.Color(47, 0, 0)
+        light_mode_colors = {}
         
         # for true MVVM, view should observe viewmodel.vertical_offset; however, this is slow
         while True:
@@ -69,7 +70,10 @@ class TransitFeedView(SampleBase):
                     y += len(rows) * self.viewmodel.row_height
                 
                 if (y < offscreen_canvas.height):
-                    light_mode_color = graphics.Color(*row.color)
+                    if str(row.color) not in light_mode_colors:
+                        light_mode_colors[str(row.color)] = graphics.Color(*row.color)
+                    light_mode_color = light_mode_colors[str(row.color)]
+
                     should_scroll_name = len(row.name) > 4
                     should_scroll_description = len(row.description) > 17
                     # TODO: test scrolling works if len(rows) < self.viewmodel.max_rows

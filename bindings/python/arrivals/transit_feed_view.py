@@ -91,25 +91,7 @@ class TransitFeedView(SampleBase):
                     # TODO: handle len(rows) < self.viewmodel.max_rows better
 
                     if should_scroll_name and should_scroll_description:
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            max(
-                                min(1 + 5 * self.viewmodel.cell_width, 1 + 5 * self.viewmodel.cell_width + y - 4 - 2 * self.viewmodel.cell_height),
-                                1 + 5 * self.viewmodel.cell_width + (17 - len(row.description)) * self.viewmodel.cell_width
-                            ),
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            row.description
-                        )
-
-                        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
-                            for xx in range(0, 5 * self.viewmodel.cell_width):
-                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                        
-                        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
-                            for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
-                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        self.draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
 
                         graphics.DrawText(
                             offscreen_canvas,
@@ -161,25 +143,7 @@ class TransitFeedView(SampleBase):
                             f'{row.description[:17]:<19}{row.etas}'
                         )
                     elif should_scroll_description:
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            max(
-                                min(1 + 5 * self.viewmodel.cell_width, 1 + 5 * self.viewmodel.cell_width + y - 4 - 2 * self.viewmodel.cell_height),
-                                1 + 5 * self.viewmodel.cell_width + (17 - len(row.description)) * self.viewmodel.cell_width
-                            ),
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            row.description
-                        )
-
-                        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
-                            for xx in range(0, 5 * self.viewmodel.cell_width):
-                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                        
-                        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
-                            for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
-                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        self.draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
                         
                         graphics.DrawText(
                             offscreen_canvas,
@@ -217,3 +181,25 @@ class TransitFeedView(SampleBase):
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             self.viewmodel.update_vertical_offset()
             time.sleep(0.1)
+
+    def draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
+        graphics.DrawText(
+            offscreen_canvas,
+            font,
+            max(
+                min(1 + 5 * self.viewmodel.cell_width, 1 + 5 * self.viewmodel.cell_width + y - 4 - 2 * self.viewmodel.cell_height),
+                1 + 5 * self.viewmodel.cell_width + (17 - len(row.description)) * self.viewmodel.cell_width
+            ),
+            y,
+            light_mode_color if is_light_mode else dark_mode_color,
+            row.description
+        )
+
+        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+            for xx in range(0, 5 * self.viewmodel.cell_width):
+                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+        
+        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+            for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
+                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+

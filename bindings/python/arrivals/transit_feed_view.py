@@ -90,7 +90,7 @@ class TransitFeedView(SampleBase):
                 if (y < offscreen_canvas.height):
                     if str(row.color) not in light_mode_colors:
                         light_mode_colors[str(row.color)] = graphics.Color(*row.color)
-                        stripe_colors[str(row.color)] = graphics.Color(row[0] // 8, row[1] // 8, row[2] // 8)
+                        stripe_colors[str(row.color)] = graphics.Color(row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
                     light_mode_color = light_mode_colors[str(row.color)]
                     stripe_color = stripe_colors[str(row.color)]
 

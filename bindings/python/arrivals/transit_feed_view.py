@@ -55,7 +55,7 @@ class TransitFeedViewModel():
     
     def is_light_mode(self):
         hh = datetime.now().hour
-        return 7 <= hh and hh < 23
+        return 7 <= hh and hh < 22
 
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
@@ -191,7 +191,7 @@ class TransitFeedView(SampleBase):
             if is_light_mode:
                 time.sleep(0.01)
             else:
-                time.sleep(0.075)
+                time.sleep(0.08)
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

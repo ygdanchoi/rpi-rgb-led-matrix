@@ -13,6 +13,7 @@ class TransitFeedViewModel():
         self.weather_service = weather_service
         
         self.vertical_offset = 0
+        self.stripes_offset = 0
         self.cell_height = 7
         self.cell_width = 4
         self.max_rows = 4
@@ -47,10 +48,16 @@ class TransitFeedViewModel():
         self.vertical_offset += 1
         if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
+
+        self.stripes_offset += 1
     
     def is_light_mode(self):
         hh = datetime.now().hour
         return 7 <= hh and hh < 22
+
+    def is_stripe(x, y):
+        b = 8
+        return -x + b * 1 <= y and y < -x + b * 2 or -x + b * 3 <= y and y < -x + b * 4
 
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -74,6 +81,11 @@ class TransitFeedView(SampleBase):
             offscreen_canvas.Clear()
             rows = self.viewmodel.rows
             is_light_mode = self.viewmodel.is_light_mode()
+
+            for yy in range(0, offscreen_canvas.height):
+                for xx in range(0, offscreen_canvas.width):
+                    if self.viewmodel.is_stripe(xx, yy):
+                        offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
 
             for i, row in enumerate(rows):
                 y = (i + 1) * self.viewmodel.cell_height - self.viewmodel.vertical_offset

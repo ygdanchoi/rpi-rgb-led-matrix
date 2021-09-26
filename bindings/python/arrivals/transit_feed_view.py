@@ -74,7 +74,6 @@ class TransitFeedView(SampleBase):
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         dark_mode_color = graphics.Color(47, 0, 0)
         light_mode_colors = {}
-        stripe_colors = {}
         
         # for true MVVM, view should observe viewmodel.vertical_offset; however, this is slow
         while True:
@@ -90,9 +89,7 @@ class TransitFeedView(SampleBase):
                 if (y < offscreen_canvas.height):
                     if str(row.color) not in light_mode_colors:
                         light_mode_colors[str(row.color)] = graphics.Color(*row.color)
-                        stripe_colors[str(row.color)] = graphics.Color(row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
                     light_mode_color = light_mode_colors[str(row.color)]
-                    stripe_color = stripe_colors[str(row.color)]
 
                     should_scroll_name = len(row.name) > 4
                     should_scroll_description = len(row.description) > 17
@@ -101,7 +98,7 @@ class TransitFeedView(SampleBase):
                     for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
                         for xx in range(0, offscreen_canvas.width):
                             if is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                                offscreen_canvas.SetPixel(xx, yy, stripe_color)
+                                offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
 
                     if should_scroll_name and should_scroll_description:
                         self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)

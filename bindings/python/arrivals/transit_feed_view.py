@@ -202,6 +202,8 @@ class TransitFeedView(SampleBase):
                 for yy in range(offscreen_canvas.height - self.viewmodel.cell_height, offscreen_canvas.height):
                     for xx in range(0, offscreen_canvas.width):
                         offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+
+                temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
                 
                 graphics.DrawText(
                     offscreen_canvas,
@@ -209,7 +211,7 @@ class TransitFeedView(SampleBase):
                     1,
                     offscreen_canvas.height - 1,
                     graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
-                    f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{self.viewmodel.temperature}"
+                    f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
                 )
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)

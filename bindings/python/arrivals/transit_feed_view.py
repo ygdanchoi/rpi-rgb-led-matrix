@@ -55,7 +55,7 @@ class TransitFeedViewModel():
     
     def is_light_mode(self):
         hh = datetime.now().hour
-        return 7 <= hh and hh < 24
+        return 7 <= hh and hh < 22
 
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0

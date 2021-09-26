@@ -55,7 +55,7 @@ class TransitFeedViewModel():
     
     def is_light_mode(self):
         hh = datetime.now().hour
-        return 7 <= hh and hh < 22
+        return 7 <= hh and hh < 24
 
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
@@ -105,17 +105,17 @@ class TransitFeedView(SampleBase):
                                 offscreen_canvas.SetPixel(
                                     xx,
                                     yy,
-                                    row.color[0] // self.viewmodel.stripe_divisor_dark,
-                                    row.color[1] // self.viewmodel.stripe_divisor_dark,
-                                    row.color[2] // self.viewmodel.stripe_divisor_dark
+                                    row.color[0] // self.viewmodel.stripe_divisor_light,
+                                    row.color[1] // self.viewmodel.stripe_divisor_light,
+                                    row.color[2] // self.viewmodel.stripe_divisor_light
                                 )
                             else:
                                 offscreen_canvas.SetPixel(
                                     xx,
                                     yy,
-                                    row.color[0] // self.viewmodel.stripe_divisor_light,
-                                    row.color[1] // self.viewmodel.stripe_divisor_light,
-                                    row.color[2] // self.viewmodel.stripe_divisor_light
+                                    row.color[0] // self.viewmodel.stripe_divisor_dark,
+                                    row.color[1] // self.viewmodel.stripe_divisor_dark,
+                                    row.color[2] // self.viewmodel.stripe_divisor_dark
                                 )
 
                     if should_scroll_name and should_scroll_description:
@@ -214,19 +214,18 @@ class TransitFeedView(SampleBase):
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
                     )
                 else:
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
                     )
-
         
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
@@ -236,17 +235,17 @@ class TransitFeedView(SampleBase):
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
                     )
                 else:
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
                     )
 
 
@@ -271,17 +270,17 @@ class TransitFeedView(SampleBase):
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
                     )
                 else:
                     offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
                     )
 
     

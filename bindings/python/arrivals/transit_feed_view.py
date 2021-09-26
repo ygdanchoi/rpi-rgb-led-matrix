@@ -91,7 +91,7 @@ class TransitFeedView(SampleBase):
                     # TODO: handle len(rows) < self.viewmodel.max_rows better
 
                     if should_scroll_name and should_scroll_description:
-                        self.draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
+                        self.draw_scrolled_description(row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
 
                         graphics.DrawText(
                             offscreen_canvas,
@@ -143,7 +143,7 @@ class TransitFeedView(SampleBase):
                             f'{row.description[:17]:<19}{row.etas}'
                         )
                     elif should_scroll_description:
-                        self.draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
+                        self.draw_scrolled_description(row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
                         
                         graphics.DrawText(
                             offscreen_canvas,

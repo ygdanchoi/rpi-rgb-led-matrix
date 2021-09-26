@@ -150,12 +150,10 @@ class TransitFeedView(SampleBase):
 
                 for yy in range(offscreen_canvas.height - self.viewmodel.cell_height, offscreen_canvas.height):
                     for xx in range(0, offscreen_canvas.width):
-                        if not is_light_mode:
-                            offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                        elif self.viewmodel.is_stripe(xx, yy):
-                            offscreen_canvas.SetPixel(xx, yy, 255 // 8, 255 // 8, 255 // 8)
-                        else:
+                        if is_light_mode and self.viewmodel.is_stripe(xx, yy):
                             offscreen_canvas.SetPixel(xx, yy, 255 // 16, 255 // 16, 255 // 16)
+                        else:
+                            offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
 
                 temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
                 

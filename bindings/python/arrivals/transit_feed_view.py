@@ -17,6 +17,8 @@ class TransitFeedViewModel():
         self.cell_height = 7
         self.cell_width = 4
         self.max_rows = 4
+        self.stripe_divisor_light = 8
+        self.stripe_divisor_dark = 16
 
         self.transit_lines = []
         self.rows = []
@@ -100,9 +102,9 @@ class TransitFeedView(SampleBase):
                             if not is_light_mode:
                                 offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                             elif self.viewmodel.is_stripe(xx, yy):
-                                offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
+                                offscreen_canvas.SetPixel(xx,yy, ...([value // self.viewmodel.stripe_divisor_light for value in row.color]))
                             else:
-                                offscreen_canvas.SetPixel(xx, yy, row.color[0] // 16, row.color[1] // 16, row.color[2] // 16)
+                                offscreen_canvas.SetPixel(xx,yy, ...([value // self.viewmodel.stripe_divisor_dark for value in row.color]))
 
                     if should_scroll_name and should_scroll_description:
                         self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)

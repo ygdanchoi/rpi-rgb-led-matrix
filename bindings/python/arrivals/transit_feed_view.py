@@ -56,8 +56,7 @@ class TransitFeedViewModel():
         return 7 <= hh and hh < 22
 
     def is_stripe(self, x, y):
-        b = 8
-        return -x + b * 1 <= y and y < -x + b * 2 or -x + b * 3 <= y and y < -x + b * 4
+        return (x + y) // 8 % 2 == 0
 
 class TransitFeedView(SampleBase):
     def __init__(self, *args, **kwargs):

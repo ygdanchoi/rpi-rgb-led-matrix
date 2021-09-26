@@ -55,7 +55,7 @@ class TransitFeedViewModel():
     
     def is_light_mode(self):
         hh = datetime.now().hour
-        return 7 <= hh and hh < 22
+        return 7 <= hh and hh < 23
 
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
@@ -102,9 +102,21 @@ class TransitFeedView(SampleBase):
                             if not is_light_mode:
                                 offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                             elif self.viewmodel.is_stripe(xx, yy):
-                                offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_light for value in row.color])
+                                offscreen_canvas.SetPixel(
+                                    xx,
+                                    yy,
+                                    row.color[0] // self.viewmodel.stripe_divisor_dark,
+                                    row.color[1] // self.viewmodel.stripe_divisor_dark,
+                                    row.color[2] // self.viewmodel.stripe_divisor_dark
+                                )
                             else:
-                                offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_dark for value in row.color])
+                                offscreen_canvas.SetPixel(
+                                    xx,
+                                    yy,
+                                    row.color[0] // self.viewmodel.stripe_divisor_light,
+                                    row.color[1] // self.viewmodel.stripe_divisor_light,
+                                    row.color[2] // self.viewmodel.stripe_divisor_light
+                                )
 
                     if should_scroll_name and should_scroll_description:
                         self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
@@ -196,9 +208,21 @@ class TransitFeedView(SampleBase):
                 if not is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                 elif self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_light for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                    )
                 else:
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_dark for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
+                    )
 
         
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
@@ -206,9 +230,21 @@ class TransitFeedView(SampleBase):
                 if not is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                 elif self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_light for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                    )
                 else:
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_dark for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
+                    )
 
 
     def draw_scrolled_name(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
@@ -229,8 +265,20 @@ class TransitFeedView(SampleBase):
                 if not is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
                 elif self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_light for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_dark,
+                        row.color[1] // self.viewmodel.stripe_divisor_dark,
+                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                    )
                 else:
-                    offscreen_canvas.SetPixel(xx,yy, *[value // self.viewmodel.stripe_divisor_dark for value in row.color])
+                    offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        row.color[0] // self.viewmodel.stripe_divisor_light,
+                        row.color[1] // self.viewmodel.stripe_divisor_light,
+                        row.color[2] // self.viewmodel.stripe_divisor_light
+                    )
 
     

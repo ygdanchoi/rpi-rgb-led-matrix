@@ -31,7 +31,6 @@ class TransitFeedViewModel():
         update_weather_timer = 0
 
         while True:
-            
             if update_transit_lines_timer == 0:
                 self.transit_lines = self.transit_service.get_transit_lines()
                 update_transit_lines_timer = 60
@@ -46,12 +45,14 @@ class TransitFeedViewModel():
             self.rows = self.row_factory.create_rows(self.transit_lines)
             time.sleep(1)
     
-    def update_vertical_offset(self):
+    def increment_offsets(self):
         self.vertical_offset += 1
         if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
 
         self.stripes_offset += 1
+        if self.stripes_offset >= 16:
+            self.stripes_offset = 0
     
     def is_light_mode(self):
         hh = datetime.now().hour
@@ -187,7 +188,7 @@ class TransitFeedView(SampleBase):
                 )
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            self.viewmodel.update_vertical_offset()
+            self.viewmodel.increment_offsets()
             if is_light_mode:
                 time.sleep(0.01)
             else:

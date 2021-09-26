@@ -95,7 +95,7 @@ class TransitFeedView(SampleBase):
                     should_scroll_description = len(row.description) > 17
                     # TODO: handle len(rows) < self.viewmodel.max_rows better
 
-                    for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+                    for yy in range(y - self.viewmodel.cell_height + 1, y + 1):
                         for xx in range(0, offscreen_canvas.width):
                             if is_light_mode and self.viewmodel.is_stripe(xx, yy):
                                 offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)

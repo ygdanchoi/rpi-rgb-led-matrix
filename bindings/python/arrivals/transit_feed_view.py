@@ -81,11 +81,6 @@ class TransitFeedView(SampleBase):
             rows = self.viewmodel.rows
             is_light_mode = self.viewmodel.is_light_mode()
 
-            for yy in range(0, offscreen_canvas.height):
-                for xx in range(0, offscreen_canvas.width):
-                    if self.viewmodel.is_stripe(xx, yy):
-                        offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
-
             for i, row in enumerate(rows):
                 y = (i + 1) * self.viewmodel.cell_height - self.viewmodel.vertical_offset
                 if y < -self.viewmodel.cell_height:
@@ -99,6 +94,11 @@ class TransitFeedView(SampleBase):
                     should_scroll_name = len(row.name) > 4
                     should_scroll_description = len(row.description) > 17
                     # TODO: handle len(rows) < self.viewmodel.max_rows better
+
+                    for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+                        for xx in range(0, offscreen_canvas.width):
+                            if is_light_mode and self.viewmodel.is_stripe(xx, yy):
+                                offscreen_canvas.SetPixel(xx, yy, light_mode_color[0] // 8, light_mode_color[1] // 8, light_mode_color[2] // 8)
 
                     if should_scroll_name and should_scroll_description:
                         self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
@@ -181,7 +181,7 @@ class TransitFeedView(SampleBase):
 
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(0, 5 * self.viewmodel.cell_width):
-                if self.viewmodel.is_stripe(xx, yy):
+                if is_light_mode and self.viewmodel.is_stripe(xx, yy):
                     offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -189,7 +189,7 @@ class TransitFeedView(SampleBase):
         
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
-                if self.viewmodel.is_stripe(xx, yy):
+                if is_light_mode and self.viewmodel.is_stripe(xx, yy):
                     offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -210,7 +210,7 @@ class TransitFeedView(SampleBase):
 
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
-                if self.viewmodel.is_stripe(xx, yy):
+                if is_light_mode and self.viewmodel.is_stripe(xx, yy):
                     offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)

@@ -51,7 +51,7 @@ class TransitFeedViewModel():
             self.vertical_offset = 0
 
         self.stripes_offset += 1
-        if self.stripes_offset >= 16:
+        if self.stripes_offset >= 32:
             self.stripes_offset = 0
     
     def is_light_mode(self):

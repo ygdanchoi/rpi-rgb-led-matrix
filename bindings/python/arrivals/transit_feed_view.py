@@ -147,7 +147,7 @@ class TransitFeedView(SampleBase):
                 for yy in range(offscreen_canvas.height - self.viewmodel.cell_height, offscreen_canvas.height):
                     for xx in range(0, offscreen_canvas.width):
                         if self.viewmodel.is_stripe(xx, yy):
-                            offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
+                            offscreen_canvas.SetPixel(xx, yy, 255 // 8, 255 // 8, 255 // 8)
                         else:
                             offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
 
@@ -182,7 +182,7 @@ class TransitFeedView(SampleBase):
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(0, 5 * self.viewmodel.cell_width):
                 if is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
+                    offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
 
@@ -190,7 +190,7 @@ class TransitFeedView(SampleBase):
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
                 if is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
+                    offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
 
@@ -211,7 +211,7 @@ class TransitFeedView(SampleBase):
         for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
             for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
                 if is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                    offscreen_canvas.SetPixel(xx, yy, 15, 15, 15)
+                    offscreen_canvas.SetPixel(xx, yy, row.color[0] // 8, row.color[1] // 8, row.color[2] // 8)
                 else:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
 

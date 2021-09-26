@@ -11,6 +11,7 @@ from datetime import datetime
 import gtfs_realtime_pb2
 import secrets
 
+Stop = collections.namedtuple('Stop', ['stop_id', 'stop_name'])
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['key', 'name', 'description', 'etas', 'color'])
 
@@ -20,22 +21,9 @@ class BaseTransitService:
 
 class GtfsService(BaseTransitService):
     def __init__(self):
-        self.trips = {}
         self.colors = {}
-
-        with open(self.get_trips_path()) as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            next(csv_reader) # skip header
-
-            for row in csv_reader:
-                trip_id = self.get_trip_id(row)
-
-                self.trips[trip_id] = Trip(
-                    trip_id=trip_id,
-                    trip_headsign=self.get_trip_headsign(row),
-                    route_id=self.get_route_id(row),
-                    direction_id=self.get_direction_id(row)
-                )
+        self.stops = {}
+        self.trips = {}
 
         with open(self.get_routes_path()) as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
@@ -53,6 +41,32 @@ class GtfsService(BaseTransitService):
                     ]
                 else:
                     self.colors[route_id] = [255, 255, 255]
+
+        with open(self.get_stops_path()) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader) # skip header
+
+            for row in csv_reader:
+                stop_id = self.get_stop_id(row)
+
+                self.stops[stop_id] = Stop(
+                    stop_id=stop_id,
+                    stop_name=self.get_stop_name(row)
+                )
+
+        with open(self.get_trips_path()) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            next(csv_reader) # skip header
+
+            for row in csv_reader:
+                trip_id = self.get_trip_id(row)
+
+                self.trips[trip_id] = Trip(
+                    trip_id=trip_id,
+                    trip_headsign=self.get_trip_headsign(row),
+                    route_id=self.get_route_id(row),
+                    direction_id=self.get_direction_id(row)
+                )
     
     def get_routes_path(self):
         pass
@@ -75,15 +89,28 @@ class GtfsService(BaseTransitService):
     def get_route_color(self, row):
         pass
 
+    def get_stop_id(self, row):
+        pass
+
+    def get_stop_name(self, row):
+        pass
+
     def get_eta(self, trip_update, stop_id):
         return next(
             (stop_time_update.arrival.time for stop_time_update in trip_update.stop_time_update if stop_time_update.stop_id == stop_id),
             None
         )
+    
+    def get_last_stop_name(self, trip_update):
+        stop_id = sorted(trip_update.stop_time_update, key=lambda stop_time_update: -stop_time_update.arrival.time)[0].stop_id
+        return self.stops[stop_id].stop_name
 
 class MtaSubwayService(GtfsService):
     def get_routes_path(self):
         return './gtfs/mta-subway/google_transit/routes.txt'
+
+    def get_stops_path(self):
+        return './gtfs/mta-subway/google_transit/stops.txt'
 
     def get_trips_path(self):
         return './gtfs/mta-subway/google_transit/trips.txt'
@@ -103,6 +130,12 @@ class MtaSubwayService(GtfsService):
     
     def get_route_color(self, row):
         return row[7]
+
+    def get_stop_id(self, row):
+        return row[0]
+
+    def get_stop_name(self, row):
+        return row[2]
     
     def get_transit_lines(self, stop_id, direction, gtfs_id):
         transit_lines_by_key = {}
@@ -127,7 +160,7 @@ class MtaSubwayService(GtfsService):
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
                     name=route_id,
-                    description=trip.trip_headsign,
+                    description=self.get_last_stop_name(trip_update),
                     etas=[],
                     color=self.colors[route_id]
                 )).etas.append(eta)
@@ -194,6 +227,9 @@ class NycFerryService(GtfsService):
     def get_routes_path(self):
         return './gtfs/nyc-ferry/google_transit/routes.txt'
 
+    def get_stops_path(self):
+        return './gtfs/nyc-ferry/google_transit/stops.txt'
+
     def get_trips_path(self):
         return './gtfs/nyc-ferry/google_transit/trips.txt'
     
@@ -211,6 +247,12 @@ class NycFerryService(GtfsService):
     
     def get_route_color(self, row):
         return row[5]
+
+    def get_stop_id(self, row):
+        return row[0]
+
+    def get_stop_name(self, row):
+        return row[2]
 
     def get_transit_lines(self, stop_id, direction):
         transit_lines_by_key = {}

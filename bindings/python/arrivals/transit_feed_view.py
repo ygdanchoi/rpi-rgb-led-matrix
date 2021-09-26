@@ -76,7 +76,6 @@ class TransitFeedView(SampleBase):
             is_light_mode = self.viewmodel.is_light_mode()
 
             for i, row in enumerate(rows):
-                # avoid helper functions here; performance overhead is unacceptable
                 y = (i + 1) * self.viewmodel.cell_height - self.viewmodel.vertical_offset
                 if y < -self.viewmodel.cell_height:
                     y += len(rows) * self.viewmodel.cell_height

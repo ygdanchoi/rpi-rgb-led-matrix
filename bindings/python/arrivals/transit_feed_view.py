@@ -189,7 +189,10 @@ class TransitFeedView(SampleBase):
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             self.viewmodel.increment_offsets()
-            time.sleep(0.05)
+            if is_light_mode:
+                time.sleep(0.01)
+            else:
+                time.sleep(0.1)
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

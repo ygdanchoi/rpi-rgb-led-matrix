@@ -193,7 +193,9 @@ class TransitFeedView(SampleBase):
 
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             last_ns = time.time_ns()
-            time.sleep(max(0, 0.1 - last_delta_s))
+            s_to_wait = max(0, 0.1 - last_delta_s)
+            print(s_to_wait)
+            time.sleep(s_to_wait)
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

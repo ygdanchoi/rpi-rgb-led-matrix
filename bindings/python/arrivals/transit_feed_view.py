@@ -192,10 +192,10 @@ class TransitFeedView(SampleBase):
             self.viewmodel.increment_offsets()
 
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
-            last_ns = time.time_ns()
             s_to_wait = max(0, 0.1 - last_delta_s)
             print(s_to_wait)
             time.sleep(s_to_wait)
+            last_ns = time.time_ns()
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

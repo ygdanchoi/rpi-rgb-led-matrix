@@ -77,6 +77,7 @@ class TransitFeedView(SampleBase):
         font.LoadFont("../../../fonts/tom-thumb.bdf")
         dark_mode_color = graphics.Color(47, 0, 0)
         light_mode_colors = {}
+        last_ns = time.time_ns()
         
         # for true MVVM, view should observe viewmodel.vertical_offset; however, this is slow
         while True:
@@ -189,6 +190,9 @@ class TransitFeedView(SampleBase):
             
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             self.viewmodel.increment_offsets()
+
+            print(time.time_ns() - last_ns)
+            last_ns = time.time_ns()
             time.sleep(0.05)
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):

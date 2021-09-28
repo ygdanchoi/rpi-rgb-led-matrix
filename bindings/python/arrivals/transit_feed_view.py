@@ -191,7 +191,7 @@ class TransitFeedView(SampleBase):
             offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
             self.viewmodel.increment_offsets()
 
-            print(time.time_ns() - last_ns)
+            print((time.time_ns() - last_ns) / 1_000_000_000)
             last_ns = time.time_ns()
             time.sleep(0.05)
 

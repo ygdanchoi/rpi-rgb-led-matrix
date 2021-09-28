@@ -193,7 +193,7 @@ class TransitFeedView(SampleBase):
 
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             last_ns = time.time_ns()
-            s_to_wait = max(0, last_delta_s - 0.1)
+            s_to_wait = max(0, 0.1 - last_delta_s)
             print(s_to_wait)
             time.sleep(s_to_wait)
 

@@ -83,7 +83,7 @@ class TransitFeedView(SampleBase):
         while True:
             offscreen_canvas.Clear()
             rows = self.viewmodel.rows
-            is_light_mode = self.viewmodel.is_light_mode()
+            is_light_mode = True or self.viewmodel.is_light_mode()
 
             for i, row in enumerate(rows):
                 y = (i + 1) * self.viewmodel.cell_height - self.viewmodel.vertical_offset

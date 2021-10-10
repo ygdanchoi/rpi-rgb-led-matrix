@@ -169,7 +169,7 @@ class TransitFeedView(Observer, SampleBase):
                         1,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:4]:<self.viewmodel.idx_etas}{row.etas}'
+                        f'{row.name[:4]:<{self.viewmodel.idx_etas}}{row.etas}'
                     )
                 else:
                     graphics.DrawText(

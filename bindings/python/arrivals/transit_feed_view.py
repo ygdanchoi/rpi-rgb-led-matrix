@@ -34,11 +34,11 @@ class TransitFeedViewModel():
         while True:
             if update_transit_lines_timer == 0:
                 self.transit_lines = self.transit_service.get_transit_lines()
-                update_transit_lines_timer = 30
+                update_transit_lines_timer = 30 * 100
 
             if update_weather_timer == 0:
                 self.temperature = self.weather_service.get_weather().temperature
-                update_weather_timer = 60 * 60
+                update_weather_timer = 60 * 60 * 100
 
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
@@ -49,7 +49,7 @@ class TransitFeedViewModel():
                 self.horizontal_offset,
                 self.cell_height
             )
-            time.sleep(1)
+            time.sleep(1 / 100)
     
     def increment_offsets(self):
         self.horizontal_offset += 1

@@ -92,13 +92,13 @@ class TransitFeedViewModel(Subject):
     def increment_offsets(self):
         self.vertical_offset += 1
         self.horizontal_offset += 1
-        if len(self.rows) < self.max_rows:
-            self.vertical_offset = 0
-        if self.vertical_offset >= self.cell_height * len(self.rows):
+
+        if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
             self.horizontal_offset = 0
 
         self.stripes_offset += 1
+        
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
     
@@ -213,11 +213,6 @@ class TransitFeedView(Observer, SampleBase):
             text
         )
 
-    def draw_row_mask(self, row, x_start, x_end):
-        for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
-            for xx in range(x_start, x_end):
-                self.draw_stripe_pixel(xx, yy, row.color)
-
     def get_text_color(self, color):
         if self.viewmodel.is_light_mode:
             key = str(color)
@@ -226,6 +221,11 @@ class TransitFeedView(Observer, SampleBase):
             return self.light_mode_colors[key]
         else:
             return self.dark_mode_color
+
+    def draw_row_mask(self, row, x_start, x_end):
+        for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
+            for xx in range(x_start, x_end):
+                self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_stripe_pixel(self, xx, yy, color):
         if not self.viewmodel.is_light_mode:

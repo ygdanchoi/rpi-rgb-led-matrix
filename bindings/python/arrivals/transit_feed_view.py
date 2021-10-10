@@ -140,7 +140,6 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_scrolled_description(row)
                     self.draw_unscrolled_name_and_etas(row)
                 else:
-                    self.draw_row_mask(row, 0, self.offscreen_canvas.width);
                     self.draw_unscrolled_name_and_description_and_etas(row)
 
         self.draw_footer()
@@ -148,6 +147,8 @@ class TransitFeedView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def draw_scrolled_description(self, row):
+        self.draw_row_mask(row, self.viewmodel.idx_desc * self.viewmodel.cell_width, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width)
+
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
@@ -203,6 +204,8 @@ class TransitFeedView(Observer, SampleBase):
         )
     
     def draw_unscrolled_name_and_description_and_etas(self, row):
+        self.draw_row_mask(row, 0, self.offscreen_canvas.width)
+        
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,

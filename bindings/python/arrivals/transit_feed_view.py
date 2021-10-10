@@ -60,7 +60,6 @@ class TransitFeedViewModel(Subject):
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             s_to_wait = max(0, 0.06 - last_delta_s)
             time.sleep(s_to_wait)
-            print(s_to_wait)
             last_ns = time.time_ns()
 
 

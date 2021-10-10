@@ -156,7 +156,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             row.description
         )
 
@@ -174,7 +174,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1 + row.dx_name,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
 
@@ -188,7 +188,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             row.etas
         )
 
@@ -198,7 +198,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             f'{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
     
@@ -208,7 +208,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_etas}}{row.etas}'
         )
     
@@ -218,7 +218,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             1,
             row.y,
-            self.get_text_color(),
+            self.get_text_color(row),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
 

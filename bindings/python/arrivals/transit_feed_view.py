@@ -129,9 +129,7 @@ class TransitFeedView(Observer, SampleBase):
             if (row.y < self.offscreen_canvas.height):
                 # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
 
-                for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
-                    for xx in range(0, self.offscreen_canvas.width):
-                        self.draw_stripe(xx, yy, row.color)
+                self.draw_row_mask(row, 0, self.offscreen_canvas.width);
 
                 if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
@@ -162,11 +160,11 @@ class TransitFeedView(Observer, SampleBase):
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(0, self.viewmodel.idx_desc * self.viewmodel.cell_width):
-                self.draw_stripe(xx, yy, row.color)
+                self.draw_stripe_pixel(xx, yy, row.color)
         
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range((self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width):
-                self.draw_stripe(xx, yy, row.color)
+                self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_scrolled_name(self, row):
         graphics.DrawText(
@@ -180,7 +178,7 @@ class TransitFeedView(Observer, SampleBase):
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range((self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width):
-                self.draw_stripe(xx, yy, row.color)
+                self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_unscrolled_etas(self, row):
         graphics.DrawText(
@@ -255,6 +253,11 @@ class TransitFeedView(Observer, SampleBase):
             f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
         )
 
+    def draw_row_mask(self, row, x_start, x_end):
+        for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
+            for xx in range(x_start, x_end):
+                self.draw_stripe_pixel(xx, yy, row.color)
+
     def get_text_color(self, row):
         if self.viewmodel.is_light_mode:
             key = str(row.color)
@@ -264,7 +267,7 @@ class TransitFeedView(Observer, SampleBase):
         else:
             return self.dark_mode_color
 
-    def draw_stripe(self, xx, yy, color):
+    def draw_stripe_pixel(self, xx, yy, color):
         if not self.viewmodel.is_light_mode:
             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
         else:

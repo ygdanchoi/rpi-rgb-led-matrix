@@ -11,6 +11,8 @@ class TransitFeedViewModel():
         self.transit_service = transit_service
         self.row_factory = row_factory
         self.weather_service = weather_service
+
+        self.observers = []
         
         self.horizontal_offset = 0
         self.vertical_offset = 0
@@ -26,6 +28,9 @@ class TransitFeedViewModel():
         self.temperature = ''
 
         threading.Thread(target=self.update_loop).start()
+
+    def subscribe(self, observer):
+        self.observers.append(observer)
 
     def update_loop(self):
         update_transit_lines_timer = 0
@@ -49,6 +54,9 @@ class TransitFeedViewModel():
                 self.horizontal_offset,
                 self.cell_height
             )
+
+            for observer in self.observers:
+                observer.render()
             time.sleep(1 / 100)
     
     def increment_offsets(self):
@@ -78,129 +86,129 @@ class TransitFeedView(SampleBase):
             row_factory=kwargs['row_factory'],
             weather_service=kwargs['weather_service']
         )
+        self.viewmodel.subscribe(self)
 
     def run(self):
-        offscreen_canvas = self.matrix.CreateFrameCanvas()
-        font = graphics.Font()
-        font.LoadFont("../../../fonts/tom-thumb.bdf")
-        dark_mode_color = graphics.Color(47, 0, 0)
-        light_mode_colors = {}
-        last_ns = time.time_ns()
-        
-        # for true MVVM, view should observe viewmodel.vertical_offset; however, this is slow
-        while True:
-            offscreen_canvas.Clear()
-            rows = self.viewmodel.rows
-            is_light_mode = self.viewmodel.is_light_mode()
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+        self.font = graphics.Font()
+        self.font.LoadFont("../../../fonts/tom-thumb.bdf")
+        self.dark_mode_color = graphics.Color(47, 0, 0)
+        self.light_mode_colors = {}
+        self.last_ns = time.time_ns()
 
-            for row in rows:
-                y = row.y
-                
-                if (y < offscreen_canvas.height):
-                    if str(row.color) not in light_mode_colors:
-                        light_mode_colors[str(row.color)] = graphics.Color(*row.color)
-                    light_mode_color = light_mode_colors[str(row.color)]
+    def render(self):
+        self.offscreen_canvas.Clear()
+        rows = self.viewmodel.rows
+        is_light_mode = self.viewmodel.is_light_mode()
 
-                    should_scroll_name = len(row.name) > 4
-                    should_scroll_description = len(row.description) > 17
-                    # TODO: handle len(rows) < self.viewmodel.max_rows better
+        for row in rows:
+            y = row.y
+            
+            if (y < self.offscreen_canvas.height):
+                if str(row.color) not in self.light_mode_colors:
+                    self.light_mode_colors[str(row.color)] = graphics.Color(*row.color)
+                light_mode_color = self.light_mode_colors[str(row.color)]
 
-                    for yy in range(y - self.viewmodel.cell_height + 1, min(y + 1, offscreen_canvas.height - self.viewmodel.cell_height)):
-                        for xx in range(0, offscreen_canvas.width):
-                            if not is_light_mode:
-                                offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                            elif self.viewmodel.is_stripe(xx, yy):
-                                offscreen_canvas.SetPixel(
-                                    xx,
-                                    yy,
-                                    row.color[0] // self.viewmodel.stripe_divisor_light,
-                                    row.color[1] // self.viewmodel.stripe_divisor_light,
-                                    row.color[2] // self.viewmodel.stripe_divisor_light
-                                )
-                            else:
-                                offscreen_canvas.SetPixel(
-                                    xx,
-                                    yy,
-                                    row.color[0] // self.viewmodel.stripe_divisor_dark,
-                                    row.color[1] // self.viewmodel.stripe_divisor_dark,
-                                    row.color[2] // self.viewmodel.stripe_divisor_dark
-                                )
+                should_scroll_name = len(row.name) > 4
+                should_scroll_description = len(row.description) > 17
+                # TODO: handle len(rows) < self.viewmodel.max_rows better
 
-                    if should_scroll_name and should_scroll_description:
-                        self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
-                        self.draw_scrolled_name(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
-                    
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            1 + 24 * self.viewmodel.cell_width,
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            row.etas
-                        )
-                    elif should_scroll_name:
-                        self.draw_scrolled_name(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
-                    
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            1 + 5 * self.viewmodel.cell_width,
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            f'{row.description[:17]:<19}{row.etas}'
-                        )
-                    elif should_scroll_description:
-                        self.draw_scrolled_description(row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color)
-                        
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            1,
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            f'{row.name[:4]:<24}{row.etas}'
-                        )
-                    else:
-                        graphics.DrawText(
-                            offscreen_canvas,
-                            font,
-                            1,
-                            y,
-                            light_mode_color if is_light_mode else dark_mode_color,
-                            f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
-                        )
-
-                for yy in range(offscreen_canvas.height - self.viewmodel.cell_height, offscreen_canvas.height):
-                    for xx in range(0, offscreen_canvas.width):
-                        if is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                            offscreen_canvas.SetPixel(
+                for yy in range(y - self.viewmodel.cell_height + 1, min(y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
+                    for xx in range(0, self.offscreen_canvas.width):
+                        if not is_light_mode:
+                            self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                        elif self.viewmodel.is_stripe(xx, yy):
+                            self.offscreen_canvas.SetPixel(
                                 xx,
                                 yy,
-                                255 // self.viewmodel.stripe_divisor_dark,
-                                255 // self.viewmodel.stripe_divisor_dark,
-                                255 // self.viewmodel.stripe_divisor_dark
+                                row.color[0] // self.viewmodel.stripe_divisor_light,
+                                row.color[1] // self.viewmodel.stripe_divisor_light,
+                                row.color[2] // self.viewmodel.stripe_divisor_light
                             )
                         else:
-                            offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                            self.offscreen_canvas.SetPixel(
+                                xx,
+                                yy,
+                                row.color[0] // self.viewmodel.stripe_divisor_dark,
+                                row.color[1] // self.viewmodel.stripe_divisor_dark,
+                                row.color[2] // self.viewmodel.stripe_divisor_dark
+                            )
 
-                temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
+                if should_scroll_name and should_scroll_description:
+                    self.draw_scrolled_description(row, y, self.offscreen_canvas, self.font, is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_name(row, y, self.offscreen_canvas, self.font, is_light_mode, light_mode_color, self.dark_mode_color)
                 
-                graphics.DrawText(
-                    offscreen_canvas,
-                    font,
-                    1,
-                    offscreen_canvas.height - 1,
-                    graphics.Color(255, 255, 255) if is_light_mode else dark_mode_color,
-                    f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
-                )
-            
-            offscreen_canvas = self.matrix.SwapOnVSync(offscreen_canvas)
-            self.viewmodel.increment_offsets()
+                    graphics.DrawText(
+                        self.offscreen_canvas,
+                        self.font,
+                        1 + 24 * self.viewmodel.cell_width,
+                        y,
+                        light_mode_color if is_light_mode else self.dark_mode_color,
+                        row.etas
+                    )
+                elif should_scroll_name:
+                    self.draw_scrolled_name(row, y, self.offscreen_canvas, self.font, is_light_mode, light_mode_color, self.dark_mode_color)
+                
+                    graphics.DrawText(
+                        self.offscreen_canvas,
+                        self.font,
+                        1 + 5 * self.viewmodel.cell_width,
+                        y,
+                        light_mode_color if is_light_mode else self.dark_mode_color,
+                        f'{row.description[:17]:<19}{row.etas}'
+                    )
+                elif should_scroll_description:
+                    self.draw_scrolled_description(row, y, self.offscreen_canvas, self.font, is_light_mode, light_mode_color, self.dark_mode_color)
+                    
+                    graphics.DrawText(
+                        self.offscreen_canvas,
+                        self.font,
+                        1,
+                        y,
+                        light_mode_color if is_light_mode else self.dark_mode_color,
+                        f'{row.name[:4]:<24}{row.etas}'
+                    )
+                else:
+                    graphics.DrawText(
+                        self.offscreen_canvas,
+                        self.font,
+                        1,
+                        y,
+                        light_mode_color if is_light_mode else self.dark_mode_color,
+                        f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
+                    )
 
-            last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
-            s_to_wait = max(0, 0.075 - last_delta_s)
-            time.sleep(s_to_wait)
-            last_ns = time.time_ns()
+            for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
+                for xx in range(0, self.offscreen_canvas.width):
+                    if is_light_mode and self.viewmodel.is_stripe(xx, yy):
+                        self.offscreen_canvas.SetPixel(
+                            xx,
+                            yy,
+                            255 // self.viewmodel.stripe_divisor_dark,
+                            255 // self.viewmodel.stripe_divisor_dark,
+                            255 // self.viewmodel.stripe_divisor_dark
+                        )
+                    else:
+                        self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+
+            temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
+            
+            graphics.DrawText(
+                self.offscreen_canvas,
+                self.font,
+                1,
+                self.offscreen_canvas.height - 1,
+                graphics.Color(255, 255, 255) if is_light_mode else self.dark_mode_color,
+                f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
+            )
+        
+        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+        self.viewmodel.increment_offsets()
+
+        last_delta_s = (time.time_ns() - self.last_ns) / 1_000_000_000
+        s_to_wait = max(0, 0.075 - last_delta_s)
+        time.sleep(s_to_wait)
+        last_ns = time.time_ns()
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

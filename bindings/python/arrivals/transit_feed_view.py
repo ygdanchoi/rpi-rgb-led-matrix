@@ -42,6 +42,8 @@ class TransitFeedViewModel(Subject):
         self.observers.append(observer)
     
     def main_thread(self):
+        last_ns = time.time_ns()
+
         while True:            
             self.rows = self.row_factory.create_rows(
                 self.transit_lines,
@@ -53,7 +55,13 @@ class TransitFeedViewModel(Subject):
             for observer in self.observers:
                 observer.update()
 
-            time.sleep(1 / 60)
+            self.increment_offsets()
+            
+            last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
+            s_to_wait = max(0, 0.075 - last_delta_s)
+            time.sleep(s_to_wait)
+            last_ns = time.time_ns()
+
 
     def background_thread(self):
         update_transit_lines_timer = 0
@@ -109,7 +117,6 @@ class TransitFeedView(Observer, SampleBase):
         self.font.LoadFont("../../../fonts/tom-thumb.bdf")
         self.dark_mode_color = graphics.Color(47, 0, 0)
         self.light_mode_colors = {}
-        self.last_ns = time.time_ns()
 
     def update(self):
         self.offscreen_canvas.Clear()
@@ -218,12 +225,7 @@ class TransitFeedView(Observer, SampleBase):
             )
         
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
-        self.viewmodel.increment_offsets()
 
-        last_delta_s = (time.time_ns() - self.last_ns) / 1_000_000_000
-        s_to_wait = max(0, 0.075 - last_delta_s)
-        time.sleep(s_to_wait)
-        last_ns = time.time_ns()
 
     def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(

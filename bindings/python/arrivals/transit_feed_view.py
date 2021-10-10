@@ -209,9 +209,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             x,
             row.y if row else self.offscreen_canvas.height - 1,
-            self.get_text_color(row) if row else (
-                graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color
-            ),
+            self.get_text_color(row.color if row else [255, 255, 255]),
             text
         )
 
@@ -220,11 +218,11 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(x_start, x_end):
                 self.draw_stripe_pixel(xx, yy, row.color)
 
-    def get_text_color(self, row):
+    def get_text_color(self, color):
         if self.viewmodel.is_light_mode:
-            key = str(row.color)
+            key = str(color)
             if key not in self.light_mode_colors:
-                self.light_mode_colors[key] = graphics.Color(*row.color)
+                self.light_mode_colors[key] = graphics.Color(*color)
             return self.light_mode_colors[key]
         else:
             return self.dark_mode_color

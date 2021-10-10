@@ -215,7 +215,7 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe(xx, yy, row.color)
         
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range((self.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width):
+            for xx in range((self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width):
                 self.draw_stripe(xx, yy, row.color)
 
     def draw_scrolled_name(self, row):

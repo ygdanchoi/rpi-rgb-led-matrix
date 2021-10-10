@@ -158,13 +158,8 @@ class TransitFeedView(Observer, SampleBase):
             row.description
         )
 
-        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range(0, self.viewmodel.idx_desc * self.viewmodel.cell_width):
-                self.draw_stripe_pixel(xx, yy, row.color)
-        
-        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range((self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, row.color)
+        self.draw_row_mask(row, 0, self.viewmodel.idx_desc * self.viewmodel.cell_width)
+        self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
 
     def draw_scrolled_name(self, row):
         graphics.DrawText(
@@ -176,9 +171,7 @@ class TransitFeedView(Observer, SampleBase):
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
 
-        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range((self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width):
-                self.draw_stripe_pixel(xx, yy, row.color)
+        self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 
     def draw_unscrolled_etas(self, row):
         graphics.DrawText(

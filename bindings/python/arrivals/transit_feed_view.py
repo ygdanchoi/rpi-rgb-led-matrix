@@ -140,46 +140,15 @@ class TransitFeedView(Observer, SampleBase):
                 if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)
-                
-                    graphics.DrawText(
-                        self.offscreen_canvas,
-                        self.font,
-                        1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
-                        row.y,
-                        light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        row.etas
-                    )
+                    self.draw_unscrolled_etas(row)
                 elif row.dx_name != 0:
                     self.draw_scrolled_name(row)
-                
-                    graphics.DrawText(
-                        self.offscreen_canvas,
-                        self.font,
-                        1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
-                        row.y,
-                        light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
-                    )
+                    self.draw_unscrolled_description_and_etas(row)
                 elif row.dx_description != 0:
                     self.draw_scrolled_description(row)
-                    
-                    graphics.DrawText(
-                        self.offscreen_canvas,
-                        self.font,
-                        1,
-                        row.y,
-                        light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_etas}}{row.etas}'
-                    )
+                    self.draw_unscrolled_name_and_etas(row)
                 else:
-                    graphics.DrawText(
-                        self.offscreen_canvas,
-                        self.font,
-                        1,
-                        row.y,
-                        light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
-                    )
+                    self.draw_unscrolled_name_and_description_and_etas(row)
 
             for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
                 for xx in range(0, self.offscreen_canvas.width):
@@ -233,6 +202,54 @@ class TransitFeedView(Observer, SampleBase):
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range((self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width):
                 self.draw_stripe(xx, yy, row.color)
+
+    def draw_unscrolled_etas(self, row):
+        light_mode_color = self.light_mode_colors[str(row.color)]
+
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
+            row.y,
+            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            row.etas
+        )
+
+    def draw_unscrolled_description_and_etas(self, row):
+        light_mode_color = self.light_mode_colors[str(row.color)]
+
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
+            row.y,
+            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            f'{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
+        )
+    
+    def draw_unscrolled_name_and_etas(self, row):
+        light_mode_color = self.light_mode_colors[str(row.color)]
+
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            1,
+            row.y,
+            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_etas}}{row.etas}'
+        )
+    
+    def draw_unscrolled_name_and_description_and_etas(self, row):
+        light_mode_color = self.light_mode_colors[str(row.color)]
+
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            1,
+            row.y,
+            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
+        )
 
     def draw_stripe(self, xx, yy, color):
         if not self.viewmodel.is_light_mode:

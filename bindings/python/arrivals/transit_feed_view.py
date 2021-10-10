@@ -133,17 +133,7 @@ class TransitFeedView(Observer, SampleBase):
 
                 for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
                     for xx in range(0, self.offscreen_canvas.width):
-                        if not self.viewmodel.is_light_mode:
-                            self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                        else:
-                            stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
-                            self.offscreen_canvas.SetPixel(
-                                xx,
-                                yy,
-                                row.color[0] // stripe_divisor,
-                                row.color[1] // stripe_divisor,
-                                row.color[2] // stripe_divisor
-                            )
+                        self.draw_stripe(xx, yy, row.color)
 
                 if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
@@ -191,16 +181,7 @@ class TransitFeedView(Observer, SampleBase):
 
             for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
                 for xx in range(0, self.offscreen_canvas.width):
-                    if self.viewmodel.is_light_mode and self.viewmodel.is_stripe(xx, yy):
-                        self.offscreen_canvas.SetPixel(
-                            xx,
-                            yy,
-                            255 // self.viewmodel.stripe_divisor_dark,
-                            255 // self.viewmodel.stripe_divisor_dark,
-                            255 // self.viewmodel.stripe_divisor_dark
-                        )
-                    else:
-                        self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                    self.draw_stripe(xx, yy, [127, 127, 127])
 
             temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
             
@@ -229,31 +210,11 @@ class TransitFeedView(Observer, SampleBase):
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(0, 5 * self.viewmodel.cell_width):
-                if not self.viewmodel.is_light_mode:
-                    self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                else:
-                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // stripe_divisor,
-                        row.color[1] // stripe_divisor,
-                        row.color[2] // stripe_divisor
-                    )
+                self.draw_stripe(xx, yy, row.color)
         
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(22 * self.viewmodel.cell_width, self.offscreen_canvas.width):
-                if not self.viewmodel.is_light_mode:
-                    self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                else:
-                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // stripe_divisor,
-                        row.color[1] // stripe_divisor,
-                        row.color[2] // stripe_divisor
-                    )
+                self.draw_stripe(xx, yy, row.color)
 
     def draw_scrolled_name(self, row):
         light_mode_color = self.light_mode_colors[str(row.color)]
@@ -269,16 +230,22 @@ class TransitFeedView(Observer, SampleBase):
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
-                if not self.viewmodel.is_light_mode:
-                    self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                else:
-                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // stripe_divisor,
-                        row.color[1] // stripe_divisor,
-                        row.color[2] // stripe_divisor
-                    )
+                self.draw_stripe(xx, yy, row.color)
+
+    def draw_stripe(self, xx, yy, color):
+        if not self.viewmodel.is_light_mode:
+            self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+        else:
+            if self.viewmodel.is_stripe(xx, yy):
+                stripe_divisor = self.viewmodel.stripe_divisor_light
+            else:
+                stripe_divisor = self.viewmodel.stripe_divisor_dark
+            self.offscreen_canvas.SetPixel(
+                xx,
+                yy,
+                color[0] // stripe_divisor,
+                color[1] // stripe_divisor,
+                color[2] // stripe_divisor
+            )
 
     

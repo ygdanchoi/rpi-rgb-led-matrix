@@ -30,6 +30,8 @@ class TransitFeedViewModel(Subject):
         self.max_rows = 4
         self.stripe_divisor_light = 8
         self.stripe_divisor_dark = 16
+        self.idx_desc = 5
+        self.idx_etas = 24
 
         self.transit_lines = []
         self.rows = []
@@ -142,7 +144,7 @@ class TransitFeedView(Observer, SampleBase):
                     graphics.DrawText(
                         self.offscreen_canvas,
                         self.font,
-                        1 + 24 * self.viewmodel.cell_width,
+                        1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         row.etas
@@ -167,7 +169,7 @@ class TransitFeedView(Observer, SampleBase):
                         1,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:4]:<24}{row.etas}'
+                        f'{row.name[:4]:<self.viewmodel.idx_etas}{row.etas}'
                     )
                 else:
                     graphics.DrawText(

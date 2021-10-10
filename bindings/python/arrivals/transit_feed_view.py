@@ -127,10 +127,6 @@ class TransitFeedView(Observer, SampleBase):
 
         for row in self.viewmodel.rows:
             if (row.y < self.offscreen_canvas.height):
-                if str(row.color) not in self.light_mode_colors:
-                    self.light_mode_colors[str(row.color)] = graphics.Color(*row.color)
-                light_mode_color = self.light_mode_colors[str(row.color)]
-
                 # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
 
                 for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
@@ -150,32 +146,17 @@ class TransitFeedView(Observer, SampleBase):
                 else:
                     self.draw_unscrolled_name_and_description_and_etas(row)
 
-            for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
-                for xx in range(0, self.offscreen_canvas.width):
-                    self.draw_stripe(xx, yy, [63, 63, 63])
+        self.draw_footer()
 
-            temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
-            
-            graphics.DrawText(
-                self.offscreen_canvas,
-                self.font,
-                1,
-                self.offscreen_canvas.height - 1,
-                graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color,
-                f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
-            )
-        
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def draw_scrolled_description(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             row.description
         )
 
@@ -188,14 +169,12 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe(xx, yy, row.color)
 
     def draw_scrolled_name(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1 + row.dx_name,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
 
@@ -204,52 +183,86 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe(xx, yy, row.color)
 
     def draw_unscrolled_etas(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             row.etas
         )
 
     def draw_unscrolled_description_and_etas(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             f'{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
     
     def draw_unscrolled_name_and_etas(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_etas}}{row.etas}'
         )
     
     def draw_unscrolled_name_and_description_and_etas(self, row):
-        light_mode_color = self.light_mode_colors[str(row.color)]
-
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             1,
             row.y,
-            light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
+            self.get_text_color(),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
+
+    def draw_footer(self):
+        for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
+            for xx in range(0, self.offscreen_canvas.width):
+                if not self.viewmodel.is_light_mode:
+                    self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+                else:
+                    if self.viewmodel.is_stripe(xx, yy):
+                        color = [
+                            255 // self.viewmodel.stripe_divisor_dark,
+                            255 // self.viewmodel.stripe_divisor_dark,
+                            255 // self.viewmodel.stripe_divisor_dark
+                        ]
+                    else:
+                        color = [0, 0, 0]
+                    self.offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        color[0],
+                        color[1],
+                        color[2]
+                    )
+
+        temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
+        
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            1,
+            self.offscreen_canvas.height - 1,
+            graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color,
+            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
+        )
+
+    def get_text_color(self, row):
+        if self.viewmodel.is_light_mode:
+            key = str(row.color)
+            if key not in self.light_mode_colors:
+                self.light_mode_colors[key] = graphics.Color(*row.color)
+            return self.light_mode_colors[key]
+        else:
+            return self.dark_mode_color
 
     def draw_stripe(self, xx, yy, color):
         if not self.viewmodel.is_light_mode:

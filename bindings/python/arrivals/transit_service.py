@@ -8,8 +8,8 @@ import traceback
 
 from datetime import datetime
 
-import gtfs_realtime_pb2
 import config
+import gtfs_realtime_pb2
 
 Stop = collections.namedtuple('Stop', ['stop_id', 'stop_name'])
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])

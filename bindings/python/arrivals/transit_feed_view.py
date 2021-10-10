@@ -230,9 +230,9 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             offscreen_canvas,
             font,
-            max(
-                min(1 + 5 * self.viewmodel.cell_width, 1 + 5 * self.viewmodel.cell_width + y - 4 - 2 * self.viewmodel.cell_height),
-                1 + 5 * self.viewmodel.cell_width + (17 - len(row.description)) * self.viewmodel.cell_width
+            1 + 5 * self.viewmodel.cell_width + max(
+                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                (17 - len(row.description)) * self.viewmodel.cell_width
             ),
             y,
             light_mode_color if is_light_mode else dark_mode_color,
@@ -286,9 +286,9 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             offscreen_canvas,
             font,
-            max(
-                min(1, 1 + y - 4 - 2 * self.viewmodel.cell_height),
-                1 + (4 - len(row.name)) * self.viewmodel.cell_width
+            1 + max(
+                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                (4 - len(row.name)) * self.viewmodel.cell_width
             ),
             y,
             light_mode_color if is_light_mode else dark_mode_color,

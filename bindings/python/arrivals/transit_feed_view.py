@@ -12,6 +12,7 @@ class TransitFeedViewModel():
         self.row_factory = row_factory
         self.weather_service = weather_service
         
+        self.horizontal_offset = 0
         self.vertical_offset = 0
         self.stripes_offset = 0
         self.cell_height = 7
@@ -42,10 +43,17 @@ class TransitFeedViewModel():
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
             
-            self.rows = self.row_factory.create_rows(self.transit_lines)
+            self.rows = self.row_factory.create_rows(
+                self.transit_lines,
+                self.vertical_offset,
+                self.horizontal_offset,
+                self.cell_height
+            )
             time.sleep(1)
     
     def increment_offsets(self):
+        self.horizontal_offset += 1
+
         self.vertical_offset += 1
         if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
@@ -85,10 +93,8 @@ class TransitFeedView(SampleBase):
             rows = self.viewmodel.rows
             is_light_mode = self.viewmodel.is_light_mode()
 
-            for i, row in enumerate(rows):
-                y = (i + 1) * self.viewmodel.cell_height - self.viewmodel.vertical_offset
-                if y < -self.viewmodel.cell_height:
-                    y += len(rows) * self.viewmodel.cell_height
+            for row in rows:
+                y = row.y
                 
                 if (y < offscreen_canvas.height):
                     if str(row.color) not in light_mode_colors:

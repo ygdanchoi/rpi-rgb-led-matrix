@@ -3,24 +3,30 @@ import time
 
 from transit_service import TransitLine
 
-Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color'])
+Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'x', 'y'])
 
 class RowFactory:
-    def create_rows(self, transit_lines):
+    def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height):
         rows = []
         current_time = time.time()
 
-        for transit_line in transit_lines:
+        for i, transit_line in enumerate(transit_lines):
             etas = self.convert_etas(transit_line, current_time)
 
             if not etas:
                 continue
             
+            y = (i + 1) * cell_height - vertical_offset
+            if y < -cell_height:
+                y += len(transit_lines) * cell_height
+            
             rows.append(Row(
                 name=transit_line.name,
                 description=transit_line.description,
                 etas=self.format_etas(etas),
-                color=transit_line.color
+                color=transit_line.color,
+                x = 0,
+                y = y
             ))
 
         return rows

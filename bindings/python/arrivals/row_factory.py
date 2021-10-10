@@ -22,7 +22,7 @@ class RowFactory:
                 description=transit_line.description,
                 etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
-                x = 0,
+                x = 0, # TODO: calculate this here instead of in TransitFeedView
                 y = y
             ))
 

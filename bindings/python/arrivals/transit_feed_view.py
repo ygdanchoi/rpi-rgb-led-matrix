@@ -40,6 +40,7 @@ class TransitFeedViewModel(Subject):
 
     def register(self, observer):
         self.observers.append(observer)
+        return self
     
     def main_thread(self):
         last_ns = time.time_ns()
@@ -109,8 +110,7 @@ class TransitFeedView(Observer, SampleBase):
             transit_service=kwargs['transit_service'],
             row_factory=kwargs['row_factory'],
             weather_service=kwargs['weather_service']
-        )
-        self.viewmodel.register(self)
+        ).register(self)
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()

@@ -15,10 +15,8 @@ class RowFactory:
 
             if not etas:
                 continue
-
-            i = len(rows) + 1
             
-            y = (i + 1) * cell_height - vertical_offset
+            y = (len(rows) + 1) * cell_height - vertical_offset
             if y < -cell_height:
                 y += len(transit_lines) * cell_height
             

@@ -126,7 +126,7 @@ class TransitFeedView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         for row in self.viewmodel.rows:
-            if (row.y < self.offscreen_canvas.height):
+            if row.y < self.offscreen_canvas.height:
                 if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)

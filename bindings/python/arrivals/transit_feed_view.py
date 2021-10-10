@@ -123,9 +123,7 @@ class TransitFeedView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         for row in self.viewmodel.rows:
-            y = row.y
-            
-            if (y < self.offscreen_canvas.height):
+            if (row.y < self.offscreen_canvas.height):
                 if str(row.color) not in self.light_mode_colors:
                     self.light_mode_colors[str(row.color)] = graphics.Color(*row.color)
                 light_mode_color = self.light_mode_colors[str(row.color)]
@@ -134,7 +132,7 @@ class TransitFeedView(Observer, SampleBase):
                 should_scroll_description = len(row.description) > 17
                 # TODO: handle len(rows) < self.viewmodel.max_rows better
 
-                for yy in range(y - self.viewmodel.cell_height + 1, min(y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
+                for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
                     for xx in range(0, self.offscreen_canvas.width):
                         if not self.viewmodel.is_light_mode:
                             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -156,36 +154,36 @@ class TransitFeedView(Observer, SampleBase):
                             )
 
                 if should_scroll_name and should_scroll_description:
-                    self.draw_scrolled_description(row, y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
-                    self.draw_scrolled_name(row, y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_description(row, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_name(row,self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
                 
                     graphics.DrawText(
                         self.offscreen_canvas,
                         self.font,
                         1 + 24 * self.viewmodel.cell_width,
-                        y,
+                        row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         row.etas
                     )
                 elif should_scroll_name:
-                    self.draw_scrolled_name(row, y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_name(row, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
                 
                     graphics.DrawText(
                         self.offscreen_canvas,
                         self.font,
                         1 + 5 * self.viewmodel.cell_width,
-                        y,
+                        row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         f'{row.description[:17]:<19}{row.etas}'
                     )
                 elif should_scroll_description:
-                    self.draw_scrolled_description(row, y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_description(row, row.y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
                     
                     graphics.DrawText(
                         self.offscreen_canvas,
                         self.font,
                         1,
-                        y,
+                        row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         f'{row.name[:4]:<24}{row.etas}'
                     )
@@ -194,7 +192,7 @@ class TransitFeedView(Observer, SampleBase):
                         self.offscreen_canvas,
                         self.font,
                         1,
-                        y,
+                        row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
                     )
@@ -226,20 +224,20 @@ class TransitFeedView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
 
-    def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
+    def draw_scrolled_description(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(
             offscreen_canvas,
             font,
             1 + 5 * self.viewmodel.cell_width + max(
-                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                min(0, row.y - 4 - 2 * self.viewmodel.cell_height),
                 (17 - len(row.description)) * self.viewmodel.cell_width
             ),
-            y,
+            row.y,
             light_mode_color if self.viewmodel.is_light_mode else dark_mode_color,
             row.description
         )
 
-        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(0, 5 * self.viewmodel.cell_width):
                 if not self.viewmodel.is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -260,7 +258,7 @@ class TransitFeedView(Observer, SampleBase):
                         row.color[2] // self.viewmodel.stripe_divisor_dark
                     )
         
-        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(22 * self.viewmodel.cell_width, offscreen_canvas.width):
                 if not self.viewmodel.is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
@@ -282,20 +280,20 @@ class TransitFeedView(Observer, SampleBase):
                     )
 
 
-    def draw_scrolled_name(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
+    def draw_scrolled_name(self, row, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(
             offscreen_canvas,
             font,
             1 + max(
-                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                min(0, row.y - 4 - 2 * self.viewmodel.cell_height),
                 (4 - len(row.name)) * self.viewmodel.cell_width
             ),
-            y,
+            row.y,
             light_mode_color if is_light_mode else dark_mode_color,
-            row.name[:(4 + max(0, 5 - y // self.viewmodel.cell_width))]
+            row.name[:(4 + max(0, 5 - row.y // self.viewmodel.cell_width))]
         )
 
-        for yy in range(y - self.viewmodel.cell_height + 2, y + 1):
+        for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
                 if not is_light_mode:
                     offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)

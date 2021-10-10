@@ -233,7 +233,7 @@ class TransitFeedView(Observer, SampleBase):
             offscreen_canvas,
             font,
             1 + 5 * self.viewmodel.cell_width + max(
-                min(0, -self.viewmodel.horizontal_offset),
+                min(0, y - 4 - 2 * self.viewmodel.cell_height),
                 (17 - len(row.description)) * self.viewmodel.cell_width
             ),
             y,
@@ -289,7 +289,7 @@ class TransitFeedView(Observer, SampleBase):
             offscreen_canvas,
             font,
             1 + max(
-                min(0, -self.viewmodel.horizontal_offset),
+                min(0, y - 4 - 2 * self.viewmodel.cell_height),
                 (4 - len(row.name)) * self.viewmodel.cell_width
             ),
             y,

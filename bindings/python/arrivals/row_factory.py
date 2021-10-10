@@ -10,7 +10,14 @@ class RowFactory:
         rows = []
         current_time = time.time()
 
-        for i, transit_line in enumerate(transit_line for transit_line in transit_lines if (etas := self.convert_etas(transit_line, current_time))):
+        for transit_line in transit_lines:
+            etas = self.convert_etas(transit_line, current_time)
+
+            if not etas:
+                continue
+
+            i = len(rows) + 1
+            
             y = (i + 1) * cell_height - vertical_offset
             if y < -cell_height:
                 y += len(transit_lines) * cell_height

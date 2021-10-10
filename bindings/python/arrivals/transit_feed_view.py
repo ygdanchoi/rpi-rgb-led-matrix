@@ -136,21 +136,14 @@ class TransitFeedView(Observer, SampleBase):
                     for xx in range(0, self.offscreen_canvas.width):
                         if not self.viewmodel.is_light_mode:
                             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                        elif self.viewmodel.is_stripe(xx, yy):
-                            self.offscreen_canvas.SetPixel(
-                                xx,
-                                yy,
-                                row.color[0] // self.viewmodel.stripe_divisor_light,
-                                row.color[1] // self.viewmodel.stripe_divisor_light,
-                                row.color[2] // self.viewmodel.stripe_divisor_light
-                            )
                         else:
+                            stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
                             self.offscreen_canvas.SetPixel(
                                 xx,
                                 yy,
-                                row.color[0] // self.viewmodel.stripe_divisor_dark,
-                                row.color[1] // self.viewmodel.stripe_divisor_dark,
-                                row.color[2] // self.viewmodel.stripe_divisor_dark
+                                row.color[0] // stripe_divisor,
+                                row.color[1] // stripe_divisor,
+                                row.color[2] // stripe_divisor
                             )
 
                 if should_scroll_name and should_scroll_description:

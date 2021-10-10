@@ -204,18 +204,18 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            1 + 5 * self.viewmodel.cell_width + row.dx_description,
+            1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
             row.y,
             light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
             row.description
         )
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range(0, 5 * self.viewmodel.cell_width):
+            for xx in range(0, self.viewmodel.idx_desc * self.viewmodel.cell_width):
                 self.draw_stripe(xx, yy, row.color)
         
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range(22 * self.viewmodel.cell_width, self.offscreen_canvas.width):
+            for xx in range((self.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width):
                 self.draw_stripe(xx, yy, row.color)
 
     def draw_scrolled_name(self, row):
@@ -227,11 +227,11 @@ class TransitFeedView(Observer, SampleBase):
             1 + row.dx_name,
             row.y,
             light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-            row.name[:(4 + max(0, 5 - row.y // self.viewmodel.cell_width))]
+            row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
 
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
-            for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
+            for xx in range((self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width):
                 self.draw_stripe(xx, yy, row.color)
 
     def draw_stripe(self, xx, yy, color):

@@ -1,8 +1,9 @@
 import collections
 import json
 import requests
-import secrets
 import traceback
+
+import config
 
 Weather = collections.namedtuple('Weather', ['temperature'])
 
@@ -14,7 +15,7 @@ class WeatherService:
                 'lon': -73.954,
                 'units': 'imperial'
             }, headers={
-                'x-rapidapi-key': secrets.weather_api_key,
+                'x-rapidapi-key': config.weather_api_key,
                 'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
                 'useQueryString': 'true'
             })

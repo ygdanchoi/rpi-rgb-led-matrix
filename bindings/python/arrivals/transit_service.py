@@ -9,7 +9,7 @@ import traceback
 from datetime import datetime
 
 import gtfs_realtime_pb2
-import secrets
+import config
 
 Stop = collections.namedtuple('Stop', ['stop_id', 'stop_name'])
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
@@ -141,7 +141,7 @@ class MtaSubwayService(GtfsService):
         transit_lines_by_key = {}
 
         response = requests.get(f'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2F{gtfs_id}', headers={
-            'x-api-key': secrets.real_time_access_key
+            'x-api-key': config.real_time_access_key
         })
         feed = gtfs_realtime_pb2.FeedMessage()
         feed.ParseFromString(response.content)
@@ -190,7 +190,7 @@ class MtaBusService(BaseTransitService):
         transit_lines_by_key = {}
 
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
-            'key': secrets.bus_time_api_key,
+            'key': config.bus_time_api_key,
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
         })

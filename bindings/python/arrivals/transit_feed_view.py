@@ -129,8 +129,6 @@ class TransitFeedView(Observer, SampleBase):
                     self.light_mode_colors[str(row.color)] = graphics.Color(*row.color)
                 light_mode_color = self.light_mode_colors[str(row.color)]
 
-                should_scroll_name = len(row.name) > 4
-                should_scroll_description = len(row.description) > 17
                 # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
 
                 for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
@@ -147,7 +145,7 @@ class TransitFeedView(Observer, SampleBase):
                                 row.color[2] // stripe_divisor
                             )
 
-                if should_scroll_name and should_scroll_description:
+                if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)
                 
@@ -159,7 +157,7 @@ class TransitFeedView(Observer, SampleBase):
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         row.etas
                     )
-                elif should_scroll_name:
+                elif row.dx_name != 0:
                     self.draw_scrolled_name(row)
                 
                     graphics.DrawText(
@@ -170,7 +168,7 @@ class TransitFeedView(Observer, SampleBase):
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
                         f'{row.description[:17]:<19}{row.etas}'
                     )
-                elif should_scroll_description:
+                elif row.dx_description != 0:
                     self.draw_scrolled_description(row)
                     
                     graphics.DrawText(

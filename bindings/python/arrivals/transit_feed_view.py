@@ -53,7 +53,7 @@ class TransitFeedViewModel(Subject):
             for observer in self.observers:
                 observer.update()
 
-            time.sleep(1 / 100)
+            time.sleep(1 / 60)
 
     def background_thread(self):
         update_transit_lines_timer = 0
@@ -71,15 +71,6 @@ class TransitFeedViewModel(Subject):
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
             
-            self.rows = self.row_factory.create_rows(
-                self.transit_lines,
-                self.vertical_offset,
-                self.horizontal_offset,
-                self.cell_height
-            )
-
-            for observer in self.observers:
-                observer.update()
             time.sleep(1)
 
     

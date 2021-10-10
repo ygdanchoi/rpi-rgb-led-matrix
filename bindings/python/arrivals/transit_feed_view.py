@@ -6,7 +6,15 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-class TransitFeedViewModel():
+class Subject:
+    def register(observer):
+        pass
+
+class Observer:
+    def update():
+        pass
+
+class TransitFeedViewModel(Subject):
     def __init__(self, transit_service, row_factory, weather_service):
         self.transit_service = transit_service
         self.row_factory = row_factory
@@ -29,7 +37,7 @@ class TransitFeedViewModel():
 
         threading.Thread(target=self.update_loop).start()
 
-    def subscribe(self, observer):
+    def register(self, observer):
         self.observers.append(observer)
 
     def update_loop(self):
@@ -56,7 +64,7 @@ class TransitFeedViewModel():
             )
 
             for observer in self.observers:
-                observer.render()
+                observer.update()
             time.sleep(1 / 100)
     
     def increment_offsets(self):
@@ -77,7 +85,7 @@ class TransitFeedViewModel():
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
 
-class TransitFeedView(SampleBase):
+class TransitFeedView(Observer, SampleBase):
     def __init__(self, *args, **kwargs):
         super(TransitFeedView, self).__init__(*args, **kwargs)
         
@@ -86,7 +94,7 @@ class TransitFeedView(SampleBase):
             row_factory=kwargs['row_factory'],
             weather_service=kwargs['weather_service']
         )
-        self.viewmodel.subscribe(self)
+        self.viewmodel.register(self)
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
@@ -96,7 +104,7 @@ class TransitFeedView(SampleBase):
         self.light_mode_colors = {}
         self.last_ns = time.time_ns()
 
-    def render(self):
+    def update(self):
         self.offscreen_canvas.Clear()
         rows = self.viewmodel.rows
         is_light_mode = self.viewmodel.is_light_mode()

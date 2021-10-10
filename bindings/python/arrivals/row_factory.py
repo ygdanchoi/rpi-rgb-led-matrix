@@ -10,20 +10,17 @@ class RowFactory:
         rows = []
         current_time = time.time()
 
-        for transit_line in transit_lines:
-            etas = self.convert_etas(transit_line, current_time)
+        filtered_transit_lines = [transit_line for transit_line in transit_lines if self.convert_etas(transit_line, current_time)]
 
-            if not etas:
-                continue
-            
-            y = (len(rows) + 1) * cell_height - vertical_offset
+        for i, transit_line in enumerate(filtered_transit_lines):
+            y = (i + 1) * cell_height - vertical_offset
             if y < -cell_height:
-                y += len(rows) * cell_height
+                y += len(filtered_transit_lines) * cell_height
             
             rows.append(Row(
                 name=transit_line.name,
                 description=transit_line.description,
-                etas=self.format_etas(etas),
+                etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
                 x = 0,
                 y = y

@@ -143,18 +143,14 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_unscrolled_name_and_description_and_etas(row)
 
         self.draw_footer()
-
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def draw_scrolled_description(self, row):
         self.draw_row_mask(row, self.viewmodel.idx_desc * self.viewmodel.cell_width, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width)
 
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
-            row.y,
-            self.get_text_color(row),
             row.description
         )
 
@@ -162,56 +158,40 @@ class TransitFeedView(Observer, SampleBase):
         self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
 
     def draw_scrolled_name(self, row):
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1 + row.dx_name,
-            row.y,
-            self.get_text_color(row),
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
 
         self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 
     def draw_unscrolled_etas(self, row):
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1 + self.viewmodel.idx_etas * self.viewmodel.cell_width,
-            row.y,
-            self.get_text_color(row),
             row.etas
         )
 
     def draw_unscrolled_description_and_etas(self, row):
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
-            row.y,
-            self.get_text_color(row),
             f'{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
     
     def draw_unscrolled_name_and_etas(self, row):
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1,
-            row.y,
-            self.get_text_color(row),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_etas}}{row.etas}'
         )
     
     def draw_unscrolled_name_and_description_and_etas(self, row):
         self.draw_row_mask(row, 0, self.offscreen_canvas.width)
-        
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            row,
             1,
-            row.y,
-            self.get_text_color(row),
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
         )
 
@@ -246,6 +226,16 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas.height - 1,
             graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color,
             f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
+        )
+
+    def draw_text(self, row, x, text):
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            x,
+            row.y,
+            self.get_text_color(row),
+            text
         )
 
     def draw_row_mask(self, row, x_start, x_end):

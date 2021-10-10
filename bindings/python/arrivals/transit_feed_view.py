@@ -223,7 +223,7 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            1 + row.dx_description,
+            1 + 5 * self.viewmodel.cell_width + row.dx_description,
             row.y,
             light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
             row.description

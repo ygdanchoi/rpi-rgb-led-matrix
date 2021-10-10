@@ -127,8 +127,6 @@ class TransitFeedView(Observer, SampleBase):
 
         for row in self.viewmodel.rows:
             if (row.y < self.offscreen_canvas.height):
-                # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
-
                 if row.dx_name != 0 and row.dx_description != 0:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)

@@ -19,6 +19,8 @@ class RowFactory:
 
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17
+
+            # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
             
             rows.append(Row(
                 name=transit_line.name,

@@ -130,7 +130,7 @@ class TransitFeedView(Observer, SampleBase):
 
                 should_scroll_name = len(row.name) > 4
                 should_scroll_description = len(row.description) > 17
-                # TODO: handle len(rows) < self.viewmodel.max_rows better
+                # TODO: avoid x-offset failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
 
                 for yy in range(row.y - self.viewmodel.cell_height + 1, min(row.y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height)):
                     for xx in range(0, self.offscreen_canvas.width):

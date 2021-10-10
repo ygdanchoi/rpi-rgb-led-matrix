@@ -183,7 +183,7 @@ class TransitFeedView(Observer, SampleBase):
 
             for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
                 for xx in range(0, self.offscreen_canvas.width):
-                    self.draw_stripe(xx, yy, [127, 127, 127])
+                    self.draw_stripe(xx, yy, [63, 63, 63])
 
             temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
             

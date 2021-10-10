@@ -19,6 +19,6 @@ if __name__ == "__main__":
         ).process()
     else:
         transit_lines = transit_service.get_transit_lines()
-        for row in row_factory.create_rows(transit_lines, 0, 0, 1):
+        for row in row_factory.create_rows(transit_lines, 0, 0, 1, 1):
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
         print(weather_service.get_weather().temperature)

@@ -3,10 +3,10 @@ import time
 
 from transit_service import TransitLine
 
-Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'x', 'y'])
+Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
 
 class RowFactory:
-    def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height):
+    def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width):
         rows = []
         current_time = time.time()
 
@@ -16,14 +16,24 @@ class RowFactory:
             y = (i + 1) * cell_height - vertical_offset
             if y < -cell_height:
                 y += len(filtered_transit_lines) * cell_height
+
+            should_scroll_name = len(transit_line.name) > 4
+            should_scroll_description = len(transit_line.description) > 17
             
             rows.append(Row(
                 name=transit_line.name,
                 description=transit_line.description,
                 etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
-                x = 0, # TODO: calculate this here instead of in TransitFeedView
-                y = y
+                y = y,
+                dx_name = max(
+                    min(0, y - 4 - 2 * cell_height),
+                    (4 - len(transit_line.name)) * cell_width
+                ) if should_scroll_name else 0,
+                dx_description = max(
+                    min(0, y - 4 - 2 * cell_height),
+                    (17 - len(transit_line.description)) * cell_width
+                ) if should_scroll_description else 0
             ))
 
         return rows

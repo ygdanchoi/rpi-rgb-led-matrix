@@ -51,7 +51,8 @@ class TransitFeedViewModel(Subject):
                 self.transit_lines,
                 self.vertical_offset,
                 self.horizontal_offset,
-                self.cell_height
+                self.cell_height,
+                self.cell_width
             )
 
             for observer in self.observers:
@@ -222,10 +223,7 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            1 + 5 * self.viewmodel.cell_width + max(
-                min(0, row.y - 4 - 2 * self.viewmodel.cell_height),
-                (17 - len(row.description)) * self.viewmodel.cell_width
-            ),
+            1 + row.dx_description,
             row.y,
             light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
             row.description
@@ -265,10 +263,7 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            1 + max(
-                min(0, row.y - 4 - 2 * self.viewmodel.cell_height),
-                (4 - len(row.name)) * self.viewmodel.cell_width
-            ),
+            1 + row.dx_name,
             row.y,
             light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
             row.name[:(4 + max(0, 5 - row.y // self.viewmodel.cell_width))]

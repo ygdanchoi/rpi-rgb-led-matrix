@@ -34,6 +34,7 @@ class TransitFeedViewModel(Subject):
         self.transit_lines = []
         self.rows = []
         self.temperature = ''
+        self.is_light_mode = True
 
         threading.Thread(target=self.main_thread).start()
         threading.Thread(target=self.background_thread).start()

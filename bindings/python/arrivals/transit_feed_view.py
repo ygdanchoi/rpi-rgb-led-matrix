@@ -82,11 +82,13 @@ class TransitFeedViewModel(Subject):
             time.sleep(1)
     
     def increment_offsets(self):
-        self.horizontal_offset += 1
-
         self.vertical_offset += 1
-        if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
+        self.horizontal_offset += 1
+        if len(self.rows) < self.max_rows:
             self.vertical_offset = 0
+        if self.vertical_offset >= self.cell_height * len(self.rows):
+            self.vertical_offset = 0
+            self.horizontal_offset = 0
 
         self.stripes_offset += 1
         if self.stripes_offset >= 32:
@@ -231,7 +233,7 @@ class TransitFeedView(Observer, SampleBase):
             offscreen_canvas,
             font,
             1 + 5 * self.viewmodel.cell_width + max(
-                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                min(0, -self.horizontal_offset),
                 (17 - len(row.description)) * self.viewmodel.cell_width
             ),
             y,
@@ -287,7 +289,7 @@ class TransitFeedView(Observer, SampleBase):
             offscreen_canvas,
             font,
             1 + max(
-                min(0, y - 4 - 2 * self.viewmodel.cell_height),
+                min(0, -self.horizontal_offset),
                 (4 - len(row.name)) * self.viewmodel.cell_width
             ),
             y,

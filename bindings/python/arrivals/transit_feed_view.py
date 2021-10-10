@@ -235,42 +235,28 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, 5 * self.viewmodel.cell_width):
                 if not self.viewmodel.is_light_mode:
                     self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                elif self.viewmodel.is_stripe(xx, yy):
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
-                    )
                 else:
+                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
                     self.offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // stripe_divisor,
+                        row.color[1] // stripe_divisor,
+                        row.color[2] // stripe_divisor
                     )
         
         for yy in range(row.y - self.viewmodel.cell_height + 2, row.y + 1):
             for xx in range(22 * self.viewmodel.cell_width, self.offscreen_canvas.width):
                 if not self.viewmodel.is_light_mode:
                     self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                elif self.viewmodel.is_stripe(xx, yy):
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
-                    )
                 else:
+                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
                     self.offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // stripe_divisor,
+                        row.color[1] // stripe_divisor,
+                        row.color[2] // stripe_divisor
                     )
 
     def draw_scrolled_name(self, row):
@@ -292,21 +278,14 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(4 * self.viewmodel.cell_width, 5 * self.viewmodel.cell_width):
                 if not self.viewmodel.is_light_mode:
                     self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                elif self.viewmodel.is_stripe(xx, yy):
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_light,
-                        row.color[1] // self.viewmodel.stripe_divisor_light,
-                        row.color[2] // self.viewmodel.stripe_divisor_light
-                    )
                 else:
+                    stripe_divisor = self.viewmodel.stripe_divisor_light if self.viewmodel.is_stripe(xx, yy) else self.viewmodel.stripe_divisor_dark
                     self.offscreen_canvas.SetPixel(
                         xx,
                         yy,
-                        row.color[0] // self.viewmodel.stripe_divisor_dark,
-                        row.color[1] // self.viewmodel.stripe_divisor_dark,
-                        row.color[2] // self.viewmodel.stripe_divisor_dark
+                        row.color[0] // stripe_divisor,
+                        row.color[1] // stripe_divisor,
+                        row.color[2] // stripe_divisor
                     )
 
     

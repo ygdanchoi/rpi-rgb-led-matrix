@@ -145,13 +145,11 @@ class TransitFeedView(Observer, SampleBase):
 
     def draw_scrolled_description(self, row):
         self.draw_row_mask(row, self.viewmodel.idx_desc * self.viewmodel.cell_width, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width)
-
         self.draw_text(
             row,
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
             row.description
         )
-
         self.draw_row_mask(row, 0, self.viewmodel.idx_desc * self.viewmodel.cell_width)
         self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
 
@@ -161,7 +159,6 @@ class TransitFeedView(Observer, SampleBase):
             1 + row.dx_name,
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, self.viewmodel.idx_desc - row.y // self.viewmodel.cell_width))]
         )
-
         self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 
     def draw_unscrolled_etas(self, row):
@@ -196,24 +193,7 @@ class TransitFeedView(Observer, SampleBase):
     def draw_footer(self):
         for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
             for xx in range(0, self.offscreen_canvas.width):
-                if not self.viewmodel.is_light_mode:
-                    self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-                else:
-                    if self.viewmodel.is_stripe(xx, yy):
-                        color = [
-                            255 // self.viewmodel.stripe_divisor_dark,
-                            255 // self.viewmodel.stripe_divisor_dark,
-                            255 // self.viewmodel.stripe_divisor_dark
-                        ]
-                    else:
-                        color = [0, 0, 0]
-                    self.offscreen_canvas.SetPixel(
-                        xx,
-                        yy,
-                        color[0],
-                        color[1],
-                        color[2]
-                    )
+                self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
         
@@ -254,16 +234,27 @@ class TransitFeedView(Observer, SampleBase):
         if not self.viewmodel.is_light_mode:
             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
         else:
-            if self.viewmodel.is_stripe(xx, yy):
-                stripe_divisor = self.viewmodel.stripe_divisor_light
+            is_stripe = self.viewmodel.is_stripe(xx, yy)
+
+            if color == [255, 255, 255]:
+                self.offscreen_canvas.SetPixel(
+                    xx,
+                    yy,
+                    15 if is_stripe else 0,
+                    15 if is_stripe else 0,
+                    15 if is_stripe else 0
+                )
             else:
-                stripe_divisor = self.viewmodel.stripe_divisor_dark
-            self.offscreen_canvas.SetPixel(
-                xx,
-                yy,
-                color[0] // stripe_divisor,
-                color[1] // stripe_divisor,
-                color[2] // stripe_divisor
-            )
+                if is_stripe:
+                    stripe_divisor = self.viewmodel.stripe_divisor_light
+                else:
+                    stripe_divisor = self.viewmodel.stripe_divisor_dark
+                self.offscreen_canvas.SetPixel(
+                    xx,
+                    yy,
+                    color[0] // stripe_divisor,
+                    color[1] // stripe_divisor,
+                    color[2] // stripe_divisor
+                )
 
     

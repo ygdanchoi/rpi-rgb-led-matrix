@@ -197,12 +197,9 @@ class TransitFeedView(Observer, SampleBase):
 
         temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
         
-        graphics.DrawText(
-            self.offscreen_canvas,
-            self.font,
+        self.draw_text(
+            None,
             1,
-            self.offscreen_canvas.height - 1,
-            graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color,
             f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
         )
 
@@ -211,8 +208,10 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             x,
-            row.y,
-            self.get_text_color(row),
+            row.y if row else self.offscreen_canvas.height - 1,
+            self.get_text_color(row) if row else (
+                graphics.Color(255, 255, 255) if self.viewmodel.is_light_mode else self.dark_mode_color
+            ),
             text
         )
 

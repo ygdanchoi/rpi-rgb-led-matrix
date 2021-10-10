@@ -177,7 +177,7 @@ class TransitFeedView(Observer, SampleBase):
                         f'{row.description[:17]:<19}{row.etas}'
                     )
                 elif should_scroll_description:
-                    self.draw_scrolled_description(row, row.y, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
+                    self.draw_scrolled_description(row, self.offscreen_canvas, self.font, self.viewmodel.is_light_mode, light_mode_color, self.dark_mode_color)
                     
                     graphics.DrawText(
                         self.offscreen_canvas,

@@ -155,10 +155,10 @@ class TransitFeedView(Observer, SampleBase):
                     graphics.DrawText(
                         self.offscreen_canvas,
                         self.font,
-                        1 + self.viewmodel.idx_desc * self.viewmodel.cell_width,
+                        1 + 5 * self.viewmodel.cell_width,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.description[:{self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2}]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
+                        f'{row.description[:17]:<19}{row.etas}'
                     )
                 elif row.dx_description != 0:
                     self.draw_scrolled_description(row)
@@ -169,7 +169,7 @@ class TransitFeedView(Observer, SampleBase):
                         1,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:{self.viewmodel.idx_desc - 1}]:<{self.viewmodel.idx_etas}}{row.etas}'
+                        f'{row.name[:4]:<{self.viewmodel.idx_etas}}{row.etas}'
                     )
                 else:
                     graphics.DrawText(
@@ -178,7 +178,7 @@ class TransitFeedView(Observer, SampleBase):
                         1,
                         row.y,
                         light_mode_color if self.viewmodel.is_light_mode else self.dark_mode_color,
-                        f'{row.name[:{self.viewmodel.idx_desc - 1}]:<{self.viewmodel.idx_desc}}{row.description[:{self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2}]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
+                        f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}'
                     )
 
             for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):

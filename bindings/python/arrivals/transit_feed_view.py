@@ -225,7 +225,7 @@ class TransitFeedView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
 
-    def draw_scrolled_description(self, row, y, offscreen_canvas, font, self.viewmodel.is_light_mode, light_mode_color, dark_mode_color):
+    def draw_scrolled_description(self, row, y, offscreen_canvas, font, is_light_mode, light_mode_color, dark_mode_color):
         graphics.DrawText(
             offscreen_canvas,
             font,

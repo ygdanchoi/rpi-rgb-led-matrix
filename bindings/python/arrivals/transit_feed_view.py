@@ -24,7 +24,7 @@ class Observer:
 
 class TransitFeedViewModel(Observable):
     def __init__(self, transit_service, row_factory, weather_service):
-        super.__init__()
+        super().__init__(self)
 
         self.transit_service = transit_service
         self.row_factory = row_factory

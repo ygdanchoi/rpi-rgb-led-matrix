@@ -6,21 +6,27 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-class Subject:
-    def register(observer):
-        pass
+class Observable:
+    def __init__(self):
+        self.observers = []
+    
+    def add_observer(self, observer):
+        self.observers.append(observer)
+        return self
+
+    def notify_observers(self):
+        for observer in self.observers:
+            observer.update()
 
 class Observer:
     def update():
         pass
 
-class TransitFeedViewModel(Subject):
+class TransitFeedViewModel(Observable):
     def __init__(self, transit_service, row_factory, weather_service):
         self.transit_service = transit_service
         self.row_factory = row_factory
         self.weather_service = weather_service
-
-        self.observers = []
         
         self.horizontal_offset = 0
         self.vertical_offset = 0
@@ -40,10 +46,6 @@ class TransitFeedViewModel(Subject):
 
         threading.Thread(target=self.main_thread).start()
         threading.Thread(target=self.background_thread).start()
-
-    def register(self, observer):
-        self.observers.append(observer)
-        return self
     
     def main_thread(self):
         last_ns = time.time_ns()
@@ -57,9 +59,7 @@ class TransitFeedViewModel(Subject):
                 self.cell_width
             )
 
-            for observer in self.observers:
-                observer.update()
-
+            self.notify_observers()
             self.increment_offsets()
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
@@ -113,7 +113,7 @@ class TransitFeedView(Observer, SampleBase):
             transit_service=kwargs['transit_service'],
             row_factory=kwargs['row_factory'],
             weather_service=kwargs['weather_service']
-        ).register(self)
+        )
 
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
@@ -121,6 +121,8 @@ class TransitFeedView(Observer, SampleBase):
         self.font.LoadFont("../../../fonts/tom-thumb.bdf")
         self.dark_mode_color = graphics.Color(47, 0, 0)
         self.light_mode_colors = {}
+
+        self.viewmodel.add_observer(self)
 
     def update(self):
         self.offscreen_canvas.Clear()

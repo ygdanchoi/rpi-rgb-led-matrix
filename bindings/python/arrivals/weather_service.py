@@ -10,7 +10,8 @@ Weather = collections.namedtuple('Weather', ['temperature'])
 class WeatherService:
     def get_weather(self):
         try:
-            raise Exception('disable weather api')
+            # TODO: re-enable in November 2021
+            raise Exception('Disabled weather API')
 
             response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
                 'lat': 40.782,

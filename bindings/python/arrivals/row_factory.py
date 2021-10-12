@@ -35,6 +35,7 @@ class RowFactory:
                 etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
                 y = y,
+                # TODO: define _/‾\_/‾\ cycle based on horizontal_offset & string lengths
                 dx_name = max(
                     min(0, pseudo_y - 4 - 2 * cell_height),
                     (4 - len(transit_line.name)) * cell_width

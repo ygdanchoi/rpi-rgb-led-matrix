@@ -105,6 +105,7 @@ class TransitFeedViewModel(Observable):
             self.horizontal_offset = 0
 
         if self.horizontal_offset >= 100 + self.cell_height * len(self.rows):
+            # TODO: not necessary if dx_name & dx_description become cyclic
             self.horizontal_offset = 0
 
         if self.stripes_offset >= 32:

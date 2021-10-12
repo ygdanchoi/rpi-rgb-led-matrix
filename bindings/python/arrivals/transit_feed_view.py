@@ -142,7 +142,7 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_unscrolled_name_and_etas(row)
                 elif row.dx_description == 0:
                     self.draw_scrolled_name(row)
-                    self.draw_unscrolled_description_and_etas(row)
+                    # self.draw_unscrolled_description_and_etas(row)
                 else:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)

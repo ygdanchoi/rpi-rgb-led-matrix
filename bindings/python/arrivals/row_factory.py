@@ -39,12 +39,12 @@ class RowFactory:
                 color=transit_line.color,
                 y = y,
                 dx_name = -self.beveled_zigzag(
-                    max_rows * cell_height + 4 - pseudo_y,
+                    max_rows * cell_height + 3 - pseudo_y,
                     (len(transit_line.name) - 4) * cell_width,
                     2 * cell_height
                 ) if should_scroll_name else 0,
                 dx_description = -self.beveled_zigzag(
-                    max_rows * cell_height + 4 - pseudo_y,
+                    max_rows * cell_height + 3 - pseudo_y,
                     (len(transit_line.description) - 17) * cell_width,
                     2 * cell_height
                 ) if should_scroll_description else 0

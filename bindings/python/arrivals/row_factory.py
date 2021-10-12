@@ -21,6 +21,8 @@ class RowFactory:
             if y < 0:
                 y += len(filtered_transit_lines) * cell_height
 
+            pseudo_y = (i + 1) * cell_height - horizontal_offset
+
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17
 
@@ -33,11 +35,11 @@ class RowFactory:
                 color=transit_line.color,
                 y = y,
                 dx_name = max(
-                    min(0, y - 4 - 2 * cell_height),
+                    min(0, pseudo_y - 4 - 2 * cell_height),
                     (4 - len(transit_line.name)) * cell_width
                 ) if should_scroll_name else 0,
                 dx_description = max(
-                    min(0, y - 4 - 2 * cell_height),
+                    min(0, pseudo_y - 4 - 2 * cell_height),
                     (17 - len(transit_line.description)) * cell_width
                 ) if should_scroll_description else 0
             ))

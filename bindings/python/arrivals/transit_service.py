@@ -312,10 +312,10 @@ class CompositeTransitService(BaseTransitService):
                 '401957', # E 96 ST/3 AV
                 '1' # westbound
             ))
-            transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '404947', # LEXINGTON AV/E 92 ST
-                '1' # southbound
-            ))
+            # transit_lines.extend(self.mta_bus_service.get_transit_lines(
+            #     '404947', # LEXINGTON AV/E 92 ST
+            #     '1' # southbound
+            # ))
             transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
                 '113', # East 90th Street
                 '0' # southbound

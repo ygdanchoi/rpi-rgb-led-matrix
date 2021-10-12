@@ -104,10 +104,6 @@ class TransitFeedViewModel(Observable):
             self.vertical_offset = 0
             self.horizontal_offset = 0
 
-        if self.horizontal_offset >= 100 + self.cell_height * len(self.rows):
-            # TODO: not necessary if dx_name & dx_description become cyclic
-            self.horizontal_offset = 0
-
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
     
@@ -152,7 +148,7 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)
 
-        # self.draw_footer()
+        self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def draw_scrolled_description(self, row):

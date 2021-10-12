@@ -38,7 +38,6 @@ class RowFactory:
                 etas=self.format_etas(transit_line.etas, current_time),
                 color=transit_line.color,
                 y = y,
-                # TODO: define _/‾\_/‾\ cycle based on horizontal_offset & string lengths
                 dx_name = -self.beveled_zigzag(
                     max_rows * cell_height + 4 - pseudo_y,
                     (len(transit_line.name) - 4) * cell_width,

@@ -31,6 +31,3 @@ if __name__ == "__main__":
         )
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
-
-        temperature = weather_service.get_weather().temperature
-        print(f"{datetime.now().strftime('%a, %b %d • %I:%M:%S %p')}{f' • {temperature}' if temperature else ''}")

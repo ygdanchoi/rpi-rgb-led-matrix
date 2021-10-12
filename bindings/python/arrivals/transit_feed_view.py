@@ -216,7 +216,7 @@ class TransitFeedView(Observer, SampleBase):
         self.draw_text(
             None,
             1,
-            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}"
+            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
         )
 
     def draw_text(self, row, x, text):

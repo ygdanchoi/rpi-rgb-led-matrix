@@ -93,15 +93,13 @@ class TransitFeedViewModel(Observable):
             time.sleep(1)
     
     def increment_offsets(self):
-        if len(self.rows) < self.max_rows:
-            self.vertical_offset = 0
-        else:
-            self.vertical_offset += 1
-            self.horizontal_offset += 1
-
+        self.vertical_offset += 1
+        self.horizontal_offset += 1
         self.stripes_offset += 1
 
-        if self.vertical_offset >= self.cell_height * len(self.rows):
+        if len(self.rows) < self.max_rows:
+            self.vertical_offset = 0
+        elif self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
             self.horizontal_offset = 0
 

@@ -10,7 +10,9 @@ class RowFactory:
         rows = []
         current_time = time.time()
 
-        filtered_transit_lines = [transit_line for transit_line in transit_lines if self.convert_etas(transit_line, current_time)]
+        filtered_transit_lines = [transit_line for transit_line in transit_lines if any(
+            eta for eta in transit_line.etas if self.is_visible_eta(eta, current_time)
+        )]
 
         if len(filtered_transit_lines) == max_rows:
             # not enough rows to fill viewport; duplicate list as workaround
@@ -59,7 +61,10 @@ class RowFactory:
         return text
     
     def convert_etas(self, transit_line, current_time):
-        return [self.convert_eta(eta, current_time) for eta in transit_line.etas if (eta - current_time) // 60 > 0]
+        return [self.convert_eta(eta, current_time) for eta in transit_line.etas if self.is_visible_eta(eta, current_time)]
     
     def convert_eta(self, eta, current_time):
         return str(int((eta - current_time) // 60))
+
+    def is_visible_eta(self, eta, current_time):
+        return (eta - current_time) // 60 > 0

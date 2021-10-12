@@ -25,7 +25,7 @@ class RowFactory:
             if vertical_offset == horizontal_offset:
                 pseudo_y = y
             else:
-                pseudo_y = 10 - horizontal_offset
+                pseudo_y = 30 - horizontal_offset
 
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17

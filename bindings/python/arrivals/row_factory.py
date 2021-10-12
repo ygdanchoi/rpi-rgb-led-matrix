@@ -24,7 +24,7 @@ class RowFactory:
             
             rows.append(Row(
                 name=transit_line.name,
-                description=transit_line.description,
+                description=transit_line.description[:10],
                 etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
                 y = y,

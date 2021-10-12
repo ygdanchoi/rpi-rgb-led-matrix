@@ -18,13 +18,13 @@ class RowFactory:
                 y += len(filtered_transit_lines) * cell_height
 
             should_scroll_name = len(transit_line.name) > 4
-            should_scroll_description = len(transit_line.description) > 17
+            should_scroll_description = False and len(transit_line.description) > 17
 
             # TODO: decouple dx from y to avoid x-scroll failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
             
             rows.append(Row(
                 name=transit_line.name,
-                description=transit_line.description[:10],
+                description=transit_line.description,
                 etas=self.format_etas(self.convert_etas(transit_line, current_time)),
                 color=transit_line.color,
                 y = y,

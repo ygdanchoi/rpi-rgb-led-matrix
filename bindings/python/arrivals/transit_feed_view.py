@@ -89,7 +89,7 @@ class TransitFeedViewModel(Observable):
             update_weather_timer -= 1
 
             hh = datetime.now().hour
-            self.is_light_mode = 7 <= hh and hh < 22
+            self.is_light_mode = True or 7 <= hh and hh < 22
             
             time.sleep(1)
     

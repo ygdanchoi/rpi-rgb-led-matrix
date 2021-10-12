@@ -152,7 +152,7 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)
 
-        for yy in range(len(self.viewmodel.rows) * self.viewmodel.cell_height, self.offscreen_canvas.height - self.viewmodel.cell_height):
+        for yy in range(len(self.viewmodel.rows) * self.viewmodel.cell_height + 1, self.offscreen_canvas.height - self.viewmodel.cell_height):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 

@@ -1,4 +1,5 @@
 import collections
+import math
 import time
 
 from transit_service import TransitLine
@@ -38,17 +39,30 @@ class RowFactory:
                 color=transit_line.color,
                 y = y,
                 # TODO: define _/‾\_/‾\ cycle based on horizontal_offset & string lengths
-                dx_name = max(
-                    min(0, pseudo_y - 4 - 2 * cell_height),
-                    (4 - len(transit_line.name)) * cell_width
+                dx_name = self.beveled_zigzag(
+                    horizontal_offset - (i + 1) * cell_height,
+                    (4 - len(transit_line.description)) * cell_width - 1,
+                    2 * cell_height - 1
                 ) if should_scroll_name else 0,
-                dx_description = max(
-                    min(0, pseudo_y - 4 - 2 * cell_height),
-                    (17 - len(transit_line.description)) * cell_width
+                dx_description = self.beveled_zigzag(
+                    horizontal_offset - (i + 1) * cell_height,
+                    (17 - len(transit_line.description)) * cell_width - 1,
+                    2 * cell_height - 1
                 ) if should_scroll_description else 0
             ))
 
         return rows
+
+    def beveled_zigzag(self, x, height, bevel_width):
+        return max(
+            0,
+            min(
+                height,
+                math.acos(
+                    math.cos((x - bevel_width / 2) * math.pi / (height + bevel_width))
+                ) / math.pi * (height + bevel_width) - (bevel_width / 2)
+            )
+        )
 
     def format_etas(self, etas, current_time):
         eta_strings = self.convert_etas(etas, current_time)

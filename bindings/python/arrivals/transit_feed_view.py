@@ -173,8 +173,7 @@ class TransitFeedView(Observer, SampleBase):
         self.draw_text(
             row,
             1 + row.dx_name,
-            # TODO: should calculate index from row.dx_name, not row.y
-            row.name[:(self.viewmodel.idx_desc - 1 + max(0, 1 - (row.dx_name + 2) // self.viewmodel.cell_width))]
+            row.name[:(self.viewmodel.idx_desc - 1 + max(0, 1 - (row.dx_name + 3) // self.viewmodel.cell_width))]
         )
         self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 

@@ -324,7 +324,7 @@ class CompositeTransitService(BaseTransitService):
             transit_lines.append(TransitLine(
                 key='ERR0',
                 name='ERR!',
-                description=error.message,
+                description=str(type(error)),
                 etas=[2147483647], # meaningless timestamp
                 color=[255, 0, 0]
             ))

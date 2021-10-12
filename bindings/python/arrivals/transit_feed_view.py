@@ -94,18 +94,22 @@ class TransitFeedViewModel(Observable):
             time.sleep(1)
     
     def increment_offsets(self):
-        self.vertical_offset += 1
-        self.horizontal_offset += 1
         self.stripes_offset += 1
-
-        if len(self.rows) < self.max_rows:
-            self.vertical_offset = 0
-        elif self.vertical_offset >= self.cell_height * len(self.rows):
-            self.vertical_offset = 0
-            self.horizontal_offset = 0
 
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
+
+        if len(self.rows) < self.max_rows:
+            if self.vertical_offset > 0:
+                self.horizontal_offset = 0
+            self.vertical_offset = 0
+        else:
+            self.vertical_offset += 1
+        self.horizontal_offset += 1
+
+        if self.vertical_offset >= self.cell_height * len(self.rows):
+            self.vertical_offset = 0
+            self.horizontal_offset = 0
     
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0

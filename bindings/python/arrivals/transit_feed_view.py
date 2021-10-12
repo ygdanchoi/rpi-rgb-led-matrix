@@ -99,9 +99,11 @@ class TransitFeedViewModel(Observable):
 
         if len(self.rows) < self.max_rows:
             self.vertical_offset = 0
-
-        if self.vertical_offset >= self.cell_height * len(self.rows):
+        elif self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
+            self.horizontal_offset = 0
+
+        if self.horizontal_offset >= max(self.cell_height * len(self.rows), 100):
             self.horizontal_offset = 0
 
         if self.stripes_offset >= 32:

@@ -134,7 +134,7 @@ class TransitFeedView(Observer, SampleBase):
 
         for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
             for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, [255, 255, 255])
+                self.draw_stripe_pixel(xx, yy, [127, 127, 127])
 
         for row in self.viewmodel.rows:
             if row.y < self.offscreen_canvas.height:

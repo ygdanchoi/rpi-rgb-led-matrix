@@ -18,7 +18,7 @@ class RowFactory:
                 y += len(filtered_transit_lines) * cell_height
 
             should_scroll_name = len(transit_line.name) > 4
-            should_scroll_description = False and len(transit_line.description) > 17
+            should_scroll_description = len(transit_line.description) > 17
 
             # TODO: decouple dx from y to avoid x-scroll failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
             

@@ -132,9 +132,9 @@ class TransitFeedView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
-        for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
+        if len(self.viewmodel.rows) < self.viewmodel.max_rows:
             for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, [31, 31, 31])
+                self.draw_stripe_pixel(xx, 0, [31, 31, 31])
 
         for row in self.viewmodel.rows:
             if row.y < self.offscreen_canvas.height:
@@ -151,6 +151,10 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)
+
+        for yy in range(len(self.viewmodel.rows) * self.viewmodel.cell_height, self.offscreen_canvas.height - self.viewmodel.cell_height):
+            for xx in range(0, self.offscreen_canvas.width):
+                self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

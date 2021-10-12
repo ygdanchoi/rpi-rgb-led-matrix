@@ -34,7 +34,7 @@ class RowFactory:
             rows.append(Row(
                 name=transit_line.name,
                 description=transit_line.description,
-                etas=self.format_etas(self.convert_etas(transit_line, current_time)),
+                etas=self.format_etas(transit_line.etas, current_time),
                 color=transit_line.color,
                 y = y,
                 # TODO: define _/‾\_/‾\ cycle based on horizontal_offset & string lengths
@@ -50,21 +50,19 @@ class RowFactory:
 
         return rows
 
-    def format_etas(self, etas):
-        text = f'{etas[0]}'
-        for eta in etas[1:]:
-            if len(text) + 1 + len(eta) + 1 <= 8:
-                text += f',{eta}'
+    def format_etas(self, etas, current_time):
+        eta_strings = self.convert_etas(etas, current_time)
+        text = f'{eta_strings[0]}'
+        for eta_string in eta_strings[1:]:
+            if len(text) + 1 + len(eta_string) + 1 <= 8:
+                text += f',{eta_string}'
             else:
                 break
         text += 'm'
         return text
     
-    def convert_etas(self, transit_line, current_time):
-        return [self.convert_eta(eta, current_time) for eta in transit_line.etas if self.is_visible_eta(eta, current_time)]
+    def convert_etas(self, etas, current_time):
+        return [str(int((eta - current_time) // 60)) for eta in etas if self.is_visible_eta(eta, current_time)]
     
-    def convert_eta(self, eta, current_time):
-        return str(int((eta - current_time) // 60))
-
     def is_visible_eta(self, eta, current_time):
         return (eta - current_time) // 60 > 0

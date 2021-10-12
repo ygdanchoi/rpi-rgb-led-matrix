@@ -21,14 +21,13 @@ class RowFactory:
             if y < 0:
                 y += len(filtered_transit_lines) * cell_height
 
+            # TODO: do this less stupidly lol
             pseudo_y = (i + 1) * cell_height - horizontal_offset
             if pseudo_y < 0:
                 pseudo_y += len(filtered_transit_lines) * cell_height
 
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17
-
-            # TODO: decouple dx from y to avoid x-scroll failure when len(self.viewmodel.rows) < self.viewmodel.max_rows
             
             rows.append(Row(
                 name=transit_line.name,

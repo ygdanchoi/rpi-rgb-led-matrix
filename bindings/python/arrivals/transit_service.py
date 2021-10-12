@@ -294,16 +294,16 @@ class CompositeTransitService(BaseTransitService):
 
         try:
             # TODO: use asyncio (?) to make parallel requests
-            transit_lines.extend(self.mta_subway_service.get_transit_lines(
-                '626S', # 86 St
-                '1', # southbound
-                'gtfs' # 1234567
-            ))
-            transit_lines.extend(self.mta_subway_service.get_transit_lines(
-                'Q05S', # 96 St
-                '1', # southbound
-                'gtfs-nqrw', # NQRW
-            ))
+            # transit_lines.extend(self.mta_subway_service.get_transit_lines(
+            #     '626S', # 86 St
+            #     '1', # southbound
+            #     'gtfs' # 1234567
+            # ))
+            # transit_lines.extend(self.mta_subway_service.get_transit_lines(
+            #     'Q05S', # 96 St
+            #     '1', # southbound
+            #     'gtfs-nqrw', # NQRW
+            # ))
             transit_lines.extend(self.mta_bus_service.get_transit_lines(
                 '401921', # E 86 ST/3 AV
                 '1' # westbound
@@ -312,10 +312,10 @@ class CompositeTransitService(BaseTransitService):
                 '401957', # E 96 ST/3 AV
                 '1' # westbound
             ))
-            transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '404947', # LEXINGTON AV/E 92 ST
-                '1' # southbound
-            ))
+            # transit_lines.extend(self.mta_bus_service.get_transit_lines(
+            #     '404947', # LEXINGTON AV/E 92 ST
+            #     '1' # southbound
+            # ))
             transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
                 '113', # East 90th Street
                 '0' # southbound

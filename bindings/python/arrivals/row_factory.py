@@ -21,11 +21,10 @@ class RowFactory:
             if y < 0:
                 y += len(filtered_transit_lines) * cell_height
 
-            # TODO: do this less stupidly lol
             if vertical_offset == horizontal_offset:
                 pseudo_y = y
             else:
-                pseudo_y = 30 - horizontal_offset
+                pseudo_y = 40 - horizontal_offset
 
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17

@@ -56,7 +56,7 @@ class RowFactory:
     def beveled_zigzag(self, x, height, bevel_width):
         if height + bevel_width == 0:
             return 0
-        return math.round(max(
+        return round(max(
             0,
             min(
                 height,

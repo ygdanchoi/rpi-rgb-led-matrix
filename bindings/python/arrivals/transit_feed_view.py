@@ -132,6 +132,10 @@ class TransitFeedView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
+        for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
+            for xx in range(0, self.offscreen_canvas.width):
+                self.draw_stripe_pixel(xx, yy, [255, 255, 255])
+
         for row in self.viewmodel.rows:
             if row.y < self.offscreen_canvas.height:
                 # optimization to minimize number of textboxes to draw

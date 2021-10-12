@@ -12,6 +12,9 @@ class RowFactory:
 
         filtered_transit_lines = [transit_line for transit_line in transit_lines if self.convert_etas(transit_line, current_time)]
 
+        if len(filtered_transit_lines) == 4:
+            filtered_transit_lines.append(filtered_transit_lines[0])
+
         for i, transit_line in enumerate(filtered_transit_lines):
             y = (i + 1) * cell_height - vertical_offset
             if y < 0:
@@ -37,9 +40,6 @@ class RowFactory:
                     (17 - len(transit_line.description)) * cell_width
                 ) if should_scroll_description else 0
             ))
-
-        if len(rows) == 4:
-            rows.append(rows[0])
 
         return rows
 

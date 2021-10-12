@@ -54,10 +54,9 @@ class RowFactory:
         return rows
 
     def beveled_zigzag(self, x, height, bevel_width):
-        print(height, bevel_width)
         if height + bevel_width == 0:
             return 0
-        return max(
+        return math.round(max(
             0,
             min(
                 height,
@@ -65,7 +64,7 @@ class RowFactory:
                     math.cos((x - bevel_width / 2) * math.pi / (height + bevel_width))
                 ) / math.pi * (height + bevel_width) - (bevel_width / 2)
             )
-        )
+        ))
 
     def format_etas(self, etas, current_time):
         eta_strings = self.convert_etas(etas, current_time)

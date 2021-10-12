@@ -29,10 +29,7 @@ class TransitFeedViewModel(Observable):
         self.transit_service = transit_service
         self.row_factory = row_factory
         self.weather_service = weather_service
-        
-        self.horizontal_offset = 0
-        self.vertical_offset = 0
-        self.stripes_offset = 0
+
         self.cell_height = 7
         self.cell_width = 4
         self.max_rows = 4
@@ -40,6 +37,10 @@ class TransitFeedViewModel(Observable):
         self.stripe_divisor_dark = 16
         self.idx_desc = 5
         self.idx_etas = 24
+        
+        self.horizontal_offset = 0
+        self.vertical_offset = 0
+        self.stripes_offset = 0
 
         self.transit_lines = []
         self.rows = []
@@ -54,11 +55,11 @@ class TransitFeedViewModel(Observable):
 
         while True:            
             self.rows = self.row_factory.create_rows(
-                self.transit_lines,
-                self.vertical_offset,
-                self.horizontal_offset,
-                self.cell_height,
-                self.cell_width
+                transit_lines = self.transit_lines,
+                vertical_offset = self.vertical_offset,
+                horizontal_offset = self.horizontal_offset,
+                cell_height = self.cell_height,
+                cell_width = self.cell_width
             )
 
             self.notify_observers()
@@ -94,13 +95,15 @@ class TransitFeedViewModel(Observable):
     def increment_offsets(self):
         self.vertical_offset += 1
         self.horizontal_offset += 1
+        self.stripes_offset += 1
 
-        if len(self.rows) < self.max_rows or self.vertical_offset >= self.cell_height * len(self.rows):
+        if len(self.rows) < self.max_rows:
+            self.vertical_offset = 0
+
+        if self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
             self.horizontal_offset = 0
 
-        self.stripes_offset += 1
-        
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
     
@@ -120,7 +123,7 @@ class TransitFeedView(Observer, SampleBase):
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
-        self.font.LoadFont("../../../fonts/tom-thumb.bdf")
+        self.font.LoadFont('../../../fonts/tom-thumb.bdf')
         self.dark_mode_color = graphics.Color(47, 0, 0)
         self.light_mode_colors = {}
 
@@ -131,18 +134,19 @@ class TransitFeedView(Observer, SampleBase):
 
         for row in self.viewmodel.rows:
             if row.y < self.offscreen_canvas.height:
-                if row.dx_name != 0 and row.dx_description != 0:
+                # optimization to minimize number of textboxes to draw
+                if row.dx_name == 0 and row.dx_description == 0:
+                    self.draw_unscrolled_name_and_description_and_etas(row)
+                elif row.dx_name == 0:
+                    self.draw_scrolled_description(row)
+                    self.draw_unscrolled_name_and_etas(row)
+                elif row.dx_description == 0:
+                    self.draw_scrolled_name(row)
+                    self.draw_unscrolled_description_and_etas(row)
+                else:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)
-                elif row.dx_name != 0:
-                    self.draw_scrolled_name(row)
-                    self.draw_unscrolled_description_and_etas(row)
-                elif row.dx_description != 0:
-                    self.draw_scrolled_description(row)
-                    self.draw_unscrolled_name_and_etas(row)
-                else:
-                    self.draw_unscrolled_name_and_description_and_etas(row)
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

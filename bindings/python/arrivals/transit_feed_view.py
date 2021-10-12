@@ -152,7 +152,7 @@ class TransitFeedView(Observer, SampleBase):
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)
 
-        self.draw_footer()
+        # self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def draw_scrolled_description(self, row):

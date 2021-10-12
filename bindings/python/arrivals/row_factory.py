@@ -54,6 +54,7 @@ class RowFactory:
         return rows
 
     def beveled_zigzag(self, x, height, bevel_width):
+        print(height, bevel_width)
         if height + bevel_width == 0:
             return 0
         return max(

@@ -27,7 +27,7 @@ class RowFactory:
             if len(filtered_transit_lines) >= max_rows:
                 pseudo_y = y
             else:
-                pseudo_y = 40 - horizontal_offset
+                pseudo_y = -horizontal_offset
 
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17
@@ -39,13 +39,13 @@ class RowFactory:
                 color=transit_line.color,
                 y = y,
                 # TODO: define _/‾\_/‾\ cycle based on horizontal_offset & string lengths
-                dx_name = -self.beveled_zigzag(
-                    horizontal_offset - (i + 0) * cell_height,
+                dx_name = self.beveled_zigzag(
+                    pseudo_y,
                     (len(transit_line.name) - 4) * cell_width - 1,
                     2 * cell_height - 1
                 ) if should_scroll_name else 0,
-                dx_description = -self.beveled_zigzag(
-                    horizontal_offset - (i + 0) * cell_height,
+                dx_description = self.beveled_zigzag(
+                    pseudo_y,
                     (len(transit_line.description) - 17) * cell_width - 1,
                     2 * cell_height - 1
                 ) if should_scroll_description else 0

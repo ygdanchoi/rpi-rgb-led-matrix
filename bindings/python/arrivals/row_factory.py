@@ -13,6 +13,7 @@ class RowFactory:
         filtered_transit_lines = [transit_line for transit_line in transit_lines if self.convert_etas(transit_line, current_time)]
 
         if len(filtered_transit_lines) == 4:
+            # not enough rows to fill viewport; duplicate list as workaround
             filtered_transit_lines.extend(filtered_transit_lines)
 
         for i, transit_line in enumerate(filtered_transit_lines):

@@ -14,7 +14,7 @@ class RowFactory:
 
         for i, transit_line in enumerate(filtered_transit_lines):
             y = (i + 1) * cell_height - vertical_offset
-            if y < -cell_height:
+            if y < 0:
                 y += len(filtered_transit_lines) * cell_height
 
             should_scroll_name = len(transit_line.name) > 4

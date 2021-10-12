@@ -32,7 +32,7 @@ class TransitFeedViewModel(Observable):
 
         self.cell_height = 7
         self.cell_width = 4
-        self.max_rows = 4
+        self.max_rows = 5
         self.stripe_divisor_light = 8
         self.stripe_divisor_dark = 16
         self.idx_desc = 5

@@ -6,13 +6,13 @@ from transit_service import TransitLine
 Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
 
 class RowFactory:
-    def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width):
+    def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width, max_rows):
         rows = []
         current_time = time.time()
 
         filtered_transit_lines = [transit_line for transit_line in transit_lines if self.convert_etas(transit_line, current_time)]
 
-        if len(filtered_transit_lines) == 4:
+        if len(filtered_transit_lines) == max_rows:
             # not enough rows to fill viewport; duplicate list as workaround
             filtered_transit_lines.extend(filtered_transit_lines)
 
@@ -21,7 +21,7 @@ class RowFactory:
             if y < 0:
                 y += len(filtered_transit_lines) * cell_height
 
-            if vertical_offset == horizontal_offset:
+            if len(filtered_transit_lines) >= max_rows:
                 pseudo_y = y
             else:
                 pseudo_y = 40 - horizontal_offset

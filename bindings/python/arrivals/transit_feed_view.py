@@ -55,11 +55,12 @@ class TransitFeedViewModel(Observable):
 
         while True:            
             self.rows = self.row_factory.create_rows(
-                transit_lines = self.transit_lines,
-                vertical_offset = self.vertical_offset,
-                horizontal_offset = self.horizontal_offset,
-                cell_height = self.cell_height,
-                cell_width = self.cell_width
+                transit_lines=self.transit_lines,
+                vertical_offset=self.vertical_offset,
+                horizontal_offset=self.horizontal_offset,
+                cell_height=self.cell_height,
+                cell_width=self.cell_width,
+                max_rows=self.max_rows
             )
 
             self.notify_observers()

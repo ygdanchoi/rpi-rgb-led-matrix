@@ -26,7 +26,8 @@ if __name__ == "__main__":
             vertical_offset=0,
             horizontal_offset=0,
             cell_height=7,
-            cell_width=4
+            cell_width=4,
+            max_rows=4
         )
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')

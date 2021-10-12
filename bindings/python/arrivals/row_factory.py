@@ -38,6 +38,9 @@ class RowFactory:
                 ) if should_scroll_description else 0
             ))
 
+        if len(rows) == 4:
+            rows.append(rows[0])
+
         return rows
 
     def format_etas(self, etas):

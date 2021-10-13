@@ -322,14 +322,7 @@ class CompositeTransitService(BaseTransitService):
             ))
         except Exception as error:
             transit_lines.append(TransitLine(
-                key='ERR0',
-                name='ERR!',
-                description=str(type(error)),
-                etas=[2147483647], # meaningless timestamp
-                color=[255, 0, 0]
-            ))
-            transit_lines.append(TransitLine(
-                key='ERR1',
+                key='ERR!',
                 name='ERR!',
                 description=str(error),
                 etas=[2147483647], # meaningless timestamp

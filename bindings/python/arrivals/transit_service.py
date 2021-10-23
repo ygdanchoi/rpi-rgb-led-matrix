@@ -355,4 +355,5 @@ class CompositeTransitService(BaseTransitService):
             ))
             traceback.print_exc()
         finally:
-            self.transit_lines = transit_lines
+            self.transit_lines.clear()
+            self.transit_lines.extend(transit_lines)

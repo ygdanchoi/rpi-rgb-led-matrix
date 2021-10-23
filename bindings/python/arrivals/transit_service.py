@@ -344,7 +344,6 @@ class CompositeTransitService(BaseTransitService):
                 ]
                 for response in await asyncio.gather(*futures):
                     transit_lines.extend(response)
-                    
         except Exception as error:
             transit_lines.append(TransitLine(
                 key='ERR!',
@@ -354,5 +353,5 @@ class CompositeTransitService(BaseTransitService):
                 color=[255, 0, 0]
             ))
             traceback.print_exc()
-
+        print(transit_lines)
         self.transit_lines = transit_lines

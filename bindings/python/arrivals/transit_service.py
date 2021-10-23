@@ -354,6 +354,5 @@ class CompositeTransitService(BaseTransitService):
                 color=[255, 0, 0]
             ))
             traceback.print_exc()
-        finally:
-            self.transit_lines.clear()
-            self.transit_lines.extend(transit_lines)
+
+        self.transit_lines = transit_lines

@@ -11,9 +11,6 @@ class RowFactory:
         rows = []
         current_time = time.time()
 
-        if (not transit_lines):
-            return []
-
         filtered_transit_lines = [transit_line for transit_line in transit_lines if any(
             eta for eta in transit_line.etas if self.is_visible_eta(eta, current_time)
         )]

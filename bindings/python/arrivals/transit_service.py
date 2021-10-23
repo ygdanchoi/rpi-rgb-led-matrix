@@ -296,6 +296,7 @@ class CompositeTransitService(BaseTransitService):
 
     def get_transit_lines(self):
         self.loop.run_until_complete(self.get_transit_lines_helper())
+        return self.transit_lines
 
     async def get_transit_lines_helper(self):
         transit_lines = []
@@ -353,5 +354,5 @@ class CompositeTransitService(BaseTransitService):
                 color=[255, 0, 0]
             ))
             traceback.print_exc()
-        print(transit_lines)
+
         self.transit_lines = transit_lines

@@ -1,9 +1,12 @@
+import asyncio
 import bisect
 import collections
+import concurrent
 import csv
 import json
 import re
 import requests
+import time
 import traceback
 
 from datetime import datetime
@@ -288,47 +291,65 @@ class CompositeTransitService(BaseTransitService):
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
+        self.transit_lines = []
+        self.loop = asyncio.get_event_loop()
 
     def get_transit_lines(self):
-        transit_lines = []
+        self.transit_lines.clear()
+        self.loop.run_until_complete(self.get_transit_lines_helper())
+        return self.transit_lines
 
+    async def get_transit_lines_helper(self):
         try:
-            # TODO: use asyncio (?) to make parallel requests
-            transit_lines.extend(self.mta_subway_service.get_transit_lines(
-                '626S', # 86 St
-                '1', # southbound
-                'gtfs' # 1234567
-            ))
-            transit_lines.extend(self.mta_subway_service.get_transit_lines(
-                'Q05S', # 96 St
-                '1', # southbound
-                'gtfs-nqrw', # NQRW
-            ))
-            transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '401921', # E 86 ST/3 AV
-                '1' # westbound
-            ))
-            transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '401957', # E 96 ST/3 AV
-                '1' # westbound
-            ))
-            transit_lines.extend(self.mta_bus_service.get_transit_lines(
-                '404947', # LEXINGTON AV/E 92 ST
-                '1' # southbound
-            ))
-            transit_lines.extend(self.nyc_ferry_service.get_transit_lines(
-                '113', # East 90th Street
-                '0' # southbound
-            ))
+            with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+                futures = [
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_subway_service.get_transit_lines, 
+                        '626S', # 86 St
+                        '1', # southbound
+                        'gtfs' # 1234567
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_subway_service.get_transit_lines, 
+                        'Q05S', # 96 St
+                        '1', # southbound
+                        'gtfs-nqrw' # NQRW
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '401921', # E 86 ST/3 AV
+                        '1' # westbound
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '401957', # E 96 ST/3 AV
+                        '1' # westbound
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '404947', # LEXINGTON AV/E 92 ST
+                        '1' # southbound
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '113', # East 90th Street
+                        '0' # southbound
+                    )
+                ]
+                for response in await asyncio.gather(*futures):
+                    self.transit_lines.extend(response)
         except Exception as error:
-            transit_lines.append(TransitLine(
+            self.transit_lines.append(TransitLine(
                 key='ERR!',
                 name='ERR!',
                 description=str(error),
-                etas=[2147483647], # meaningless timestamp
+                etas=[time.time() + 1 + 60 * 888888888],
                 color=[255, 0, 0]
             ))
             traceback.print_exc()
-
-        return transit_lines
-

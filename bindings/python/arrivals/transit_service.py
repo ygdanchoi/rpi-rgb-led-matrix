@@ -337,7 +337,7 @@ class CompositeTransitService(BaseTransitService):
                     ),
                     self.loop.run_in_executor(
                         executor, 
-                        self.mta_bus_service.get_transit_lines, 
+                        self.nyc_ferry_service.get_transit_lines, 
                         '113', # East 90th Street
                         '0' # southbound
                     )
@@ -346,7 +346,7 @@ class CompositeTransitService(BaseTransitService):
                     self.transit_lines.extend(response)
         except Exception as error:
             self.transit_lines.append(TransitLine(
-                key='ERR1',
+                key='ERR!',
                 name='ERR!',
                 description=f'{type(error).__name__}: {str(error)}',
                 etas=[time.time() + 1 + 60 * 888888888],

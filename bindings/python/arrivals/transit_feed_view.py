@@ -47,6 +47,7 @@ class TransitFeedViewModel(Observable):
         self.temperature = ''
         self.is_light_mode = True
 
+        # TODO: in theory, these should be convertable to asyncio
         threading.Thread(target=self.main_thread).start()
         threading.Thread(target=self.background_thread).start()
     

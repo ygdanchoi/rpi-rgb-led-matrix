@@ -295,11 +295,11 @@ class CompositeTransitService(BaseTransitService):
         self.loop = asyncio.get_event_loop()
 
     def get_transit_lines(self):
-        self.transit_lines.clear()
         self.loop.run_until_complete(self.get_transit_lines_helper())
-        return self.transit_lines
 
     async def get_transit_lines_helper(self):
+        transit_lines = []
+
         try:
             with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
                 futures = [
@@ -343,9 +343,10 @@ class CompositeTransitService(BaseTransitService):
                     )
                 ]
                 for response in await asyncio.gather(*futures):
-                    self.transit_lines.extend(response)
+                    transit_lines.extend(response)
+                    
         except Exception as error:
-            self.transit_lines.append(TransitLine(
+            transit_lines.append(TransitLine(
                 key='ERR!',
                 name='ERR!',
                 description=f'{type(error).__name__}: {str(error)}',
@@ -353,3 +354,5 @@ class CompositeTransitService(BaseTransitService):
                 color=[255, 0, 0]
             ))
             traceback.print_exc()
+        finally:
+            self.transit_lines = transit_lines

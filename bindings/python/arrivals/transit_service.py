@@ -197,6 +197,7 @@ class MtaBusService(BaseTransitService):
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
         })
+        print(response.content)
         stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
         vehicle_journeys = (stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_visits)
 

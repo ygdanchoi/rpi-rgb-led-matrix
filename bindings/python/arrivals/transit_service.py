@@ -197,9 +197,11 @@ class MtaBusService(BaseTransitService):
             'OperatorRef': 'MTA',
             'MonitoringRef': stop_id
         })
-        print(response.content)
-        stop_visits = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]['MonitoredStopVisit']
-        vehicle_journeys = (stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_visits)
+        stop_monitoring_delivery = json.loads(response.content)['Siri']['ServiceDelivery']['StopMonitoringDelivery'][0]
+        
+        if 'MonitoredStopVisit' not in stop_monitoring_delivery:
+            return {}
+        vehicle_journeys = (stop_visit['MonitoredVehicleJourney'] for stop_visit in stop_monitoring_delivery['MonitoredStopVisit'])
 
         for vehicle_journey in vehicle_journeys:
             eta = self.get_eta(vehicle_journey)

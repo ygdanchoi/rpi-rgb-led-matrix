@@ -5,7 +5,7 @@
 16,,"Beach Channel Dr/B. 108th St",40.583846,-73.831658
 17,"2319805","East 34th Street",40.743912,-73.970731
 19,"2319808","North Williamsburg",40.720838,-73.964902
-20,"2319810","Dumbo/BBP Pier 1",40.703540,-73.995763
+20,"2319810","Dumbo/Fulton Ferry",40.703540,-73.995763
 23,"2319815","Bay Ridge",40.639858,-74.038130
 24,"2319816","Red Hook/Atlantic Basin",40.680957,-74.013358
 25,"2319819","Roosevelt Island",40.756811,-73.952482
@@ -47,6 +47,7 @@
 131,,"Madison Ave & East 49th St",40.757237,-73.976045
 132,,"East 50th St & Lexington Ave",40.756510,-73.972374
 133,,"East 50th St & Madison Ave",40.757851,-73.975573
-136,,"Battery Park City/Vesey St.",40.715179,-74.017756
-137,,"St. George",40.645750,-74.074332
-138,,"Midtown West/W 39th St-Pier 79",40.760391,-74.004230
+136,,"Battery Park City/Vesey St.",40.715029,-74.017775
+137,,"St. George",40.646111,-74.074171
+138,,"Midtown West/W 39th St-Pier 79",40.760282,-74.004088
+139,,"Coney Island",40.580431,-73.996971

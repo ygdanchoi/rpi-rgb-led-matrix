@@ -275,6 +275,7 @@ class NycFerryService(GtfsService):
             if trip_update.trip.trip_id in self.trips:
                 trip = self.trips[trip_update.trip.trip_id]    
             else:
+                raise f'ferry trip {trip_update.trip.trip_id} not found'
                 trip = trip_update.trip
             
             if not direction or direction == trip.direction_id:
@@ -291,10 +292,6 @@ class NycFerryService(GtfsService):
             transit_line.etas.sort()
 
         return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
-
-    def get_last_stop_name(self, trip_update):
-        stop_id = sorted(trip_update.stop_time_update, key=lambda stop_time_update: -stop_time_update.arrival.time)[0].stop_id
-        return self.stops[stop_id].stop_name
 
 class CompositeTransitService(BaseTransitService):
     def __init__(self):

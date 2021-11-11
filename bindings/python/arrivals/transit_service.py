@@ -271,7 +271,8 @@ class NycFerryService(GtfsService):
             eta = self.get_eta(trip_update, stop_id)
             if not eta:
                 continue
-
+            
+            print(trip_update)
             trip = self.trips[trip_update.trip.trip_id]
             
             if not direction or direction == trip.direction_id:

@@ -272,11 +272,7 @@ class NycFerryService(GtfsService):
             if not eta:
                 continue
             
-            if trip_update.trip.trip_id in self.trips:
-                trip = self.trips[trip_update.trip.trip_id]    
-            else:
-                raise f'ferry trip {trip_update.trip.trip_id} not found'
-                trip = trip_update.trip
+            trip = self.trips[trip_update.trip.trip_id]    
             
             if not direction or direction == trip.direction_id:
                 key = f'{direction}-{trip.route_id}'

@@ -272,23 +272,27 @@ class NycFerryService(GtfsService):
             if not eta:
                 continue
             
-            print(trip_update.trip)
-            trip = self.trips[trip_update.trip.trip_id]
+            # print(trip_update.trip)
+            # trip = self.trips[trip_update.trip.trip_id]
             
             if not direction or direction == trip.direction_id:
                 key = f'{direction}-{trip.route_id}'
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
-                    name=trip.route_id,
-                    description=trip.trip_headsign,
+                    name=trip_update.trip.route_id,
+                    description=self.get_last_stop_name(trip_update),
                     etas=[],
-                    color=self.colors[trip.route_id]
+                    color=self.colors[trip_update.trip.route_id]
                 )).etas.append(eta)
 
         for transit_line in transit_lines_by_key.values():
             transit_line.etas.sort()
 
         return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
+
+    def get_last_stop_name(self, trip_update):
+        stop_id = sorted(trip_update.stop_time_update, key=lambda stop_time_update: -stop_time_update.arrival.time)[0].stop_id
+        return self.stops[stop_id].stop_name
 
 class CompositeTransitService(BaseTransitService):
     def __init__(self):

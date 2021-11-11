@@ -275,8 +275,8 @@ class NycFerryService(GtfsService):
             # print(trip_update.trip)
             # trip = self.trips[trip_update.trip.trip_id]
             
-            if not direction or direction == trip.direction_id:
-                key = f'{direction}-{trip.route_id}'
+            if not direction or direction == trip_update.trip.direction_id:
+                key = f'{direction}-{trip_update.trip.route_id}'
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
                     name=trip_update.trip.route_id,

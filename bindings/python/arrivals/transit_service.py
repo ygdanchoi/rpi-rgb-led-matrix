@@ -272,14 +272,14 @@ class NycFerryService(GtfsService):
             if not eta:
                 continue
             
-            trip = self.trips[trip_update.trip.trip_id]    
+            trip = self.trips[trip_update.trip.trip_id]
             
             if not direction or direction == trip.direction_id:
                 key = f'{direction}-{trip.route_id}'
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
                     name=trip.route_id,
-                    description=self.trip_headsign,
+                    description=trip.trip_headsign,
                     etas=[],
                     color=self.colors[trip.route_id]
                 )).etas.append(eta)

@@ -338,7 +338,7 @@ class CompositeTransitService(BaseTransitService):
                         executor, 
                         self.nyc_ferry_service.get_transit_lines, 
                         '113', # East 90th Street
-                        '0' # southbound
+                        '1' # southbound
                     )
                 ]
                 for response in await asyncio.gather(*futures):

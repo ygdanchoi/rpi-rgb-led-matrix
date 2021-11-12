@@ -279,7 +279,7 @@ class NycFerryService(GtfsService):
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
                     name=trip.route_id,
-                    description=self.get_last_stop_name(trip_update),
+                    description=self.trip_headsign,
                     etas=[],
                     color=self.colors[trip.route_id]
                 )).etas.append(eta)

@@ -271,8 +271,12 @@ class NycFerryService(GtfsService):
             eta = self.get_eta(trip_update, stop_id)
             if not eta:
                 continue
-            
-            trip = self.trips[trip_update.trip.trip_id]
+
+            try:
+                trip = self.trips[trip_update.trip.trip_id]
+            except KeyError:
+                traceback.print_exc()
+                continue
             
             if not direction or direction == trip.direction_id:
                 key = f'{direction}-{trip.route_id}'

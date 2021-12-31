@@ -80,4 +80,4 @@ class RowFactory:
         return [str(int((eta - current_time) // 60)) for eta in etas if self.is_visible_eta(eta, current_time)]
     
     def is_visible_eta(self, eta, current_time):
-        return (eta - current_time) // 60 > 0
+        return (eta - current_time) // 60 >= 5

@@ -1,3 +1,4 @@
+import asyncio
 import threading
 import time
 
@@ -48,6 +49,7 @@ class TransitFeedViewModel(Observable):
         self.is_light_mode = True
 
         # TODO: in theory, these should be convertable to asyncio
+        self.loop = asyncio.get_event_loop()
         threading.Thread(target=self.main_thread).start()
         threading.Thread(target=self.background_thread).start()
     

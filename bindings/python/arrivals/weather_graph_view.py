@@ -101,7 +101,7 @@ class WeatherGraphView(Observer, SampleBase):
         for i, weather_hour in enumerate(self.viewmodel.forecast):
             self.draw_text(
                 1,
-                i * self.cell_height,
+                i * self.viewmodel.cell_height,
                 weather_hour.temp
             )
 

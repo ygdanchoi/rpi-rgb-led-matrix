@@ -1,4 +1,5 @@
 import asyncio
+import math
 import collections
 import time
 
@@ -129,7 +130,7 @@ class WeatherGraphView(Observer, SampleBase):
                 point.b
             )
             if i > 0:
-                for x in range(points[i - 1].x // 1, point.x // 1):
+                for x in range(math.floor(points[i - 1].x), math.floor(point.x)):
                     self.offscreen_canvas.SetPixel(
                         x,
                         point.y,

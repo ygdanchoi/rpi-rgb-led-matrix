@@ -177,6 +177,10 @@ class WeatherGraphView(Observer, SampleBase):
         return points
 
     def get_color(self, weather_hour):
+        if (weather_hour.code == 804):
+            return [64, 64, 96]
+        elif (weather_hour.code == 600):
+            return [192, 192, 255]
         return [
             random.randint(64, 255),
             random.randint(64, 255),

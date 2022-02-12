@@ -22,9 +22,10 @@ if __name__ == "__main__":
         ).process()
         asyncio.get_event_loop().run_forever()
     else:
-        transit_lines = transit_service.get_transit_lines()
+        asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())
+        
         rows = row_factory.create_rows(
-            transit_lines=transit_lines,
+            transit_lines=transit_service.transit_lines,
             vertical_offset=0,
             horizontal_offset=0,
             cell_height=7,

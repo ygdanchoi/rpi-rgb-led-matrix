@@ -301,11 +301,7 @@ class CompositeTransitService(BaseTransitService):
         self.transit_lines = []
         self.loop = asyncio.get_event_loop()
 
-    def get_transit_lines(self):
-        self.loop.run_until_complete(self.get_transit_lines_helper())
-        return self.transit_lines
-
-    async def get_transit_lines_helper(self):
+    async def fetch_transit_lines(self):
         transit_lines = []
 
         try:

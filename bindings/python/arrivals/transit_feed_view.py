@@ -48,10 +48,8 @@ class TransitFeedViewModel(Observable):
         self.temperature = ''
         self.is_light_mode = True
 
-        self.loop = asyncio.get_event_loop()
-        self.loop.create_task(self.main_thread())
-        self.loop.create_task(self.background_thread())
-        self.loop.run_forever()
+        asyncio.ensure_future(self.main_thread())
+        asyncio.ensure_future(self.background_thread())
     
     async def main_thread(self):
         last_ns = time.time_ns()

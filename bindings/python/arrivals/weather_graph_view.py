@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color', 'temp'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color', 'temp', 'code'])
 
 class Observable:
     def __init__(self):
@@ -142,6 +142,12 @@ class WeatherGraphView(Observer, SampleBase):
                 label,
                 point.color
             )
+            self.draw_text(
+                7 + i * 19 - len(point.code) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                point.code,
+                point.color
+            )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
@@ -160,7 +166,8 @@ class WeatherGraphView(Observer, SampleBase):
                 x = i / 24 * 114 - 3,
                 y = math.floor(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
-                temp = weather_hour.temp
+                temp = weather_hour.temp,
+                code = f'{weather_hour.code}'
             ))
 
         return points
@@ -174,13 +181,6 @@ class WeatherGraphView(Observer, SampleBase):
 
     def draw_footer(self):
         for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
-            self.draw_text(
-                7 + i * 19 - len(f'{weather_hour.code}') * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                f'{weather_hour.code}',
-                [255, 255, 255]
-            )
-
             hr = datetime.fromtimestamp(weather_hour.ts)
             label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(

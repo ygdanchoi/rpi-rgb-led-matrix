@@ -105,7 +105,7 @@ class WeatherGraphView(Observer, SampleBase):
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:3]):
             self.draw_text(
                 1,
-                i * self.viewmodel.cell_height,
+                (i + 1) * self.viewmodel.cell_height,
                 f"{datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')} {int(round(weather_hour.temp, 0))}° {weather_hour.description} {weather_hour.icon}"
             )
 

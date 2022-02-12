@@ -128,7 +128,7 @@ class WeatherGraphView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             x,
-            10,
+            10 if weather_hour else self.offscreen_canvas.height - 1,
             self.get_text_color([255, 255, 255]),
             text
         )

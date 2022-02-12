@@ -146,7 +146,11 @@ class WeatherGraphView(Observer, SampleBase):
                 7 + i * 19 - len(point.code) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 point.code,
-                point.color
+                [
+                    point.color[0] // 4,
+                    point.color[1] // 4,
+                    point.color[2] // 4
+                ]
             )
 
         self.draw_footer()

@@ -170,7 +170,7 @@ class WeatherGraphView(Observer, SampleBase):
             random.randint(64, 255),
             random.randint(64, 255),
             random.randint(64, 255)
-        ],
+        ]
 
     def draw_footer(self):
         for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):

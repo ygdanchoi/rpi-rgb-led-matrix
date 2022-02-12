@@ -103,7 +103,7 @@ class WeatherGraphView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
+        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
             label = f"{int(round(weather_hour.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
@@ -113,13 +113,13 @@ class WeatherGraphView(Observer, SampleBase):
 
         min_temp = float('inf')
         max_temp = float('-inf')
-        for weather_hour in self.viewmodel.forecast[0:25]:
+        for weather_hour in self.viewmodel.forecast[0:27]:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:25]):
+        for i, weather_hour in enumerate(self.viewmodel.forecast[0:27]):
             self.offscreen_canvas.SetPixel(
-                i / 24 * 114 + 6,
+                i / 24 * 114 + 1,
                 self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
                 255,
                 255,
@@ -134,7 +134,7 @@ class WeatherGraphView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
+        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
             hr = datetime.fromtimestamp(weather_hour.ts)
             label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(

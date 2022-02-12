@@ -117,7 +117,7 @@ class WeatherGraphView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:24:6]):
+        for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
             self.draw_text(
                 7 + i * 19,
                 self.offscreen_canvas.height - 1,

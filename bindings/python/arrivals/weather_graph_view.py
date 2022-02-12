@@ -159,19 +159,28 @@ class WeatherGraphView(Observer, SampleBase):
             points.append(WeatherPoint(
                 x = i / 24 * 114 - 3,
                 y = math.floor(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
-                color = [
-                    random.randint(64, 255),
-                    random.randint(64, 255),
-                    random.randint(64, 255)
-                ],
+                color = self.get_color(weather_hour),
                 temp = weather_hour.temp
             ))
 
         return points
 
+    def get_color(self, weather_hour):
+        return [
+            random.randint(64, 255),
+            random.randint(64, 255),
+            random.randint(64, 255)
+        ],
 
     def draw_footer(self):
         for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
+            self.draw_text(
+                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                weather_hour.code,
+                [255, 255, 255]
+            )
+
             hr = datetime.fromtimestamp(weather_hour.ts)
             label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(

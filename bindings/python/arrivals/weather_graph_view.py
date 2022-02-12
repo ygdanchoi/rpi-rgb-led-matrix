@@ -134,9 +134,9 @@ class WeatherGraphView(Observer, SampleBase):
                     self.offscreen_canvas.SetPixel(
                         x,
                         x * (points[i].y - points[i - 1].y) / (points[i].x - points[i - 1].x),
-                        point.r / 8,
-                        point.g / 8,
-                        point.b / 8
+                        255,
+                        0,
+                        0
                     )
 
         self.draw_footer()

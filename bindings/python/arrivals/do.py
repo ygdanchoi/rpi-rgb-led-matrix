@@ -14,12 +14,14 @@ if __name__ == "__main__":
     weather_service = WeatherService()
 
     if os.name == 'posix':
-        from transit_feed_view import TransitFeedView
-        TransitFeedView(
-            transit_service=transit_service,
-            row_factory=row_factory,
-            weather_service=weather_service
-        ).process()
+        # from transit_feed_view import TransitFeedView
+        # TransitFeedView(
+        #     transit_service=transit_service,
+        #     row_factory=row_factory,
+        #     weather_service=weather_service
+        # ).process()
+        from weather_graph_view import WeatherGraphView
+        WeatherGraphView(weather_service=weather_service).process()
         asyncio.get_event_loop().run_forever()
     else:
         asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())

@@ -138,7 +138,7 @@ class WeatherGraphView(Observer, SampleBase):
             label = f"{int(round(point.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
+                min([pt.y - 1 for pt in points[(p_i - 2):(p_i + 2)]]),
                 label
             )
 

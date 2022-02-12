@@ -1,6 +1,7 @@
 import asyncio
-import math
 import collections
+import math
+import random
 import time
 
 from datetime import datetime
@@ -136,9 +137,9 @@ class WeatherGraphView(Observer, SampleBase):
                     self.offscreen_canvas.SetPixel(
                         x,
                         m * x + b,
-                        255,
-                        0,
-                        0
+                        point.r,
+                        point.r,
+                        point.r
                     )
 
         self.draw_footer()
@@ -157,9 +158,9 @@ class WeatherGraphView(Observer, SampleBase):
             points.append(WeatherPoint(
                 x = i / 24 * 114 - 3,
                 y = self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
-                r = 255,
-                g = 255,
-                b = 255
+                r = random.randint(128, 255),
+                g = random.randint(128, 255),
+                b = random.randint(128, 255),
             ))
 
         return points

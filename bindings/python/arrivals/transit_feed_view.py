@@ -48,12 +48,11 @@ class TransitFeedViewModel(Observable):
         self.temperature = ''
         self.is_light_mode = True
 
-        # TODO: in theory, these should be convertable to asyncio
         self.loop = asyncio.get_event_loop()
-        threading.Thread(target=self.main_thread).start()
-        threading.Thread(target=self.background_thread).start()
+        self.loop.create_task(self.main_thread())
+        self.loop.create_task(self.background_thread())
     
-    def main_thread(self):
+    async def main_thread(self):
         last_ns = time.time_ns()
 
         while True:            
@@ -71,11 +70,11 @@ class TransitFeedViewModel(Observable):
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             s_to_wait = max(0, 0.07 - last_delta_s)
-            time.sleep(s_to_wait)
+            asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
 
 
-    def background_thread(self):
+    async def background_thread(self):
         update_transit_lines_timer = 0
         update_weather_timer = 0
 
@@ -94,7 +93,7 @@ class TransitFeedViewModel(Observable):
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
             
-            time.sleep(1)
+            asyncio.sleep(1)
     
     def increment_offsets(self):
         self.stripes_offset += 1

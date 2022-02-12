@@ -110,6 +110,27 @@ class WeatherGraphView(Observer, SampleBase):
                 label
             )
 
+        min_temp = float('inf')
+        max_temp = float('-inf')
+        for weather_hour in self.viewmodel.forecast[0:25]:
+            min_temp = min(min_temp, weather_hour.temp)
+            max_temp = max(max_temp, weather_hour.temp)
+
+        for i, weather_hour in enumerate(self.viewmodel.forecast[0:25]):
+            self.offscreen_canvas.SetPixel(
+                self.offscreen_canvas.height - 114 * i / 24 + 7,
+                18 * weather_hour.temp / (max_temp - min_temp),
+                255,
+                255,
+                255
+            )
+            label = f"{int(round(weather_hour.temp, 0))}°"
+            self.draw_text(
+                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                self.viewmodel.cell_height - 1,
+                label
+            )
+
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 

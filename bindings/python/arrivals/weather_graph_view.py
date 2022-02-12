@@ -165,9 +165,10 @@ class WeatherGraphView(Observer, SampleBase):
 
         return points
 
+    # https://www.weatherbit.io/api/codes
     def get_color(self, weather_hour):
         code = weather_hour.code
-        
+
         if 200 <= code and code <= 299: # thunderstorm
             return [243, 121, 203] # unseen
         elif 300 <= code and code <= 399: # drizzle

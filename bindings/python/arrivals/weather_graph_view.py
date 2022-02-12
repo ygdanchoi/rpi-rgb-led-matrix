@@ -35,6 +35,7 @@ class WeatherGraphViewModel(Observable):
         
         self.stripes_offset = 0
 
+        self.forecast = []
         self.is_light_mode = True
 
         asyncio.ensure_future(self.main_thread())
@@ -61,7 +62,7 @@ class WeatherGraphViewModel(Observable):
             self.is_light_mode = 7 <= hh and hh < 22
 
             if update_weather_timer == 0:
-                self.temperature = self.weather_service.get_weather().temperature
+                self.forecast = self.weather_service.get_forecast()
                 update_weather_timer = 4 * 60 * 60
 
             update_weather_timer -= 1
@@ -111,13 +112,11 @@ class WeatherGraphView(Observer, SampleBase):
         for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
-
-        temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
         
         self.draw_text(
             None,
             1,
-            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if False else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
+            datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
         )
 
     def draw_text(self, row, x, text):

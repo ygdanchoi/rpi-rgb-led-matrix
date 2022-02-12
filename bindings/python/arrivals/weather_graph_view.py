@@ -105,8 +105,8 @@ class WeatherGraphView(Observer, SampleBase):
 
         points = self.create_weather_points()
         for i, point in enumerate(points):
-            for yy in range(0, point.y - 1):
-                self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
+            for yy in range(y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height):
+                self.draw_stripe_pixel(point.x, yy, point.color)
             self.offscreen_canvas.SetPixel(
                 point.x,
                 point.y,

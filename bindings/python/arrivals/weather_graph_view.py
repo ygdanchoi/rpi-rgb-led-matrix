@@ -100,20 +100,20 @@ class WeatherGraphViewModel(Observable):
                 num = self.num_alive_neighbors(r, c)
                 if self.gol_matrix[r][c]:
                     # cell is dead
-                    self.new_gol_matrix[r][c] = self.gol_matrix[r][c] + 1
+                    self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
                     if num == 3:
                         self.new_gol_matrix[r][c] = 0
                 else:
                     # cell is alive
                     if num < 2 or num > 3:
-                        self.new_gol_matrix[r][c] = 1
+                        self.new_gol_matrix[r][c] = -1
         
         for r in range(self.matrix_h):
             for c in range(self.matrix_w):
                 self.gol_matrix[r][c] = self.new_gol_matrix[r][c]
         
         for c in range(self.matrix_w):
-            self.gol_matrix[self.matrix_h - 1][c] = 1 if random.randint(0, 2) == 0 else 0
+            self.gol_matrix[self.matrix_h - 1][c] = -1 if random.randint(0, 2) == 0 else 0
     
     def num_alive_neighbors(self, r, c):
         num = 0
@@ -132,7 +132,7 @@ class WeatherGraphViewModel(Observable):
                 num += self.gol_matrix[r + 0][c + 1] == 0
         if r > 0:
             num += self.gol_matrix[r - 1][c] == 0
-        if r < self.matrix_h -1:
+        if r < self.matrix_h - 1:
             num += self.gol_matrix[r + 1][c] == 0
 
         return num

@@ -138,7 +138,7 @@ class WeatherGraphView(Observer, SampleBase):
             label = f"{int(round(point.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
+                min([pt.y - 2 for pt in points[(p_i - 1):(p_i + 1)]]),
                 label,
                 point.color
             )
@@ -158,7 +158,7 @@ class WeatherGraphView(Observer, SampleBase):
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:1] + self.viewmodel.forecast[0:28]):
             points.append(WeatherPoint(
                 x = i / 24 * 114 - 3,
-                y = math.floor(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                y = math.floor(1 + self.viewmodel.cell_height + (self.offscreen_canvas.height - 23) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = weather_hour.temp,
             ))
@@ -171,7 +171,6 @@ class WeatherGraphView(Observer, SampleBase):
         elif (weather_hour.code == 600):
             return [192, 192, 255]
         else:
-            print(f'unhandled code: {weather_hour.code}')
             return [
                 random.randint(64, 255),
                 random.randint(64, 255),

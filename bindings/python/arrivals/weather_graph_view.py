@@ -136,11 +136,11 @@ class WeatherGraphView(Observer, SampleBase):
 
         min_temp = float('inf')
         max_temp = float('-inf')
-        for weather_hour in self.viewmodel.forecast[0:26]:
+        for weather_hour in self.viewmodel.forecast[0:28]:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:1] + self.viewmodel.forecast[0:26]):
+        for i, weather_hour in enumerate(self.viewmodel.forecast[0:1] + self.viewmodel.forecast[0:28]):
             points.append(WeatherPoint(
                 x = i / 24 * 114 - 3,
                 y = self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),

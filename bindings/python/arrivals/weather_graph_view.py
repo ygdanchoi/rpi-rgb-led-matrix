@@ -119,10 +119,11 @@ class WeatherGraphView(Observer, SampleBase):
 
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
             hr = datetime.fromtimestamp(weather_hour.ts)
+            label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(
-                2 + i * 19,
+                7 - len(label) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1,
-                f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
+                label
             )
 
     def draw_text(self, x, y, text):

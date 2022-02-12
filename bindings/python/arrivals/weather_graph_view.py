@@ -118,10 +118,11 @@ class WeatherGraphView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
+            hr = datetime.fromtimestamp(weather_hour.ts)
             self.draw_text(
-                7 + i * 19,
+                2 + i * 19,
                 self.offscreen_canvas.height - 1,
-                f"{datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')}"
+                f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             )
 
     def draw_text(self, x, y, text):

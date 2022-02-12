@@ -135,10 +135,9 @@ class WeatherGraphView(Observer, SampleBase):
                         self.draw_stripe_pixel(x, yy, point.color)
         for i, point in enumerate(points[2:27:4]):
             label = f"{int(round(point.temp, 0))}°"
-            print([points[i - 1].y, point.y, points[i + 1].y])
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                min(points[i - 1].y, point.y, points[i + 1].y) - 1,
+                min([pt.y - 1 for pt in points[(i - 2):(i + 2)]]),
                 label
             )
 

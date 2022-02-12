@@ -35,8 +35,8 @@ class WeatherGraphViewModel(Observable):
 
         self.cell_height = 7
         self.cell_width = 4
-        self.stripe_divisor_light = 4
-        self.stripe_divisor_dark = 8
+        self.stripe_divisor_light = 8
+        self.stripe_divisor_dark = 16
         
         self.stripes_offset = 0
 

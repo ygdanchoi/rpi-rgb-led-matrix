@@ -167,7 +167,7 @@ class WeatherGraphView(Observer, SampleBase):
 
     def get_color(self, weather_hour):
         if (weather_hour.code):
-            return [192, 192, 128]
+            return [255, 192, 128]
         else:
             return [
                 random.randint(64, 255),

@@ -116,7 +116,7 @@ class WeatherGraphView(Observer, SampleBase):
             )
             for yy in range(point.y + 1, self.offscreen_canvas.height):
                 if (point.time == '12a'):
-                    if (yy % 2 == point.y % 2):
+                    if (yy % 3 == point.y % 3):
                         self.offscreen_canvas.SetPixel(
                             point.x,
                             yy,

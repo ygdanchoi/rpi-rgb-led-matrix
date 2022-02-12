@@ -33,6 +33,8 @@ class WeatherGraphViewModel(Observable):
 
         self.weather_service = weather_service
 
+        self.matrix_h = 32
+        self.matrix_w = 128
         self.cell_height = 7
         self.cell_width = 4
         self.stripe_divisor_light = 8
@@ -43,8 +45,7 @@ class WeatherGraphViewModel(Observable):
         self.forecast = []
         self.is_light_mode = True
 
-        self.gol_matrix = [[0]*128 for i in range(32)]
-        print(self.gol_matrix)
+        self.gol_matrix = [[0]*self.matrix_w for i in range(self.matrix_h)]
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())
@@ -82,6 +83,59 @@ class WeatherGraphViewModel(Observable):
 
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
+        
+        self.step_gol()
+        for row in self.gol_matrix:
+            print(row)
+    
+    def step_gol(self):
+        new_gol_matrix = [[0]*self.matrix_w for i in range(self.matrix_h)]
+
+        for r in range(self.matrix_h):
+            for c in range(self.matrix_w):
+                new_gol_matrix[r][c] = self.gol_matrix[r][c]
+        
+        for r in range(self.matrix_h):
+            for c in range(self.matrix_w):
+                num = self.num_alive_neighbors(r, c)
+                if self.gol_matrix[r][c]:
+                    # cell is dead
+                    new_gol_matrix[r][c] = self.gol_matrix[r][c] + 1
+                    if num == 3:
+                        new_gol_matrix[r][c] = 0
+                else:
+                    # cell is alive
+                    if num < 2 or num > 3:
+                        new_gol_matrix[r][c] = 1
+        
+        for r in range(self.matrix_h):
+            for c in range(self.matrix_w):
+                self.gol_matrix[r][c] = new_gol_matrix[r][c]
+        
+        for c in range(self.matrix_w):
+            self.gol_matrix[self.matrix_h][c] = 1 if random.randint() % 3 == 0 else 0
+    
+    def num_alive_neighbors(self, r, c):
+        num = 0
+
+        if c > 0:
+            if r > 0:
+                num += self.gol_matrix[r - 1][c - 1] == 0
+            if r < self.matrix_h - 1:
+                num += self.gol_matrix[r + 1][c - 1] == 0
+                num += self.gol_matrix[r + 0][c - 1] == 0
+        if c < self.matrix_w - 1:
+            if r > 0:
+                num += self.gol_matrix[r - 1][c + 1] == 0
+            if r < self.matrix_h - 1:
+                num += self.gol_matrix[r + 1][c + 1] == 0
+                num += self.gol_matrix[r + 0][c + 1] == 0
+        if r > 0:
+            num += self.gol_matrix[r - 1][c] == 0
+        if r < self.matrix_h -1:
+            num += self.gol_matrix[r + 1]c] == 0
+
+        return num
     
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0

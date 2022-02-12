@@ -119,7 +119,8 @@ class WeatherGraphView(Observer, SampleBase):
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, point in enumerate(self.create_weather_points()):
+        points = self.create_weather_points()
+        for i, point in enumerate(points):
             self.offscreen_canvas.SetPixel(
                 point.x,
                 point.y,
@@ -127,6 +128,15 @@ class WeatherGraphView(Observer, SampleBase):
                 point.g,
                 point.b
             )
+            if i > 0:
+                for x in range(point[i - 1].x, point.x):
+                    self.offscreen_canvas.SetPixel(
+                        x,
+                        point.y,
+                        point.r,
+                        point.g,
+                        point.b
+                    )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

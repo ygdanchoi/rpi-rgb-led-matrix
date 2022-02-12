@@ -139,7 +139,8 @@ class WeatherGraphView(Observer, SampleBase):
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
                 min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
-                label
+                label,
+                point.color
             )
 
         self.draw_footer()
@@ -176,16 +177,17 @@ class WeatherGraphView(Observer, SampleBase):
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1,
-                label
+                label,
+                [255, 255, 255]
             )
 
-    def draw_text(self, x, y, text):
+    def draw_text(self, x, y, text, color):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             x,
             y,
-            self.get_text_color([255, 255, 255]),
+            self.get_text_color(color),
             text
         )
 

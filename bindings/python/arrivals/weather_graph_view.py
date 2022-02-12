@@ -99,6 +99,8 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         for i, weather_hour in enumerate(self.viewmodel.forecast):
+            if i > 5:
+                break
             self.draw_text(
                 1,
                 i * self.viewmodel.cell_height,

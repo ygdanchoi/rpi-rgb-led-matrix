@@ -119,7 +119,7 @@ class WeatherGraphView(Observer, SampleBase):
 
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:25]):
             self.offscreen_canvas.SetPixel(
-                math.floor(i / 24 * 114) + 7,
+                i / 24 * 114 + 6,
                 10, # self.offscreen_canvas.height - 18 * weather_hour.temp / (max_temp - min_temp),
                 255,
                 255,

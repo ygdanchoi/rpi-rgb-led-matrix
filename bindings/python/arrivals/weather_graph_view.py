@@ -120,9 +120,9 @@ class WeatherGraphView(Observer, SampleBase):
                         self.offscreen_canvas.SetPixel(
                             point.x,
                             yy,
-                            point.color[0] // 2,
-                            point.color[1] // 2,
-                            point.color[2] // 2
+                            point.color[0],
+                            point.color[1],
+                            point.color[2]
                         )
                 else:
                     self.draw_stripe_pixel(point.x, yy, point.color)

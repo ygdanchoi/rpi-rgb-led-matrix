@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'r', 'g', 'b'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color'])
 
 class Observable:
     def __init__(self):
@@ -126,9 +126,9 @@ class WeatherGraphView(Observer, SampleBase):
             self.offscreen_canvas.SetPixel(
                 point.x,
                 point.y,
-                point.r,
-                point.g,
-                point.b
+                point.color[0],
+                point.color[1],
+                point.color[2]
             )
             if i < len(points) - 1:
                 for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):
@@ -137,9 +137,9 @@ class WeatherGraphView(Observer, SampleBase):
                     self.offscreen_canvas.SetPixel(
                         x,
                         m * x + b,
-                        point.r,
-                        point.g,
-                        point.b
+                        point.color[0],
+                        point.color[1],
+                        point.color[2]
                     )
 
         self.draw_footer()
@@ -158,9 +158,11 @@ class WeatherGraphView(Observer, SampleBase):
             points.append(WeatherPoint(
                 x = i / 24 * 114 - 3,
                 y = self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
-                r = random.randint(128, 255),
-                g = random.randint(128, 255),
-                b = random.randint(128, 255),
+                color = [
+                    random.randint(64, 255),
+                    random.randint(64, 255),
+                    random.randint(64, 255)
+                ]
             ))
 
         return points

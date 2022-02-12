@@ -34,3 +34,4 @@ if __name__ == "__main__":
         )
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
+        weather_service.get_forecast()

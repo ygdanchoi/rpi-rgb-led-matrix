@@ -305,7 +305,7 @@ class CompositeTransitService(BaseTransitService):
         transit_lines = []
 
         try:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
                 futures = [
                     self.loop.run_in_executor(
                         executor, 

@@ -124,12 +124,6 @@ class WeatherGraphView(Observer, SampleBase):
                 255,
                 255
             )
-            label = f"{int(round(weather_hour.temp, 0))}°"
-            self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                self.viewmodel.cell_height - 1,
-                label
-            )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

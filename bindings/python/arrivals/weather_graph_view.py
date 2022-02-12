@@ -43,7 +43,8 @@ class WeatherGraphViewModel(Observable):
         self.forecast = []
         self.is_light_mode = True
 
-        self.game_of_life = [[0]*self.offscreen_canvas.height for i in self.offscreen_canvas.width]
+        self.gol_matrix = [[0]*128 for i in range(32)]
+        print(self.gol_matrix)
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())

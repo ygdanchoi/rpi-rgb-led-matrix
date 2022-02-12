@@ -103,26 +103,10 @@ class WeatherGraphView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
-        for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
-            for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, [31, 31, 31])
-
-        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
-            label = f"{int(round(weather_hour.temp, 0))}°"
-            self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                self.viewmodel.cell_height - 1,
-                label
-            )
-
-        min_temp = float('inf')
-        max_temp = float('-inf')
-        for weather_hour in self.viewmodel.forecast[0:27]:
-            min_temp = min(min_temp, weather_hour.temp)
-            max_temp = max(max_temp, weather_hour.temp)
-
         points = self.create_weather_points()
         for i, point in enumerate(points):
+            for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
+                self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
             self.offscreen_canvas.SetPixel(
                 point.x,
                 point.y,
@@ -132,6 +116,8 @@ class WeatherGraphView(Observer, SampleBase):
             )
             if i < len(points) - 1:
                 for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):
+                    for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
+                        self.draw_stripe_pixel(x, yy, [31, 31, 31])
                     m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
                     b = point.y - m * point.x
                     self.offscreen_canvas.SetPixel(
@@ -141,6 +127,13 @@ class WeatherGraphView(Observer, SampleBase):
                         point.color[1],
                         point.color[2]
                     )
+        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
+            label = f"{int(round(weather_hour.temp, 0))}°"
+            self.draw_text(
+                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                self.viewmodel.cell_height - 1,
+                label
+            )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

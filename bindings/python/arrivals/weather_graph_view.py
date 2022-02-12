@@ -103,10 +103,10 @@ class WeatherGraphView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:25:4]):
-            label = f"{int(round(weather_hour.temp, 0))}°F"
+            label = f"{int(round(weather_hour.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                10,
+                1 + self.viewmodel.cell_height,
                 label
             )
 

@@ -129,7 +129,7 @@ class WeatherGraphView(Observer, SampleBase):
                 point.g,
                 point.b
             )
-            if i == len(points) - 1:
+            if i < len(points) - 1:
                 for x in range(math.floor(points[i].x), math.floor(points[i + 1].x)):
                     self.offscreen_canvas.SetPixel(
                         x,

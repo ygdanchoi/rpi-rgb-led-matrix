@@ -121,7 +121,7 @@ class WeatherGraphView(Observer, SampleBase):
             hr = datetime.fromtimestamp(weather_hour.ts)
             label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(
-                7 - len(label) * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1,
                 label
             )

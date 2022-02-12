@@ -138,8 +138,8 @@ class WeatherGraphView(Observer, SampleBase):
                         x,
                         m * x + b,
                         point.r,
-                        point.r,
-                        point.r
+                        point.g,
+                        point.b
                     )
 
         self.draw_footer()

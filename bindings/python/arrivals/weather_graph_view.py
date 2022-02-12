@@ -177,7 +177,7 @@ class WeatherGraphView(Observer, SampleBase):
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                weather_hour.code,
+                f'{weather_hour.code}',
                 [255, 255, 255]
             )
 

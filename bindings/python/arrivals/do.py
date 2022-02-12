@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 import os
 
 from datetime import datetime
@@ -19,6 +20,7 @@ if __name__ == "__main__":
             row_factory=row_factory,
             weather_service=weather_service
         ).process()
+        asyncio.get_event_loop().run_forever()
     else:
         transit_lines = transit_service.get_transit_lines()
         rows = row_factory.create_rows(

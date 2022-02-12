@@ -51,6 +51,7 @@ class TransitFeedViewModel(Observable):
         self.loop = asyncio.get_event_loop()
         self.loop.create_task(self.main_thread())
         self.loop.create_task(self.background_thread())
+        self.loop.run_forever()
     
     async def main_thread(self):
         last_ns = time.time_ns()

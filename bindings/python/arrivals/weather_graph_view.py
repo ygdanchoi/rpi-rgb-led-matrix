@@ -98,6 +98,10 @@ class WeatherGraphView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
+        for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
+            for xx in range(0, self.offscreen_canvas.width):
+                self.draw_stripe_pixel(xx, yy, [31, 31, 31])
+
         for i, weather_hour in enumerate(self.viewmodel.forecast):
             if i > 4:
                 break
@@ -106,10 +110,6 @@ class WeatherGraphView(Observer, SampleBase):
                 i * self.viewmodel.cell_height,
                 'hello world'
             )
-
-        for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
-            for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

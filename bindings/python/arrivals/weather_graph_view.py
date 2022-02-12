@@ -147,9 +147,9 @@ class WeatherGraphView(Observer, SampleBase):
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 point.code,
                 [
-                    point.color[0] // 4,
-                    point.color[1] // 4,
-                    point.color[2] // 4
+                    point.color[0] // 2,
+                    point.color[1] // 2,
+                    point.color[2] // 2
                 ]
             )
 

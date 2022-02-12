@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color', 'temp'])
 
 class Observable:
     def __init__(self):
@@ -133,8 +133,8 @@ class WeatherGraphView(Observer, SampleBase):
                     )
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
-        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
-            label = f"{int(round(weather_hour.temp, 0))}°"
+        for i, point in enumerate(points[2:27:4]):
+            label = f"{int(round(point.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
                 self.viewmodel.cell_height - 1,
@@ -161,7 +161,8 @@ class WeatherGraphView(Observer, SampleBase):
                     random.randint(64, 255),
                     random.randint(64, 255),
                     random.randint(64, 255)
-                ]
+                ],
+                temp = weather_hour.temp
             ))
 
         return points

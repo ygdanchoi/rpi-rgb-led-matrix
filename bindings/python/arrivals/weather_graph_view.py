@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color', 'temp', 'code'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'color', 'temp'])
 
 class Observable:
     def __init__(self):
@@ -142,16 +142,6 @@ class WeatherGraphView(Observer, SampleBase):
                 label,
                 point.color
             )
-            self.draw_text(
-                7 + i * 19 - len(point.code) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                point.code,
-                [
-                    point.color[0] // 2,
-                    point.color[1] // 2,
-                    point.color[2] // 2
-                ]
-            )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
@@ -171,20 +161,21 @@ class WeatherGraphView(Observer, SampleBase):
                 y = math.floor(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = weather_hour.temp,
-                code = f'{weather_hour.code}'
             ))
 
         return points
 
     def get_color(self, weather_hour):
         if (weather_hour.code == 804):
-            return [64, 64, 96]
+            return [128, 128, 192]
         elif (weather_hour.code == 600):
             return [192, 192, 255]
-        return [
-            random.randint(64, 255),
-            random.randint(64, 255),
-            random.randint(64, 255)
+        else:
+            print(f'unhandled code: {weather_hour.code}')
+            return [
+                random.randint(64, 255),
+                random.randint(64, 255),
+                random.randint(64, 255)
         ]
 
     def draw_footer(self):
@@ -197,6 +188,13 @@ class WeatherGraphView(Observer, SampleBase):
                 label,
                 [255, 255, 255]
             )
+            self.draw_text(
+                7 + i * 19 - len(weather_hour.pop) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                weather_hour.pop,
+                [192, 255, 255]
+            )
+
 
     def draw_text(self, x, y, text, color):
         graphics.DrawText(

@@ -87,7 +87,7 @@ class WeatherGraphViewModel(Observable):
         
         self.step_gol()
         for row in self.gol_matrix:
-            print(''.join(['x' if cell == 0 else '.' for cell in row]))
+            print(''.join(['█' if cell == 0 else '.' for cell in row]))
         print('-' * self.matrix_w)
     
     def step_gol(self):

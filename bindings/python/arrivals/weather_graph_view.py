@@ -106,7 +106,7 @@ class WeatherGraphView(Observer, SampleBase):
             label = f"{int(round(weather_hour.temp, 0))}°"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                self.viewmodel.cell_height,
+                self.viewmodel.cell_height - 1,
                 label
             )
 

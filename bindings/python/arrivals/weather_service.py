@@ -21,7 +21,6 @@ class WeatherService:
                 'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
                 'useQueryString': 'true'
             })
-            print(response.content)
             weather = json.loads(response.content)['data'][0]        
             return Weather(temperature=f"{int(round(weather['temp'], 0))}°F")
         except Exception as error:

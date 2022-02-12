@@ -116,13 +116,14 @@ class WeatherGraphView(Observer, SampleBase):
             )
             for yy in range(point.y + 1, self.offscreen_canvas.height):
                 if (point.time == '12a'):
-                    self.offscreen_canvas.SetPixel(
-                        point.x,
-                        yy,
-                        point.color[0],
-                        point.color[1],
-                        point.color[2]
-                    )
+                    if (yy % 2 == point.y % 2):
+                        self.offscreen_canvas.SetPixel(
+                            point.x,
+                            yy,
+                            point.color[0],
+                            point.color[1],
+                            point.color[2]
+                        )
                 else:
                     self.draw_stripe_pixel(point.x, yy, point.color)
                     

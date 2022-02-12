@@ -133,7 +133,7 @@ class WeatherGraphViewModel(Observable):
         if r > 0:
             num += self.gol_matrix[r - 1][c] == 0
         if r < self.matrix_h -1:
-            num += self.gol_matrix[r + 1]c] == 0
+            num += self.gol_matrix[r + 1][c] == 0
 
         return num
     

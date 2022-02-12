@@ -77,9 +77,9 @@ class WeatherGraphViewModel(Observable):
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
 
-class WeatherGraphFeedView(Observer, SampleBase):
+class WeatherGraphView(Observer, SampleBase):
     def __init__(self, *args, **kwargs):
-        super(WeatherGraphFeedView, self).__init__(*args, **kwargs)
+        super(WeatherGraphView, self).__init__(*args, **kwargs)
         
         self.viewmodel = WeatherGraphViewModel(
             weather_service=kwargs['weather_service']

@@ -1,11 +1,13 @@
 import asyncio
-import math
+import collections
 import time
 
 from datetime import datetime
 
 from samplebase import SampleBase
 from rgbmatrix import graphics
+
+WeatherPoint = collections.namedtuple('WeatherPoint', ['x', 'y', 'r', 'g', 'b'])
 
 class Observable:
     def __init__(self):
@@ -117,17 +119,38 @@ class WeatherGraphView(Observer, SampleBase):
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:27]):
+        for i, point in enumerate(self.create_weather_points()):
             self.offscreen_canvas.SetPixel(
-                i / 24 * 114 + 2,
-                self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
-                255,
-                255,
-                255
+                point.x,
+                point.y,
+                point.r,
+                point.g,
+                point.b
             )
 
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+    
+    def create_weather_points(self):
+        points = []
+
+        min_temp = float('inf')
+        max_temp = float('-inf')
+        for weather_hour in self.viewmodel.forecast[0:27]:
+            min_temp = min(min_temp, weather_hour.temp)
+            max_temp = max(max_temp, weather_hour.temp)
+
+        for i, weather_hour in enumerate(self.viewmodel.forecast[0:27]):
+            points.append(WeatherPoint(
+                x = i / 24 * 114 + 2
+                y = self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
+                r = 255,
+                g = 255,
+                b = 255
+            ))
+
+        return points
+
 
     def draw_footer(self):
         for yy in range(self.offscreen_canvas.height - self.viewmodel.cell_height, self.offscreen_canvas.height):

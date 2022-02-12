@@ -98,11 +98,12 @@ class WeatherGraphView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
-        for weather_hour in self.viewmodel.forecast:
+        for i, weather_hour in enumerate(self.viewmodel.forecast):
             self.draw_text(
                 weather_hour,
                 1,
-                datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
+                i * self.cell_height,
+                weather_hour.temp
             )
 
         for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):
@@ -120,15 +121,16 @@ class WeatherGraphView(Observer, SampleBase):
         self.draw_text(
             None,
             1,
+            self.offscreen_canvas.height - 1,
             datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
         )
 
-    def draw_text(self, weather_hour, x, text):
+    def draw_text(self, x, y, text):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             x,
-            10 if weather_hour else self.offscreen_canvas.height - 1,
+            y,
             self.get_text_color([255, 255, 255]),
             text
         )

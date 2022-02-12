@@ -175,7 +175,7 @@ class WeatherGraphView(Observer, SampleBase):
     def draw_footer(self):
         for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
             self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(weather_hour.code) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 f'{weather_hour.code}',
                 [255, 255, 255]

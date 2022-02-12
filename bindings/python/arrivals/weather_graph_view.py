@@ -142,7 +142,7 @@ class WeatherGraphView(Observer, SampleBase):
 
         for i, weather_hour in enumerate(self.viewmodel.forecast[0:27]):
             points.append(WeatherPoint(
-                x = i / 24 * 114 + 2
+                x = i / 24 * 114 + 2,
                 y = self.viewmodel.cell_height + (self.offscreen_canvas.height - 15) * (max_temp - weather_hour.temp) / (max_temp - min_temp),
                 r = 255,
                 g = 255,

@@ -108,7 +108,7 @@ class WeatherGraphView(Observer, SampleBase):
             self.draw_text(
                 1,
                 i * self.viewmodel.cell_height,
-                f"{datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')} {int(round(weather_hour.temp, 0))}° {weather_hour.description}"
+                f"{datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')} {int(round(weather_hour.temp, 0))}° {weather_hour.description} {weather_hour.code}"
             )
 
         self.draw_footer()

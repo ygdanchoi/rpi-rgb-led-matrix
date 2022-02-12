@@ -6,7 +6,7 @@ import traceback
 import config
 
 Weather = collections.namedtuple('Weather', ['temperature'])
-WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'timestamp_local', 'temp', 'pop', 'icon', 'code', 'description'])
+WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'temp', 'pop', 'icon', 'code', 'description'])
 
 class WeatherService:
     def get_weather(self):
@@ -47,7 +47,6 @@ class WeatherService:
             for datum in json.loads(content)['data']:
                 weather_hours.append(WeatherHour(
                     ts=datum['ts'],
-                    timestamp_local=datum['timestamp_local'],
                     temp=datum['temp'],
                     pop=datum['pop'],
                     icon=datum['weather']['icon'],

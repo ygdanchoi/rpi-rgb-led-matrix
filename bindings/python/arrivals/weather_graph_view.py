@@ -189,10 +189,10 @@ class WeatherGraphView(Observer, SampleBase):
                 [255, 255, 255]
             )
             self.draw_text(
-                7 + i * 19 - len(f'{weather_hour.pop}') * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(f'{weather_hour.pop}%') * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                f'{weather_hour.pop}',
-                [192, 255, 255]
+                f'{weather_hour.pop}%',
+                [63, 127, 255]
             )
 
 

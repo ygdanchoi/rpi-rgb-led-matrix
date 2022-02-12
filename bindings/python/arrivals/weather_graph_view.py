@@ -100,7 +100,6 @@ class WeatherGraphView(Observer, SampleBase):
 
         for i, weather_hour in enumerate(self.viewmodel.forecast):
             self.draw_text(
-                weather_hour,
                 1,
                 i * self.cell_height,
                 weather_hour.temp
@@ -119,7 +118,6 @@ class WeatherGraphView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
         
         self.draw_text(
-            None,
             1,
             self.offscreen_canvas.height - 1,
             datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')

@@ -118,17 +118,18 @@ class WeatherGraphView(Observer, SampleBase):
                 for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):
                     m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
                     b = point.y - m * point.x
-
-                    for yy in range(m * x + b + 1, self.offscreen_canvas.height - self.viewmodel.cell_height):
-                        self.draw_stripe_pixel(x, yy, point.color)
+                    y = math.floor(m * x + b)
 
                     self.offscreen_canvas.SetPixel(
                         x,
-                        m * x + b,
+                        y,
                         point.color[0],
                         point.color[1],
                         point.color[2]
                     )
+
+                    for yy in range(y + 1, self.offscreen_canvas.height - self.viewmodel.cell_height):
+                        self.draw_stripe_pixel(x, yy, [31, 31, 31])
         for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
             label = f"{int(round(weather_hour.temp, 0))}°"
             self.draw_text(

@@ -104,7 +104,7 @@ class WeatherGraphView(Observer, SampleBase):
             self.draw_text(
                 1,
                 i * self.viewmodel.cell_height,
-                weather_hour.temp
+                'hello world'
             )
 
         for yy in range(0, self.offscreen_canvas.height - self.viewmodel.cell_height):

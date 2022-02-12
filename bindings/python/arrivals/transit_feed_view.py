@@ -82,7 +82,8 @@ class TransitFeedViewModel(Observable):
             self.is_light_mode = 7 <= hh and hh < 22
 
             if update_transit_lines_timer == 0:
-                self.transit_lines = self.transit_service.get_transit_lines()
+                await self.transit_service.update_transit_lines()
+                self.transit_lines = self.transit_service.transit_lines
                 update_transit_lines_timer = 30
 
             if update_weather_timer == 0:

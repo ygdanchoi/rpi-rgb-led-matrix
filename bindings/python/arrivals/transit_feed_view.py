@@ -71,7 +71,7 @@ class TransitFeedViewModel(Observable):
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             s_to_wait = max(0, 0.07 - last_delta_s)
-            asyncio.sleep(s_to_wait)
+            await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
 
 
@@ -94,7 +94,7 @@ class TransitFeedViewModel(Observable):
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
             
-            asyncio.sleep(1)
+            await asyncio.sleep(1)
     
     def increment_offsets(self):
         self.stripes_offset += 1

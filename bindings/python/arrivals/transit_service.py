@@ -310,7 +310,7 @@ class CompositeTransitService(BaseTransitService):
 
         try:
             # TODO: yes this is idiotic, but increasing max_workers causes flickering on fetch
-            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
                 futures = [
                     self.loop.run_in_executor(
                         executor, 

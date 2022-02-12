@@ -113,7 +113,7 @@ class WeatherGraphViewModel(Observable):
                 self.gol_matrix[r][c] = new_gol_matrix[r][c]
         
         for c in range(self.matrix_w):
-            self.gol_matrix[self.matrix_h][c] = 1 if random.randint(0, 2) == 0 else 0
+            self.gol_matrix[self.matrix_h - 1][c] = 1 if random.randint(0, 2) == 0 else 0
     
     def num_alive_neighbors(self, r, c):
         num = 0

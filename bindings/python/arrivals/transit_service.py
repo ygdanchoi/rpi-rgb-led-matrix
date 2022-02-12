@@ -301,7 +301,7 @@ class CompositeTransitService(BaseTransitService):
         self.transit_lines = []
         self.loop = asyncio.get_event_loop()
 
-    async def fetch_transit_lines(self):
+    async def update_transit_lines(self):
         transit_lines = []
 
         try:

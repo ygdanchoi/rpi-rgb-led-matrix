@@ -209,7 +209,22 @@ class WeatherGraphView(Observer, SampleBase):
                 point.color
             )
 
-        self.draw_footer()
+        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
+            hr = datetime.fromtimestamp(weather_hour.ts)
+            label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
+            self.draw_text(
+                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1,
+                label,
+                [255, 255, 255]
+            )
+            self.draw_text(
+                7 + i * 19 - len(f'{weather_hour.pop}%') * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                f'{weather_hour.pop}%',
+                [127, 191, 255]
+            )
+
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
     
     def create_weather_points(self):
@@ -259,24 +274,6 @@ class WeatherGraphView(Observer, SampleBase):
                 random.randint(64, 255)
         ]
 
-    def draw_footer(self):
-        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
-            hr = datetime.fromtimestamp(weather_hour.ts)
-            label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
-            self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1,
-                label,
-                [255, 255, 255]
-            )
-            self.draw_text(
-                7 + i * 19 - len(f'{weather_hour.pop}%') * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                f'{weather_hour.pop}%',
-                [127, 191, 255]
-            )
-
-
     def draw_text(self, x, y, text, color):
         graphics.DrawText(
             self.offscreen_canvas,
@@ -304,7 +301,7 @@ class WeatherGraphView(Observer, SampleBase):
                 stripe_divisor = self.viewmodel.stripe_divisor_light
             else:
                 stripe_divisor = self.viewmodel.stripe_divisor_dark
-                
+
             if self.viewmodel.get_gol_safe(yy, xx) < -128:
                 self.offscreen_canvas.SetPixel(
                     xx,

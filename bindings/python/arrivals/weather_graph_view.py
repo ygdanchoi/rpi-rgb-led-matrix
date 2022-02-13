@@ -91,7 +91,7 @@ class WeatherGraphViewModel(Observable):
 
         for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
             points.append(WeatherPoint(
-                hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:3].lower(),
+                hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = int(i / 24 * 114 - 3),
                 y = int(self.cell_height + (self.matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),

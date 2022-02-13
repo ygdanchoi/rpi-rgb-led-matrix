@@ -111,7 +111,7 @@ class WeatherGraphViewModel(Observable):
         elif 500 <= code and code <= 599: # rain
             return [81, 121, 203]
         elif 600 <= code and code <= 699: # snow
-            return [223, 223, 223]
+            return [250, 250, 250]
         elif 700 <= code and code <= 799: # fog
             return [50, 182, 122] # unseen
         elif 800 <= code and code <= 802: # clear
@@ -314,15 +314,15 @@ class WeatherGraphView(Observer, SampleBase):
                     xx,
                     yy,
                     max(
-                        int(math.sqrt(2 * color[0])) + self.viewmodel.get_gol_safe(yy, xx) * 8,
+                        color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 8,
                         color[0] // stripe_divisor
                     ),
                     max(
-                        int(math.sqrt(2 * color[1])) + self.viewmodel.get_gol_safe(yy, xx) * 16,
+                        color[1] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 16,
                         color[1] // stripe_divisor
                     ),
                     max(
-                        int(math.sqrt(2 * color[2])) + self.viewmodel.get_gol_safe(yy, xx) * 4,
+                        color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 4,
                         color[2] // stripe_divisor
                     )
                 )

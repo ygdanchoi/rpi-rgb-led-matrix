@@ -96,7 +96,7 @@ class WeatherGraphViewModel(Observable):
                 ts = weather_hour.ts,
                 time = f"{hr.strftime('%-I')}{hr.strftime('%p').lower()}"[0:3],
                 x = int(i / 24 * 114 - 3),
-                y = int(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                y = int(self.cell_height + (self.matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = weather_hour.temp,
                 pop = weather_hour.pop

@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'time', 'x', 'y', 'color', 'temp', 'pop'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['hr', 'time', 'x', 'y', 'color', 'temp', 'pop'])
 
 class Observable:
     def __init__(self):
@@ -90,16 +90,13 @@ class WeatherGraphViewModel(Observable):
             max_temp = max(max_temp, weather_hour.temp)
 
         for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
-            hr = datetime.fromtimestamp(weather_hour.ts)
-            
             points.append(WeatherPoint(
-                ts = weather_hour.ts,
-                time = f"{hr.strftime('%-I')}{hr.strftime('%p').lower()}"[0:3],
+                hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0].lower()[0:3],
                 x = int(i / 24 * 114 - 3),
                 y = int(self.cell_height + (self.matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
-                temp = weather_hour.temp,
-                pop = weather_hour.pop
+                temp = f'{int(round(weather_hour.temp, 0))}°',
+                pop = f'{weather_hour.pop}%'
             ))
 
         return points
@@ -251,27 +248,25 @@ class WeatherGraphView(Observer, SampleBase):
                         self.draw_stripe_pixel(x, yy, point.color)
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
-            label = f"{int(round(point.temp, 0))}°"
+
             self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
                 min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
-                label,
+                point.temp,
                 point.color
             )
 
-        for i, point in enumerate(points[2:27:4]):
-            hr = datetime.fromtimestamp(point.ts)
-            label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(
-                7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1,
-                label,
+                point.hr,
                 [255, 255, 255]
             )
+
             self.draw_text(
-                7 + i * 19 - len(f'{point.pop}%') * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(point.pop) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                f'{point.pop}%',
+                point.pop,
                 [127, 191, 255]
             )
 

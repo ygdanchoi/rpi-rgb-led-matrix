@@ -250,7 +250,7 @@ class WeatherGraphView(Observer, SampleBase):
         elif 500 <= code and code <= 599: # rain
             return [81, 121, 203]
         elif 600 <= code and code <= 699: # snow
-            return [192, 192, 224]
+            return [191, 191, 223]
         elif 700 <= code and code <= 799: # fog
             return [50, 182, 122] # unseen
         elif 800 <= code and code <= 802: # clear
@@ -278,7 +278,7 @@ class WeatherGraphView(Observer, SampleBase):
                 7 + i * 19 - len(f'{weather_hour.pop}%') * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 f'{weather_hour.pop}%',
-                [63, 127, 255]
+                [127, 191, 255]
             )
 
 

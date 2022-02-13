@@ -88,9 +88,9 @@ class WeatherGraphViewModel(Observable):
         self.step_gol()
     
     def step_gol(self):
-        for r in range(self.matrix_h):
-            for c in range(self.matrix_w):
-                self.new_gol_matrix[r][c] = self.gol_matrix[r][c]
+        # for r in range(self.matrix_h):
+        #     for c in range(self.matrix_w):
+        #         self.new_gol_matrix[r][c] = self.gol_matrix[r][c]
         
         for r in range(self.matrix_h):
             for c in range(self.matrix_w):

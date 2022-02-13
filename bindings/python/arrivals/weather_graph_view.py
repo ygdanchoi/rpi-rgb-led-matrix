@@ -246,6 +246,7 @@ class WeatherGraphView(Observer, SampleBase):
                     )
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
+                        
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 

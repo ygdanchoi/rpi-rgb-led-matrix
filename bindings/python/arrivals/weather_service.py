@@ -30,19 +30,19 @@ class WeatherService:
 
     def get_forecast(self):
         try:
-            # response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={
-            #     'lat': 40.782,
-            #     'lon': -73.954,
-            #     'units': 'imperial'
-            # }, headers={
-            #     'x-rapidapi-key': config.weather_api_key,
-            #     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
-            #     'useQueryString': 'true'
-            # })
-            # content = response.content
-            # print(response.content)
+            response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={
+                'lat': 40.782,
+                'lon': -73.954,
+                'units': 'imperial'
+            }, headers={
+                'x-rapidapi-key': config.weather_api_key,
+                'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
+                'useQueryString': 'true'
+            })
+            content = response.content
+            print(response.content)
 
-            content = open('weather_mock_forecast.json').read()
+            # content = open('weather_mock_forecast.json').read()
             
             weather_hours = []
             for datum in json.loads(content)['data']:

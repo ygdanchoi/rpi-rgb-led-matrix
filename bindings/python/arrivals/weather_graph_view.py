@@ -207,7 +207,8 @@ class WeatherGraphView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
-        points = self.create_weather_points()
+        points = self.viewmodel.weather_points
+
         for i, point in enumerate(points):
             for yy in range(0, point.y - 1):
                 self.draw_stripe_pixel(point.x, yy, [31, 31, 31])

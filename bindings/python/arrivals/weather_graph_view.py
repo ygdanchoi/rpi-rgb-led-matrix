@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['hr', 'time', 'x', 'y', 'color', 'temp', 'pop'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['hr', 'x', 'y', 'color', 'temp', 'pop'])
 
 class Observable:
     def __init__(self):

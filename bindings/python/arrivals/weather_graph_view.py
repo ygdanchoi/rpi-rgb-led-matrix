@@ -206,14 +206,16 @@ class WeatherGraphView(Observer, SampleBase):
         points = self.viewmodel.weather_points
 
         for i, point in enumerate(points):
+            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
+            
             for yy in range(0, point.y - 1):
                 self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
             self.offscreen_canvas.SetPixel(
                 point.x,
                 point.y,
-                point.color[0],
-                point.color[1],
-                point.color[2]
+                color[0],
+                color[1],
+                color[2]
             )
             for yy in range(point.y + 1, self.offscreen_canvas.height):
                 if (point.hr == '12a'):
@@ -221,9 +223,9 @@ class WeatherGraphView(Observer, SampleBase):
                         self.offscreen_canvas.SetPixel(
                             point.x,
                             yy,
-                            point.color[0],
-                            point.color[1],
-                            point.color[2]
+                            color[0],
+                            color[1],
+                            color[2]
                         )
                 else:
                     self.draw_stripe_pixel(point.x, yy, point.color)

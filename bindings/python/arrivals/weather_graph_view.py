@@ -42,7 +42,7 @@ class WeatherGraphViewModel(Observable):
         
         self.stripes_offset = 0
 
-        self.forecast = []
+        self.weather_points = []
         self.is_light_mode = True
 
         self.gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
@@ -73,12 +73,37 @@ class WeatherGraphViewModel(Observable):
             self.is_light_mode = 7 <= hh and hh < 22
 
             if update_weather_timer == 0:
-                self.forecast = self.weather_service.get_forecast()
+                forecast = self.weather_service.get_forecast()
+                self.points = self.create_weather_points(forecast)
                 update_weather_timer = 4 * 60
 
             update_weather_timer -= 1
-            
             await asyncio.sleep(60)
+
+    def create_weather_points(self, forecast):
+        points = []
+
+        min_temp = float('inf')
+        max_temp = float('-inf')
+        for weather_hour in forecast[0:28]:
+            min_temp = min(min_temp, weather_hour.temp)
+            max_temp = max(max_temp, weather_hour.temp)
+
+        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
+            hr = datetime.fromtimestamp(weather_hour.ts)
+            
+            points.append(WeatherPoint(
+                ts = weather_hour.ts,
+                time = f"{hr.strftime('%-I')}{hr.strftime('%p').lower()}"[0:3],
+                x = int(i / 24 * 114 - 3),
+                y = int(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                color = self.get_color(weather_hour),
+                temp = weather_hour.temp,
+                pop = weather_hour.pop
+            ))
+
+        return points
+
     
     def increment_offsets(self):
         self.stripes_offset += 1
@@ -227,30 +252,6 @@ class WeatherGraphView(Observer, SampleBase):
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
     
-    def create_weather_points(self):
-        points = []
-
-        min_temp = float('inf')
-        max_temp = float('-inf')
-        for weather_hour in self.viewmodel.forecast[0:28]:
-            min_temp = min(min_temp, weather_hour.temp)
-            max_temp = max(max_temp, weather_hour.temp)
-
-        for i, weather_hour in enumerate(self.viewmodel.forecast[0:1] + self.viewmodel.forecast[0:28]):
-            hr = datetime.fromtimestamp(weather_hour.ts)
-            
-            points.append(WeatherPoint(
-                ts = weather_hour.ts,
-                time = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}",
-                x = int(i / 24 * 114 - 3),
-                y = int(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
-                color = self.get_color(weather_hour),
-                temp = weather_hour.temp,
-                pop = weather_hour.pop
-            ))
-
-        return points
-
     # https://www.weatherbit.io/api/codes
     def get_color(self, weather_hour):
         code = weather_hour.code

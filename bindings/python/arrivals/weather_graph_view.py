@@ -88,18 +88,15 @@ class WeatherGraphViewModel(Observable):
         self.step_gol()
     
     def step_gol(self):
-        # for r in range(self.matrix_h):
-        #     for c in range(self.matrix_w):
-        #         self.new_gol_matrix[r][c] = self.gol_matrix[r][c]
-        
         for r in range(self.matrix_h):
             for c in range(self.matrix_w):
                 num = self.num_alive_neighbors(r, c)
                 if self.gol_matrix[r][c]:
                     # cell is dead
-                    self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
                     if num == 3:
                         self.new_gol_matrix[r][c] = 0
+                    else:
+                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
                 else:
                     # cell is alive
                     if num < 2 or num > 3:
@@ -325,21 +322,30 @@ class WeatherGraphView(Observer, SampleBase):
                     stripe_divisor = self.viewmodel.stripe_divisor_light
                 else:
                     stripe_divisor = self.viewmodel.stripe_divisor_dark
-                self.offscreen_canvas.SetPixel(
-                    xx,
-                    yy,
-                    max(
-                        color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 8,
-                        color[0] // stripe_divisor
-                    ),
-                    max(
-                        color[1] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 16,
-                        color[1] // stripe_divisor
-                    ),
-                    max(
-                        color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 4,
+                if self.viewmodel.get_gol_safe(yy, xx) < -128:
+                    self.offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        color[0] // stripe_divisor,
+                        color[1] // stripe_divisor,
                         color[2] // stripe_divisor
                     )
-                )
+                else:
+                    self.offscreen_canvas.SetPixel(
+                        xx,
+                        yy,
+                        max(
+                            color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 8,
+                            color[0] // stripe_divisor
+                        ),
+                        max(
+                            color[1] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 16,
+                            color[1] // stripe_divisor
+                        ),
+                        max(
+                            color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 4,
+                            color[2] // stripe_divisor
+                        )
+                    )
 
     

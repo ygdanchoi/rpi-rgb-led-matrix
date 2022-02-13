@@ -206,7 +206,7 @@ class WeatherGraphView(Observer, SampleBase):
         points = self.viewmodel.weather_points
 
         for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
+            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
             
             for yy in range(0, point.y - 1):
                 self.draw_stripe_pixel(point.x, yy, [31, 31, 31])

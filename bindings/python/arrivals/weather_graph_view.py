@@ -86,9 +86,6 @@ class WeatherGraphViewModel(Observable):
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
 
-        # self.step_gol()
-    
-    def step_gol(self):
         for c in range(self.matrix_w):
             self.new_gol_matrix[self.matrix_h - 1][c] = -1 if random.randint(0, 2) == 0 else 0
 

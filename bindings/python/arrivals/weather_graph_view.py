@@ -45,8 +45,8 @@ class WeatherGraphViewModel(Observable):
         self.forecast = []
         self.is_light_mode = True
 
-        self.gol_matrix = [[0]*self.matrix_w for i in range(self.matrix_h)]
-        self.new_gol_matrix = [[0]*self.matrix_w for i in range(self.matrix_h)]
+        self.gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
+        self.new_gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())

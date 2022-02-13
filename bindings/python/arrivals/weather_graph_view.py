@@ -47,6 +47,9 @@ class WeatherGraphViewModel(Observable):
 
         self.gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
         self.new_gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
+        for r in range(self.matrix_h - 1):
+            for c in range(self.matrix_w):
+                self.gol_matrix[r][c] = random.randint(-1, 0)
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())

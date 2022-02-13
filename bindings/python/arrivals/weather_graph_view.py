@@ -266,7 +266,7 @@ class WeatherGraphView(Observer, SampleBase):
 
             self.draw_text(
                 7 + i * 19 - len(point.pop) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - self.viewmodel.cell_height,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 point.pop,
                 [127, 191, 255]
             )

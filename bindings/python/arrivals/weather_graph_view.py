@@ -137,6 +137,12 @@ class WeatherGraphViewModel(Observable):
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
 
+    def get_gol_safe(self, r, c):
+        if 0 <= r and r < self.matrix_h and 0 <= c and c < self.matrix_w:
+            return self.gol_matrix[r][c]
+        else:
+            return -255
+
 class WeatherGraphView(Observer, SampleBase):
     def __init__(self, *args, **kwargs):
         super(WeatherGraphView, self).__init__(*args, **kwargs)
@@ -323,15 +329,15 @@ class WeatherGraphView(Observer, SampleBase):
                     xx,
                     yy,
                     max(
-                        color[0] + self.viewmodel.gol_matrix[yy][xx] * 16,
+                        color[0] + self.viewmodel.get_gol_safe(yy, xx) * 16,
                         color[0] // stripe_divisor
                     ),
                     max(
-                        color[1] + self.viewmodel.gol_matrix[yy][xx] * 32,
+                        color[1] + self.viewmodel.get_gol_safe(yy, xx) * 32,
                         color[1] // stripe_divisor
                     ),
                     max(
-                        color[2] + self.viewmodel.gol_matrix[yy][xx] * 4,
+                        color[2] + self.viewmodel.get_gol_safe(yy, xx) * 4,
                         color[2] // stripe_divisor
                     )
                 )

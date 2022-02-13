@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['time', 'x', 'y', 'color', 'temp'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'time', 'x', 'y', 'color', 'temp', 'pop'])
 
 class Observable:
     def __init__(self):
@@ -209,8 +209,8 @@ class WeatherGraphView(Observer, SampleBase):
                 point.color
             )
 
-        for i, weather_hour in enumerate(self.viewmodel.forecast[1:26:4]):
-            hr = datetime.fromtimestamp(weather_hour.ts)
+        for i, point in enumerate(points[2:27:4]):
+            hr = datetime.fromtimestamp(point.ts)
             label = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}"
             self.draw_text(
                 7 + i * 19 - len(label) * self.viewmodel.cell_width / 2,
@@ -219,9 +219,9 @@ class WeatherGraphView(Observer, SampleBase):
                 [255, 255, 255]
             )
             self.draw_text(
-                7 + i * 19 - len(f'{weather_hour.pop}%') * self.viewmodel.cell_width / 2,
+                7 + i * 19 - len(f'{point.pop}%') * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                f'{weather_hour.pop}%',
+                f'{point.pop}%',
                 [127, 191, 255]
             )
 
@@ -240,11 +240,13 @@ class WeatherGraphView(Observer, SampleBase):
             hr = datetime.fromtimestamp(weather_hour.ts)
             
             points.append(WeatherPoint(
+                ts = weather_hour.ts,
                 time = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}",
                 x = int(i / 24 * 114 - 3),
                 y = int(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = weather_hour.temp,
+                pop = weather_hour.pop
             ))
 
         return points

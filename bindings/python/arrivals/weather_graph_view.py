@@ -74,7 +74,7 @@ class WeatherGraphViewModel(Observable):
             if update_weather_timer == 0:
                 forecast = self.weather_service.get_forecast()
                 self.weather_points = self.create_weather_points(forecast)
-                update_weather_timer = 4 * 60
+                update_weather_timer = 60
 
             update_weather_timer -= 1
             await asyncio.sleep(60)

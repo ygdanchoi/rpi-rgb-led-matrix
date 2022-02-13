@@ -322,15 +322,15 @@ class WeatherGraphView(Observer, SampleBase):
                 self.offscreen_canvas.SetPixel(
                     xx,
                     yy,
-                    math.max(
+                    max(
                         color[0] + self.viewmodel.gol_matrix[yy][xx] * 16,
                         color[0] // stripe_divisor
                     ),
-                    math.max(
+                    max(
                         color[1] + self.viewmodel.gol_matrix[yy][xx] * 32,
                         color[1] // stripe_divisor
                     ),
-                    math.max(
+                    max(
                         color[2] + self.viewmodel.gol_matrix[yy][xx] * 4,
                         color[2] // stripe_divisor
                     )

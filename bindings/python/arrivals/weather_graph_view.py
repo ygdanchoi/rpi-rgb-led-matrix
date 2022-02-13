@@ -89,9 +89,9 @@ class WeatherGraphViewModel(Observable):
     
     def step_gol(self):
         for c in range(self.matrix_w):
-            self.gol_matrix[self.matrix_h - 1][c] = -1 if random.randint(0, 2) == 0 else 0
+            self.new_gol_matrix[self.matrix_h - 1][c] = -1 if random.randint(0, 2) == 0 else 0
 
-        for r in range(self.matrix_h):
+        for r in range(self.matrix_h - 1):
             for c in range(self.matrix_w):
                 num = self.num_alive_neighbors(r, c)
                 if self.gol_matrix[r][c]:

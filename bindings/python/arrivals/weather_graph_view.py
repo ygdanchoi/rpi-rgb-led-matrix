@@ -226,7 +226,7 @@ class WeatherGraphView(Observer, SampleBase):
             points.append(WeatherPoint(
                 time = f"{hr.strftime('%-I')}{hr.strftime('%p')[0].lower()}",
                 x = i / 24 * 114 - 3,
-                y = math.floor(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                y = int(self.viewmodel.cell_height + (self.offscreen_canvas.height - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = weather_hour.temp,
             ))

@@ -86,9 +86,6 @@ class WeatherGraphViewModel(Observable):
             self.stripes_offset = 0
         
         self.step_gol()
-        for row in self.gol_matrix:
-            print(''.join(['█' if cell == 0 else '.' for cell in row]))
-        print('-' * self.matrix_w)
     
     def step_gol(self):
         for r in range(self.matrix_h):
@@ -325,9 +322,18 @@ class WeatherGraphView(Observer, SampleBase):
                 self.offscreen_canvas.SetPixel(
                     xx,
                     yy,
-                    color[0] // stripe_divisor,
-                    color[1] // stripe_divisor,
-                    color[2] // stripe_divisor
+                    math.max(
+                        color[0] + self.viewmodel.gol_matrix[yy][xx] * 16,
+                        color[0] // stripe_divisor
+                    ),
+                    math.max(
+                        color[1] + self.viewmodel.gol_matrix[yy][xx] * 32,
+                        color[1] // stripe_divisor
+                    ),
+                    math.max(
+                        color[2] + self.viewmodel.gol_matrix[yy][xx] * 4,
+                        color[2] // stripe_divisor
+                    )
                 )
 
     

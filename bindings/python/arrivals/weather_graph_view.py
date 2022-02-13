@@ -88,7 +88,7 @@ class WeatherGraphViewModel(Observable):
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        forecast = [3:]
+        forecast = forecast[3:]
 
         for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
             points.append(WeatherPoint(

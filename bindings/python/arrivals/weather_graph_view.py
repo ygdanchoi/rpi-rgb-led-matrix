@@ -73,40 +73,39 @@ class WeatherGraphViewModel(Observable):
 
             if update_weather_timer == 0:
                 self.forecast = self.weather_service.get_forecast()
-                update_weather_timer = 4 * 60 * 60
+                update_weather_timer = 4 * 60
 
             update_weather_timer -= 1
-            self.step_gol()
             
-            await asyncio.sleep(1)
+            await asyncio.sleep(60)
     
     def increment_offsets(self):
         self.stripes_offset += 1
 
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
+
+        self.step_gol()
     
     def step_gol(self):
         for r in range(self.matrix_h):
             for c in range(self.matrix_w):
                 num = self.num_alive_neighbors(r, c)
                 if self.gol_matrix[r][c]:
-                    # cell is dead
                     if num == 3:
                         self.new_gol_matrix[r][c] = 0
                     else:
                         self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
                 else:
-                    # cell is alive
                     if num < 2 or num > 3:
                         self.new_gol_matrix[r][c] = -1
         
-        for r in range(self.matrix_h):
-            for c in range(self.matrix_w):
-                self.gol_matrix[r][c] = self.new_gol_matrix[r][c]
-        
         for c in range(self.matrix_w):
             self.gol_matrix[self.matrix_h - 1][c] = -1 if random.randint(0, 2) == 0 else 0
+        
+        swap = self.gol_matrix
+        self.gol_matrix = self.new_gol_matrix
+        self.new_gol_matrix = swap
     
     def num_alive_neighbors(self, r, c):
         num = 0

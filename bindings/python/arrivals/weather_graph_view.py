@@ -220,7 +220,7 @@ class WeatherGraphView(Observer, SampleBase):
                 color[2]
             )
             for yy in range(point.y + 1, self.offscreen_canvas.height): # and yy % 2 == point.y % 2
-                if point.hr == '12a'  and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
+                if point.hr == '12a'  and (i % 4 != 2 or yy < self.offscreen_canvas.height - 12):
                     self.offscreen_canvas.SetPixel(
                         point.x,
                         yy,
@@ -268,7 +268,7 @@ class WeatherGraphView(Observer, SampleBase):
 
             self.draw_text(
                 7 + i * 19 - len(point.pop) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                self.offscreen_canvas.height - self.viewmodel.cell_height,
                 point.pop,
                 [127, 191, 255]
             )

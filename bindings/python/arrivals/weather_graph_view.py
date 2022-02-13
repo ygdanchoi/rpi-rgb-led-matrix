@@ -59,9 +59,8 @@ class WeatherGraphViewModel(Observable):
             self.increment_offsets()
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
-            s_to_wait = max(0, 0.07 - last_delta_s)
-            print(last_delta_s)
-            await asyncio.sleep(0)
+            s_to_wait = max(0, 0.055 - last_delta_s)
+            await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
 
 
@@ -246,7 +245,7 @@ class WeatherGraphView(Observer, SampleBase):
                     )
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
-                        
+
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 

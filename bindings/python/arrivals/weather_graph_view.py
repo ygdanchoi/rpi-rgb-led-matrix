@@ -314,7 +314,7 @@ class WeatherGraphView(Observer, SampleBase):
                     xx,
                     yy,
                     max(
-                        color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 8,
+                        color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 9,
                         color[0] // stripe_divisor
                     ),
                     max(
@@ -322,7 +322,7 @@ class WeatherGraphView(Observer, SampleBase):
                         color[1] // stripe_divisor
                     ),
                     max(
-                        color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 4,
+                        color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 6,
                         color[2] // stripe_divisor
                     )
                 )

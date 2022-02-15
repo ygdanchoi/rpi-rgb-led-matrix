@@ -281,22 +281,22 @@ class WeatherGraphView(Observer, SampleBase):
             yy = point[1]
             color = point[2]
             self.offscreen_canvas.SetPixel(
-                x,
-                yy,
+                x + 0,
+                yy - 1,
                 color[0],
                 color[1],
                 color[2]
             )
             self.offscreen_canvas.SetPixel(
                 x - 1,
-                yy + 1,
+                yy + 0,
                 color[0],
                 color[1],
                 color[2]
             )
             self.offscreen_canvas.SetPixel(
                 x + 1,
-                yy + 1,
+                yy + 0,
                 color[0],
                 color[1],
                 color[2]
@@ -307,22 +307,22 @@ class WeatherGraphView(Observer, SampleBase):
             yy = point[1]
             color = point[2]
             self.offscreen_canvas.SetPixel(
-                x,
-                yy,
+                x + 0,
+                yy + 1,
                 color[0],
                 color[1],
                 color[2]
             )
             self.offscreen_canvas.SetPixel(
                 x - 1,
-                yy - 1,
+                yy + 0,
                 color[0],
                 color[1],
                 color[2]
             )
             self.offscreen_canvas.SetPixel(
                 x + 1,
-                yy - 1,
+                yy + 0,
                 color[0],
                 color[1],
                 color[2]

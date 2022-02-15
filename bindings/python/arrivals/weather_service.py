@@ -3,12 +3,18 @@ import json
 import requests
 import traceback
 
+from datetime import datetime, timedelta
+
 import config
 
 Weather = collections.namedtuple('Weather', ['temperature'])
 WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'temp', 'pop', 'icon', 'code', 'description'])
+SunriseSunset = collections.namedtuple('SunriseSunset', ['sunrises', 'sunsets'])
 
 class WeatherService:
+    def __init__(self):
+        self.empty_sunrise_sunset = SunriseSunset(sunrises=set(), sunsets=set())
+
     def get_weather(self):
         try:
             # raise Exception('Disabled weather API')
@@ -30,7 +36,7 @@ class WeatherService:
 
     def get_forecast(self):
         try:
-            live_weather = True
+            live_weather = False
 
             if live_weather:
                 response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={
@@ -63,3 +69,37 @@ class WeatherService:
             traceback.print_exc()
             return []
 
+    def get_sunrise_sunset(self):
+        try:
+            response_today = requests.get('https://api.sunrise-sunset.org/json', params={
+                'lat': 40.782,
+                'lng': -73.954,
+                'date': datetime.now().strftime('%Y-%m-%d'),
+                'formatted': 0
+            })
+            response_tomorrow = requests.get('https://api.sunrise-sunset.org/json', params={
+                'lat': 40.782,
+                'lng': -73.954,
+                'date': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
+                'formatted': 0
+            })
+
+            today = json.loads(response_today.content)['results']
+            tomorrow = json.loads(response_tomorrow.content)['results']
+
+            return SunriseSunset(
+                sunrises={
+                    self.parse_timestamp(today['sunrise']),
+                    self.parse_timestamp(tomorrow['sunrise'])
+                },
+                sunsets={
+                    self.parse_timestamp(today['sunset']),
+                    self.parse_timestamp(tomorrow['sunset'])
+                }
+            )
+        except Exception as error:
+            traceback.print_exc()
+            return self.empty_sunrise_sunset
+    
+    def parse_timestamp(self, isoformat):
+        return int(datetime.fromisoformat(isoformat).timestamp())

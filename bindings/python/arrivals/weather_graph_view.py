@@ -9,7 +9,7 @@ from datetime import datetime
 from samplebase import SampleBase
 from rgbmatrix import graphics
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['hr', 'x', 'y', 'color', 'temp', 'pop'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop'])
 
 class Observable:
     def __init__(self):
@@ -43,6 +43,7 @@ class WeatherGraphViewModel(Observable):
         self.stripes_offset = 0
 
         self.weather_points = []
+        self.sunrise_sunset = weather_service.empty_sunrise_sunset
         self.is_light_mode = True
 
         # min value is -64, but for some reason, -255 makes everything run faster
@@ -69,11 +70,14 @@ class WeatherGraphViewModel(Observable):
 
         while True:
             hh = datetime.now().hour
-            self.is_light_mode = 7 <= hh and hh < 22
+            self.is_light_mode = True or 7 <= hh and hh < 22
 
             if update_weather_timer == 0:
                 forecast = self.weather_service.get_forecast()
                 self.weather_points = self.create_weather_points(forecast)
+
+                self.sunrise_sunset = self.weather_service.get_sunrise_sunset()
+
                 update_weather_timer = 60 * 60
 
             update_weather_timer -= 1
@@ -90,6 +94,7 @@ class WeatherGraphViewModel(Observable):
 
         for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
             points.append(WeatherPoint(
+                ts = weather_hour.ts,
                 hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = int(i / 24 * 114 - 3),
                 y = int(self.cell_height + (self.matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
@@ -228,6 +233,8 @@ class WeatherGraphView(Observer, SampleBase):
                     )
                 else:
                     self.draw_stripe_pixel(point.x, yy, point.color)
+
+                print(point.ts, self.viewmodel.sunrise_sunset) 
                     
             if i < len(points) - 1:
                 for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):

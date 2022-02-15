@@ -2,8 +2,6 @@
 import asyncio
 import os
 
-from datetime import datetime
-
 from row_factory import RowFactory
 from transit_service import CompositeTransitService as TransitService
 from weather_service import WeatherService
@@ -41,4 +39,4 @@ if __name__ == "__main__":
         )
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
-        weather_service.get_forecast()
+        # weather_service.get_forecast()

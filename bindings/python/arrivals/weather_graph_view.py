@@ -234,7 +234,7 @@ class WeatherGraphView(Observer, SampleBase):
                 else:
                     self.draw_stripe_pixel(point.x, yy, point.color)
 
-                print(point.ts, self.viewmodel.sunrise_sunset) 
+                print(point.ts, [ts for ts in self.viewmodel.sunrise_sunset.sunrises], [ts for ts in self.viewmodel.sunrise_sunset.sunsets]) 
                     
             if i < len(points) - 1:
                 for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):

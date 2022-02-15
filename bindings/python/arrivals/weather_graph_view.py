@@ -137,7 +137,7 @@ class WeatherGraphViewModel(Observable):
             self.stripes_offset = 0
 
         self.vertical_offset += 1
-        if self.vertical_offset >= 3:
+        if self.vertical_offset >= 8:
             self.vertical_offset = 0
 
         for c in range(self.matrix_w):
@@ -264,7 +264,7 @@ class WeatherGraphView(Observer, SampleBase):
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunrise_ts + bb)
                             
-                            if x == xx and (yy + self.viewmodel.vertical_offset) % 3 == point.y % 3:
+                            if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
                                 self.offscreen_canvas.SetPixel(
                                     x,
                                     yy,
@@ -278,7 +278,7 @@ class WeatherGraphView(Observer, SampleBase):
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunset_ts + bb)
                             
-                            if x == xx and (yy + self.viewmodel.vertical_offset) % 3 == point.y % 3:
+                            if x == xx and (yy - self.viewmodel.vertical_offset) % 4 == point.y % 4:
                                 self.offscreen_canvas.SetPixel(
                                     x,
                                     yy,

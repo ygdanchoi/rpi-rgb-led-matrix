@@ -275,6 +275,7 @@ class WeatherGraphView(Observer, SampleBase):
                         if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
                             chevron_points.append((x, yy, color))
         
+        print(chevron_points)
         for point in chevron_points:
             x = point[0]
             yy = point[1]

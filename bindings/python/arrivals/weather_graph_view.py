@@ -256,9 +256,8 @@ class WeatherGraphView(Observer, SampleBase):
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
 
-                        if point.ts == points[i + 1].ts:
-                            continue
-
+            if point.ts == points[i + 1].ts:
+                continue
             for yy in range(point.y + 1, self.offscreen_canvas.height): 
                 for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
                     mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)

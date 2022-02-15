@@ -30,7 +30,7 @@ class WeatherService:
 
     def get_forecast(self):
         try:
-            live_weather = False
+            live_weather = True
 
             if live_weather:
                 response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={

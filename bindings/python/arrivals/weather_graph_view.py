@@ -137,16 +137,16 @@ class WeatherGraphViewModel(Observable):
         for r in range(self.matrix_h - 1):
             for c in range(self.matrix_w):
                 num = self.num_alive_neighbors(r, c)
-                if self.gol_matrix[r][c]:
+                if self.gol_matrix[r][c]: # dead
                     if num == 3:
-                        self.new_gol_matrix[r][c] = 0
+                        self.new_gol_matrix[r][c] = 0 # live
                     elif self.gol_matrix[r][c] > -255:
-                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
-                else:
+                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1 # stay dead
+                else: # alive
                     if num < 2 or num > 3:
-                        self.new_gol_matrix[r][c] = -1
+                        self.new_gol_matrix[r][c] = -1 # die
                     else:
-                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c]
+                        self.new_gol_matrix[r][c] = 0 # stay alive
         
         swap = self.gol_matrix
         self.gol_matrix = self.new_gol_matrix

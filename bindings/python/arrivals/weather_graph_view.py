@@ -45,8 +45,8 @@ class WeatherGraphViewModel(Observable):
         self.weather_points = []
         self.is_light_mode = True
 
-        self.gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
-        self.new_gol_matrix = [[-1]*self.matrix_w for i in range(self.matrix_h)]
+        self.gol_matrix = [[-255]*self.matrix_w for i in range(self.matrix_h)]
+        self.new_gol_matrix = [[-255]*self.matrix_w for i in range(self.matrix_h)]
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())
@@ -59,7 +59,7 @@ class WeatherGraphViewModel(Observable):
             self.increment_offsets()
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
-            s_to_wait = max(0, 0.055 - last_delta_s)
+            s_to_wait = max(0, 0.060 - last_delta_s)
             print(last_delta_s)
             await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
@@ -301,7 +301,7 @@ class WeatherGraphView(Observer, SampleBase):
             else:
                 stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-            if self.viewmodel.get_gol_safe(yy, xx) < -128:
+            if self.viewmodel.get_gol_safe(yy, xx) < -64:
                 self.offscreen_canvas.SetPixel(
                     xx,
                     yy,

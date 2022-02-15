@@ -63,7 +63,6 @@ class WeatherGraphViewModel(Observable):
             await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
 
-
     async def background_thread(self):
         update_weather_timer = 0
 
@@ -74,21 +73,21 @@ class WeatherGraphViewModel(Observable):
             if update_weather_timer == 0:
                 forecast = self.weather_service.get_forecast()
                 self.weather_points = self.create_weather_points(forecast)
-                update_weather_timer = 60
+                update_weather_timer = 60 * 60
 
             update_weather_timer -= 1
-            await asyncio.sleep(60)
+            await asyncio.sleep(1)
 
     def create_weather_points(self, forecast):
         points = []
 
         min_temp = float('inf')
         max_temp = float('-inf')
-        for weather_hour in forecast[0:28]:
+        for weather_hour in forecast[0:27]:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
+        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:27]):
             points.append(WeatherPoint(
                 hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = int(i / 24 * 114 - 3),

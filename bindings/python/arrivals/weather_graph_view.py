@@ -213,7 +213,8 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         points = self.viewmodel.weather_points
-        chevron_points = []
+        chevrons_up = []
+        chevrons_down = []
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
@@ -266,17 +267,42 @@ class WeatherGraphView(Observer, SampleBase):
                             xx = math.floor(mm * sunrise_ts + bb)
                             
                             if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                                chevron_points.append((x, yy, color))
+                                chevrons_up.append((x, yy, color))
                         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
                             mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunset_ts + bb)
                             
-                            if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                                chevron_points.append((x, yy, color))
+                            if x == xx and (yy - self.viewmodel.vertical_offset) % 4 == point.y % 4:
+                                chevrons_down.append((x, yy, color))
         
-        print(chevron_points)
-        for point in chevron_points:
+        for point in chevrons_up:
+            x = point[0]
+            yy = point[1]
+            color = point[2]
+            self.offscreen_canvas.SetPixel(
+                x,
+                yy,
+                color[0],
+                color[1],
+                color[2]
+            )
+            self.offscreen_canvas.SetPixel(
+                x - 1,
+                yy - 1,
+                color[0],
+                color[1],
+                color[2]
+            )
+            self.offscreen_canvas.SetPixel(
+                x + 1,
+                yy - 1,
+                color[0],
+                color[1],
+                color[2]
+            )
+        
+        for point in chevrons_down:
             x = point[0]
             yy = point[1]
             color = point[2]

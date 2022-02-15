@@ -272,6 +272,20 @@ class WeatherGraphView(Observer, SampleBase):
                                     color[1],
                                     color[2]
                                 )
+                                self.offscreen_canvas.SetPixel(
+                                    x - 1,
+                                    yy - 1,
+                                    color[0],
+                                    color[1],
+                                    color[2]
+                                )
+                                self.offscreen_canvas.SetPixel(
+                                    x + 1,
+                                    yy - 1,
+                                    color[0],
+                                    color[1],
+                                    color[2]
+                                )
                         
                         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
                             mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)

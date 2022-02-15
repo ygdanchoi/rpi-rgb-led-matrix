@@ -147,7 +147,7 @@ class WeatherGraphViewModel(Observable):
                     if num < 2 or num > 3:
                         self.new_gol_matrix[r][c] = -1
                     else:
-                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
+                        self.new_gol_matrix[r][c] = self.gol_matrix[r][c]
         
         swap = self.gol_matrix
         self.gol_matrix = self.new_gol_matrix

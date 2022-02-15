@@ -268,14 +268,14 @@ class WeatherGraphView(Observer, SampleBase):
                         if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
                             chevron_points.append((x, yy, color))
                     
-                    # for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-                    #     mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                    #     bb = point.x - mm * point.ts
-                    #     xx = math.floor(mm * sunset_ts + bb)
+                    for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
+                        mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                        bb = point.x - mm * point.ts
+                        xx = math.floor(mm * sunset_ts + bb)
                         
-                    #     print(x, xx)
-                    #     if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                    #         chevron_points.append((x, yy, color))
+                        print(x, xx)
+                        if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
+                            chevron_points.append((x, yy, color))
         
         for point in chevron_points:
             x = point[0]

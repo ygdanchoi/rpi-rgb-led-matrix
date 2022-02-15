@@ -255,8 +255,11 @@ class WeatherGraphView(Observer, SampleBase):
                         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
                             if point.ts == points[i + 1].ts:
                                 continue
-                            print(point.x, math.floor((sunrise_ts - points[i + 1].x) * (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)))
-                            if point.x == math.floor((sunrise_ts - points[i + 1].x) * (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)):
+                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                            bb = point.x - mm * point.ts
+                            yy = math.floor(mm * sunrise_ts + bb)
+                            print(yy, point.x)
+                            if point.x == yy:
                                 self.offscreen_canvas.SetPixel(
                                     x,
                                     yy,

@@ -39,7 +39,8 @@ class WeatherGraphViewModel(Observable):
         self.cell_width = 4
         self.stripe_divisor_light = 8
         self.stripe_divisor_dark = 16
-        
+
+        self.vertical_offset = 0
         self.stripes_offset = 0
 
         self.weather_points = []
@@ -132,9 +133,12 @@ class WeatherGraphViewModel(Observable):
     
     def increment_offsets(self):
         self.stripes_offset += 1
-
         if self.stripes_offset >= 32:
             self.stripes_offset = 0
+
+        self.vertical_offset += 1
+        if self.vertical_offset >= 3:
+            self.vertical_offset = 0
 
         for c in range(self.matrix_w):
             self.new_gol_matrix[self.matrix_h - 1][c] = 0 if random.randint(0, 2) == 0 else -1
@@ -254,14 +258,13 @@ class WeatherGraphView(Observer, SampleBase):
 
                         if point.ts == points[i + 1].ts:
                             continue
-                        
+
                         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
                             mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunrise_ts + bb)
                             
-                            if x == xx:
-                                print(point.x, xx, points[i + 1].x)
+                            if x == xx and (yy + self.viewmodel.vertical_offset) % 3 == point.y % 3:
                                 self.offscreen_canvas.SetPixel(
                                     x,
                                     yy,

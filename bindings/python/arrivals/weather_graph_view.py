@@ -287,20 +287,20 @@ class WeatherGraphView(Observer, SampleBase):
                 color[1],
                 color[2]
             )
-            self.offscreen_canvas.SetPixel(
-                x - 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
-            self.offscreen_canvas.SetPixel(
-                x + 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
+            # self.offscreen_canvas.SetPixel(
+            #     x - 1,
+            #     yy + 0,
+            #     color[0],
+            #     color[1],
+            #     color[2]
+            # )
+            # self.offscreen_canvas.SetPixel(
+            #     x + 1,
+            #     yy + 0,
+            #     color[0],
+            #     color[1],
+            #     color[2]
+            # )
         
         for point in chevrons_down:
             x = point[0]
@@ -313,20 +313,20 @@ class WeatherGraphView(Observer, SampleBase):
                 color[1],
                 color[2]
             )
-            self.offscreen_canvas.SetPixel(
-                x - 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
-            self.offscreen_canvas.SetPixel(
-                x + 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
+            # self.offscreen_canvas.SetPixel(
+            #     x - 1,
+            #     yy + 0,
+            #     color[0],
+            #     color[1],
+            #     color[2]
+            # )
+            # self.offscreen_canvas.SetPixel(
+            #     x + 1,
+            #     yy + 0,
+            #     color[0],
+            #     color[1],
+            #     color[2]
+            # )
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

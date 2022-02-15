@@ -83,11 +83,11 @@ class WeatherGraphViewModel(Observable):
 
         min_temp = float('inf')
         max_temp = float('-inf')
-        for weather_hour in forecast[0:27]:
+        for weather_hour in forecast[0:28]:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
 
-        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:27]):
+        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
             points.append(WeatherPoint(
                 hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = int(i / 24 * 114 - 3),
@@ -139,7 +139,7 @@ class WeatherGraphViewModel(Observable):
                 if self.gol_matrix[r][c]:
                     if num == 3:
                         self.new_gol_matrix[r][c] = 0
-                    else:
+                    elif self.gol_matrix[r][c] > -255:
                         self.new_gol_matrix[r][c] = self.gol_matrix[r][c] - 1
                 else:
                     if num < 2 or num > 3:

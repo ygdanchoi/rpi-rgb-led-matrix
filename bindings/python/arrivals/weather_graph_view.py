@@ -254,7 +254,13 @@ class WeatherGraphView(Observer, SampleBase):
 
                         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
                             if point.ts <= sunrise_ts and sunrise_ts < points[i + 1].ts:
-                                self.draw_stripe_pixel(x, yy, point.color)
+                                self.offscreen_canvas.SetPixel(
+                                    x,
+                                    yy,
+                                    color[0],
+                                    color[1],
+                                    color[2]
+                                )
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

@@ -272,6 +272,20 @@ class WeatherGraphView(Observer, SampleBase):
                                     color[1],
                                     color[2]
                                 )
+                        
+                        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
+                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                            bb = point.x - mm * point.ts
+                            xx = math.floor(mm * sunset_ts + bb)
+                            
+                            if x == xx and (yy + self.viewmodel.vertical_offset) % 3 == point.y % 3:
+                                self.offscreen_canvas.SetPixel(
+                                    x,
+                                    yy,
+                                    color[0],
+                                    color[1],
+                                    color[2]
+                                )
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

@@ -259,61 +259,35 @@ class WeatherGraphView(Observer, SampleBase):
                         if point.ts == points[i + 1].ts:
                             continue
 
-                        for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                            bb = point.x - mm * point.ts
-                            xx = math.floor(mm * sunrise_ts + bb)
-                            
-                            if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                                self.offscreen_canvas.SetPixel(
-                                    x,
-                                    yy,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
-                                self.offscreen_canvas.SetPixel(
-                                    x - 1,
-                                    yy - 1,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
-                                self.offscreen_canvas.SetPixel(
-                                    x + 1,
-                                    yy - 1,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
+            for yy in range(point.y + 1, self.offscreen_canvas.height): 
+                for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
+                    mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                    bb = point.x - mm * point.ts
+                    xx = math.floor(mm * sunrise_ts + bb)
+                    
+                    if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
+                        self.offscreen_canvas.SetPixel(
+                            x,
+                            yy,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
+                        self.offscreen_canvas.SetPixel(
+                            x - 1,
+                            yy - 1,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
+                        self.offscreen_canvas.SetPixel(
+                            x + 1,
+                            yy - 1,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
                         
-                        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                            bb = point.x - mm * point.ts
-                            xx = math.floor(mm * sunset_ts + bb)
-                            
-                            if x == xx and (yy - self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                                self.offscreen_canvas.SetPixel(
-                                    x,
-                                    yy,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
-                                self.offscreen_canvas.SetPixel(
-                                    x - 1,
-                                    yy + 1,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
-                                self.offscreen_canvas.SetPixel(
-                                    x + 1,
-                                    yy + 1,
-                                    color[0],
-                                    color[1],
-                                    color[2]
-                                )
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

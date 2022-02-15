@@ -213,6 +213,7 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         points = self.viewmodel.weather_points
+        chevron_points = []
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
@@ -256,37 +257,42 @@ class WeatherGraphView(Observer, SampleBase):
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
 
-            if point.ts == points[i + 1].ts:
-                continue
-            for yy in range(point.y + 1, self.offscreen_canvas.height): 
+                if point.ts == points[i + 1].ts:
+                    continue
+
                 for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
                     mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
                     bb = point.x - mm * point.ts
                     xx = math.floor(mm * sunrise_ts + bb)
                     
                     if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
-                        self.offscreen_canvas.SetPixel(
-                            x,
-                            yy,
-                            color[0],
-                            color[1],
-                            color[2]
-                        )
-                        self.offscreen_canvas.SetPixel(
-                            x - 1,
-                            yy - 1,
-                            color[0],
-                            color[1],
-                            color[2]
-                        )
-                        self.offscreen_canvas.SetPixel(
-                            x + 1,
-                            yy - 1,
-                            color[0],
-                            color[1],
-                            color[2]
-                        )
-                        
+                        chevron_points.append[x, yy]
+            
+            for point in chevron_points:
+                x = point[0]
+                yy = point[1]
+                self.offscreen_canvas.SetPixel(
+                    x,
+                    yy,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
+                self.offscreen_canvas.SetPixel(
+                    x - 1,
+                    yy - 1,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
+                self.offscreen_canvas.SetPixel(
+                    x + 1,
+                    yy - 1,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
+
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

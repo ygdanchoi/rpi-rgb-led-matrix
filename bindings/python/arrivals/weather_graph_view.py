@@ -268,30 +268,30 @@ class WeatherGraphView(Observer, SampleBase):
                     if x == xx and (yy + self.viewmodel.vertical_offset) % 4 == point.y % 4:
                         chevron_points.append[x, yy]
             
-            for point in chevron_points:
-                x = point[0]
-                yy = point[1]
-                self.offscreen_canvas.SetPixel(
-                    x,
-                    yy,
-                    color[0],
-                    color[1],
-                    color[2]
-                )
-                self.offscreen_canvas.SetPixel(
-                    x - 1,
-                    yy - 1,
-                    color[0],
-                    color[1],
-                    color[2]
-                )
-                self.offscreen_canvas.SetPixel(
-                    x + 1,
-                    yy - 1,
-                    color[0],
-                    color[1],
-                    color[2]
-                )
+        for point in chevron_points:
+            x = point[0]
+            yy = point[1]
+            self.offscreen_canvas.SetPixel(
+                x,
+                yy,
+                color[0],
+                color[1],
+                color[2]
+            )
+            self.offscreen_canvas.SetPixel(
+                x - 1,
+                yy - 1,
+                color[0],
+                color[1],
+                color[2]
+            )
+            self.offscreen_canvas.SetPixel(
+                x + 1,
+                yy - 1,
+                color[0],
+                color[1],
+                color[2]
+            )
 
 
         for i, point in enumerate(points[2:27:4]):

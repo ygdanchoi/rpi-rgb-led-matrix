@@ -289,14 +289,14 @@ class WeatherGraphView(Observer, SampleBase):
             )
             self.offscreen_canvas.SetPixel(
                 x - 1,
-                yy - 1,
+                yy + 1,
                 color[0],
                 color[1],
                 color[2]
             )
             self.offscreen_canvas.SetPixel(
                 x + 1,
-                yy - 1,
+                yy + 1,
                 color[0],
                 color[1],
                 color[2]

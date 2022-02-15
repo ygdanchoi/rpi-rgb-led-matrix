@@ -45,6 +45,7 @@ class WeatherGraphViewModel(Observable):
         self.weather_points = []
         self.is_light_mode = True
 
+        # min value is -64, but for some reason, -255 makes everything run faster
         self.gol_matrix = [[-255]*self.matrix_w for i in range(self.matrix_h)]
         self.new_gol_matrix = [[-255]*self.matrix_w for i in range(self.matrix_h)]
 

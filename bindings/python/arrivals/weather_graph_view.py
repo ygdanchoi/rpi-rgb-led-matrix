@@ -137,7 +137,7 @@ class WeatherGraphViewModel(Observable):
             self.stripes_offset = 0
 
         self.vertical_offset += 1
-        if self.vertical_offset >= 12:
+        if self.vertical_offset >= 120:
             self.vertical_offset = 0
 
         for c in range(self.matrix_w):
@@ -266,14 +266,14 @@ class WeatherGraphView(Observer, SampleBase):
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunrise_ts + bb)
                             
-                            if x == xx and (yy + self.viewmodel.vertical_offset // 3) % 4 == point.y % 4:
+                            if x == xx and (yy + self.viewmodel.vertical_offset // 3) % 3 == point.y % 3:
                                 chevrons_up.append((x, yy, color))
                         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
                             mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
                             bb = point.x - mm * point.ts
                             xx = math.floor(mm * sunset_ts + bb)
                             
-                            if x == xx and (yy - self.viewmodel.vertical_offset // 3) % 4 == point.y % 4:
+                            if x == xx and (yy - self.viewmodel.vertical_offset // 3) % 3 == point.y % 3:
                                 chevrons_down.append((x, yy, color))
         
         for point in chevrons_up:

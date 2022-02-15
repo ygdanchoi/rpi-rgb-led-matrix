@@ -255,7 +255,7 @@ class WeatherGraphView(Observer, SampleBase):
                         color[2]
                     )
                     for yy in range(y + 1, self.offscreen_canvas.height):
-                        # self.draw_stripe_pixel(x, yy, point.color)
+                        self.draw_stripe_pixel(x, yy, point.color)
 
                     if point.ts == points[i + 1].ts:
                         continue

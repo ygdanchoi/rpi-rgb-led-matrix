@@ -114,18 +114,18 @@ class WeatherGraphViewModel(Observable):
 
         if 200 <= code and code <= 299: # thunderstorm
             return [243, 121, 203] # unseen
-        # elif 300 <= code and code <= 399: # drizzle
-        #     return [81, 121, 203]
-        # elif 500 <= code and code <= 599: # rain
-        #     return [81, 121, 203]
-        # elif 600 <= code and code <= 699: # snow
-        #     return [215, 215, 216]
-        # elif 700 <= code and code <= 799: # fog
-        #     return [50, 182, 122] # unseen
-        # elif 800 <= code and code <= 802: # clear
-        #     return [243, 179, 67]
-        # elif 803 <= code and code <= 899: # clouds
-        #     return [139, 145, 158]
+        elif 300 <= code and code <= 399: # drizzle
+            return [81, 121, 203]
+        elif 500 <= code and code <= 599: # rain
+            return [81, 121, 203]
+        elif 600 <= code and code <= 699: # snow
+            return [215, 215, 216]
+        elif 700 <= code and code <= 799: # fog
+            return [50, 182, 122] # unseen
+        elif 800 <= code and code <= 802: # clear
+            return [243, 179, 67]
+        elif 803 <= code and code <= 899: # clouds
+            return [139, 145, 158]
         else:
             return [
                 random.randint(64, 255),

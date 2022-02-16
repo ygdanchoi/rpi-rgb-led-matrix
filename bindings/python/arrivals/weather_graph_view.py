@@ -276,7 +276,7 @@ class WeatherGraphView(Observer, SampleBase):
 
         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
             x = math.floor(m_ts * sunrise_ts + b_ts)
-            i = bisect.bisect_left(points, x, key=lambda point: point.x)
+            i = bisect.bisect_left([point.x for point in points], x)
             point = points[i]
             for yy in range(point.y + 1, self.offscreen_canvas.height): 
                 if (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:

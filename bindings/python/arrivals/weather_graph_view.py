@@ -218,8 +218,12 @@ class WeatherGraphView(Observer, SampleBase):
         chevrons_up = []
         chevrons_down = []
 
-        m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
-        b_ts = points[1].x - m_ts * points[1].ts
+        if (len(points)):
+            m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
+            b_ts = points[1].x - m_ts * points[1].ts
+        else:
+            m_ts = 1
+            b_ts = 0
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]

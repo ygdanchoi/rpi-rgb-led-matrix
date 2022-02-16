@@ -280,9 +280,13 @@ class WeatherGraphView(Observer, SampleBase):
                 continue
 
             point = points[i]
+            m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
+            b = point.y - m * point.x
+            y = math.floor(m * x + b)
+
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
-            for yy in range(point.y, self.offscreen_canvas.height): 
-                if (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+            for yy in range(y, self.offscreen_canvas.height): 
+                if (yy + self.viewmodel.vertical_offset // 4) % 4 == y % 4:
                     chevrons_up.append((x, yy, color))
 
         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
@@ -293,9 +297,13 @@ class WeatherGraphView(Observer, SampleBase):
                 continue
 
             point = points[i]
+            m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
+            b = point.y - m * point.x
+            y = math.floor(m * x + b)
+
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
-            for yy in range(point.y, self.offscreen_canvas.height): 
-                if (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+            for yy in range(y, self.offscreen_canvas.height): 
+                if (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
                     chevrons_down.append((x, yy, color))
         
         for point in chevrons_up:

@@ -218,6 +218,9 @@ class WeatherGraphView(Observer, SampleBase):
         chevrons_up = []
         chevrons_down = []
 
+        m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
+        b_ts = points[1].x - m_ts * points[1].ts
+
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
             
@@ -260,22 +263,15 @@ class WeatherGraphView(Observer, SampleBase):
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
 
-                        if point.ts == points[i + 1].ts:
-                            continue
-
                         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                            bb = point.x - mm * point.ts
-                            xx = math.floor(mm * sunrise_ts + bb)
+                            x_ts = math.floor(m_ts * sunrise_ts + b_ts)
                             
-                            if x == xx and (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                            if x == x_ts and (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
                                 chevrons_up.append((x, yy, color))
                         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                            bb = point.x - mm * point.ts
-                            xx = math.floor(mm * sunset_ts + bb)
+                            x_ts = math.floor(m_ts * sunrise_ts + b_ts)
                             
-                            if x == xx and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                            if x == x_ts and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
                                 chevrons_down.append((x, yy, color))
         
         for point in chevrons_up:

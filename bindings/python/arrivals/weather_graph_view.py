@@ -1,10 +1,12 @@
 import asyncio
+import bisect
 import collections
 import math
 import random
 import time
 
 from datetime import datetime
+from turtle import xcor
 
 from samplebase import SampleBase
 from rgbmatrix import graphics
@@ -215,15 +217,8 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         points = self.viewmodel.weather_points
-        chevrons_up = []
-        chevrons_down = []
 
-        if (len(points)):
-            m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
-            b_ts = points[1].x - m_ts * points[1].ts
-        else:
-            m_ts = 1
-            b_ts = 0
+        # weather graph
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
@@ -267,16 +262,30 @@ class WeatherGraphView(Observer, SampleBase):
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
 
-                        for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-                            x_ts = math.floor(m_ts * sunrise_ts + b_ts)
-                            
-                            if x == x_ts and (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
-                                chevrons_up.append((x, yy, color))
-                        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-                            x_ts = math.floor(m_ts * sunset_ts + b_ts)
-                            
-                            if x == x_ts and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
-                                chevrons_down.append((x, yy, color))
+        # sunrise/sunset chevrons
+
+        chevrons_up = []
+        chevrons_down = []
+
+        if (len(points)):
+            m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
+            b_ts = points[1].x - m_ts * points[1].ts
+        else:
+            m_ts = 1
+            b_ts = 0
+
+        for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
+            x = math.floor(m_ts * sunrise_ts + b_ts)
+            i = bisect.bisect_left(points, x, key=lambda point: point.x)
+            point = points[i]
+            for yy in range(point.y + 1, self.offscreen_canvas.height): 
+                if (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                    chevrons_up.append((x, yy, color))
+        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
+            x = math.floor(m_ts * sunset_ts + b_ts)
+            
+            if x == x_ts and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                chevrons_down.append((x, yy, color))
         
         for point in chevrons_up:
             x = point[0]
@@ -329,6 +338,8 @@ class WeatherGraphView(Observer, SampleBase):
                 color[1],
                 color[2]
             )
+        
+        # text labels
 
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

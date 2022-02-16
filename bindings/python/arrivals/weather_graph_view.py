@@ -278,7 +278,7 @@ class WeatherGraphView(Observer, SampleBase):
             x = math.floor(m_ts * sunrise_ts + b_ts)
             i = bisect.bisect_left([point.x for point in points], x)
             
-            if (i > len(points)):
+            if (i >= len(points)):
                 continue
 
             point = points[i]

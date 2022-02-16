@@ -295,6 +295,7 @@ class WeatherGraphView(Observer, SampleBase):
             
             if (i >= len(points)):
                 continue
+            i -= 1 # I don't really understand this
 
             point = points[i]
             m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)

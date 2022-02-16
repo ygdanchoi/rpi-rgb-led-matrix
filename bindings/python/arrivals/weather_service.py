@@ -49,7 +49,7 @@ class WeatherService:
                     'useQueryString': 'true'
                 })
                 content = response.content
-                print(response.content)
+                # print(response.content)
             else:
                 content = open('weather_mock_forecast.json').read()
             

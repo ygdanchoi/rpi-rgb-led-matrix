@@ -282,6 +282,7 @@ class WeatherGraphView(Observer, SampleBase):
                 continue
 
             point = points[i]
+            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
             for yy in range(point.y, self.offscreen_canvas.height): 
                 if (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
                     chevrons_up.append((x, yy, color))
@@ -294,6 +295,7 @@ class WeatherGraphView(Observer, SampleBase):
                 continue
 
             point = points[i]
+            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
             for yy in range(point.y, self.offscreen_canvas.height): 
                 if (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
                     chevrons_down.append((x, yy, color))

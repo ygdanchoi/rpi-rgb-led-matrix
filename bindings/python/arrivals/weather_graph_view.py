@@ -260,23 +260,23 @@ class WeatherGraphView(Observer, SampleBase):
                     for yy in range(y + 1, self.offscreen_canvas.height):
                         self.draw_stripe_pixel(x, yy, point.color)
 
-                        # if point.ts == points[i + 1].ts:
-                        #     continue
+                        if point.ts == points[i + 1].ts:
+                            continue
 
-                        # for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-                        #     mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                        #     bb = point.x - mm * point.ts
-                        #     xx = math.floor(mm * sunrise_ts + bb)
+                        for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
+                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                            bb = point.x - mm * point.ts
+                            xx = math.floor(mm * sunrise_ts + bb)
                             
-                        #     if x == xx and (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
-                        #         chevrons_up.append((x, yy, color))
-                        # for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-                        #     mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
-                        #     bb = point.x - mm * point.ts
-                        #     xx = math.floor(mm * sunset_ts + bb)
+                            if x == xx and (yy + self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                                chevrons_up.append((x, yy, color))
+                        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
+                            mm = (point.x - points[i + 1].x) / (point.ts - points[i + 1].ts)
+                            bb = point.x - mm * point.ts
+                            xx = math.floor(mm * sunset_ts + bb)
                             
-                        #     if x == xx and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
-                        #         chevrons_down.append((x, yy, color))
+                            if x == xx and (yy - self.viewmodel.vertical_offset // 4) % 4 == point.y % 4:
+                                chevrons_down.append((x, yy, color))
         
         for point in chevrons_up:
             x = point[0]

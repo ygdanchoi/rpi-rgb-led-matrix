@@ -273,13 +273,13 @@ class WeatherGraphView(Observer, SampleBase):
             b_ts = 0
 
         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-            print([point.ts for point in points], sunrise_ts)
             i = bisect.bisect_left([point.ts for point in points], sunrise_ts)
             
             if (i >= len(points)):
                 continue
 
             point = points[i]
+            x = math.floor(m_ts * sunrise_ts + b_ts)
             m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
             b = point.y - m * point.x
             y = math.floor(m * x + b)
@@ -297,6 +297,7 @@ class WeatherGraphView(Observer, SampleBase):
             i -= 1 # I don't really understand this
 
             point = points[i]
+            x = math.floor(m_ts * sunset_ts + b_ts)
             m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
             b = point.y - m * point.x
             y = math.floor(m * x + b)

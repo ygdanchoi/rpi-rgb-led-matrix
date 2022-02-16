@@ -273,6 +273,7 @@ class WeatherGraphView(Observer, SampleBase):
             b_ts = 0
 
         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
+            print([point.ts for point in points], sunset_ts)
             i = bisect.bisect_left([point.ts for point in points], sunrise_ts)
             
             if (i >= len(points)):

@@ -273,8 +273,7 @@ class WeatherGraphView(Observer, SampleBase):
             b_ts = 0
 
         for sunrise_ts in self.viewmodel.sunrise_sunset.sunrises:
-            x = math.floor(m_ts * sunrise_ts + b_ts)
-            i = bisect.bisect_left([point.x for point in points], x)
+            i = bisect.bisect_left([point.ts for point in points], sunrise_ts)
             
             if (i >= len(points)):
                 continue
@@ -290,8 +289,7 @@ class WeatherGraphView(Observer, SampleBase):
                     chevrons_up.append((x, yy, color))
 
         for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-            x = math.floor(m_ts * sunset_ts + b_ts)
-            i = bisect.bisect_left([point.x for point in points], x)
+            i = bisect.bisect_left([point.ts for point in points], sunset_ts)
             
             if (i >= len(points)):
                 continue

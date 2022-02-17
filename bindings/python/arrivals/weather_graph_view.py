@@ -113,11 +113,11 @@ class WeatherGraphViewModel(Observable):
         code = weather_hour.code
 
         if 200 <= code and code <= 299: # thunderstorm
-            return [243, 121, 203] # unseen
+            return [121, 121, 203] # unseen
         elif 300 <= code and code <= 399: # drizzle
-            return [81, 121, 255]
+            return [81, 121, 243]
         elif 500 <= code and code <= 599: # rain
-            return [81, 121, 255]
+            return [81, 121, 243]
         elif 600 <= code and code <= 699: # snow
             return [215, 215, 216]
         elif 700 <= code and code <= 799: # fog
@@ -383,7 +383,7 @@ class WeatherGraphView(Observer, SampleBase):
                 7 + i * 19 - len(point.pop) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 point.pop,
-                [81, 121, 255]
+                [81, 121, 243]
             )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

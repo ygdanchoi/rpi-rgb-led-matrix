@@ -117,7 +117,7 @@ class WeatherGraphViewModel(Observable):
         elif 300 <= code and code <= 399: # drizzle
             return [81, 121, 243]
         elif 500 <= code and code <= 599: # rain
-            return [203, 81, 203]
+            return [243, 81, 203]
             # return [81, 121, 243]
         elif 600 <= code and code <= 699: # snow
             return [215, 215, 216]

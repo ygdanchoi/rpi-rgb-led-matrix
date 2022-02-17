@@ -383,7 +383,7 @@ class WeatherGraphView(Observer, SampleBase):
                 7 + i * 19 - len(point.pop) * self.viewmodel.cell_width / 2,
                 self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                 point.pop,
-                [81, 121, 203]
+                [168, 188, 229]
             )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

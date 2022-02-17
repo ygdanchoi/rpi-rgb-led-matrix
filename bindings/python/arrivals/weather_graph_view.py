@@ -113,7 +113,7 @@ class WeatherGraphViewModel(Observable):
         code = weather_hour.code
 
         if 200 <= code and code <= 299: # thunderstorm
-            return [203, 81, 203] # unseen
+            return [243, 81, 203] # unseen
         elif 300 <= code and code <= 399: # drizzle
             return [81, 121, 243]
         elif 500 <= code and code <= 599: # rain

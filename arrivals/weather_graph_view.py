@@ -202,17 +202,17 @@ class WeatherGraphView(Observer, SampleBase):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
-                            255,
-                            255,
-                            255
+                            color[0],
+                            color[1],
+                            color[2]
                         )
                     elif x in self.viewmodel.sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
-                            255,
-                            255,
-                            255
+                            color[0],
+                            color[1],
+                            color[2]
                         )
                     else:
                         self.draw_stripe_pixel(x, yy, point.color)

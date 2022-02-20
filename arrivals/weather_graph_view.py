@@ -178,30 +178,21 @@ class WeatherGraphView(Observer, SampleBase):
             for (x, y) in point.coords:
                 for yy in range(0, y - 1):
                     self.draw_stripe_pixel(x, yy, [31, 31, 31])
-                if self.is_daytime(x):
-                    self.offscreen_canvas.SetPixel(
-                        x,
-                        y,
-                        color[0],
-                        color[1],
-                        color[2]
-                    )
-                else:
-                    self.offscreen_canvas.SetPixel(
-                        x,
-                        y,
-                        color[0] // 2,
-                        color[1] // 2,
-                        color[2] // 2
-                    )
+                self.offscreen_canvas.SetPixel(
+                    x,
+                    y,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
-                    if self.should_draw_date_boundary(point, i, x, y, yy) or self.should_draw_chevron(x, yy):
+                    if self.should_draw_day_boundary(point, i, x, y, yy) or self.should_draw_chevron(x, yy):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
-                            color[0] // 2,
-                            color[1] // 2,
-                            color[2] // 2
+                            color[0],
+                            color[1],
+                            color[2]
                         )
                     else:
                         self.draw_stripe_pixel(x, yy, point.color)
@@ -232,7 +223,7 @@ class WeatherGraphView(Observer, SampleBase):
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
-    def should_draw_date_boundary(self, point, i, x, y, yy):
+    def should_draw_day_boundary(self, point, i, x, y, yy):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
 
     def is_daytime(self, x):

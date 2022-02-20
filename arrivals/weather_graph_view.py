@@ -187,7 +187,7 @@ class WeatherGraphView(Observer, SampleBase):
                     color[2]
                 )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
-                    if coord.x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
+                    if x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,

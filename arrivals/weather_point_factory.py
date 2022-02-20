@@ -27,11 +27,9 @@ class WeatherPointFactory:
             if i < len(weather_hours) - 1:
                 next_x = self.get_x(i + 1)
                 next_y = self.get_y(i + 1, weather_hours, min_temp, max_temp, cell_height, matrix_h)
-
                 mm = (y - next_y) / (x - next_x)
                 bb = y - mm * x
                 
-
                 for xx in range(x, next_x):
                     yy = int(mm * xx + bb)
                     coords.append((xx, yy))

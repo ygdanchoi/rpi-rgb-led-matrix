@@ -178,7 +178,7 @@ class WeatherGraphView(Observer, SampleBase):
                 (x, y) = coord
             
                 for yy in range(0, y - 1):
-                    self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
+                    self.draw_stripe_pixel(x, yy, [31, 31, 31])
                 self.offscreen_canvas.SetPixel(
                     x,
                     y,

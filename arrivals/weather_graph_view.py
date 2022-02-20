@@ -94,7 +94,7 @@ class WeatherGraphViewModel(Observable):
             self.stripes_offset = 0
 
         self.vertical_offset += 1
-        if self.vertical_offset >= 16:
+        if self.vertical_offset >= 360:
             self.vertical_offset = 0
 
         for c in range(self.matrix_w):

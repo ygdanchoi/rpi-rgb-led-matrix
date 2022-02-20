@@ -18,7 +18,7 @@ class WeatherPointFactory:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
         
-        for i in range(len(weather_hours)):
+        for i, weather_hour in enumerate(weather_hours):
             x = self.get_x(i)
             y = self.get_y(i, weather_hours, min_temp, max_temp, cell_height, matrix_h)
 
@@ -28,7 +28,7 @@ class WeatherPointFactory:
                 next_x = self.get_x(i + 1)
                 next_y = self.get_y(i + 1, weather_hours, min_temp, max_temp, cell_height, matrix_h)
 
-                for xx in range(x + 1, next_x):
+                for xx in range(x, next_x):
                     mm = (y - next_y) / (x - next_x)
                     bb = y - mm * x
                     yy = int(mm * x + bb)
@@ -36,13 +36,13 @@ class WeatherPointFactory:
                     coords.append((xx, yy))
 
             points.append(WeatherPoint(
-                ts = weather_hours[i].ts,
-                hr = datetime.fromtimestamp(weather_hours[i].ts).strftime('%-I%p')[0:-1].lower(),
+                ts = weather_hour.ts,
+                hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = x,
                 y = y,
-                color = self.get_color(weather_hours[i]),
-                temp = f'{int(round(weather_hours[i].temp, 0))}°',
-                pop = f'{weather_hours[i].pop}%',
+                color = self.get_color(weather_hour),
+                temp = f'{int(round(weather_hour.temp, 0))}°',
+                pop = f'{weather_hour.pop}%',
                 coords = coords
             ))
 

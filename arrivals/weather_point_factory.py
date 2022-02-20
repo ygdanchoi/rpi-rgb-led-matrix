@@ -3,32 +3,57 @@ import random
 
 from datetime import datetime
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop', 'coords'])
 
 
 class WeatherPointFactory:
     def create_points(self, forecast, cell_height, matrix_h):
         points = []
 
+        weather_hours = forecast[0:1] + forecast[0:28]
+
         min_temp = float('inf')
         max_temp = float('-inf')
-        for weather_hour in forecast[0:28]:
+        for weather_hour in weather_hours:
             min_temp = min(min_temp, weather_hour.temp)
             max_temp = max(max_temp, weather_hour.temp)
+        
+        for i in range(len(weather_hours)):
+            x = self.get_x(i)
+            y = self.get_y(i, weather_hours, min_temp, max_temp, cell_height, matrix_h)
 
-        for i, weather_hour in enumerate(forecast[0:1] + forecast[0:28]):
+            coords = []
+
+            if i < len(weather_hours) - 1:
+                next_x = self.get_x(i + 1)
+                next_y = self.get_y(i + 1, weather_hours, min_temp, max_temp, cell_height, matrix_h)
+
+                for xx in range(x + 1, next_x):
+                    mm = (y - next_y) / (x - next_x)
+                    bb = y - mm * x
+                    yy = int(mm * x + bb)
+
+                    coords.append((xx, yy))
+
             points.append(WeatherPoint(
                 ts = weather_hour.ts,
                 hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
-                x = int(i / 24 * 114 - 3),
-                y = int(cell_height + (matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                x = x,
+                y = y,
                 color = self.get_color(weather_hour),
                 temp = f'{int(round(weather_hour.temp, 0))}°',
-                pop = f'{weather_hour.pop}%'
+                pop = f'{weather_hour.pop}%',
+                coords = coords
             ))
 
         return points
 
+    def get_x(self, i):
+        return int(i / 24 * 114 - 3)
+    
+    def get_y(self, i, weather_hours, min_temp, max_temp, cell_height, matrix_h):
+        return int(cell_height + (matrix_h - 22) * (max_temp - weather_hours[i].temp) / (max_temp - min_temp))
+    
     # https://www.weatherbit.io/api/codes
     def get_color(self, weather_hour):
         code = weather_hour.code

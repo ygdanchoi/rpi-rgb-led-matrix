@@ -190,23 +190,7 @@ class WeatherGraphView(Observer, SampleBase):
                     color[2]
                 )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
-                    if x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
-                        self.offscreen_canvas.SetPixel(
-                            x,
-                            yy,
-                            color[0],
-                            color[1],
-                            color[2]
-                        )
-                    elif x in self.viewmodel.sunrises_x and (yy + self.viewmodel.vertical_offset // 4) % 4 == y % 4:
-                        self.offscreen_canvas.SetPixel(
-                            x,
-                            yy,
-                            color[0],
-                            color[1],
-                            color[2]
-                        )
-                    elif x in self.viewmodel.sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
+                    if self.should_draw_day_boundary(point, i, x, y, yy) or self.should_draw_chevron(x, y, yy):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
@@ -242,6 +226,15 @@ class WeatherGraphView(Observer, SampleBase):
             )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+
+    def should_draw_day_boundary(self, point, i, x, y, yy):
+        x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
+    
+    def should_draw_chevron(self, x, y, yy):
+        return (
+            x + 0 in self.viewmodel.sunrises_x and (yy + self.viewmodel.vertical_offset // 4) % 4 == y % 4 or
+            x + 0 in self.viewmodel.sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4
+        )
     
     def draw_text(self, x, y, text, color):
         graphics.DrawText(

@@ -36,13 +36,13 @@ class WeatherPointFactory:
                     coords.append((xx, yy))
 
             points.append(WeatherPoint(
-                ts = weather_hour[i].ts,
-                hr = datetime.fromtimestamp(weather_hour[i].ts).strftime('%-I%p')[0:-1].lower(),
+                ts = weather_hours[i].ts,
+                hr = datetime.fromtimestamp(weather_hours[i].ts).strftime('%-I%p')[0:-1].lower(),
                 x = x,
                 y = y,
-                color = self.get_color(weather_hour[i]),
-                temp = f'{int(round(weather_hour[i].temp, 0))}°',
-                pop = f'{weather_hour[i].pop}%',
+                color = self.get_color(weather_hours[i]),
+                temp = f'{int(round(weather_hours[i].temp, 0))}°',
+                pop = f'{weather_hours[i].pop}%',
                 coords = coords
             ))
 

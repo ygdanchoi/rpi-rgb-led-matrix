@@ -171,6 +171,8 @@ class WeatherGraphView(Observer, SampleBase):
 
         points = self.viewmodel.weather_points
 
+        sunrises_x = self.viewmodel.weather_point_factory.get_sunrises_x(points, self.viewmodel.sunrise_sunset, self.viewmodel.matrix_h)
+
         # weather graph
 
         for i, point in enumerate(points):

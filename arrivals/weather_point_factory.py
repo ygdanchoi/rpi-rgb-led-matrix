@@ -1,3 +1,4 @@
+import bisect
 import collections
 import random
 
@@ -29,7 +30,7 @@ class WeatherPointFactory:
                 next_y = self.get_y(i + 1, weather_hours, min_temp, max_temp, cell_height, matrix_h)
                 mm = (y - next_y) / (x - next_x)
                 bb = y - mm * x
-                
+
                 for xx in range(x, next_x):
                     yy = int(mm * xx + bb)
                     coords.append((xx, yy))
@@ -77,3 +78,23 @@ class WeatherPointFactory:
                 random.randint(64, 255),
                 random.randint(64, 255)
         ]
+
+    def get_sunrises_x(self, points, sunrise_sunset, matrix_h):
+        if len(points) == 0:
+            return []
+
+        sunrises_x = []
+
+        m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
+        b_ts = points[1].x - m_ts * points[1].ts
+        
+        for sunrise_ts in sunrise_sunset.sunrises:
+            i = bisect.bisect_left([point.ts for point in points], sunrise_ts)
+            
+            if i == len(points):
+                continue
+            i -= 1
+
+            x = int(m_ts * sunrise_ts + b_ts)
+
+            sunrises_x.append(x)

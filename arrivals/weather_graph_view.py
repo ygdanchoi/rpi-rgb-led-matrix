@@ -202,9 +202,9 @@ class WeatherGraphView(Observer, SampleBase):
                         self.offscreen_canvas.SetPixel(
                             x,
                             y,
-                            color[0] + color[0] // 2,
-                            color[1] + color[1] // 2,
-                            color[2] + color[2] // 2
+                            3 * color[0] // 4,
+                            3 * color[1] // 4,
+                            3 * color[2] // 4
                         )
                                             
         for i, point in enumerate(points[2:27:4]):

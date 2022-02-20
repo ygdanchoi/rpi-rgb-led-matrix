@@ -4,7 +4,7 @@ import time
 
 from transit_service import TransitLine
 
-Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
+TransitRow = collections.namedtuple('TransitRow', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
 
 class TransitRowFactory:
     def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width, max_rows):
@@ -32,7 +32,7 @@ class TransitRowFactory:
             should_scroll_name = len(transit_line.name) > 4
             should_scroll_description = len(transit_line.description) > 17
             
-            rows.append(Row(
+            rows.append(TransitRow(
                 name=transit_line.name,
                 description=transit_line.description,
                 etas=self.format_etas(transit_line.etas, current_time),

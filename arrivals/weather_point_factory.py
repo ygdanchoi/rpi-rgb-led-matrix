@@ -98,3 +98,5 @@ class WeatherPointFactory:
             x = int(m_ts * sunrise_ts + b_ts)
 
             sunrises_x.append(x)
+        
+        return sunrises_x

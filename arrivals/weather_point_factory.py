@@ -79,7 +79,7 @@ class WeatherPointFactory:
                 random.randint(64, 255)
         ]
 
-    def get_sunrises_x(self, points, sunrise_sunset, matrix_h):
+    def get_sunrises_x(self, points, sunrise_sunset, matrix_w):
         if len(points) == 0:
             return set()
 
@@ -97,11 +97,12 @@ class WeatherPointFactory:
 
             x = int(m_ts * sunrise_ts + b_ts)
 
-            sunrises_x.add(x)
+            if 0 <= x and x < matrix_w:
+                sunrises_x.add(x)
         
         return sunrises_x
 
-    def get_sunsets_x(self, points, sunrise_sunset, matrix_h):
+    def get_sunsets_x(self, points, sunrise_sunset, matrix_w):
         if len(points) == 0:
             return set()
 
@@ -119,6 +120,7 @@ class WeatherPointFactory:
 
             x = int(m_ts * sunset_ts + b_ts)
 
-            sunsets_x.add(x)
+            if 0 <= x and x < matrix_w:
+                sunsets_x.add(x)
         
         return sunsets_x

@@ -44,7 +44,7 @@ class TransitFeedViewModel(Observable):
 
         self.transit_lines = []
         self.rows = []
-        self.temperature = ''
+        self.weather_hour = None
         self.is_light_mode = True
 
         asyncio.ensure_future(self.main_thread())
@@ -86,7 +86,7 @@ class TransitFeedViewModel(Observable):
                 update_transit_lines_timer = 30
 
             if update_weather_timer == 0:
-                self.temperature = self.weather_service.get_weather().temperature
+                self.weather_hour = self.weather_service.get_weather()
                 update_weather_timer = 60 * 60 if self.is_light_mode else 4 * 60 * 60
 
             update_transit_lines_timer -= 1
@@ -216,7 +216,7 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        temperature = f' • {self.viewmodel.temperature}' if self.viewmodel.temperature else ''
+        temperature = f' • {int(round(self.viewmodel.weather_hour.temp, 0))}°F' if self.viewmodel.weather_hour else ''
         
         self.draw_text(
             None,

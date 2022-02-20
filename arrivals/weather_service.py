@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 
 import config
 
-Weather = collections.namedtuple('Weather', ['temperature'])
 WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'temp', 'pop', 'icon', 'code', 'description'])
 SunriseSunset = collections.namedtuple('SunriseSunset', ['sunrises', 'sunsets'])
 
@@ -15,24 +14,34 @@ class WeatherService:
     def __init__(self):
         self.empty_sunrise_sunset = SunriseSunset(sunrises=set(), sunsets=set())
 
+        self.latitude = 40.782
+        self.longitude = -73.954
+
     def get_weather(self):
         try:
             # raise Exception('Disabled weather API')
 
             response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
-                'lat': 40.782,
-                'lon': -73.954,
+                'lat': self.latitude,
+                'lon': self.longitude,
                 'units': 'imperial'
             }, headers={
                 'x-rapidapi-key': config.weather_api_key_backup,
                 'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
                 'useQueryString': 'true'
             })
-            weather = json.loads(response.content)['data'][0]        
-            return Weather(temperature=f"{int(round(weather['temp'], 0))}°F")
+            weather = json.loads(response.content)['data'][0]
+            return WeatherHour(
+                ts=weather['ts'],
+                temp=weather['temp'],
+                pop=weather['pop'],
+                icon=weather['weather']['icon'],
+                code=weather['weather']['code'],
+                description=weather['weather']['description']
+            )
         except Exception as error:
             traceback.print_exc()
-            return Weather(temperature='') 
+            return None 
 
     def get_forecast(self):
         try:
@@ -40,8 +49,8 @@ class WeatherService:
 
             if live_weather:
                 response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={
-                    'lat': 40.782,
-                    'lon': -73.954,
+                    'lat': self.latitude,
+                    'lon': self.longitude,
                     'units': 'imperial'
                 }, headers={
                     'x-rapidapi-key': config.weather_api_key,
@@ -72,14 +81,14 @@ class WeatherService:
     def get_sunrise_sunset(self):
         try:
             response_today = requests.get('https://api.sunrise-sunset.org/json', params={
-                'lat': 40.782,
-                'lng': -73.954,
+                'lat': self.latitude,
+                'lng': self.longitude,
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'formatted': 0
             })
             response_tomorrow = requests.get('https://api.sunrise-sunset.org/json', params={
-                'lat': 40.782,
-                'lng': -73.954,
+                'lat': self.latitude,
+                'lng': self.longitude,
                 'date': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
                 'formatted': 0
             })

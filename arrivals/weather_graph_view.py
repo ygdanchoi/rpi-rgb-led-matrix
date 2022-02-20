@@ -176,47 +176,28 @@ class WeatherGraphView(Observer, SampleBase):
 
             for coord in point.coords:
                 (x, y) = coord
-                print(x, y)
             
-            for yy in range(0, point.y - 1):
-                self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
-            self.offscreen_canvas.SetPixel(
-                point.x,
-                point.y,
-                color[0],
-                color[1],
-                color[2]
-            )
-            for yy in range(point.y + 1, self.offscreen_canvas.height): 
-                if point.hr == '12a' and yy % 2 == point.y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
-                    self.offscreen_canvas.SetPixel(
-                        point.x,
-                        yy,
-                        color[0],
-                        color[1],
-                        color[2]
-                    )
-                else:
-                    self.draw_stripe_pixel(point.x, yy, point.color)
-                    
-            if i < len(points) - 1:
-                for x in range(math.floor(point.x) + 1, math.floor(points[i + 1].x)):
-                    m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
-                    b = point.y - m * point.x
-                    y = math.floor(m * x + b)
-
-                    for yy in range(0, y - 1):
-                        self.draw_stripe_pixel(x, yy, [31, 31, 31])
-                    self.offscreen_canvas.SetPixel(
-                        x,
-                        y,
-                        color[0],
-                        color[1],
-                        color[2]
-                    )
-                    for yy in range(y + 1, self.offscreen_canvas.height):
+                for yy in range(0, y - 1):
+                    self.draw_stripe_pixel(point.x, yy, [31, 31, 31])
+                self.offscreen_canvas.SetPixel(
+                    x,
+                    y,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
+                for yy in range(y + 1, self.offscreen_canvas.height): 
+                    if point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13):
+                        self.offscreen_canvas.SetPixel(
+                            x,
+                            yy,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
+                    else:
                         self.draw_stripe_pixel(x, yy, point.color)
-
+                    
         # sunrise/sunset chevrons
 
         chevrons_up = []

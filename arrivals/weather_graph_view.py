@@ -194,7 +194,7 @@ class WeatherGraphView(Observer, SampleBase):
                             color[1],
                             color[2]
                         )
-                    elif self.should_draw_day_accent(x, y, yy):
+                    elif self.should_draw_accent(x, y, yy):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
@@ -234,8 +234,8 @@ class WeatherGraphView(Observer, SampleBase):
     def should_draw_day_boundary(self, point, i, x, y, yy):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
 
-    def should_draw_day_accent(self, x, y, yy):
-        return yy == y + 1 and (
+    def should_draw_accent(self, x, y, yy):
+        return yy == self.offscreen_canvas.height - 1 or yy == y + 1 and (
             self.viewmodel.sunrises_x[0] <= x and x <= self.viewmodel.sunsets_x[0] or
             self.viewmodel.sunrises_x[-1] <= x and x <= self.viewmodel.sunsets_x[-1]
         )

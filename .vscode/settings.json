@@ -1,5 +1,8 @@
 {
     "files.associations": {
         "algorithm": "cpp"
-    }
+    },
+    "python.analysis.extraPaths": [
+        "./bindings/python"
+    ]
 }

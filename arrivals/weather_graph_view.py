@@ -205,7 +205,7 @@ class WeatherGraphView(Observer, SampleBase):
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
-        self.font.LoadFont('fonts/tom-thumb.bdf')
+        self.font.LoadFont('../fonts/tom-thumb.bdf')
         self.dark_mode_color = graphics.Color(47, 0, 0)
         self.light_mode_colors = {}
 

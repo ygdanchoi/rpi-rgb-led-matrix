@@ -92,6 +92,7 @@ class WeatherService:
                 'date': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
                 'formatted': 0
             })
+            print(response_today.content)
 
             today = json.loads(response_today.content)['results']
             tomorrow = json.loads(response_tomorrow.content)['results']

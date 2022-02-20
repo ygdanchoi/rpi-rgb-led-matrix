@@ -4,11 +4,13 @@ import os
 
 from transit_row_factory import TransitRowFactory
 from transit_service import CompositeTransitService as TransitService
+from weather_point_factory import WeatherPointFactory
 from weather_service import WeatherService
 
 if __name__ == "__main__":
     transit_service = TransitService()
     transit_row_factory = TransitRowFactory()
+    weather_point_factory = WeatherPointFactory()
     weather_service = WeatherService()
 
     if os.name == 'posix':

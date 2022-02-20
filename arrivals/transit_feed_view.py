@@ -3,8 +3,8 @@ import time
 
 from datetime import datetime
 
-from samplebase import SampleBase
 from rgbmatrix import graphics
+from samplebase import SampleBase
 
 class Observable:
     def __init__(self):

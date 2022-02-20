@@ -18,6 +18,7 @@ Stop = collections.namedtuple('Stop', ['stop_id', 'stop_name'])
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
 TransitLine = collections.namedtuple('TransitLine', ['key', 'name', 'description', 'etas', 'color'])
 
+
 class BaseTransitService:
     def get_transit_lines():
         pass

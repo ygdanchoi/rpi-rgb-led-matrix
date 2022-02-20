@@ -2,9 +2,8 @@ import collections
 import math
 import time
 
-from transit_service import TransitLine
-
 TransitRow = collections.namedtuple('TransitRow', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
+
 
 class TransitRowFactory:
     def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width, max_rows):

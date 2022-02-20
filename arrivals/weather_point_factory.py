@@ -100,3 +100,25 @@ class WeatherPointFactory:
             sunrises_x.append(x)
         
         return sunrises_x
+
+    def get_sunsets_x(self, points, sunrise_sunset, matrix_h):
+        if len(points) == 0:
+            return []
+
+        sunsets_x = []
+
+        m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
+        b_ts = points[1].x - m_ts * points[1].ts
+        
+        for sunset_ts in sunrise_sunset.sunsets:
+            i = bisect.bisect_left([point.ts for point in points], sunset_ts)
+            
+            if i == len(points):
+                continue
+            i -= 1
+
+            x = int(m_ts * sunset_ts + b_ts)
+
+            sunsets_x.append(x)
+        
+        return sunsets_x

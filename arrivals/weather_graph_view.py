@@ -170,11 +170,9 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas.Clear()
 
         points = self.viewmodel.weather_points
-        chevrons_up = []
 
         sunrises_x = self.viewmodel.weather_point_factory.get_sunrises_x(points, self.viewmodel.sunrise_sunset, self.viewmodel.matrix_h)
-
-        # weather graph
+        sunsets_x = self.viewmodel.weather_point_factory.get_sunsets_x(points, self.viewmodel.sunrise_sunset, self.viewmodel.matrix_h)
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
@@ -208,66 +206,17 @@ class WeatherGraphView(Observer, SampleBase):
                             255,
                             255
                         )
+                    elif x in sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
+                        self.offscreen_canvas.SetPixel(
+                            x,
+                            yy,
+                            255,
+                            255,
+                            255
+                        )
                     else:
                         self.draw_stripe_pixel(x, yy, point.color)
-                    
-        # sunrise/sunset chevrons
-
-        chevrons_down = []
-
-        if (len(points)):
-            m_ts = (points[1].x - points[-1].x) / (points[1].ts - points[-1].ts)
-            b_ts = points[1].x - m_ts * points[1].ts
-        else:
-            m_ts = 1
-            b_ts = 0
-
-        for sunset_ts in self.viewmodel.sunrise_sunset.sunsets:
-            i = bisect.bisect_left([point.ts for point in points], sunset_ts)
-            
-            if i == len(points):
-                continue
-            i -= 1
-
-            point = points[i]
-            x = math.floor(m_ts * sunset_ts + b_ts)
-            m = (point.y - points[i + 1].y) / (point.x - points[i + 1].x)
-            b = point.y - m * point.x
-            y = math.floor(m * x + b)
-
-            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
-            for yy in range(y, self.offscreen_canvas.height): 
-                if (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
-                    chevrons_down.append((x, yy, color))
-                
-        for chevron in chevrons_down:
-            x = chevron[0]
-            yy = chevron[1]
-            color = chevron[2]
-            self.offscreen_canvas.SetPixel(
-                x + 0,
-                yy + 1,
-                color[0],
-                color[1],
-                color[2]
-            )
-            self.offscreen_canvas.SetPixel(
-                x - 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
-            self.offscreen_canvas.SetPixel(
-                x + 1,
-                yy + 0,
-                color[0],
-                color[1],
-                color[2]
-            )
-        
-        # text labels
-
+                                            
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 

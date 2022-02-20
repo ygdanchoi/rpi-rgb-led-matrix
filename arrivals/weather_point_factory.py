@@ -97,8 +97,7 @@ class WeatherPointFactory:
 
             x = int(m_ts * sunrise_ts + b_ts)
 
-            if -2 <= x and x < matrix_w + 2:
-                sunrises_x.append(x)
+            sunrises_x.append(x)
         
         return sunrises_x
 
@@ -120,7 +119,6 @@ class WeatherPointFactory:
 
             x = int(m_ts * sunset_ts + b_ts)
 
-            if -2 <= x and x < matrix_w + 2:
-                sunsets_x.append(x)
+            sunsets_x.append(x)
         
         return sunsets_x

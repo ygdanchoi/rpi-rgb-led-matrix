@@ -6,7 +6,7 @@ from transit_service import TransitLine
 
 Row = collections.namedtuple('Row', ['name', 'description', 'etas', 'color', 'y', 'dx_name', 'dx_description'])
 
-class RowFactory:
+class TransitRowFactory:
     def create_rows(self, transit_lines, vertical_offset, horizontal_offset, cell_height, cell_width, max_rows):
         rows = []
         current_time = time.time()

@@ -23,11 +23,11 @@ class Observer:
         pass
 
 class TransitFeedViewModel(Observable):
-    def __init__(self, transit_service, row_factory, weather_service):
+    def __init__(self, transit_service, transit_row_factory, weather_service):
         super().__init__()
 
         self.transit_service = transit_service
-        self.row_factory = row_factory
+        self.transit_row_factory = transit_row_factory
         self.weather_service = weather_service
 
         self.cell_height = 7
@@ -54,7 +54,7 @@ class TransitFeedViewModel(Observable):
         last_ns = time.time_ns()
 
         while True:            
-            self.rows = self.row_factory.create_rows(
+            self.rows = self.transit_row_factory.create_rows(
                 transit_lines=self.transit_lines,
                 vertical_offset=self.vertical_offset,
                 horizontal_offset=self.horizontal_offset,
@@ -121,7 +121,7 @@ class TransitFeedView(Observer, SampleBase):
         
         self.viewmodel = TransitFeedViewModel(
             transit_service=kwargs['transit_service'],
-            row_factory=kwargs['row_factory'],
+            transit_row_factory=kwargs['transit_row_factory'],
             weather_service=kwargs['weather_service']
         )
 

@@ -2,13 +2,13 @@
 import asyncio
 import os
 
-from row_factory import RowFactory
+from transit_row_factory import TransitRowFactory
 from transit_service import CompositeTransitService as TransitService
 from weather_service import WeatherService
 
 if __name__ == "__main__":
     transit_service = TransitService()
-    row_factory = RowFactory()
+    transit_row_factory = TransitRowFactory()
     weather_service = WeatherService()
 
     if os.name == 'posix':
@@ -18,7 +18,7 @@ if __name__ == "__main__":
             from transit_feed_view import TransitFeedView
             TransitFeedView(
                 transit_service=transit_service,
-                row_factory=row_factory,
+                transit_row_factory=transit_row_factory,
                 weather_service=weather_service
             ).process()
         else:
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     else:
         asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())
         
-        rows = row_factory.create_rows(
+        rows = transit_row_factory.create_rows(
             transit_lines=transit_service.transit_lines,
             vertical_offset=0,
             horizontal_offset=0,

@@ -194,7 +194,7 @@ class WeatherGraphView(Observer, SampleBase):
                             color[1],
                             color[2]
                         )
-                    elif yy == y + 1 and (self.viewmodel.sunrises_x[0] <= x and x <= self.viewmodel.sunsets_x[0] or self.viewmodel.sunrises_x[-1] <= x and x <= self.viewmodel.sunsets_x[-1]):
+                    elif yy == y + 1 and (self.viewmodel.sunrises_x[0] <= x and x < self.viewmodel.sunsets_x[0] or self.viewmodel.sunrises_x[-1] <= x and x < self.viewmodel.sunsets_x[-1]):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,

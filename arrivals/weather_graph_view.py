@@ -228,12 +228,12 @@ class WeatherGraphView(Observer, SampleBase):
     
     def should_draw_chevron(self, x, y, yy):
         return (
-            x - 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == y or
-            x + 0 in self.viewmodel.sunrises_x and (yy + 0 + self.viewmodel.vertical_offset // 4) % 4 == y or
-            x + 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == y or
-            x - 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == y or
-            x + 0 in self.viewmodel.sunsets_x and (yy + 0 - self.viewmodel.vertical_offset // 4) % 4 == y or
-            x + 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == y
+            x - 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4 or
+            x + 0 in self.viewmodel.sunrises_x and (yy + 0 + self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4 or
+            x + 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4 or
+            x - 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4 or
+            x + 0 in self.viewmodel.sunsets_x and (yy + 0 - self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4 or
+            x + 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == (y + 0) % 4
         )
     
     def draw_text(self, x, y, text, color):

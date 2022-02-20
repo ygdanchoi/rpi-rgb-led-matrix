@@ -25,7 +25,10 @@ if __name__ == "__main__":
             ).process()
         else:
             from weather_graph_view import WeatherGraphView
-            WeatherGraphView(weather_service=weather_service).process()
+            WeatherGraphView(
+                weather_point_factory=weather_point_factory,
+                weather_service=weather_service
+            ).process()
 
         asyncio.get_event_loop().run_forever()
     else:

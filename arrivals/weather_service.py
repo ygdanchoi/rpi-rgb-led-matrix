@@ -34,7 +34,7 @@ class WeatherService:
             return WeatherHour(
                 ts=weather['ts'],
                 temp=weather['temp'],
-                pop=weather['pop'],
+                pop=100 if weather['precip'] + weather['snow'] > 0 else 0,
                 icon=weather['weather']['icon'],
                 code=weather['weather']['code'],
                 description=weather['weather']['description']

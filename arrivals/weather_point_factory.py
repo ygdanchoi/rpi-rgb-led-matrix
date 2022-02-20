@@ -7,7 +7,7 @@ WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'co
 
 
 class WeatherPointFactory:
-    def create_points(self, forecast):
+    def create_points(self, forecast, cell_height, matrix_h):
         points = []
 
         min_temp = float('inf')
@@ -21,7 +21,7 @@ class WeatherPointFactory:
                 ts = weather_hour.ts,
                 hr = datetime.fromtimestamp(weather_hour.ts).strftime('%-I%p')[0:-1].lower(),
                 x = int(i / 24 * 114 - 3),
-                y = int(self.cell_height + (self.matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
+                y = int(cell_height + (matrix_h - 22) * (max_temp - weather_hour.temp) / (max_temp - min_temp)),
                 color = self.get_color(weather_hour),
                 temp = f'{int(round(weather_hour.temp, 0))}°',
                 pop = f'{weather_hour.pop}%'

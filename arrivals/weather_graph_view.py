@@ -75,7 +75,7 @@ class WeatherGraphViewModel(Observable):
 
             if update_weather_timer == 0:
                 forecast = self.weather_service.get_forecast()
-                self.weather_points = self.weather_point_factory.create_points(forecast)
+                self.weather_points = self.weather_point_factory.create_points(forecast, self.cell_height, self.matrix_h)
 
                 self.sunrise_sunset = self.weather_service.get_sunrise_sunset()
 

@@ -228,7 +228,7 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def should_draw_day_boundary(self, point, i, x, y, yy):
-        x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
+        return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
     
     def should_draw_chevron(self, x, y, yy):
         return (

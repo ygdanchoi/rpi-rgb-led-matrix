@@ -89,14 +89,7 @@ class WeatherPointFactory:
         b_ts = points[1].x - m_ts * points[1].ts
         
         for sunrise_ts in sunrise_sunset.sunrises:
-            i = bisect.bisect_left([point.ts for point in points], sunrise_ts)
-            
-            if i == len(points):
-                continue
-            i -= 1
-
             x = int(m_ts * sunrise_ts + b_ts)
-
             sunrises_x.append(x)
         
         return sunrises_x
@@ -111,14 +104,7 @@ class WeatherPointFactory:
         b_ts = points[1].x - m_ts * points[1].ts
         
         for sunset_ts in sunrise_sunset.sunsets:
-            i = bisect.bisect_left([point.ts for point in points], sunset_ts)
-            
-            if i == len(points):
-                continue
-            i -= 1
-
             x = int(m_ts * sunset_ts + b_ts)
-
             sunsets_x.append(x)
         
         return sunsets_x

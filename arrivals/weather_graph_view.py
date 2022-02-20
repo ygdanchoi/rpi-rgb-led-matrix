@@ -44,7 +44,8 @@ class WeatherGraphViewModel(Observable):
         self.stripes_offset = 0
 
         self.weather_points = []
-        self.sunrise_sunset = weather_service.empty_sunrise_sunset
+        self.sunrises_x = []
+        self.sunsets_x = []
         self.is_light_mode = True
 
         # min value is -64, but for some reason, -255 makes everything run faster
@@ -79,7 +80,9 @@ class WeatherGraphViewModel(Observable):
                 forecast = self.weather_service.get_forecast()
                 self.weather_points = self.weather_point_factory.create_points(forecast, self.cell_height, self.matrix_h)
 
-                self.sunrise_sunset = self.weather_service.get_sunrise_sunset()
+                sunrise_sunset = self.weather_service.get_sunrise_sunset()
+                self.sunrises_x = self.weather_point_factory.get_sunrises_x(self.weather_points, sunrise_sunset, self.matrix_h)
+                self.sunsets_x = self.weather_point_factory.get_sunsets_x(self.weather_points, sunrise_sunset, self.matrix_h)
 
                 update_weather_timer = 60 * 60
 
@@ -171,9 +174,6 @@ class WeatherGraphView(Observer, SampleBase):
 
         points = self.viewmodel.weather_points
 
-        sunrises_x = self.viewmodel.weather_point_factory.get_sunrises_x(points, self.viewmodel.sunrise_sunset, self.viewmodel.matrix_h)
-        sunsets_x = self.viewmodel.weather_point_factory.get_sunsets_x(points, self.viewmodel.sunrise_sunset, self.viewmodel.matrix_h)
-
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
 
@@ -198,7 +198,7 @@ class WeatherGraphView(Observer, SampleBase):
                             color[1],
                             color[2]
                         )
-                    elif x in sunrises_x and (yy + self.viewmodel.vertical_offset // 4) % 4 == y % 4:
+                    elif x in self.viewmodel.sunrises_x and (yy + self.viewmodel.vertical_offset // 4) % 4 == y % 4:
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
@@ -206,7 +206,7 @@ class WeatherGraphView(Observer, SampleBase):
                             255,
                             255
                         )
-                    elif x in sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
+                    elif x in self.viewmodel.sunsets_x and (yy - self.viewmodel.vertical_offset // 4) % 4 == y % 4:
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,

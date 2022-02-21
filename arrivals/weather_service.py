@@ -45,7 +45,7 @@ class WeatherService:
 
     def get_forecast(self):
         try:
-            live_weather = True
+            live_weather = False
 
             if live_weather:
                 response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={
@@ -58,7 +58,7 @@ class WeatherService:
                     'useQueryString': 'true'
                 })
                 content = response.content
-                # print(response.content)
+                print(response.content)
             else:
                 content = open('weather_mock_forecast.json').read()
             

@@ -99,7 +99,7 @@ class WeatherGraphViewModel(Observable):
             self.vertical_offset = 0
 
         for c in range(self.matrix_w):
-            self.new_gol_matrix[self.matrix_h - 1][c] = 0 if random.randint(0, 1) == 0 else -1
+            self.new_gol_matrix[self.matrix_h - 1][c] = 0 if random.randint(0, 2) == 0 else -1
 
         for r in range(self.matrix_h - 1):
             for c in range(self.matrix_w):

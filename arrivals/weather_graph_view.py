@@ -228,7 +228,7 @@ class WeatherGraphView(Observer, SampleBase):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
     
     def should_draw_chevron(self, x, yy):
-        return False and (
+        return (
             x - 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
             x + 0 in self.viewmodel.sunrises_x and (yy + 0 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
             x + 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or

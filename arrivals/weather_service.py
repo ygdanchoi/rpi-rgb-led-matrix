@@ -19,8 +19,6 @@ class WeatherService:
 
     def get_weather(self):
         try:
-            raise Exception('Disabled weather API')
-
             response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
                 'lat': self.latitude,
                 'lon': self.longitude,

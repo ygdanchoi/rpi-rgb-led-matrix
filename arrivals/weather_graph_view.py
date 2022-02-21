@@ -94,7 +94,7 @@ class WeatherGraphViewModel(Observable):
             self.stripes_offset = 0
 
         self.vertical_offset += 1
-        if self.vertical_offset >= 360:
+        if self.vertical_offset >= 16:
             self.vertical_offset = 0
 
         for c in range(self.matrix_w):
@@ -201,7 +201,7 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
 
             for (x, y) in point.coords:
-                for xx in range(x - 1, x + 1):
+                for xx in range(x - 1, x + 2):
                     if xx in self.viewmodel.sunrises_x or xx in self.viewmodel.sunsets_x:
                         for yy in range(y + 1, self.offscreen_canvas.height): 
                             if self.should_draw_chevron(xx, yy):
@@ -242,14 +242,14 @@ class WeatherGraphView(Observer, SampleBase):
     def should_draw_day_boundary(self, point, i, x, y, yy):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
     
-    def should_draw_chevron(self, x, yy):
+    def should_draw_chevron(self, xx, yy):
         return (
-            x - 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
-            x + 0 in self.viewmodel.sunrises_x and (yy + 0 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
-            x + 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
-            x - 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == 0 or
-            x + 0 in self.viewmodel.sunsets_x and (yy + 0 - self.viewmodel.vertical_offset // 4) % 4 == 0 or
-            x + 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == 0
+            xx - 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
+            xx + 0 in self.viewmodel.sunrises_x and (yy + 0 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
+            xx + 1 in self.viewmodel.sunrises_x and (yy - 1 + self.viewmodel.vertical_offset // 4) % 4 == 0 or
+            xx - 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == 0 or
+            xx + 0 in self.viewmodel.sunsets_x and (yy + 0 - self.viewmodel.vertical_offset // 4) % 4 == 0 or
+            xx + 1 in self.viewmodel.sunsets_x and (yy + 1 - self.viewmodel.vertical_offset // 4) % 4 == 0
         )
     
     def draw_text(self, x, y, text, color):

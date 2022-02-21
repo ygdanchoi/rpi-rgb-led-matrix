@@ -164,8 +164,7 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont('../fonts/tom-thumb.bdf')
-        self.dark_mode_color = graphics.Color(47, 0, 0)
-        self.light_mode_colors = {}
+        self.dark_mode_color = [47, 0, 0]
 
         self.viewmodel.add_observer(self)
 
@@ -175,7 +174,7 @@ class WeatherGraphView(Observer, SampleBase):
         points = self.viewmodel.weather_points
 
         for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
+            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
             for (x, y) in point.coords:
                 for yy in range(0, y - 1):
@@ -191,7 +190,7 @@ class WeatherGraphView(Observer, SampleBase):
                     self.draw_stripe_pixel(x, yy, point.color)
 
         for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
+            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
             for (x, y) in point.coords:
                 if x in self.viewmodel.date_boundaries_x:
@@ -266,12 +265,17 @@ class WeatherGraphView(Observer, SampleBase):
 
     def get_text_color(self, color):
         if self.viewmodel.is_light_mode:
-            key = str(color)
-            if key not in self.light_mode_colors:
-                self.light_mode_colors[key] = graphics.Color(*color)
-            return self.light_mode_colors[key]
+            return graphics.Color(
+                color[0],
+                color[1],
+                color[2]
+            )
         else:
-            return self.dark_mode_color
+            return graphics.Color(
+                self.dark_mode_color[0],
+                self.dark_mode_color[1],
+                self.dark_mode_color[2]
+            )
 
     def draw_stripe_pixel(self, xx, yy, color):
         if self.viewmodel.is_stripe(xx, yy):

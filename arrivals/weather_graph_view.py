@@ -201,7 +201,7 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
 
             for (x, y) in point.coords:
-                for xx in range(x - 1, x + 1):
+                for xx in range(x - 1, x + 2):
                     if xx in self.viewmodel.sunrises_x or xx in self.viewmodel.sunsets_x:
                         for yy in range(y + 1, self.offscreen_canvas.height):
                             if self.should_draw_chevron(x, yy):

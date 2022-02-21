@@ -45,6 +45,7 @@ class WeatherGraphViewModel(Observable):
         self.weather_points = []
         self.sunrises_x = []
         self.sunsets_x = []
+        self.date_boundaries_x = []
         self.is_light_mode = True
 
         # min value is -64, but for some reason, -255 makes everything run faster
@@ -81,6 +82,7 @@ class WeatherGraphViewModel(Observable):
                 sunrise_sunset = self.weather_service.get_sunrise_sunset()
                 self.sunrises_x = self.weather_point_factory.get_sunrises_x(self.weather_points, sunrise_sunset, self.matrix_w)
                 self.sunsets_x = self.weather_point_factory.get_sunsets_x(self.weather_points, sunrise_sunset, self.matrix_w)
+                self.date_boundaries_x = self.weather_point_factory.get_date_boundaries_x(self.weather_points)
 
                 update_weather_timer = 60 * 60
 
@@ -186,7 +188,14 @@ class WeatherGraphView(Observer, SampleBase):
                     color[2]
                 )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
-                    if self.should_draw_day_boundary(point, i, x, y, yy):
+                    self.draw_stripe_pixel(x, yy, point.color)
+
+        for i, point in enumerate(points):
+            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
+
+            for (x, y) in point.coords:
+                if x in self.date_boundaries_x:
+                    for yy in range(y + 2, self.offscreen_canvas.height, 2):
                         self.offscreen_canvas.SetPixel(
                             x,
                             yy,
@@ -194,13 +203,6 @@ class WeatherGraphView(Observer, SampleBase):
                             color[1],
                             color[2]
                         )
-                    else:
-                        self.draw_stripe_pixel(x, yy, point.color)
-
-        for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
-
-            for (x, y) in point.coords:
                 for xx in range(x - 1, x + 2):
                     if xx in self.viewmodel.sunrises_x or xx in self.viewmodel.sunsets_x:
                         for yy in range(y + 1, self.offscreen_canvas.height):
@@ -240,7 +242,7 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def should_draw_day_boundary(self, point, i, x, y, yy):
-        return False and x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
+        return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
     
     def should_draw_chevron(self, x, yy):
         return (

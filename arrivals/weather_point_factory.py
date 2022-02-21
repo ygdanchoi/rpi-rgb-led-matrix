@@ -108,3 +108,17 @@ class WeatherPointFactory:
             sunsets_x.add(x)
         
         return sunsets_x
+
+    def get_date_boundaries_x(self, points):
+        if len(points) == 0:
+            return set()
+
+        date_boundaries_x = set()
+
+        for point in points:
+            if point.hr == '12a':
+                date_boundaries_x.add(point.x)
+
+        return date_boundaries_x
+
+

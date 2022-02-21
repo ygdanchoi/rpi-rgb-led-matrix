@@ -194,7 +194,7 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]
 
             for (x, y) in point.coords:
-                if x in self.date_boundaries_x:
+                if x in self.viewmodel.date_boundaries_x:
                     for yy in range(y + 2, self.offscreen_canvas.height, 2):
                         self.offscreen_canvas.SetPixel(
                             x,

@@ -225,12 +225,6 @@ class WeatherGraphView(Observer, SampleBase):
 
     def should_draw_day_boundary(self, point, i, x, y, yy):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)
-
-    def is_daytime(self, x):
-        return (
-            self.viewmodel.sunrises_x[0] <= x and x <= self.viewmodel.sunsets_x[0] or
-            self.viewmodel.sunrises_x[-1] <= x and x <= self.viewmodel.sunsets_x[-1]
-        )
     
     def should_draw_chevron(self, x, yy):
         return (

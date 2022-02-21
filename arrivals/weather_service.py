@@ -56,7 +56,9 @@ class WeatherService:
                     'useQueryString': 'true'
                 })
                 content = response.content
-                # print(response.content)
+
+                with open('weather_mock_forecast.json', 'w') as file:
+                    file.write(content.decode())
             else:
                 content = open('weather_mock_forecast.json').read()
             

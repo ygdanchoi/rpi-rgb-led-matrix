@@ -14,7 +14,7 @@ if __name__ == "__main__":
     weather_service = WeatherService()
 
     if os.name == 'posix':
-        show_transit = False
+        show_transit = True
 
         if show_transit:
             from transit_feed_view import TransitFeedView

@@ -64,8 +64,7 @@ class WeatherGraphViewModel(Observable):
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
             s_to_wait = max(0, 0.055 - last_delta_s)
-            print(last_delta_s)
-            await asyncio.sleep(0)
+            await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()
 
     async def background_thread(self):

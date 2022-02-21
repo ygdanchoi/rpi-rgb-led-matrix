@@ -185,17 +185,17 @@ class WeatherGraphView(Observer, SampleBase):
                     color[1],
                     color[2]
                 )
-                # for yy in range(y + 1, self.offscreen_canvas.height): 
-                #     if self.should_draw_day_boundary(point, i, x, y, yy):
-                #         self.offscreen_canvas.SetPixel(
-                #             x,
-                #             yy,
-                #             color[0],
-                #             color[1],
-                #             color[2]
-                #         )
-                #     else:
-                #         self.draw_stripe_pixel(x, yy, point.color)
+                for yy in range(y + 1, self.offscreen_canvas.height): 
+                    if self.should_draw_day_boundary(point, i, x, y, yy):
+                        self.offscreen_canvas.SetPixel(
+                            x,
+                            yy,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
+                    else:
+                        self.draw_stripe_pixel(x, yy, point.color)
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else [47, 0, 0]

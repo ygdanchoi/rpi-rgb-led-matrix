@@ -272,38 +272,35 @@ class WeatherGraphView(Observer, SampleBase):
             return self.dark_mode_color
 
     def draw_stripe_pixel(self, xx, yy, color):
-        if not self.viewmodel.is_light_mode:
-            self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+        if self.viewmodel.is_stripe(xx, yy):
+            stripe_divisor = self.viewmodel.stripe_divisor_light
         else:
-            if self.viewmodel.is_stripe(xx, yy):
-                stripe_divisor = self.viewmodel.stripe_divisor_light
-            else:
-                stripe_divisor = self.viewmodel.stripe_divisor_dark
+            stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-            if self.viewmodel.get_gol_safe(yy, xx) < -64:
-                self.offscreen_canvas.SetPixel(
-                    xx,
-                    yy,
-                    color[0] // stripe_divisor,
-                    color[1] // stripe_divisor,
+        if self.viewmodel.get_gol_safe(yy, xx) < -64:
+            self.offscreen_canvas.SetPixel(
+                xx,
+                yy,
+                color[0] // stripe_divisor,
+                color[1] // stripe_divisor,
+                color[2] // stripe_divisor
+            )
+        else:
+            self.offscreen_canvas.SetPixel(
+                xx,
+                yy,
+                max(
+                    color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) << 3,
+                    color[0] // stripe_divisor
+                ),
+                max(
+                    color[1] // 2 + self.viewmodel.get_gol_safe(yy, xx) << 4,
+                    color[1] // stripe_divisor
+                ),
+                max(
+                    color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) << 2,
                     color[2] // stripe_divisor
                 )
-            else:
-                self.offscreen_canvas.SetPixel(
-                    xx,
-                    yy,
-                    max(
-                        color[0] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 8,
-                        color[0] // stripe_divisor
-                    ),
-                    max(
-                        color[1] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 16,
-                        color[1] // stripe_divisor
-                    ),
-                    max(
-                        color[2] // 2 + self.viewmodel.get_gol_safe(yy, xx) * 4,
-                        color[2] // stripe_divisor
-                    )
-                )
+            )
 
     

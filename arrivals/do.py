@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
 import os
-import sys
 
 from transit_row_factory import TransitRowFactory
 from transit_service import CompositeTransitService as TransitService
@@ -15,9 +14,9 @@ if __name__ == "__main__":
     weather_service = WeatherService()
 
     if os.name == 'posix':
-        show_weather = len(sys.argv) > 1 and sys.argv[1] == '-w'
+        show_transit = False
 
-        if not show_weather:
+        if show_transit:
             from transit_feed_view import TransitFeedView
             TransitFeedView(
                 transit_service=transit_service,

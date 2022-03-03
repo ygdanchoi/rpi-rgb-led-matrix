@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import asyncio
 import os
+import sys
 
 from transit_row_factory import TransitRowFactory
 from transit_service import CompositeTransitService as TransitService

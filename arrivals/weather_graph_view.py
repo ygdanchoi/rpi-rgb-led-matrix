@@ -277,6 +277,9 @@ class WeatherGraphView(Observer, SampleBase):
             )
 
     def draw_stripe_pixel(self, xx, yy, color):
+        if not self.viewmodel.is_light_mode:
+            return
+
         if self.viewmodel.is_stripe(xx, yy):
             stripe_divisor = self.viewmodel.stripe_divisor_light
         else:

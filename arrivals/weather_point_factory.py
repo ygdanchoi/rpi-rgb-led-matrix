@@ -65,7 +65,7 @@ class WeatherPointFactory:
         elif 500 <= code and code <= 599: # rain
             return [81, 121, 243]
         elif 600 <= code and code <= 699: # snow
-            return [224, 224, 224]
+            return [227, 226, 225]
         elif 700 <= code and code <= 799: # fog
             return [50, 182, 122]
         elif 800 <= code and code <= 802: # clear

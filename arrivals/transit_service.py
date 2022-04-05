@@ -187,6 +187,7 @@ class MtaSubwayService(GtfsService):
     
     def is_applicable_trip(self, key, trip_id, route_id):
         suffix = r'\.{2}[NS]'
+        print(key, trip_id)
         return key and route_id == self.trips[key].route_id and re.search(suffix, key).group() == re.search(suffix, trip_id).group()
 
 class MtaBusService(BaseTransitService):

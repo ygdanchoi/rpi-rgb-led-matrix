@@ -189,7 +189,7 @@ class MtaSubwayService(GtfsService):
         suffix = r'\.{2}[NS]'
         key_match = re.search(suffix, key)
         trip_id_match = re.search(suffix, trip_id)
-        return key and route_id == self.trips[key].route_id and key_match and key_match.group() == trip_id_match.group()
+        return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()
 
 class MtaBusService(BaseTransitService):
     def get_transit_lines(self, stop_id, direction):

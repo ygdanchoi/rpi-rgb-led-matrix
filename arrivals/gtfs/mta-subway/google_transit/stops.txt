@@ -239,9 +239,9 @@ stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,locatio
 245,,Beverly Rd,,40.645098,-73.948959,,,1,
 245N,,Beverly Rd,,40.645098,-73.948959,,,0,245
 245S,,Beverly Rd,,40.645098,-73.948959,,,0,245
-246,,Newkirk Av,,40.639967,-73.948411,,,1,
-246N,,Newkirk Av,,40.639967,-73.948411,,,0,246
-246S,,Newkirk Av,,40.639967,-73.948411,,,0,246
+246,,Newkirk Av-Little Haiti,,40.639967,-73.948411,,,1,
+246N,,Newkirk Av-Little Haiti,,40.639967,-73.948411,,,0,246
+246S,,Newkirk Av-Little Haiti,,40.639967,-73.948411,,,0,246
 247,,Flatbush Av-Brooklyn College,,40.632836,-73.947642,,,1,
 247N,,Flatbush Av-Brooklyn College,,40.632836,-73.947642,,,0,247
 247S,,Flatbush Av-Brooklyn College,,40.632836,-73.947642,,,0,247

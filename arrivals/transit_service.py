@@ -339,12 +339,12 @@ class CompositeTransitService(BaseTransitService):
                         '401957', # E 96 ST/3 AV
                         '1' # westbound
                     ),
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.mta_bus_service.get_transit_lines, 
-                    #     '404947', # LEXINGTON AV/E 92 ST
-                    #     '1' # southbound
-                    # ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '404947', # LEXINGTON AV/E 92 ST
+                        '1' # southbound
+                    ),
                     self.loop.run_in_executor(
                         executor, 
                         self.nyc_ferry_service.get_transit_lines, 

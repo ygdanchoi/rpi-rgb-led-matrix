@@ -14,7 +14,7 @@ class TransitRowFactory:
             eta for eta in transit_line.etas if self.is_visible_eta(eta, current_time)
         )]
 
-        if True:
+        if len(filtered_transit_lines) == max_rows:
             # not enough rows to fill viewport; duplicate list as workaround
             filtered_transit_lines.extend(filtered_transit_lines)
 

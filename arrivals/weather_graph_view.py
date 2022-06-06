@@ -177,7 +177,7 @@ class WeatherGraphView(Observer, SampleBase):
 
             for (i, (x, y)) in enumerate(point.coords):
                 for yy in range(0, y):
-                    self.draw_stripe_pixel(x, yy, [31, 31, 31])
+                    self.draw_stripe_pixel(x, yy, [63, 63, 63])
                 
                 if i == 0:
                     self.offscreen_canvas.SetPixel(
@@ -189,7 +189,7 @@ class WeatherGraphView(Observer, SampleBase):
                     )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
                     self.draw_stripe_pixel(x, yy, point.color)
-                    self.draw_stripe_pixel(x, yy, [31, 31, 31])
+                    self.draw_stripe_pixel(x, yy, [63, 63, 63])
 
         # for i, point in enumerate(points):
         #     color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
@@ -289,7 +289,7 @@ class WeatherGraphView(Observer, SampleBase):
         else:
             stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-        if self.viewmodel.get_gol_safe(yy, xx) < -64:
+        if False and self.viewmodel.get_gol_safe(yy, xx) < -64:
             self.offscreen_canvas.SetPixel(
                 xx,
                 yy,

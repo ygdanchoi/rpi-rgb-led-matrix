@@ -73,7 +73,7 @@ class TransitFeedViewModel(Observable):
 
 
     async def background_thread(self):
-        update_transit_lines_timer = 0
+        update_transit_lines_timer = 100000
         update_weather_timer = 0
 
         while True:
@@ -249,7 +249,7 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_stripe_pixel(self, xx, yy, color):
-        if True or not self.viewmodel.is_light_mode:
+        if not self.viewmodel.is_light_mode:
             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
         else:
             is_stripe = self.viewmodel.is_stripe(xx, yy)

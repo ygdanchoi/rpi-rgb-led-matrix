@@ -19,6 +19,7 @@ class WeatherService:
 
     def get_weather(self):
         try:
+            raise 'disable weather'
             response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
                 'lat': self.latitude,
                 'lon': self.longitude,
@@ -43,7 +44,7 @@ class WeatherService:
 
     def get_forecast(self):
         try:
-            live_weather = True
+            live_weather = False
 
             if live_weather:
                 response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/hourly', params={

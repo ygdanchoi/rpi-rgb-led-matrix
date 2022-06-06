@@ -249,30 +249,30 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_stripe_pixel(self, xx, yy, color):
-        if True or not self.viewmodel.is_light_mode:
+        if not self.viewmodel.is_light_mode:
             self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
-        # else:
-        #     is_stripe = self.viewmodel.is_stripe(xx, yy)
+        else:
+            is_stripe = self.viewmodel.is_stripe(xx, yy)
 
-        #     if color == [255, 255, 255]:
-        #         self.offscreen_canvas.SetPixel(
-        #             xx,
-        #             yy,
-        #             15 if is_stripe else 0,
-        #             15 if is_stripe else 0,
-        #             15 if is_stripe else 0
-        #         )
-        #     else:
-        #         if is_stripe:
-        #             stripe_divisor = self.viewmodel.stripe_divisor_light
-        #         else:
-        #             stripe_divisor = self.viewmodel.stripe_divisor_dark
-        #         self.offscreen_canvas.SetPixel(
-        #             xx,
-        #             yy,
-        #             color[0] // stripe_divisor,
-        #             color[1] // stripe_divisor,
-        #             color[2] // stripe_divisor
-        #         )
+            if color == [255, 255, 255]:
+                self.offscreen_canvas.SetPixel(
+                    xx,
+                    yy,
+                    15 if is_stripe else 0,
+                    15 if is_stripe else 0,
+                    15 if is_stripe else 0
+                )
+            else:
+                if is_stripe:
+                    stripe_divisor = self.viewmodel.stripe_divisor_light
+                else:
+                    stripe_divisor = self.viewmodel.stripe_divisor_dark
+                self.offscreen_canvas.SetPixel(
+                    xx,
+                    yy,
+                    color[0] // stripe_divisor,
+                    color[1] // stripe_divisor,
+                    color[2] // stripe_divisor
+                )
 
     

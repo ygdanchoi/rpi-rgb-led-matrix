@@ -204,7 +204,7 @@ class TransitFeedView(Observer, SampleBase):
         )
     
     def draw_unscrolled_name_and_description_and_etas(self, row):
-        self.draw_row_mask(row, 0, self.offscreen_canvas.width)
+        # self.draw_row_mask(row, 0, self.offscreen_canvas.width)
         self.draw_text(
             row,
             1,

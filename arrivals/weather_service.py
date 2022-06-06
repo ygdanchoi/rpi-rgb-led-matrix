@@ -14,8 +14,8 @@ class WeatherService:
     def __init__(self):
         self.empty_sunrise_sunset = SunriseSunset(sunrises=set(), sunsets=set())
 
-        self.latitude = 40.782
-        self.longitude = -73.954
+        self.latitude = 36.1627
+        self.longitude = -86.7816
 
     def get_weather(self):
         try:

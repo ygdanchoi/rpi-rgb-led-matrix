@@ -33,6 +33,8 @@ if __name__ == "__main__":
         asyncio.get_event_loop().run_forever()
     else:
         asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())
+
+        print()
         
         rows = transit_row_factory.create_rows(
             transit_lines=transit_service.transit_lines,
@@ -42,6 +44,20 @@ if __name__ == "__main__":
             cell_width=4,
             max_rows=4
         )
+        for transit_line in transit_service.transit_lines:
+            print(transit_line)
+            print()
+
+        print()
+
+        for row in rows:
+            print(row)
+            print()
+
+        print()
+
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
         weather_service.get_forecast()
+
+        print()

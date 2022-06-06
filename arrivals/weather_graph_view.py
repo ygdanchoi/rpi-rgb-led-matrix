@@ -176,20 +176,18 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
             for (i, (x, y)) in enumerate(point.coords):
-                for yy in range(0, y):
-                    self.draw_stripe_pixel(x, yy, [63, 63, 63])
+                for yy in range(0, y - 1):
+                    self.draw_stripe_pixel(x, yy, [31, 31, 31])
                 
-                if i == 0:
-                    self.offscreen_canvas.SetPixel(
-                        x,
-                        y,
-                        color[0],
-                        color[1],
-                        color[2]
-                    )
+                self.offscreen_canvas.SetPixel(
+                    x,
+                    y,
+                    color[0],
+                    color[1],
+                    color[2]
+                )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
                     self.draw_stripe_pixel(x, yy, point.color)
-                    self.draw_stripe_pixel(x, yy, [63, 63, 63])
 
         # for i, point in enumerate(points):
         #     color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
@@ -216,30 +214,30 @@ class WeatherGraphView(Observer, SampleBase):
         #                             color[2]
         #                         )
                                             
-        for i, point in enumerate(points[2:27:4]):
-            p_i = 2 + i * 4
+        # for i, point in enumerate(points[2:27:4]):
+        #     p_i = 2 + i * 4
 
-            self.draw_text(
-                7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
-                min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
-                point.temp,
-                point.color
-            )
+        #     self.draw_text(
+        #         7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
+        #         min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
+        #         point.temp,
+        #         point.color
+        #     )
 
-            self.draw_text(
-                7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1,
-                point.hr,
-                [255, 255, 255]
-            )
+        #     self.draw_text(
+        #         7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
+        #         self.offscreen_canvas.height - 1,
+        #         point.hr,
+        #         [255, 255, 255]
+        #     )
 
-            max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
-            self.draw_text(
-                7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                max_pop,
-                [81, 121, 243]
-            )
+        #     max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
+        #     self.draw_text(
+        #         7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
+        #         self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+        #         max_pop,
+        #         [81, 121, 243]
+        #     )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
@@ -289,7 +287,7 @@ class WeatherGraphView(Observer, SampleBase):
         else:
             stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-        if True or self.viewmodel.get_gol_safe(yy, xx) < -64:
+        if self.viewmodel.get_gol_safe(yy, xx) < -64:
             self.offscreen_canvas.SetPixel(
                 xx,
                 yy,

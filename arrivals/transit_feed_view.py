@@ -137,14 +137,14 @@ class TransitFeedView(Observer, SampleBase):
     def update(self):
         self.offscreen_canvas.Clear()
 
-        if len(self.viewmodel.rows) < self.viewmodel.max_rows:
-            for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, 0, [31, 31, 31])
+        # if len(self.viewmodel.rows) < self.viewmodel.max_rows:
+        #     for xx in range(0, self.offscreen_canvas.width):
+        #         self.draw_stripe_pixel(xx, 0, [31, 31, 31])
 
         for row in self.viewmodel.rows:
             if row.y < self.offscreen_canvas.height:
                 # optimization to minimize number of textboxes to draw
-                if row.dx_name == 0 and row.dx_description == 0:
+                if True or row.dx_name == 0 and row.dx_description == 0:
                     self.draw_unscrolled_name_and_description_and_etas(row)
                 elif row.dx_name == 0:
                     self.draw_scrolled_description(row)

@@ -313,13 +313,13 @@ class CompositeTransitService(BaseTransitService):
         try:
             with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
                 futures = [
-                    self.loop.run_in_executor(
-                        executor, 
-                        self.mta_subway_service.get_transit_lines, 
-                        '626S', # 86 St
-                        '1', # southbound
-                        'gtfs' # 1234567
-                    ),
+                    # self.loop.run_in_executor(
+                    #     executor, 
+                    #     self.mta_subway_service.get_transit_lines, 
+                    #     '626S', # 86 St
+                    #     '1', # southbound
+                    #     'gtfs' # 1234567
+                    # ),
                     self.loop.run_in_executor(
                         executor, 
                         self.mta_subway_service.get_transit_lines, 
@@ -327,18 +327,18 @@ class CompositeTransitService(BaseTransitService):
                         '1', #? southbound
                         'gtfs-nqrw' # NQRW
                     ),
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.mta_bus_service.get_transit_lines, 
-                    #     '401921', # E 86 ST/3 AV
-                    #     '1' # westbound
-                    # ),
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.mta_bus_service.get_transit_lines, 
-                    #     '401957', # E 96 ST/3 AV
-                    #     '1' # westbound
-                    # ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '401921', # E 86 ST/3 AV
+                        '1' # westbound
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '401957', # E 96 ST/3 AV
+                        '1' # westbound
+                    ),
                     # self.loop.run_in_executor(
                     #     executor, 
                     #     self.mta_bus_service.get_transit_lines, 

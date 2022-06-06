@@ -73,7 +73,7 @@ class TransitFeedViewModel(Observable):
 
 
     async def background_thread(self):
-        update_transit_lines_timer = 100000
+        update_transit_lines_timer = 0
         update_weather_timer = 0
 
         while True:
@@ -171,8 +171,8 @@ class TransitFeedView(Observer, SampleBase):
             1 + self.viewmodel.idx_desc * self.viewmodel.cell_width + row.dx_description,
             row.description
         )
-        # self.draw_row_mask(row, 0, self.viewmodel.idx_desc * self.viewmodel.cell_width)
-        # self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
+        self.draw_row_mask(row, 0, self.viewmodel.idx_desc * self.viewmodel.cell_width)
+        self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
 
     def draw_scrolled_name(self, row):
         self.draw_text(
@@ -180,7 +180,7 @@ class TransitFeedView(Observer, SampleBase):
             1 + row.dx_name,
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, 1 - (row.dx_name + 3) // self.viewmodel.cell_width))]
         )
-        # self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
+        self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 
     def draw_unscrolled_etas(self, row):
         self.draw_text(

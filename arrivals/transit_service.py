@@ -313,13 +313,13 @@ class CompositeTransitService(BaseTransitService):
         try:
             with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
                 futures = [
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.mta_subway_service.get_transit_lines, 
-                    #     '626S', # 86 St
-                    #     '1', # southbound
-                    #     'gtfs' # 1234567
-                    # ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_subway_service.get_transit_lines, 
+                        '626S', # 86 St
+                        '1', # southbound
+                        'gtfs' # 1234567
+                    ),
                     self.loop.run_in_executor(
                         executor, 
                         self.mta_subway_service.get_transit_lines, 
@@ -339,18 +339,18 @@ class CompositeTransitService(BaseTransitService):
                         '401957', # E 96 ST/3 AV
                         '1' # westbound
                     ),
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.mta_bus_service.get_transit_lines, 
-                    #     '404947', # LEXINGTON AV/E 92 ST
-                    #     '1' # southbound
-                    # ),
-                    # self.loop.run_in_executor(
-                    #     executor, 
-                    #     self.nyc_ferry_service.get_transit_lines, 
-                    #     '113', # East 90th Street
-                    #     '0' # southbound
-                    # )
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.mta_bus_service.get_transit_lines, 
+                        '404947', # LEXINGTON AV/E 92 ST
+                        '1' # southbound
+                    ),
+                    self.loop.run_in_executor(
+                        executor, 
+                        self.nyc_ferry_service.get_transit_lines, 
+                        '113', # East 90th Street
+                        '0' # southbound
+                    )
                 ]
                 for response in await asyncio.gather(*futures):
                     transit_lines.extend(response)

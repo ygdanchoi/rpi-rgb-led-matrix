@@ -249,8 +249,8 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, row.color)
 
     def draw_stripe_pixel(self, xx, yy, color):
-        # if not self.viewmodel.is_light_mode:
-        #     self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
+        if True or not self.viewmodel.is_light_mode:
+            self.offscreen_canvas.SetPixel(xx, yy, 0, 0, 0)
         # else:
         #     is_stripe = self.viewmodel.is_stripe(xx, yy)
 

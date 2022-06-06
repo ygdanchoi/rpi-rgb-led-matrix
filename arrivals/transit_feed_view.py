@@ -145,14 +145,14 @@ class TransitFeedView(Observer, SampleBase):
             if row.y < self.offscreen_canvas.height:
                 # optimization to minimize number of textboxes to draw
                 if True or row.dx_name == 0 and row.dx_description == 0:
-                    self.draw_unscrolled_name_and_description_and_etas(row)
-                elif row.dx_name == 0:
-                    self.draw_scrolled_description(row)
-                    self.draw_unscrolled_name_and_etas(row)
-                elif row.dx_description == 0:
-                    self.draw_scrolled_name(row)
-                    self.draw_unscrolled_description_and_etas(row)
-                else:
+                #     self.draw_unscrolled_name_and_description_and_etas(row)
+                # elif row.dx_name == 0:
+                #     self.draw_scrolled_description(row)
+                #     self.draw_unscrolled_name_and_etas(row)
+                # elif row.dx_description == 0:
+                #     self.draw_scrolled_name(row)
+                #     self.draw_unscrolled_description_and_etas(row)
+                # else:
                     self.draw_scrolled_description(row)
                     self.draw_scrolled_name(row)
                     self.draw_unscrolled_etas(row)

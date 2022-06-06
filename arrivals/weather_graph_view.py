@@ -289,7 +289,7 @@ class WeatherGraphView(Observer, SampleBase):
         else:
             stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-        if False and self.viewmodel.get_gol_safe(yy, xx) < -64:
+        if True or self.viewmodel.get_gol_safe(yy, xx) < -64:
             self.offscreen_canvas.SetPixel(
                 xx,
                 yy,

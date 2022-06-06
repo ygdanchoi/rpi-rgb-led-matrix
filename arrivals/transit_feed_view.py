@@ -172,7 +172,7 @@ class TransitFeedView(Observer, SampleBase):
             row.description
         )
         # self.draw_row_mask(row, 0, self.viewmodel.idx_desc * self.viewmodel.cell_width)
-        self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
+        # self.draw_row_mask(row, (self.viewmodel.idx_etas - 2) * self.viewmodel.cell_width, self.offscreen_canvas.width)
 
     def draw_scrolled_name(self, row):
         self.draw_text(
@@ -180,7 +180,7 @@ class TransitFeedView(Observer, SampleBase):
             1 + row.dx_name,
             row.name[:(self.viewmodel.idx_desc - 1 + max(0, 1 - (row.dx_name + 3) // self.viewmodel.cell_width))]
         )
-        self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
+        # self.draw_row_mask(row, (self.viewmodel.idx_desc - 1) * self.viewmodel.cell_width, self.viewmodel.idx_desc * self.viewmodel.cell_width)
 
     def draw_unscrolled_etas(self, row):
         self.draw_text(
@@ -204,7 +204,7 @@ class TransitFeedView(Observer, SampleBase):
         )
     
     def draw_unscrolled_name_and_description_and_etas(self, row):
-        self.draw_row_mask(row, 0, self.offscreen_canvas.width)
+        # self.draw_row_mask(row, 0, self.offscreen_canvas.width)
         self.draw_text(
             row,
             1,

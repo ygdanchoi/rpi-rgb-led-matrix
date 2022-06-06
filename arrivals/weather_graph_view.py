@@ -163,7 +163,7 @@ class WeatherGraphView(Observer, SampleBase):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont('../fonts/tom-thumb.bdf')
-        self.dark_mode_color = [63, 0, 0]
+        self.dark_mode_color = [79, 0, 0]
 
         self.viewmodel.add_observer(self)
 

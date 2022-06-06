@@ -189,30 +189,30 @@ class WeatherGraphView(Observer, SampleBase):
                 for yy in range(y + 1, self.offscreen_canvas.height): 
                     self.draw_stripe_pixel(x, yy, point.color)
 
-        # for i, point in enumerate(points):
-        #     color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
+        for i, point in enumerate(points):
+            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
-        #     for (x, y) in point.coords:
-        #         if x in self.viewmodel.date_boundaries_x:
-        #             for yy in range(y + 2, self.offscreen_canvas.height, 2):
-        #                 self.offscreen_canvas.SetPixel(
-        #                     x,
-        #                     yy,
-        #                     color[0],
-        #                     color[1],
-        #                     color[2]
-        #                 )
-        #         for xx in range(x - 1, x + 2):
-        #             if xx in self.viewmodel.sunrises_x or xx in self.viewmodel.sunsets_x:
-        #                 for yy in range(y + 1, self.offscreen_canvas.height):
-        #                     if self.should_draw_chevron(x, yy):
-        #                         self.offscreen_canvas.SetPixel(
-        #                             x,
-        #                             yy,
-        #                             color[0],
-        #                             color[1],
-        #                             color[2]
-        #                         )
+            for (x, y) in point.coords:
+                if x in self.viewmodel.date_boundaries_x:
+                    for yy in range(y + 2, self.offscreen_canvas.height, 2):
+                        self.offscreen_canvas.SetPixel(
+                            x,
+                            yy,
+                            color[0],
+                            color[1],
+                            color[2]
+                        )
+                for xx in range(x - 1, x + 2):
+                    if xx in self.viewmodel.sunrises_x or xx in self.viewmodel.sunsets_x:
+                        for yy in range(y + 1, self.offscreen_canvas.height):
+                            if self.should_draw_chevron(x, yy):
+                                self.offscreen_canvas.SetPixel(
+                                    x,
+                                    yy,
+                                    color[0],
+                                    color[1],
+                                    color[2]
+                                )
                                             
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4

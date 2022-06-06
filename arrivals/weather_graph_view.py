@@ -219,12 +219,12 @@ class WeatherGraphView(Observer, SampleBase):
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 
-            self.draw_text(
-                7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
-                min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
-                point.temp,
-                point.color
-            )
+            # self.draw_text(
+            #     7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
+            #     min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
+            #     point.temp,
+            #     point.color
+            # )
 
             # self.draw_text(
             #     7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
@@ -289,7 +289,7 @@ class WeatherGraphView(Observer, SampleBase):
         else:
             stripe_divisor = self.viewmodel.stripe_divisor_dark
 
-        if self.viewmodel.get_gol_safe(yy, xx) < -64:
+        if True or self.viewmodel.get_gol_safe(yy, xx) < -64:
             self.offscreen_canvas.SetPixel(
                 xx,
                 yy,

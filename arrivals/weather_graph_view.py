@@ -217,27 +217,27 @@ class WeatherGraphView(Observer, SampleBase):
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 
-            # self.draw_text(
-            #     7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
-            #     min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
-            #     point.temp,
-            #     point.color
-            # )
+            self.draw_text(
+                7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
+                min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
+                point.temp,
+                point.color
+            )
 
-            # self.draw_text(
-            #     7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
-            #     self.offscreen_canvas.height - 1,
-            #     point.hr,
-            #     [255, 255, 255]
-            # )
+            self.draw_text(
+                7 + i * 19 - len(point.hr) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1,
+                point.hr,
+                [255, 255, 255]
+            )
 
-            # max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
-            # self.draw_text(
-            #     7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
-            #     self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-            #     max_pop,
-            #     [81, 121, 243]
-            # )
+            max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
+            self.draw_text(
+                7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
+                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                max_pop,
+                [81, 121, 243]
+            )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 

@@ -51,3 +51,4 @@
 137,,"St. George",40.646111,-74.074171
 138,,"Midtown West/W 39th St-Pier 79",40.760282,-74.004088
 141,,"Ferry Point Park",40.805455,-73.837305
+142,,"Rockaway Beach Boulevard/B. 102nd Street",40.583854,-73.823543

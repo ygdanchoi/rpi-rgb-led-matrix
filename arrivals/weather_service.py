@@ -80,18 +80,26 @@ class WeatherService:
 
     def get_sunrise_sunset(self):
         try:
-            response_today = requests.get('https://api.sunrise-sunset.org/json', params={
+            response_today = requests.get('http://api.sunrise-sunset.org/json', params={
                 'lat': self.latitude,
                 'lng': self.longitude,
                 'date': datetime.now().strftime('%Y-%m-%d'),
                 'formatted': 0
             })
-            response_tomorrow = requests.get('https://api.sunrise-sunset.org/json', params={
+            response_tomorrow = requests.get('http://api.sunrise-sunset.org/json', params={
                 'lat': self.latitude,
                 'lng': self.longitude,
                 'date': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d'),
                 'formatted': 0
             })
+            # response_tomorrow = requests.get('https://sunrise-sunset-times.p.rapidapi.com/getSunriseAndSunset', params={
+            #     'latitude': self.latitude,
+            #     'longitude': self.longitude,
+            #     'date': (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
+            # }, headers={
+            #     'x-rapidapi-key': config.weather_api_key,
+            #     'x-rapidapi-host': 'sunrise-sunset-times.p.rapidapi.com'
+            # })
 
             today = json.loads(response_today.content)['results']
             tomorrow = json.loads(response_tomorrow.content)['results']

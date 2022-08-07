@@ -244,7 +244,7 @@ class WeatherGraphView(Observer, SampleBase):
                     7 + i * 19 - len(max_uv) * self.viewmodel.cell_width / 2,
                     self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                     max_uv,
-                    [255, 0, 127]
+                    [255, 0, 0] if max_uv >= 'uv5' else [255, 0, 255]
                 )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

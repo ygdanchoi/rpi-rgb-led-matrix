@@ -231,6 +231,7 @@ class WeatherGraphView(Observer, SampleBase):
             )
 
             max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
+            print(max_pop)
             if max_pop != '0%':
                 self.draw_text(
                     7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,

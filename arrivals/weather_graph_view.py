@@ -231,12 +231,22 @@ class WeatherGraphView(Observer, SampleBase):
             )
 
             max_pop = max([pt.pop for pt in points[(p_i - 1):(p_i + 3)]])
-            self.draw_text(
-                7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
-                self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                max_pop,
-                [81, 121, 243]
-            )
+            print(max_pop)
+            if max_pop != '0%':
+                self.draw_text(
+                    7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
+                    self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                    max_pop,
+                    [81, 121, 243]
+                )
+            else:
+                max_uv = max([pt.uv for pt in points[(p_i - 1):(p_i + 3)]])
+                self.draw_text(
+                    7 + i * 19 - len(max_uv) * self.viewmodel.cell_width / 2,
+                    self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
+                    max_uv,
+                    [255, 127, 255]
+                )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 

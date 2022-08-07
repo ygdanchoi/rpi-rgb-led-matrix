@@ -44,5 +44,5 @@ if __name__ == "__main__":
         )
         for row in rows:
             print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
-        # print(weather_service.get_forecast())
+        print(weather_service.get_forecast())
         print(weather_service.get_sunrise_sunset())

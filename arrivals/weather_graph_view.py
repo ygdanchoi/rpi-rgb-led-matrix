@@ -240,12 +240,12 @@ class WeatherGraphView(Observer, SampleBase):
                 )
             else:
                 max_uv = max([pt.uv for pt in points[(p_i - 1):(p_i + 3)]])
-                if max_uv > 'UV0':
+                if max_uv > 'uv0':
                     self.draw_text(
                         7 + i * 19 - len(max_uv) * self.viewmodel.cell_width / 2,
                         self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                         max_uv,
-                        [255, 0, 0] if max_uv >= 'UV8' else [255, 0, 255]
+                        [255, 0, 0] if max_uv >= 'uv5' else [232, 50, 243]
                     )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 import config
 
-WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'temp', 'pop', 'icon', 'code', 'description'])
+WeatherHour = collections.namedtuple('WeatherHour', ['ts', 'temp', 'pop', 'icon', 'code', 'description', 'uv'])
 SunriseSunset = collections.namedtuple('SunriseSunset', ['sunrises', 'sunsets'])
 
 class WeatherService:
@@ -33,6 +33,7 @@ class WeatherService:
                 ts=weather['ts'],
                 temp=weather['temp'],
                 pop=100 if weather['precip'] + weather['snow'] > 0 else 0,
+                uv=weather['uv'],
                 icon=weather['weather']['icon'],
                 code=weather['weather']['code'],
                 description=weather['weather']['description']
@@ -68,6 +69,7 @@ class WeatherService:
                     ts=datum['ts'],
                     temp=datum['temp'],
                     pop=datum['pop'],
+                    uv=datum['uv'],
                     icon=datum['weather']['icon'],
                     code=datum['weather']['code'],
                     description=datum['weather']['description']

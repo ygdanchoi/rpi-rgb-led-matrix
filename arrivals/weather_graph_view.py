@@ -241,12 +241,12 @@ class WeatherGraphView(Observer, SampleBase):
             else:
                 max_uv = max([pt.uv for pt in points[(p_i - 1):(p_i + 3)]])
                 if max_uv > 'uv0':
-                    should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
+                    should_flash = (self.viewmodel.vertical_offset // 8) % 2 == p_i
                     self.draw_text(
                         7 + i * 19 - len(max_uv) * self.viewmodel.cell_width / 2,
                         self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
                         max_uv,
-                        [255, 127, 127] if max_uv >= 'uv5' and should_flash else [232, 50, 243]
+                        [255, 127, 127] if max_uv >= 'uv8' and should_flash else [232, 50, 243]
                     )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)

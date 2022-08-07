@@ -241,7 +241,7 @@ class WeatherGraphView(Observer, SampleBase):
             else:
                 max_uv = max([pt.uv for pt in points[(p_i - 1):(p_i + 3)]])
                 if max_uv > 'uv0':
-                    should_flash = (self.viewmodel.vertical_offset // 4) % 2 == 0
+                    should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
                     self.draw_text(
                         7 + i * 19 - len(max_uv) * self.viewmodel.cell_width / 2,
                         self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,

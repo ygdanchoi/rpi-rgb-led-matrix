@@ -43,7 +43,7 @@ class WeatherPointFactory:
                 color = self.get_color(weather_hour),
                 temp = f'{int(round(weather_hour.temp, 0))}°',
                 pop = f'{weather_hour.pop}%',
-                uv = f'UV{round(weather_hour.uv)}',
+                uv = f'uv{round(weather_hour.uv)}',
                 coords = coords
             ))
 

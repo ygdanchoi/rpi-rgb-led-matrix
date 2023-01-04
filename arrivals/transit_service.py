@@ -360,7 +360,7 @@ class CompositeTransitService(BaseTransitService):
                 transit_lines.append(TransitLine(
                     key='ERR!',
                     name='ERR!',
-                    description=f'{line.__str__}',
+                    description=f'{str(line)}',
                     etas=[time.time() + 1 + 60 * 888888888],
                     color=[255, 0, 0]
                 ))

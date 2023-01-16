@@ -311,7 +311,6 @@ class CompositeTransitService(BaseTransitService):
     async def update_transit_lines(self):
         transit_lines = []
 
-        # try:
         with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
             futures = [
                 self.loop.run_in_executor(
@@ -353,16 +352,17 @@ class CompositeTransitService(BaseTransitService):
                     '0' # southbound
                 )
             ]
-            for response in await asyncio.gather(*futures):
-                transit_lines.extend(response)
-        # except Exception as error:
-        #     transit_lines.append(TransitLine(
-        #         key='ERR!',
-        #         name='ERR!',
-        #         description=f'{type(error).__name__}: {str(error)}',
-        #         etas=[time.time() + 1 + 60 * 888888888],
-        #         color=[255, 0, 0]
-        #     ))
-        #     traceback.print_exc()
+            for response in await asyncio.gather(*futures, return_exceptions=True):
+                if isinstance(response, Exception):
+                    transit_lines.append(TransitLine(
+                        key='ERR!',
+                        name='ERR!',
+                        description=f'{type(response).__name__}: {str(response)}',
+                        etas=[time.time() + 1 + 60 * 888888888],
+                        color=[255, 0, 0]
+                    ))
+                    traceback.print_exc()
+                else:
+                    transit_lines.extend(response)
 
         self.transit_lines = transit_lines

@@ -361,7 +361,8 @@ class CompositeTransitService(BaseTransitService):
                         etas=[time.time() + 1 + 60 * 888888888],
                         color=[255, 0, 0]
                     ))
-                    traceback.print_exc()
+                    print("error in asyncio.gather")
+                    print(response)
                 else:
                     transit_lines.extend(response)
 

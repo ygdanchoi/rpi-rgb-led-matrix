@@ -6,7 +6,6 @@ import csv
 import json
 import re
 import requests
-import sys
 import time
 import traceback
 
@@ -357,12 +356,13 @@ class CompositeTransitService(BaseTransitService):
                     transit_lines.append(TransitLine(
                         key='ERR!',
                         name='ERR!',
-                        description=f'{type(response).__name__}: {str(response)}',
+                        description=f'{response}',
                         etas=[time.time() + 1 + 60 * 888888888],
                         color=[255, 0, 0]
                     ))
-                    print("error in asyncio.gather")
-                    print(response)
+                    strftime = time.strftime('%c', time.localtime())
+                    print(f'{strftime} {response}')
+                    
                 else:
                     transit_lines.extend(response)
 

@@ -305,46 +305,48 @@ class CompositeTransitService(BaseTransitService):
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
         self.transit_lines = []
-        self.loop = asyncio.get_event_loop()
+    
+    def get_loop():
+        return asyncio.get_event_loop()
 
     async def update_transit_lines(self):
         transit_lines = []
 
         with concurrent.futures.ProcessPoolExecutor(max_workers=1) as executor:
             futures = [
-                self.loop.run_in_executor(
+                self.get_loop().run_in_executor(
                     executor, 
                     self.mta_subway_service.get_transit_lines, 
                     '626S', # 86 St
                     '1', # southbound
                     'gtfs' # 1234567
                 ),
-                self.loop.run_in_executor(
+                self.get_loop().run_in_executor(
                     executor, 
                     self.mta_subway_service.get_transit_lines, 
                     'Q05S', # 96 St
                     '1', #? southbound
                     'gtfs-nqrw' # NQRW
                 ),
-                self.loop.run_in_executor(
+                self.get_loop().run_in_executor(
                     executor, 
                     self.mta_bus_service.get_transit_lines, 
                     '401921', # E 86 ST/3 AV
                     '1' # westbound
                 ),
-                self.loop.run_in_executor(
+                self.get_loop().run_in_executor(
                     executor, 
                     self.mta_bus_service.get_transit_lines, 
                     '401957', # E 96 ST/3 AV
                     '1' # westbound
                 ),
-                # self.loop.run_in_executor(
+                # self.get_loop().run_in_executor(
                 #     executor, 
                 #     self.mta_bus_service.get_transit_lines, 
                 #     '404947', # LEXINGTON AV/E 92 ST
                 #     '1' # southbound
                 # ),
-                self.loop.run_in_executor(
+                self.get_loop().run_in_executor(
                     executor, 
                     self.nyc_ferry_service.get_transit_lines, 
                     '113', # East 90th Street

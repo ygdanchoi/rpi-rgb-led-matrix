@@ -306,7 +306,7 @@ class CompositeTransitService(BaseTransitService):
         self.nyc_ferry_service = NycFerryService()
         self.transit_lines = []
     
-    def get_loop():
+    def get_loop(self):
         return asyncio.get_event_loop()
 
     async def update_transit_lines(self):

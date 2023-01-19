@@ -367,5 +367,6 @@ class CompositeTransitService(BaseTransitService):
                     
                 else:
                     transit_lines.extend(response)
+                    print(".", end ="")
 
         self.transit_lines = transit_lines

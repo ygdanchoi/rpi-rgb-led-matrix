@@ -372,7 +372,7 @@ class CompositeTransitService(BaseTransitService):
                 key='31&',
                 name="31 &",
                 description="Meta'nemployed!!!",
-                etas=[time.time() + 1 + 60 * 32, time.time() + 1 + 60 * 32, time.time() + 1 + 60 * 32],
+                etas=[time.time() + 1 + 60 * 69, time.time() + 1 + 60 * 420],
                 color=[6, 104, 225]
             ))
         self.transit_lines = transit_lines

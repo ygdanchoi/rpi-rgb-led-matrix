@@ -41,7 +41,6 @@ class TransitFeedViewModel(Observable):
         self.horizontal_offset = 0
         self.vertical_offset = 0
         self.stripes_offset = 0
-        self.metanemployed_offset = 0
 
         self.transit_lines = []
         self.rows = []
@@ -112,8 +111,6 @@ class TransitFeedViewModel(Observable):
         if self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
             self.horizontal_offset = 0
-
-        self.metanemployed_offset += 1
     
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
@@ -220,12 +217,11 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         temperature = f' • {int(round(self.viewmodel.weather_hour.temp, 0))}°F' if self.viewmodel.weather_hour else ''
-        footer_text = (f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')) + " • 31 and Meta'nemployed!!! • "
         
         self.draw_text(
             None,
-            1 - (self.viewmodel.metanemployed_offset % (len(footer_text) * self.viewmodel.cell_width)),
-            footer_text + footer_text
+            1,
+            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
         )
 
     def draw_text(self, row, x, text):

@@ -224,7 +224,7 @@ class TransitFeedView(Observer, SampleBase):
         
         self.draw_text(
             None,
-            1 + (self.viewmodel.metanemployed_offset % len(footer_text) * self.cell_width),
+            1 + (self.viewmodel.metanemployed_offset % len(footer_text) * self.viewmodel.cell_width),
             footer_text
         )
 

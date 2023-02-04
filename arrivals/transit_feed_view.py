@@ -241,7 +241,7 @@ class TransitFeedView(Observer, SampleBase):
                 self.light_mode_colors[key] = graphics.Color(*color)
             result = self.light_mode_colors[key]
             if key == '[0, 128, 251]':
-                if (self.viewmodel.stripes_offset // 4) % 2 == 0:
+                if (self.viewmodel.stripes_offset // 2) % 2 == 0:
                     result = graphics.Color(6, 104, 225)
             return result
         else:

@@ -218,17 +218,18 @@ class TransitFeedView(Observer, SampleBase):
 
         temperature = f' • {int(round(self.viewmodel.weather_hour.temp, 0))}°F' if self.viewmodel.weather_hour else ''
         
-        self.draw_text(
-            None,
-            1,
-            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
-        )
-
-        self.draw_text(
-            None,
-            1,
-            "31 and Meta'nemployed!!!"
-        )
+        if (datetime.now().second % 2 == 0):
+            self.draw_text(
+                None,
+                1,
+                f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
+            )
+        else:
+            self.draw_text(
+                None,
+                1,
+                "31 and Meta'nemployed!!!"
+            )
 
     def draw_text(self, row, x, text):
         graphics.DrawText(

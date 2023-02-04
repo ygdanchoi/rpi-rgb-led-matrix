@@ -220,7 +220,7 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         temperature = f' • {int(round(self.viewmodel.weather_hour.temp, 0))}°F' if self.viewmodel.weather_hour else ''
-        footer_text = f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p') + " • 31 and Meta'nemployed • "
+        footer_text = (f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')) + " • 31 and Meta'nemployed!!! • "
         
         self.draw_text(
             None,

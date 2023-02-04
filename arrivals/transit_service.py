@@ -373,20 +373,6 @@ class CompositeTransitService(BaseTransitService):
                 name="31 &",
                 description="Meta'nemployed!!!",
                 etas=[time.time() + 1 + 60 * 70, time.time() + 1 + 60 * 421],
-                color=[6, 104, 225]
-            ))
-            transit_lines.append(TransitLine(
-                key='31&',
-                name="31 &",
-                description="Meta'nemployed!!!",
-                etas=[time.time() + 1 + 60 * 70, time.time() + 1 + 60 * 421],
                 color=[0, 128, 251]
-            ))
-            transit_lines.append(TransitLine(
-                key='31&',
-                name="31 &",
-                description="Meta'nemployed!!!",
-                etas=[time.time() + 1 + 60 * 70, time.time() + 1 + 60 * 421],
-                color=[28, 43, 51]
             ))
         self.transit_lines = transit_lines

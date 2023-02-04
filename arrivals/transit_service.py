@@ -370,8 +370,8 @@ class CompositeTransitService(BaseTransitService):
             print(' ', end = '')
             transit_lines.append(TransitLine(
                 key='31&',
-                name="31 and",
-                description="Meta'nemployed",
+                name="31 &",
+                description="Meta'nemployed!!!!!",
                 etas=[time.time() + 1 + 60 * 1337, time.time() + 1 + 60 * 1337],
                 color=[6, 104, 225]
             ))

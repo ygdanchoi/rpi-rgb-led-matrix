@@ -78,7 +78,7 @@ class TransitFeedViewModel(Observable):
 
         while True:
             hh = datetime.now().hour
-            self.is_light_mode = True or 7 <= hh and hh < 22
+            self.is_light_mode = 7 <= hh and hh < 22
 
             if update_transit_lines_timer == 0:
                 await self.transit_service.update_transit_lines()
@@ -239,11 +239,7 @@ class TransitFeedView(Observer, SampleBase):
             key = str(color)
             if key not in self.light_mode_colors:
                 self.light_mode_colors[key] = graphics.Color(*color)
-            result = self.light_mode_colors[key]
-            if key == '[0, 128, 251]': # TODO remove this after party
-                if (self.viewmodel.stripes_offset // 2) % 2 == 0: # TODO remove this after party
-                    result = graphics.Color(6, 104, 225) # TODO remove this after party
-            return result
+            return self.light_mode_colors[key]
         else:
             return self.dark_mode_color
 

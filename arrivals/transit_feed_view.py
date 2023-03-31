@@ -67,6 +67,7 @@ class TransitFeedViewModel(Observable):
             self.increment_offsets()
             
             last_delta_s = (time.time_ns() - last_ns) / 1_000_000_000
+            print(last_delta_s)
             s_to_wait = max(0, 0.065 - last_delta_s)
             await asyncio.sleep(s_to_wait)
             last_ns = time.time_ns()

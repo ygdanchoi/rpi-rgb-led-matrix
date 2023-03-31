@@ -366,6 +366,6 @@ class CompositeTransitService(BaseTransitService):
                     print(f'{strftime} {response}')
                 else:
                     transit_lines.extend(response)
-                    print('.', end = '')
-            print(' ', end = '')
+                    # print('.', end = '')
+            # print(' ', end = '')
         self.transit_lines = transit_lines

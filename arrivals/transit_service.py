@@ -312,7 +312,7 @@ class CompositeTransitService(BaseTransitService):
     async def update_transit_lines(self):
         transit_lines = []
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
             futures = [
                 self.get_loop().run_in_executor(
                     executor, 

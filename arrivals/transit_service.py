@@ -305,6 +305,7 @@ class CompositeTransitService(BaseTransitService):
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
         self.transit_lines = []
+        self.executor = concurrent.futures.ProcessPoolExecutor()
     
     def get_loop(self):
         return asyncio.get_event_loop()
@@ -312,60 +313,58 @@ class CompositeTransitService(BaseTransitService):
     async def update_transit_lines(self):
         transit_lines = []
 
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            futures = [
-                self.get_loop().run_in_executor(
-                    executor, 
-                    self.mta_subway_service.get_transit_lines, 
-                    '626S', # 86 St
-                    '1', # southbound
-                    'gtfs' # 1234567
-                ),
-                self.get_loop().run_in_executor(
-                    executor, 
-                    self.mta_subway_service.get_transit_lines, 
-                    'Q05S', # 96 St
-                    '1', #? southbound
-                    'gtfs-nqrw' # NQRW
-                ),
-                self.get_loop().run_in_executor(
-                    executor, 
-                    self.mta_bus_service.get_transit_lines, 
-                    '401921', # E 86 ST/3 AV
-                    '1' # westbound
-                ),
-                self.get_loop().run_in_executor(
-                    executor, 
-                    self.mta_bus_service.get_transit_lines, 
-                    '401957', # E 96 ST/3 AV
-                    '1' # westbound
-                ),
-                # self.get_loop().run_in_executor(
-                #     executor, 
-                #     self.mta_bus_service.get_transit_lines, 
-                #     '404947', # LEXINGTON AV/E 92 ST
-                #     '1' # southbound
-                # ),
-                self.get_loop().run_in_executor(
-                    executor, 
-                    self.nyc_ferry_service.get_transit_lines, 
-                    '113', # East 90th Street
-                    '0' # southbound
-                )
-            ]
-            for response in await asyncio.gather(*futures, return_exceptions=True):
-                if isinstance(response, Exception):
-                    transit_lines.append(TransitLine(
-                        key='ERR!',
-                        name='ERR!',
-                        description=f'{response}',
-                        etas=[time.time() + 1 + 60 * 888888888],
-                        color=[255, 0, 0]
-                    ))
-                    strftime = time.strftime('%c', time.localtime())
-                    print(f'{strftime} {response}')
-                else:
-                    transit_lines.extend(response)
-                    # print('.', end = '')
-            # print(' ', end = '')
+        futures = [
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_subway_service.get_transit_lines, 
+                '626S', # 86 St
+                '1', # southbound
+                'gtfs' # 1234567
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_subway_service.get_transit_lines, 
+                'Q05S', # 96 St
+                '1', #? southbound
+                'gtfs-nqrw' # NQRW
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_bus_service.get_transit_lines, 
+                '401921', # E 86 ST/3 AV
+                '1' # westbound
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_bus_service.get_transit_lines, 
+                '401957', # E 96 ST/3 AV
+                '1' # westbound
+            ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '404947', # LEXINGTON AV/E 92 ST
+            #     '1' # southbound
+            # ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.nyc_ferry_service.get_transit_lines, 
+                '113', # East 90th Street
+                '0' # southbound
+            )
+        ]
+        for response in await asyncio.gather(*futures, return_exceptions=True):
+            if isinstance(response, Exception):
+                transit_lines.append(TransitLine(
+                    key='ERR!',
+                    name='ERR!',
+                    description=f'{response}',
+                    etas=[time.time() + 1 + 60 * 888888888],
+                    color=[255, 0, 0]
+                ))
+                strftime = time.strftime('%c', time.localtime())
+                print(f'{strftime} {response}')
+            else:
+                transit_lines.extend(response)
+        
         self.transit_lines = transit_lines

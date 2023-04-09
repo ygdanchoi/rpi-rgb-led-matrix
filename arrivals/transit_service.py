@@ -305,7 +305,7 @@ class CompositeTransitService(BaseTransitService):
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
         self.transit_lines = []
-        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+        self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
     
     def get_loop(self):
         return asyncio.get_event_loop()

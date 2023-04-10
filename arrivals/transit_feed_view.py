@@ -262,9 +262,9 @@ class TransitFeedView(Observer, SampleBase):
                 self.offscreen_canvas.SetPixel(
                     x,
                     1,
-                    127,
-                    127,
-                    127
+                    95,
+                    95,
+                    95
                 )
 
             for line_to_draw in lines_to_draw:

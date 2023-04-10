@@ -137,7 +137,7 @@ class TransitFeedView(Observer, SampleBase):
     def run(self):
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
-        self.font.LoadFont('../fonts/4x6.bdf')
+        self.font.LoadFont('../fonts/tom-thumb.bdf')
         self.dark_mode_color = graphics.Color(47, 0, 0)
         self.light_mode_colors = {}
 
@@ -226,7 +226,8 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        text = str(self.viewmodel.google_directions)
+        routes = self.viewmodel.google_directions['routes']
+        text = str(routes)
 
         graphics.DrawText(
             self.offscreen_canvas,

@@ -266,6 +266,14 @@ class TransitFeedView(Observer, SampleBase):
                         line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
                         line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
                     )
+                elif x % 2 == self.stripes_offset % 2:
+                    self.offscreen_canvas.SetPixel(
+                        x,
+                        1,
+                        255,
+                        255,
+                        255
+                    )
 
         for line_to_draw in lines_to_draw:
             graphics.DrawText(
@@ -285,7 +293,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             1,
-            self.viewmodel.cell_height + 0,
+            self.viewmodel.cell_height + 1,
             self.get_text_color([255, 255, 255]),
             datetime.fromtimestamp(departure_time).strftime('%-I:%M')
         )
@@ -295,7 +303,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             self.offscreen_canvas.width - self.viewmodel.cell_width * len(right_align_text) - 1,
-            self.viewmodel.cell_height + 0,
+            self.viewmodel.cell_height + 1,
             self.get_text_color([255, 255, 255]),
             right_align_text
         )

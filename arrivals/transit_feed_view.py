@@ -229,7 +229,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             1,
-            1,
+            5,
             self.get_text_color([255, 255, 255]),
             'hello'
         )

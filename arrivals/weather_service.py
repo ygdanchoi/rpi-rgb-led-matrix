@@ -18,29 +18,30 @@ class WeatherService:
         self.longitude = -73.954
 
     def get_weather(self):
-        try:
-            response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
-                'lat': self.latitude,
-                'lon': self.longitude,
-                'units': 'imperial'
-            }, headers={
-                'x-rapidapi-key': config.weather_api_key_backup,
-                'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
-                'useQueryString': 'true'
-            })
-            weather = json.loads(response.content)['data'][0]
-            return WeatherHour(
-                ts=weather['ts'],
-                temp=weather['temp'],
-                pop=100 if weather['precip'] + weather['snow'] > 0 else 0,
-                uv=weather['uv'],
-                icon=weather['weather']['icon'],
-                code=weather['weather']['code'],
-                description=weather['weather']['description']
-            )
-        except Exception as error:
-            traceback.print_exc()
-            return None 
+        return None # TODO re-enable
+        # try:
+        #     response = requests.get('https://weatherbit-v1-mashape.p.rapidapi.com/current', params={
+        #         'lat': self.latitude,
+        #         'lon': self.longitude,
+        #         'units': 'imperial'
+        #     }, headers={
+        #         'x-rapidapi-key': config.weather_api_key_backup,
+        #         'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com',
+        #         'useQueryString': 'true'
+        #     })
+        #     weather = json.loads(response.content)['data'][0]
+        #     return WeatherHour(
+        #         ts=weather['ts'],
+        #         temp=weather['temp'],
+        #         pop=100 if weather['precip'] + weather['snow'] > 0 else 0,
+        #         uv=weather['uv'],
+        #         icon=weather['weather']['icon'],
+        #         code=weather['weather']['code'],
+        #         description=weather['weather']['description']
+        #     )
+        # except Exception as error:
+        #     traceback.print_exc()
+        #     return None 
 
     def get_forecast(self):
         try:

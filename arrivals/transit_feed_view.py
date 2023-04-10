@@ -1,4 +1,5 @@
 import asyncio
+import json
 import time
 
 from datetime import datetime
@@ -47,6 +48,8 @@ class TransitFeedViewModel(Observable):
         self.weather_hour = None
         self.is_light_mode = True
 
+        self.google_directions = ''
+
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())
     
@@ -92,6 +95,8 @@ class TransitFeedViewModel(Observable):
 
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
+
+            self.google_directions = json.loads(open('weather_mock_forecast.json').read())
             
             await asyncio.sleep(1)
     
@@ -162,6 +167,7 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
+        self.draw_header()
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
@@ -210,6 +216,19 @@ class TransitFeedView(Observer, SampleBase):
             row,
             1,
             f'{row.name[:(self.viewmodel.idx_desc - 1)]:<{self.viewmodel.idx_desc}}{row.description[:(self.viewmodel.idx_etas - self.viewmodel.idx_desc - 2)]:<{self.viewmodel.idx_etas - self.viewmodel.idx_desc}}{row.etas}'
+        )
+
+    def draw_header(self):
+        for yy in range(0, self.viewmodel.cell_height):
+            for xx in range(0, self.offscreen_canvas.width):
+                self.draw_stripe_pixel(xx, yy, [255, 255, 255])
+
+        print(self.google_directions['status'])
+        
+        self.draw_text(
+            None,
+            1,
+            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
         )
 
     def draw_footer(self):

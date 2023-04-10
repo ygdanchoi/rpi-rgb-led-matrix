@@ -1,0 +1,2335 @@
+{
+    "geocoded_waypoints" : [
+       {
+          "geocoder_status" : "OK",
+          "place_id" : "ChIJq2s6k6RYwokRj6eqgGTqbAM",
+          "types" : [ "premise" ]
+       },
+       {
+          "geocoder_status" : "OK",
+          "place_id" : "ChIJrY7iCBf3wokRHxIBS5qZTjw",
+          "types" : [ "premise" ]
+       }
+    ],
+    "routes" : [
+       {
+          "bounds" : {
+             "northeast" : {
+                "lat" : 40.8535639,
+                "lng" : -73.95205609999999
+             },
+             "southwest" : {
+                "lat" : 40.751431,
+                "lng" : -74.05241010000002
+             }
+          },
+          "copyrights" : "Map data ©2023 Google",
+          "legs" : [
+             {
+                "arrival_time" : {
+                   "text" : "2:52 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681152750
+                },
+                "departure_time" : {
+                   "text" : "2:02 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681149760
+                },
+                "distance" : {
+                   "text" : "14.9 mi",
+                   "value" : 23962
+                },
+                "duration" : {
+                   "text" : "50 mins",
+                   "value" : 2990
+                },
+                "end_address" : "464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                "end_location" : {
+                   "lat" : 40.8531829,
+                   "lng" : -73.99694629999999
+                },
+                "start_address" : "172 E 91st St, New York, NY 10128, USA",
+                "start_location" : {
+                   "lat" : 40.7821134,
+                   "lng" : -73.9520759
+                },
+                "steps" : [
+                   {
+                      "distance" : {
+                         "text" : "0.3 mi",
+                         "value" : 528
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 411
+                      },
+                      "end_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "html_instructions" : "Walk to 86th Street",
+                      "polyline" : {
+                         "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^ABfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBBA@n@?"
+                      },
+                      "start_location" : {
+                         "lat" : 40.7821134,
+                         "lng" : -73.9520759
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "387 ft",
+                               "value" : 118
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 89
+                            },
+                            "end_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eE 91st St\u003c/b\u003e toward \u003cb\u003eLexington Ave\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^AB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7821134,
+                               "lng" : -73.9520759
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 384
+                            },
+                            "duration" : {
+                               "text" : "5 mins",
+                               "value" : 295
+                            },
+                            "end_location" : {
+                               "lat" : 40.7797217,
+                               "lng" : -73.9555771
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eLexington Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wj|wFx_kbMfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "1 ft",
+                               "value" : 0
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 27
+                            },
+                            "end_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003eLexington Ave & 86th St at NW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ix{wFlmkbM"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "85 ft",
+                               "value" : 26
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 0
+                            },
+                            "end_location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "polyline" : {
+                               "points" : "ix{wFlmkbMn@?"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "2.2 mi",
+                         "value" : 3590
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 390
+                      },
+                      "end_location" : {
+                         "lat" : 40.751778,
+                         "lng" : -73.976845
+                      },
+                      "html_instructions" : "Subway towards Flatbush Av-Brooklyn College",
+                      "polyline" : {
+                         "points" : "yv{wFlmkbMtc@xYfa@|W`b@pXz`@vWz\\vTDDDDFDDDDFDDBFDHBFBHBFBJ@HBJ@Jd@~C"
+                      },
+                      "start_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.751778,
+                               "lng" : -73.976845
+                            },
+                            "name" : "Grand Central - 42 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:16 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681150562
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "name" : "86th Street"
+                         },
+                         "departure_time" : {
+                            "text" : "2:09 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681150172
+                         },
+                         "headsign" : "Flatbush Av-Brooklyn College",
+                         "headway" : 120,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#00933c",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/5.png",
+                            "name" : "5 Line",
+                            "short_name" : "5",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 2
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "253 ft",
+                         "value" : 77
+                      },
+                      "duration" : {
+                         "text" : "1 min",
+                         "value" : 78
+                      },
+                      "end_location" : {
+                         "lat" : 40.751431,
+                         "lng" : -73.976044
+                      },
+                      "html_instructions" : "Walk to Grand Central - 42 St",
+                      "polyline" : {
+                         "points" : "sivwFfrobMdA_D"
+                      },
+                      "start_location" : {
+                         "lat" : 40.751778,
+                         "lng" : -73.976845
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "253 ft",
+                               "value" : 77
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 78
+                            },
+                            "end_location" : {
+                               "lat" : 40.751431,
+                               "lng" : -73.976044
+                            },
+                            "polyline" : {
+                               "points" : "sivwFfrobMdA_D"
+                            },
+                            "start_location" : {
+                               "lat" : 40.751778,
+                               "lng" : -73.976845
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.7 mi",
+                         "value" : 1097
+                      },
+                      "duration" : {
+                         "text" : "3 mins",
+                         "value" : 180
+                      },
+                      "end_location" : {
+                         "lat" : 40.755478,
+                         "lng" : -73.98769399999999
+                      },
+                      "html_instructions" : "Subway towards 34 St-Hudson Yards",
+                      "polyline" : {
+                         "points" : "mgvwFfmobM_EhMCJCLCJAJCLELcDfKEPENAFAFAFADENCLcA`DENENELELELCLENCJELCJELCLCJCJCLAHCJAJAHAJ?FAJ?HAF?H?H@H?F@F?HDR@LBJ@L@L@J?J@JAJ?J?JAJAJCHAHCJwFhQ"
+                      },
+                      "start_location" : {
+                         "lat" : 40.751431,
+                         "lng" : -73.976044
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.755478,
+                               "lng" : -73.98769399999999
+                            },
+                            "name" : "Times Sq - 42 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:20 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681150828
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.751431,
+                               "lng" : -73.976044
+                            },
+                            "name" : "Grand Central - 42 St"
+                         },
+                         "departure_time" : {
+                            "text" : "2:17 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681150648
+                         },
+                         "headsign" : "34 St-Hudson Yards",
+                         "headway" : 300,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#b933ad",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/7.png",
+                            "name" : "Line 7, NYC Subway",
+                            "short_name" : "7",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 2
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 310
+                      },
+                      "duration" : {
+                         "text" : "5 mins",
+                         "value" : 312
+                      },
+                      "end_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "html_instructions" : "Walk to Port Authority Bus Terminal",
+                      "polyline" : {
+                         "points" : "w`wwF`vqbMQ@wE`Pv@~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.755478,
+                         "lng" : -73.98769399999999
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "33 ft",
+                               "value" : 10
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 11
+                            },
+                            "end_location" : {
+                               "lat" : 40.7555722,
+                               "lng" : -73.9876951
+                            },
+                            "html_instructions" : "Take exit \u003cspan class=\"location\"\u003e7th Ave & 41st St at NW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "w`wwF`vqbMQ@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.755478,
+                               "lng" : -73.98769399999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 259
+                            },
+                            "duration" : {
+                               "text" : "4 mins",
+                               "value" : 259
+                            },
+                            "end_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "polyline" : {
+                               "points" : "iawwFbvqbMwE`P"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7555722,
+                               "lng" : -73.9876951
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "135 ft",
+                               "value" : 41
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 42
+                            },
+                            "end_location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003e\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ahwwFdgrbMv@~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "11.2 mi",
+                         "value" : 18069
+                      },
+                      "duration" : {
+                         "text" : "19 mins",
+                         "value" : 1139
+                      },
+                      "end_location" : {
+                         "lat" : 40.85261999999999,
+                         "lng" : -73.994404
+                      },
+                      "html_instructions" : "Bus towards t Turnpike Express Dumont",
+                      "polyline" : {
+                         "points" : "ifwwFdirbM?Bw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@?b@@^TdBHj@DZBPHp@Al@CVK\\_@dAsAdEi@vBg@tDERMj@K\\M^u@`CkDrKMl@GXGRGZEPCFGXK^CJcIjWmAvDo@pBoAbE{AxEqNxc@Wx@yBbHe@xASx@[|AOhAEx@?x@Dt@H|@DVDRH\\Jd@Vn@p@hAx@|@hBxAv@p@x@f@z@`@ZJ\\Lt@XTJHFZX|@r@TLXHZ?PCXGZKTKNMVa@Xk@Lg@Fq@@e@Cc@Ge@EOEQQa@U[YWYMSKeAc@aA_@uBo@_@Iy@S}@ScASi@Iy@M_AM}@GI?I?E?YBYFYJm@XURWREFOPc@t@y@~BeA~C_ApCiBnFQf@{@lCq@xB[dAq@|BcAjDqAxDmC~G[t@cC~FETM`@m@zAi@xAa@pAO^Sn@Sl@[lAk@rBcBrGkArEK`@e@jB_@zAGV_@xAW|@c@`BSx@w@tCK`@St@g@nBi@vBeCfJOj@IXy@dDe@nBaApDkBdHWbAU|@{@hDMXi@fA]n@Y`@Y^GFe@\\c@Ni@N]BaAC}C]]E}Gu@aBWw@U}@Wu@]a@Sy@e@k@c@aA{@kC}BsAmAa@]OO[YWM_@OeAeAEE}@{@iAeA{CqCwCqCUUmDeDsDoDqBmBmJ}ImGaGaAaA_HsGsJ_JeEeEwBoBuBuB}CuC{AsAUUoAeAg@_@oDsCoBsAiBmAmBkAqBiAqDiBoDaBgCaAeC}@uDkAaCo@_Ci@WIm@O]GYEKC_BYmCc@_Ee@qE_@eAKgLaAsJy@gBO}D]iGi@g@EaBMWCoAMy@IeBW{A]OEkA]{Ai@cBu@eAi@KE[Qq@c@iAu@YSYUy@q@c@[UOQQWQMQWQmAcAcDeCy@m@aBoAuA}@oEeDaBiAiAw@{Ay@}Au@aBo@aBi@mF{AyGmB}@[_@MqC_AIAgBg@{AYSCg@EWC}CSg@Eu@AsACu@?u@[kAY}@WwAc@i@OSK]SY_@S_@IUIWE]AW?g@Dy@He@^wA`@yA`@qALc@PsARaADe@DyA?oAE}@H}EBcBFiBFsA?IFy@BYLwAFi@L}@D[BWDc@FQF_@f@oDZ{CL}A?eA@cBFOBSH{BBg@B]NgAJm@FUHWJUPa@Tc@BGOMWO{@k@A@QMk@_@mAw@wBwAuCiB]UMIGCiBkAqCgBc@YaBiAeC{Ag@]cBgAaAq@eBeA}@m@aAm@g@]]UIEo@c@k@a@_@UGE[SkAu@KGy@k@o@a@BK"
+                      },
+                      "start_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.85261999999999,
+                               "lng" : -73.994404
+                            },
+                            "name" : "Broad Ave At E Edsall Blvd"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:48 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152539
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "name" : "Port Authority Bus Terminal"
+                         },
+                         "departure_time" : {
+                            "text" : "2:30 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151400
+                         },
+                         "headsign" : "t Turnpike Express Dumont",
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "NJ TRANSIT BUS",
+                                  "phone" : "1 (973) 275-5555",
+                                  "url" : "http://www.njtransit.com/"
+                               }
+                            ],
+                            "color" : "#000000",
+                            "name" : "166",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                               "name" : "Bus",
+                               "type" : "BUS"
+                            }
+                         },
+                         "num_stops" : 5
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 291
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 210
+                      },
+                      "end_location" : {
+                         "lat" : 40.8531829,
+                         "lng" : -73.99694629999999
+                      },
+                      "html_instructions" : "Walk to 464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                      "polyline" : {
+                         "points" : "}_jxFb`sbMj@\\INa@z@w@~A]p@MXGNg@bAe@bAHJ`A~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.8526259,
+                         "lng" : -73.9944184
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "98 ft",
+                               "value" : 30
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 21
+                            },
+                            "end_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "html_instructions" : "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eBroad Ave\u003c/b\u003e toward \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "}_jxFb`sbMj@\\"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8526259,
+                               "lng" : -73.9944184
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.1 mi",
+                               "value" : 212
+                            },
+                            "duration" : {
+                               "text" : "2 mins",
+                               "value" : 144
+                            },
+                            "end_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "maneuver" : "turn-right",
+                            "polyline" : {
+                               "points" : "q~ixF`asbMINa@z@w@~A]p@MXGNg@bAe@bA"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "161 ft",
+                               "value" : 49
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 45
+                            },
+                            "end_location" : {
+                               "lat" : 40.8531829,
+                               "lng" : -73.99694629999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eHillside Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wejxFpmsbMHJ`A~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   }
+                ],
+                "traffic_speed_entry" : [],
+                "via_waypoint" : []
+             }
+          ],
+          "overview_polyline" : {
+             "points" : "eg|wFnwjbM?C?BUp@aA|CITOb@dBlATL|BzAzE|CxBzAl@@tc@xY`dC~_BXVT^Nd@l@`EdA_D_EhMMp@sDtLKf@gB`Gg@lBMn@Il@Cd@@d@RfB?n@Gl@}F~QQ@wE`Pv@bAw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@@bAh@~DHp@Al@Ot@sBjGi@vBg@tDS~@Y|@aFtOUfAYhASx@gIvWiHfUiTpq@o@vCOhAEx@?x@Dt@NtANp@Jd@Vn@p@hAx@|@`DjCx@f@z@`@x@XjAd@d@`@rA`AXHZ?j@Kp@WNMVa@Xk@Lg@HwAKiAKa@Qa@U[YWYMyAo@wDoAyA]aCg@cBW}BUS?_@Bs@Rm@XUR]Zs@fA_C~GwFvPcEhNqAxDmC~G_DtHSv@wAtDyAnEwFhTyA`GoFpSiEdP_BtGmDvMm@`C{@hDMXgAvBs@`Am@d@mA^]BaAC{Dc@}Gu@aBWuBm@wAq@y@e@k@c@mEyDuBkBk@i@w@]sEmEwN_NeH}G{R_RaJuIsJ_JeEeEmFeFyFiFeB{AwEsDyEaD_FuCaJkEmG_CuDkAaCo@wCs@qBa@mF}@_Ee@qE_@mNmA{MiAqQ{AgBQ_Da@kBc@gDgAiD_Bg@W{ByAs@i@eCoBWQMQeBuA}EsDaBoAuA}@qHoFiAw@{Ay@}Au@aBo@oIeCwIiCqDmAqBi@oB]eGc@iCEu@?u@[iCq@aCs@q@_@m@_ASm@Gu@DaBh@}BbAkDLc@PsARaADe@DiDE}@H}EJmEF}AJsATaCRyAH{@Nq@f@oDZ{CL}A?eA@cBFOLoCFeAZuBPm@\\w@Xk@g@]{@k@SKgKyG}CoB}KgHsH}EeEoCeCaB{BwAiBmABKABj@\\INyAzC{A~Ce@bAHJ`A~@"
+          },
+          "summary" : "",
+          "warnings" : [
+             "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+          ],
+          "waypoint_order" : []
+       },
+       {
+          "bounds" : {
+             "northeast" : {
+                "lat" : 40.8535639,
+                "lng" : -73.94715099999999
+             },
+             "southwest" : {
+                "lat" : 40.754673,
+                "lng" : -74.05241010000002
+             }
+          },
+          "copyrights" : "Map data ©2023 Google",
+          "legs" : [
+             {
+                "arrival_time" : {
+                   "text" : "3:22 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681154550
+                },
+                "departure_time" : {
+                   "text" : "2:21 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681150900
+                },
+                "distance" : {
+                   "text" : "15.7 mi",
+                   "value" : 25263
+                },
+                "duration" : {
+                   "text" : "1 hour 1 min",
+                   "value" : 3650
+                },
+                "end_address" : "464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                "end_location" : {
+                   "lat" : 40.8531829,
+                   "lng" : -73.99694629999999
+                },
+                "start_address" : "172 E 91st St, New York, NY 10128, USA",
+                "start_location" : {
+                   "lat" : 40.7821134,
+                   "lng" : -73.9520759
+                },
+                "steps" : [
+                   {
+                      "distance" : {
+                         "text" : "0.4 mi",
+                         "value" : 659
+                      },
+                      "duration" : {
+                         "text" : "8 mins",
+                         "value" : 470
+                      },
+                      "end_location" : {
+                         "lat" : 40.784317,
+                         "lng" : -73.94715099999999
+                      },
+                      "html_instructions" : "Walk to 96 St",
+                      "polyline" : {
+                         "points" : "eg|wFnwjbMPo@?@@CPm@@EKIJYNi@b@qAb@qANe@\\aADKJ[DK@EIEQM_Am@WUABQMCAi@_@_@Q[[ABUM@CMIw@g@a@Y?@UO?AECg@[[U]U?@QKCABGIEc@YSOIEKPi@_A"
+                      },
+                      "start_location" : {
+                         "lat" : 40.7821134,
+                         "lng" : -73.9520759
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 251
+                            },
+                            "duration" : {
+                               "text" : "3 mins",
+                               "value" : 171
+                            },
+                            "end_location" : {
+                               "lat" : 40.7811074,
+                               "lng" : -73.9495525
+                            },
+                            "html_instructions" : "Head \u003cb\u003esoutheast\u003c/b\u003e on \u003cb\u003eE 91st St\u003c/b\u003e toward \u003cb\u003e3rd Ave\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "eg|wFnwjbMPo@?@@CPm@@EKIJYNi@b@qAb@qANe@\\aADKJ[DK@E"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7821134,
+                               "lng" : -73.9520759
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 373
+                            },
+                            "duration" : {
+                               "text" : "4 mins",
+                               "value" : 263
+                            },
+                            "end_location" : {
+                               "lat" : 40.7840455,
+                               "lng" : -73.9473771
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003e2nd Ave\u003c/b\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "}`|wFtgjbMIEQM_Am@WUABQMCAi@_@_@Q[[ABUM@CMIw@g@a@Y?@UO?AECg@[[U]U?@QKCABGIEc@YSOIE"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7811074,
+                               "lng" : -73.9495525
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "115 ft",
+                               "value" : 35
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 36
+                            },
+                            "end_location" : {
+                               "lat" : 40.784317,
+                               "lng" : -73.94715099999999
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003e2nd Ave & 96th St at SW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "us|wFtzibMi@_A"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7841067,
+                               "lng" : -73.94746649999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "3.6 mi",
+                         "value" : 5821
+                      },
+                      "duration" : {
+                         "text" : "12 mins",
+                         "value" : 720
+                      },
+                      "end_location" : {
+                         "lat" : 40.754673,
+                         "lng" : -73.986755
+                      },
+                      "html_instructions" : "Subway towards Coney Island-Stillwell Av",
+                      "polyline" : {
+                         "points" : "_u|wFtxibMp@RvBnAhb@xXxBvAts@ne@hCdBtTzN`@^\\^Zb@Tb@Rd@Nd@Jh@Hh@Bh@@l@Al@El@In@Mp@Or@cCtHwLr_@ELCJEJEHEJEJEJEHEJEHEFEJEFEHEH_GfL_@bAY`AU|@O|@Ix@Cv@?t@Fr@Jp@Pn@Tj@\\j@b@h@f@d@l@d@dJfG|HfFv\\vTbIfFRLVLTLTLVLVJVLXHVJXJXHXHXJZFZH~InB"
+                      },
+                      "start_location" : {
+                         "lat" : 40.784317,
+                         "lng" : -73.94715099999999
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.754673,
+                               "lng" : -73.986755
+                            },
+                            "name" : "Times Sq - 42 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:41 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152090
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.784317,
+                               "lng" : -73.94715099999999
+                            },
+                            "name" : "96 St"
+                         },
+                         "departure_time" : {
+                            "text" : "2:29 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151370
+                         },
+                         "headsign" : "Coney Island-Stillwell Av",
+                         "headway" : 480,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#f2c40a",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/Q.png",
+                            "name" : "Q Line",
+                            "short_name" : "Q",
+                            "text_color" : "#000000",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 5
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.3 mi",
+                         "value" : 423
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 425
+                      },
+                      "end_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "html_instructions" : "Walk to Port Authority Bus Terminal",
+                      "polyline" : {
+                         "points" : "u{vwFfpqbMmBtB}GfRv@~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.754673,
+                         "lng" : -73.986755
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "259 ft",
+                               "value" : 79
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 80
+                            },
+                            "end_location" : {
+                               "lat" : 40.7552218,
+                               "lng" : -73.98735409999999
+                            },
+                            "html_instructions" : "Take exit \u003cspan class=\"location\"\u003e7th Ave & 41st St at SE corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "u{vwFfpqbMmBtB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.754673,
+                               "lng" : -73.986755
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 303
+                            },
+                            "duration" : {
+                               "text" : "5 mins",
+                               "value" : 303
+                            },
+                            "end_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "polyline" : {
+                               "points" : "c_wwF|sqbM}GfR"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7552218,
+                               "lng" : -73.98735409999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "135 ft",
+                               "value" : 41
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 42
+                            },
+                            "end_location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003e\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ahwwFdgrbMv@~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "11.2 mi",
+                         "value" : 18069
+                      },
+                      "duration" : {
+                         "text" : "24 mins",
+                         "value" : 1439
+                      },
+                      "end_location" : {
+                         "lat" : 40.85261999999999,
+                         "lng" : -73.994404
+                      },
+                      "html_instructions" : "Bus towards t Turnpike Express Bergenfield",
+                      "polyline" : {
+                         "points" : "ifwwFdirbM?Bw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@?b@@^TdBHj@DZBPHp@Al@CVK\\_@dAsAdEi@vBg@tDERMj@K\\M^u@`CkDrKMl@GXGRGZEPCFGXK^CJcIjWmAvDo@pBoAbE{AxEqNxc@Wx@yBbHe@xASx@[|AOhAEx@?x@Dt@H|@DVDRH\\Jd@Vn@p@hAx@|@hBxAv@p@x@f@z@`@ZJ\\Lt@XTJHFZX|@r@TLXHZ?PCXGZKTKNMVa@Xk@Lg@Fq@@e@Cc@Ge@EOEQQa@U[YWYMSKeAc@aA_@uBo@_@Iy@S}@ScASi@Iy@M_AM}@GI?I?E?YBYFYJm@XURWREFOPc@t@y@~BeA~C_ApCiBnFQf@{@lCq@xB[dAq@|BcAjDqAxDmC~G[t@cC~FETM`@m@zAi@xAa@pAO^Sn@Sl@[lAk@rBcBrGkArEK`@e@jB_@zAGV_@xAW|@c@`BSx@w@tCK`@St@g@nBi@vBeCfJOj@IXy@dDe@nBaApDkBdHWbAU|@{@hDMXi@fA]n@Y`@Y^GFe@\\c@Ni@N]BaAC}C]]E}Gu@aBWw@U}@Wu@]a@Sy@e@k@c@aA{@kC}BsAmAa@]OO[YWM_@OeAeAEE}@{@iAeA{CqCwCqCUUmDeDsDoDqBmBmJ}ImGaGaAaA_HsGsJ_JeEeEwBoBuBuB}CuC{AsAUUoAeAg@_@oDsCoBsAiBmAmBkAqBiAqDiBoDaBgCaAeC}@uDkAaCo@_Ci@WIm@O]GYEKC_BYmCc@_Ee@qE_@eAKgLaAsJy@gBO}D]iGi@g@EaBMWCoAMy@IeBW{A]OEkA]{Ai@cBu@eAi@KE[Qq@c@iAu@YSYUy@q@c@[UOQQWQMQWQmAcAcDeCy@m@aBoAuA}@oEeDaBiAiAw@{Ay@}Au@aBo@aBi@mF{AyGmB}@[_@MqC_AIAgBg@{AYSCg@EWC}CSg@Eu@AsACu@?u@[kAY}@WwAc@i@OSK]SY_@S_@IUIWE]AW?g@Dy@He@^wA`@yA`@qALc@PsARaADe@DyA?oAE}@H}EBcBFiBFsA?IFy@BYLwAFi@L}@D[BWDc@FQF_@f@oDZ{CL}A?eA@cBFOBSH{BBg@B]NgAJm@FUHWJUPa@Tc@BGOMWO{@k@A@QMk@_@mAw@wBwAuCiB]UMIGCiBkAqCgBc@YaBiAeC{Ag@]cBgAaAq@eBeA}@m@aAm@g@]]UIEo@c@k@a@_@UGE[SkAu@KGy@k@o@a@BK"
+                      },
+                      "start_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.85261999999999,
+                               "lng" : -73.994404
+                            },
+                            "name" : "Broad Ave At E Edsall Blvd"
+                         },
+                         "arrival_time" : {
+                            "text" : "3:18 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681154339
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "name" : "Port Authority Bus Terminal"
+                         },
+                         "departure_time" : {
+                            "text" : "2:55 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152900
+                         },
+                         "headsign" : "t Turnpike Express Bergenfield",
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "NJ TRANSIT BUS",
+                                  "phone" : "1 (973) 275-5555",
+                                  "url" : "http://www.njtransit.com/"
+                               }
+                            ],
+                            "color" : "#000000",
+                            "name" : "166",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                               "name" : "Bus",
+                               "type" : "BUS"
+                            }
+                         },
+                         "num_stops" : 5
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 291
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 210
+                      },
+                      "end_location" : {
+                         "lat" : 40.8531829,
+                         "lng" : -73.99694629999999
+                      },
+                      "html_instructions" : "Walk to 464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                      "polyline" : {
+                         "points" : "}_jxFb`sbMj@\\INa@z@w@~A]p@MXGNg@bAe@bAHJ`A~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.8526259,
+                         "lng" : -73.9944184
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "98 ft",
+                               "value" : 30
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 21
+                            },
+                            "end_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "html_instructions" : "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eBroad Ave\u003c/b\u003e toward \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "}_jxFb`sbMj@\\"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8526259,
+                               "lng" : -73.9944184
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.1 mi",
+                               "value" : 212
+                            },
+                            "duration" : {
+                               "text" : "2 mins",
+                               "value" : 144
+                            },
+                            "end_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "maneuver" : "turn-right",
+                            "polyline" : {
+                               "points" : "q~ixF`asbMINa@z@w@~A]p@MXGNg@bAe@bA"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "161 ft",
+                               "value" : 49
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 45
+                            },
+                            "end_location" : {
+                               "lat" : 40.8531829,
+                               "lng" : -73.99694629999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eHillside Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wejxFpmsbMHJ`A~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   }
+                ],
+                "traffic_speed_entry" : [],
+                "via_waypoint" : []
+             }
+          ],
+          "overview_polyline" : {
+             "points" : "eg|wFnwjbMd@_B@EKIZcAtBkGXy@[SwAcAABQMCAiAq@[[ABUM@CeAq@a@WUQgBkAQICABGm@_@]UKPi@_Ap@RvBnAbf@p[~w@th@tTzN`@^x@bAh@hAZnALrA?zAO|A]dBeQbj@Wl@o@pAeGpLy@dCe@zBMpB?t@Fr@\\`Br@vAjAnArKlHtf@~[vItFl@Z|At@dBj@jBf@~InBmBtB}GfRv@bAw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@@bA^pCHl@Hp@Al@Ot@sBjGi@vBg@tDS~@{FrQe@vB]rAeM`a@kD|KiOre@_D|Jo@vCOhAEx@?x@Dt@NtANp@Jd@Vn@p@hAx@|@`DjCx@f@z@`@x@XjAd@d@`@rA`AXHZ?j@Kp@WNMVa@Xk@Lg@HwAKiAKa@Qa@U[YWYMyAo@wDoA{EeAcBW}BUs@Bs@Rm@XUR]Zs@fAiH`T{CtJuBhHqAxDmC~G_DtHSv@wAtDq@pBg@|AgA`EaFtR_BjG{BrIkFdSyBzI{ExQ{@hDMXgAvBs@`Am@d@mA^]BaAC{Dc@}Gu@aBWuBm@wAq@y@e@k@c@mEyDaDuCw@]kAkA{LeLiNyM{R_RaJuIsJ_JeEeEmFeFyFiFeB{AwEsDyEaD_FuCaJkEmG_CuDkAaCo@wCs@kAWsGgA_Ee@qE_@mNmAc\\qCqFe@_Da@kBc@gDgAiD_Bg@W{ByAqCwBg@a@WQMQeBuA}EsDaBoAuA}@qHoFiAw@{Ay@}Au@aBo@oIeCwIiCqDmAqBi@oB]_AIeEYiCEu@?u@[iCq@aCs@q@_@m@_ASm@Gu@DaBh@}BbAkDLc@PsARaADe@DiDE}@H}EJmEF}A`@uE\\uCNq@f@oDZ{CL}A?eA@cBFOLoCFeAZuBPm@v@cBcBiASKyBwAyHaFgHqEgFeDkCeBgHsE_C}AoBqAaEkCBKABj@\\INyAzCk@jAo@rAe@bAHJ`A~@"
+          },
+          "summary" : "",
+          "warnings" : [
+             "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+          ],
+          "waypoint_order" : []
+       },
+       {
+          "bounds" : {
+             "northeast" : {
+                "lat" : 40.8535639,
+                "lng" : -73.95205609999999
+             },
+             "southwest" : {
+                "lat" : 40.7563719,
+                "lng" : -74.05241010000002
+             }
+          },
+          "copyrights" : "Map data ©2023 Google",
+          "legs" : [
+             {
+                "arrival_time" : {
+                   "text" : "3:22 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681154550
+                },
+                "departure_time" : {
+                   "text" : "2:22 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681150928
+                },
+                "distance" : {
+                   "text" : "15.2 mi",
+                   "value" : 24470
+                },
+                "duration" : {
+                   "text" : "1 hour 0 mins",
+                   "value" : 3622
+                },
+                "end_address" : "464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                "end_location" : {
+                   "lat" : 40.8531829,
+                   "lng" : -73.99694629999999
+                },
+                "start_address" : "172 E 91st St, New York, NY 10128, USA",
+                "start_location" : {
+                   "lat" : 40.7821134,
+                   "lng" : -73.9520759
+                },
+                "steps" : [
+                   {
+                      "distance" : {
+                         "text" : "0.3 mi",
+                         "value" : 528
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 411
+                      },
+                      "end_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "html_instructions" : "Walk to 86th Street",
+                      "polyline" : {
+                         "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^ABfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBBA@n@?"
+                      },
+                      "start_location" : {
+                         "lat" : 40.7821134,
+                         "lng" : -73.9520759
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "387 ft",
+                               "value" : 118
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 89
+                            },
+                            "end_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eE 91st St\u003c/b\u003e toward \u003cb\u003eLexington Ave\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^AB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7821134,
+                               "lng" : -73.9520759
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 384
+                            },
+                            "duration" : {
+                               "text" : "5 mins",
+                               "value" : 295
+                            },
+                            "end_location" : {
+                               "lat" : 40.7797217,
+                               "lng" : -73.9555771
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eLexington Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wj|wFx_kbMfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "85 ft",
+                               "value" : 26
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 27
+                            },
+                            "end_location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003eLexington Ave & 86th St at NW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ix{wFlmkbMn@?"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "1.8 mi",
+                         "value" : 2843
+                      },
+                      "duration" : {
+                         "text" : "8 mins",
+                         "value" : 450
+                      },
+                      "end_location" : {
+                         "lat" : 40.757107,
+                         "lng" : -73.97191599999999
+                      },
+                      "html_instructions" : "Subway towards Brooklyn Bridge-City Hall",
+                      "polyline" : {
+                         "points" : "yv{wFlmkbMtc@xYfa@|W`b@pXz`@vW"
+                      },
+                      "start_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.757107,
+                               "lng" : -73.97191599999999
+                            },
+                            "name" : "51 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:36 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151790
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "name" : "86th Street"
+                         },
+                         "departure_time" : {
+                            "text" : "2:29 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151340
+                         },
+                         "headsign" : "Brooklyn Bridge-City Hall",
+                         "headway" : 240,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#00933c",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/6.png",
+                            "name" : "Line 6, NYC Subway",
+                            "short_name" : "6",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 4
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 246
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 247
+                      },
+                      "end_location" : {
+                         "lat" : 40.757553,
+                         "lng" : -73.969055
+                      },
+                      "html_instructions" : "Walk to Lexington Av/53 St",
+                      "polyline" : {
+                         "points" : "}jwwFnsnbMwA{P"
+                      },
+                      "start_location" : {
+                         "lat" : 40.757107,
+                         "lng" : -73.97191599999999
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 246
+                            },
+                            "duration" : {
+                               "text" : "4 mins",
+                               "value" : 247
+                            },
+                            "end_location" : {
+                               "lat" : 40.757553,
+                               "lng" : -73.969055
+                            },
+                            "polyline" : {
+                               "points" : "}jwwFnsnbMwA{P"
+                            },
+                            "start_location" : {
+                               "lat" : 40.757107,
+                               "lng" : -73.97191599999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "1.5 mi",
+                         "value" : 2339
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 420
+                      },
+                      "end_location" : {
+                         "lat" : 40.757309,
+                         "lng" : -73.989738
+                      },
+                      "html_instructions" : "Subway towards World Trade Center",
+                      "polyline" : {
+                         "points" : "umwwFranbMkOpe@{BdHeH|TwB|GADkDtKGXEXCXCV?X?TBVBRFTFRHRJPNNNPNNvDbCb_@nV"
+                      },
+                      "start_location" : {
+                         "lat" : 40.757553,
+                         "lng" : -73.969055
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.757309,
+                               "lng" : -73.989738
+                            },
+                            "name" : "42 St - Port Authority Bus Terminal"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:46 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152390
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.757553,
+                               "lng" : -73.969055
+                            },
+                            "name" : "Lexington Av/53 St"
+                         },
+                         "departure_time" : {
+                            "text" : "2:39 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151970
+                         },
+                         "headsign" : "World Trade Center",
+                         "headway" : 360,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#0039a6",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/E.png",
+                            "name" : "E Line",
+                            "short_name" : "E",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 4
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.1 mi",
+                         "value" : 154
+                      },
+                      "duration" : {
+                         "text" : "3 mins",
+                         "value" : 156
+                      },
+                      "end_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "html_instructions" : "Walk to Port Authority Bus Terminal",
+                      "polyline" : {
+                         "points" : "elwwFzbrbMB_@~BhDv@~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.757309,
+                         "lng" : -73.989738
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "43 ft",
+                               "value" : 13
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 14
+                            },
+                            "end_location" : {
+                               "lat" : 40.757286,
+                               "lng" : -73.98957799999999
+                            },
+                            "html_instructions" : "Take exit \u003cspan class=\"location\"\u003e8th Ave & 42nd St at NE corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "elwwFzbrbMB_@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.757309,
+                               "lng" : -73.989738
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "328 ft",
+                               "value" : 100
+                            },
+                            "duration" : {
+                               "text" : "2 mins",
+                               "value" : 100
+                            },
+                            "end_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "polyline" : {
+                               "points" : "alwwFzarbM~BhD"
+                            },
+                            "start_location" : {
+                               "lat" : 40.757286,
+                               "lng" : -73.98957799999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "135 ft",
+                               "value" : 41
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 42
+                            },
+                            "end_location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003e\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ahwwFdgrbMv@~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "11.2 mi",
+                         "value" : 18069
+                      },
+                      "duration" : {
+                         "text" : "24 mins",
+                         "value" : 1439
+                      },
+                      "end_location" : {
+                         "lat" : 40.85261999999999,
+                         "lng" : -73.994404
+                      },
+                      "html_instructions" : "Bus towards t Turnpike Express Bergenfield",
+                      "polyline" : {
+                         "points" : "ifwwFdirbM?Bw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@?b@@^TdBHj@DZBPHp@Al@CVK\\_@dAsAdEi@vBg@tDERMj@K\\M^u@`CkDrKMl@GXGRGZEPCFGXK^CJcIjWmAvDo@pBoAbE{AxEqNxc@Wx@yBbHe@xASx@[|AOhAEx@?x@Dt@H|@DVDRH\\Jd@Vn@p@hAx@|@hBxAv@p@x@f@z@`@ZJ\\Lt@XTJHFZX|@r@TLXHZ?PCXGZKTKNMVa@Xk@Lg@Fq@@e@Cc@Ge@EOEQQa@U[YWYMSKeAc@aA_@uBo@_@Iy@S}@ScASi@Iy@M_AM}@GI?I?E?YBYFYJm@XURWREFOPc@t@y@~BeA~C_ApCiBnFQf@{@lCq@xB[dAq@|BcAjDqAxDmC~G[t@cC~FETM`@m@zAi@xAa@pAO^Sn@Sl@[lAk@rBcBrGkArEK`@e@jB_@zAGV_@xAW|@c@`BSx@w@tCK`@St@g@nBi@vBeCfJOj@IXy@dDe@nBaApDkBdHWbAU|@{@hDMXi@fA]n@Y`@Y^GFe@\\c@Ni@N]BaAC}C]]E}Gu@aBWw@U}@Wu@]a@Sy@e@k@c@aA{@kC}BsAmAa@]OO[YWM_@OeAeAEE}@{@iAeA{CqCwCqCUUmDeDsDoDqBmBmJ}ImGaGaAaA_HsGsJ_JeEeEwBoBuBuB}CuC{AsAUUoAeAg@_@oDsCoBsAiBmAmBkAqBiAqDiBoDaBgCaAeC}@uDkAaCo@_Ci@WIm@O]GYEKC_BYmCc@_Ee@qE_@eAKgLaAsJy@gBO}D]iGi@g@EaBMWCoAMy@IeBW{A]OEkA]{Ai@cBu@eAi@KE[Qq@c@iAu@YSYUy@q@c@[UOQQWQMQWQmAcAcDeCy@m@aBoAuA}@oEeDaBiAiAw@{Ay@}Au@aBo@aBi@mF{AyGmB}@[_@MqC_AIAgBg@{AYSCg@EWC}CSg@Eu@AsACu@?u@[kAY}@WwAc@i@OSK]SY_@S_@IUIWE]AW?g@Dy@He@^wA`@yA`@qALc@PsARaADe@DyA?oAE}@H}EBcBFiBFsA?IFy@BYLwAFi@L}@D[BWDc@FQF_@f@oDZ{CL}A?eA@cBFOBSH{BBg@B]NgAJm@FUHWJUPa@Tc@BGOMWO{@k@A@QMk@_@mAw@wBwAuCiB]UMIGCiBkAqCgBc@YaBiAeC{Ag@]cBgAaAq@eBeA}@m@aAm@g@]]UIEo@c@k@a@_@UGE[SkAu@KGy@k@o@a@BK"
+                      },
+                      "start_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.85261999999999,
+                               "lng" : -73.994404
+                            },
+                            "name" : "Broad Ave At E Edsall Blvd"
+                         },
+                         "arrival_time" : {
+                            "text" : "3:18 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681154339
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "name" : "Port Authority Bus Terminal"
+                         },
+                         "departure_time" : {
+                            "text" : "2:55 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152900
+                         },
+                         "headsign" : "t Turnpike Express Bergenfield",
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "NJ TRANSIT BUS",
+                                  "phone" : "1 (973) 275-5555",
+                                  "url" : "http://www.njtransit.com/"
+                               }
+                            ],
+                            "color" : "#000000",
+                            "name" : "166",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                               "name" : "Bus",
+                               "type" : "BUS"
+                            }
+                         },
+                         "num_stops" : 5
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 291
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 210
+                      },
+                      "end_location" : {
+                         "lat" : 40.8531829,
+                         "lng" : -73.99694629999999
+                      },
+                      "html_instructions" : "Walk to 464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                      "polyline" : {
+                         "points" : "}_jxFb`sbMj@\\INa@z@w@~A]p@MXGNg@bAe@bAHJ`A~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.8526259,
+                         "lng" : -73.9944184
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "98 ft",
+                               "value" : 30
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 21
+                            },
+                            "end_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "html_instructions" : "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eBroad Ave\u003c/b\u003e toward \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "}_jxFb`sbMj@\\"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8526259,
+                               "lng" : -73.9944184
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.1 mi",
+                               "value" : 212
+                            },
+                            "duration" : {
+                               "text" : "2 mins",
+                               "value" : 144
+                            },
+                            "end_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "maneuver" : "turn-right",
+                            "polyline" : {
+                               "points" : "q~ixF`asbMINa@z@w@~A]p@MXGNg@bAe@bA"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "161 ft",
+                               "value" : 49
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 45
+                            },
+                            "end_location" : {
+                               "lat" : 40.8531829,
+                               "lng" : -73.99694629999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eHillside Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wejxFpmsbMHJ`A~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   }
+                ],
+                "traffic_speed_entry" : [],
+                "via_waypoint" : []
+             }
+          ],
+          "overview_polyline" : {
+             "points" : "eg|wFnwjbM?C?BUp@aA|CITOb@dBlATL|BzAzE|CxBzAl@@tc@xYdfBfjAwA{PgSvn@kQvj@Mr@Gp@?n@Fj@Nh@Td@^`@fErCb_@nVB_@~BhDv@bAw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@@bA^pCHl@Hp@Al@Ot@sBjGi@vBg@tDS~@{FrQe@vB]rAeM`a@kD|KiOre@_D|Jo@vCOhAEx@?x@Dt@NtANp@Jd@Vn@p@hAx@|@`DjCx@f@z@`@x@XjAd@d@`@rA`AXHZ?j@Kp@WNMVa@Xk@Lg@HwAKiAKa@Qa@U[YWYMyAo@wDoA{EeAcBW}BUs@Bs@Rm@XUR]Zs@fAiH`T{CtJuBhHqAxDmC~G_DtHSv@wAtDq@pBg@|AgA`EaFtR_BjGgJx]yBzI{ExQ{@hDMXgAvBs@`Am@d@mA^]BaAC{Dc@}Gu@aBWuBm@wAq@y@e@k@c@mEyDaDuCw@]kAkA{LeLiNyM{R_RaJuIsJ_JeEeEmFeFyFiFeB{AwEsDyEaD_FuCaJkEmG_CuDkAaCo@wCs@kAWsGgA_Ee@qE_@mNmAc\\qCqFe@_Da@kBc@gDgAiD_Bg@W{ByAqCwBg@a@WQMQeBuA}EsDaBoAuA}@qHoFiAw@{Ay@}Au@aBo@oIeCwIiCqDmAqBi@oB]_AIeEYiCEu@?u@[iCq@aCs@q@_@m@_ASm@Gu@DaBh@}BbAkDLc@PsARaADe@DiDE}@H}EJmEF}A`@uE\\uCNq@f@oDZ{CL}A?eA@cBFOLoCFeAZuBPm@v@cBcBiASKyBwAyHaFgHqEgFeDkCeBgHsE_C}AoBqAaEkCBKABj@\\INyAzCk@jAo@rAe@bAHJ`A~@"
+          },
+          "summary" : "",
+          "warnings" : [
+             "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+          ],
+          "waypoint_order" : []
+       },
+       {
+          "bounds" : {
+             "northeast" : {
+                "lat" : 40.8535639,
+                "lng" : -73.95205609999999
+             },
+             "southwest" : {
+                "lat" : 40.7517777,
+                "lng" : -74.05241010000002
+             }
+          },
+          "copyrights" : "Map data ©2023 Google",
+          "legs" : [
+             {
+                "arrival_time" : {
+                   "text" : "3:22 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681154550
+                },
+                "departure_time" : {
+                   "text" : "2:27 PM",
+                   "time_zone" : "America/New_York",
+                   "value" : 1681151258
+                },
+                "distance" : {
+                   "text" : "14.8 mi",
+                   "value" : 23803
+                },
+                "duration" : {
+                   "text" : "55 mins",
+                   "value" : 3292
+                },
+                "end_address" : "464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                "end_location" : {
+                   "lat" : 40.8531829,
+                   "lng" : -73.99694629999999
+                },
+                "start_address" : "172 E 91st St, New York, NY 10128, USA",
+                "start_location" : {
+                   "lat" : 40.7821134,
+                   "lng" : -73.9520759
+                },
+                "steps" : [
+                   {
+                      "distance" : {
+                         "text" : "0.3 mi",
+                         "value" : 528
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 411
+                      },
+                      "end_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "html_instructions" : "Walk to 86th Street",
+                      "polyline" : {
+                         "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^ABfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBBA@n@?"
+                      },
+                      "start_location" : {
+                         "lat" : 40.7821134,
+                         "lng" : -73.9520759
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "387 ft",
+                               "value" : 118
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 89
+                            },
+                            "end_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eE 91st St\u003c/b\u003e toward \u003cb\u003eLexington Ave\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "eg|wFnwjbM?C?BCHQf@IXc@tAGRKXENA?ADM^AB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7821134,
+                               "lng" : -73.9520759
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 384
+                            },
+                            "duration" : {
+                               "text" : "5 mins",
+                               "value" : 295
+                            },
+                            "end_location" : {
+                               "lat" : 40.7797217,
+                               "lng" : -73.9555771
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eLexington Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wj|wFx_kbMfBjAA@BBLFBB?AfBjATNfBjAB@LJB@lAv@NHHH@ARP?AHHx@h@PJBB"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7826805,
+                               "lng" : -73.95341139999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "1 ft",
+                               "value" : 0
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 27
+                            },
+                            "end_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003eLexington Ave & 86th St at NW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ix{wFlmkbM"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "85 ft",
+                               "value" : 26
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 0
+                            },
+                            "end_location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "polyline" : {
+                               "points" : "ix{wFlmkbMn@?"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7797257,
+                               "lng" : -73.9555865
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "2.2 mi",
+                         "value" : 3590
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 390
+                      },
+                      "end_location" : {
+                         "lat" : 40.751778,
+                         "lng" : -73.976845
+                      },
+                      "html_instructions" : "Subway towards Crown Hts-Utica Av",
+                      "polyline" : {
+                         "points" : "yv{wFlmkbMtc@xYfa@|W`b@pXz`@vWz\\vTDDDDFDDDDFDDBFDHBFBHBFBJ@HBJ@Jd@~C"
+                      },
+                      "start_location" : {
+                         "lat" : 40.779491,
+                         "lng" : -73.955589
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.751778,
+                               "lng" : -73.976845
+                            },
+                            "name" : "Grand Central - 42 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:41 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152060
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.779491,
+                               "lng" : -73.955589
+                            },
+                            "name" : "86th Street"
+                         },
+                         "departure_time" : {
+                            "text" : "2:34 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681151670
+                         },
+                         "headsign" : "Crown Hts-Utica Av",
+                         "headway" : 180,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#00933c",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/4.png",
+                            "name" : "4 Line",
+                            "short_name" : "4",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 2
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.1 mi",
+                         "value" : 225
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 226
+                      },
+                      "end_location" : {
+                         "lat" : 40.75276900000001,
+                         "lng" : -73.979187
+                      },
+                      "html_instructions" : "Walk to Grand Central - 42 St",
+                      "polyline" : {
+                         "points" : "sivwFfrobMeEtM"
+                      },
+                      "start_location" : {
+                         "lat" : 40.751778,
+                         "lng" : -73.976845
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "0.1 mi",
+                               "value" : 225
+                            },
+                            "duration" : {
+                               "text" : "4 mins",
+                               "value" : 226
+                            },
+                            "end_location" : {
+                               "lat" : 40.75276900000001,
+                               "lng" : -73.979187
+                            },
+                            "polyline" : {
+                               "points" : "sivwFfrobMeEtM"
+                            },
+                            "start_location" : {
+                               "lat" : 40.751778,
+                               "lng" : -73.976845
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.4 mi",
+                         "value" : 698
+                      },
+                      "duration" : {
+                         "text" : "2 mins",
+                         "value" : 90
+                      },
+                      "end_location" : {
+                         "lat" : 40.755981,
+                         "lng" : -73.98622899999999
+                      },
+                      "html_instructions" : "Subway towards Times Sq-42 St",
+                      "polyline" : {
+                         "points" : "yovwF|`pbMePzg@EHCFEHCFEFEDEFEDEDEDGDEDGBEBGB"
+                      },
+                      "start_location" : {
+                         "lat" : 40.75276900000001,
+                         "lng" : -73.979187
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.755981,
+                               "lng" : -73.98622899999999
+                            },
+                            "name" : "Times Sq - 42 St"
+                         },
+                         "arrival_time" : {
+                            "text" : "2:43 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152210
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.75276900000001,
+                               "lng" : -73.979187
+                            },
+                            "name" : "Grand Central - 42 St"
+                         },
+                         "departure_time" : {
+                            "text" : "2:42 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152120
+                         },
+                         "headsign" : "Times Sq-42 St",
+                         "headway" : 300,
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "MTA New York City Transit",
+                                  "phone" : "1 (718) 330-1234",
+                                  "url" : "http://www.mta.info/"
+                               }
+                            ],
+                            "color" : "#808183",
+                            "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/us-ny-mta/S.png",
+                            "name" : "42 Street Shuttle",
+                            "short_name" : "S",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/subway2.png",
+                               "name" : "Subway",
+                               "type" : "SUBWAY"
+                            }
+                         },
+                         "num_stops" : 1
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 402
+                      },
+                      "duration" : {
+                         "text" : "7 mins",
+                         "value" : 404
+                      },
+                      "end_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "html_instructions" : "Walk to Port Authority Bus Terminal",
+                      "polyline" : {
+                         "points" : "{cwwF|lqbMKhEyB|Rv@~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.755981,
+                         "lng" : -73.98622899999999
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "279 ft",
+                               "value" : 85
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 86
+                            },
+                            "end_location" : {
+                               "lat" : 40.756042,
+                               "lng" : -73.98724399999999
+                            },
+                            "html_instructions" : "Take exit \u003cspan class=\"location\"\u003e7th Ave & 42nd St at SW corner\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "{cwwF|lqbMKhE"
+                            },
+                            "start_location" : {
+                               "lat" : 40.755981,
+                               "lng" : -73.98622899999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.2 mi",
+                               "value" : 276
+                            },
+                            "duration" : {
+                               "text" : "5 mins",
+                               "value" : 276
+                            },
+                            "end_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "polyline" : {
+                               "points" : "gdwwFfsqbMyB|R"
+                            },
+                            "start_location" : {
+                               "lat" : 40.756042,
+                               "lng" : -73.98724399999999
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "135 ft",
+                               "value" : 41
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 42
+                            },
+                            "end_location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "html_instructions" : "Take entrance \u003cspan class=\"location\"\u003e\u003c/span\u003e",
+                            "polyline" : {
+                               "points" : "ahwwFdgrbMv@~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.7566473,
+                               "lng" : -73.9904303
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "11.2 mi",
+                         "value" : 18069
+                      },
+                      "duration" : {
+                         "text" : "24 mins",
+                         "value" : 1439
+                      },
+                      "end_location" : {
+                         "lat" : 40.85261999999999,
+                         "lng" : -73.994404
+                      },
+                      "html_instructions" : "Bus towards t Turnpike Express Bergenfield",
+                      "polyline" : {
+                         "points" : "ifwwFdirbM?Bw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@?b@@^TdBHj@DZBPHp@Al@CVK\\_@dAsAdEi@vBg@tDERMj@K\\M^u@`CkDrKMl@GXGRGZEPCFGXK^CJcIjWmAvDo@pBoAbE{AxEqNxc@Wx@yBbHe@xASx@[|AOhAEx@?x@Dt@H|@DVDRH\\Jd@Vn@p@hAx@|@hBxAv@p@x@f@z@`@ZJ\\Lt@XTJHFZX|@r@TLXHZ?PCXGZKTKNMVa@Xk@Lg@Fq@@e@Cc@Ge@EOEQQa@U[YWYMSKeAc@aA_@uBo@_@Iy@S}@ScASi@Iy@M_AM}@GI?I?E?YBYFYJm@XURWREFOPc@t@y@~BeA~C_ApCiBnFQf@{@lCq@xB[dAq@|BcAjDqAxDmC~G[t@cC~FETM`@m@zAi@xAa@pAO^Sn@Sl@[lAk@rBcBrGkArEK`@e@jB_@zAGV_@xAW|@c@`BSx@w@tCK`@St@g@nBi@vBeCfJOj@IXy@dDe@nBaApDkBdHWbAU|@{@hDMXi@fA]n@Y`@Y^GFe@\\c@Ni@N]BaAC}C]]E}Gu@aBWw@U}@Wu@]a@Sy@e@k@c@aA{@kC}BsAmAa@]OO[YWM_@OeAeAEE}@{@iAeA{CqCwCqCUUmDeDsDoDqBmBmJ}ImGaGaAaA_HsGsJ_JeEeEwBoBuBuB}CuC{AsAUUoAeAg@_@oDsCoBsAiBmAmBkAqBiAqDiBoDaBgCaAeC}@uDkAaCo@_Ci@WIm@O]GYEKC_BYmCc@_Ee@qE_@eAKgLaAsJy@gBO}D]iGi@g@EaBMWCoAMy@IeBW{A]OEkA]{Ai@cBu@eAi@KE[Qq@c@iAu@YSYUy@q@c@[UOQQWQMQWQmAcAcDeCy@m@aBoAuA}@oEeDaBiAiAw@{Ay@}Au@aBo@aBi@mF{AyGmB}@[_@MqC_AIAgBg@{AYSCg@EWC}CSg@Eu@AsACu@?u@[kAY}@WwAc@i@OSK]SY_@S_@IUIWE]AW?g@Dy@He@^wA`@yA`@qALc@PsARaADe@DyA?oAE}@H}EBcBFiBFsA?IFy@BYLwAFi@L}@D[BWDc@FQF_@f@oDZ{CL}A?eA@cBFOBSH{BBg@B]NgAJm@FUHWJUPa@Tc@BGOMWO{@k@A@QMk@_@mAw@wBwAuCiB]UMIGCiBkAqCgBc@YaBiAeC{Ag@]cBgAaAq@eBeA}@m@aAm@g@]]UIEo@c@k@a@_@UGE[SkAu@KGy@k@o@a@BK"
+                      },
+                      "start_location" : {
+                         "lat" : 40.756367,
+                         "lng" : -73.990753
+                      },
+                      "transit_details" : {
+                         "arrival_stop" : {
+                            "location" : {
+                               "lat" : 40.85261999999999,
+                               "lng" : -73.994404
+                            },
+                            "name" : "Broad Ave At E Edsall Blvd"
+                         },
+                         "arrival_time" : {
+                            "text" : "3:18 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681154339
+                         },
+                         "departure_stop" : {
+                            "location" : {
+                               "lat" : 40.756367,
+                               "lng" : -73.990753
+                            },
+                            "name" : "Port Authority Bus Terminal"
+                         },
+                         "departure_time" : {
+                            "text" : "2:55 PM",
+                            "time_zone" : "America/New_York",
+                            "value" : 1681152900
+                         },
+                         "headsign" : "t Turnpike Express Bergenfield",
+                         "line" : {
+                            "agencies" : [
+                               {
+                                  "name" : "NJ TRANSIT BUS",
+                                  "phone" : "1 (973) 275-5555",
+                                  "url" : "http://www.njtransit.com/"
+                               }
+                            ],
+                            "color" : "#000000",
+                            "name" : "166",
+                            "text_color" : "#ffffff",
+                            "vehicle" : {
+                               "icon" : "//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png",
+                               "name" : "Bus",
+                               "type" : "BUS"
+                            }
+                         },
+                         "num_stops" : 5
+                      },
+                      "travel_mode" : "TRANSIT"
+                   },
+                   {
+                      "distance" : {
+                         "text" : "0.2 mi",
+                         "value" : 291
+                      },
+                      "duration" : {
+                         "text" : "4 mins",
+                         "value" : 210
+                      },
+                      "end_location" : {
+                         "lat" : 40.8531829,
+                         "lng" : -73.99694629999999
+                      },
+                      "html_instructions" : "Walk to 464 Hillside Ave, Palisades Park, NJ 07650, USA",
+                      "polyline" : {
+                         "points" : "}_jxFb`sbMj@\\INa@z@w@~A]p@MXGNg@bAe@bAHJ`A~@"
+                      },
+                      "start_location" : {
+                         "lat" : 40.8526259,
+                         "lng" : -73.9944184
+                      },
+                      "steps" : [
+                         {
+                            "distance" : {
+                               "text" : "98 ft",
+                               "value" : 30
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 21
+                            },
+                            "end_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "html_instructions" : "Head \u003cb\u003esouthwest\u003c/b\u003e on \u003cb\u003eBroad Ave\u003c/b\u003e toward \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "polyline" : {
+                               "points" : "}_jxFb`sbMj@\\"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8526259,
+                               "lng" : -73.9944184
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "0.1 mi",
+                               "value" : 212
+                            },
+                            "duration" : {
+                               "text" : "2 mins",
+                               "value" : 144
+                            },
+                            "end_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eW Edsall Blvd\u003c/b\u003e",
+                            "maneuver" : "turn-right",
+                            "polyline" : {
+                               "points" : "q~ixF`asbMINa@z@w@~A]p@MXGNg@bAe@bA"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8524131,
+                               "lng" : -73.99457230000002
+                            },
+                            "travel_mode" : "WALKING"
+                         },
+                         {
+                            "distance" : {
+                               "text" : "161 ft",
+                               "value" : 49
+                            },
+                            "duration" : {
+                               "text" : "1 min",
+                               "value" : 45
+                            },
+                            "end_location" : {
+                               "lat" : 40.8531829,
+                               "lng" : -73.99694629999999
+                            },
+                            "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eHillside Ave\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the right\u003c/div\u003e",
+                            "maneuver" : "turn-left",
+                            "polyline" : {
+                               "points" : "wejxFpmsbMHJ`A~@"
+                            },
+                            "start_location" : {
+                               "lat" : 40.8535639,
+                               "lng" : -73.99656829999999
+                            },
+                            "travel_mode" : "WALKING"
+                         }
+                      ],
+                      "travel_mode" : "WALKING"
+                   }
+                ],
+                "traffic_speed_entry" : [],
+                "via_waypoint" : []
+             }
+          ],
+          "overview_polyline" : {
+             "points" : "eg|wFnwjbM?C?BUp@aA|CITOb@dBlATL|BzAzE|CxBzAl@@tc@xY`dC~_BXVT^Nd@l@`EkVpv@Sb@WZYVUJKhEyB|Rv@bAw@g@mA~D{AaAlA{D|AbAoAbEDd@Y~@Hv@{@pCe@HIPiAbDIf@@bAh@~DHp@Al@Ot@sBjGi@vBg@tDS~@Y|@aFtOUfAYhASx@gIvWiHfUiTpq@o@vCOhAEx@?x@Dt@NtANp@Jd@Vn@p@hAx@|@`DjCx@f@z@`@x@XjAd@d@`@rA`AXHZ?j@Kp@WNMVa@Xk@Lg@HwAKiAKa@Qa@U[YWYMyAo@wDoAyA]aCg@cBW}BUS?_@Bs@Rm@XUR]Zs@fA_C~GwFvPcEhNqAxDmC~G_DtHSv@wAtDyAnEwFhTyA`GoFpSiEdP_BtGmDvMm@`C{@hDMXgAvBs@`Am@d@mA^]BaAC{Dc@}Gu@aBWuBm@wAq@y@e@k@c@mEyDuBkBk@i@w@]sEmEwN_NeH}G{R_RaJuIsJ_JeEeEmFeFyFiFeB{AwEsDyEaD_FuCaJkEmG_CuDkAaCo@wCs@qBa@mF}@_Ee@qE_@mNmA{MiAqQ{AgBQ_Da@kBc@gDgAiD_Bg@W{ByAs@i@eCoBWQMQeBuA}EsDaBoAuA}@qHoFiAw@{Ay@}Au@aBo@oIeCwIiCqDmAqBi@oB]eGc@iCEu@?u@[iCq@aCs@q@_@m@_ASm@Gu@DaBh@}BbAkDLc@PsARaADe@DiDE}@H}EJmEF}AJsATaCRyAH{@Nq@f@oDZ{CL}A?eA@cBFOLoCFeAZuBPm@\\w@Xk@g@]{@k@SKgKyG}CoB}KgHsH}EeEoCeCaB{BwAiBmABKABj@\\INyAzC{A~Ce@bAHJ`A~@"
+          },
+          "summary" : "",
+          "warnings" : [
+             "Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths."
+          ],
+          "waypoint_order" : []
+       }
+    ],
+    "status" : "OK"
+ }

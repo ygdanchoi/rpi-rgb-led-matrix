@@ -257,6 +257,16 @@ class TransitFeedView(Observer, SampleBase):
         incr = (arrival_time - departure_time) / w
         for x in range(1, w):
             t = departure_time + incr * x
+
+            if x % 2 == (self.viewmodel.stripes_offset // 4) % 2:
+                self.offscreen_canvas.SetPixel(
+                    x,
+                    1,
+                    255,
+                    255,
+                    255
+                )
+
             for line_to_draw in lines_to_draw:
                 if (line_to_draw[0] <= t and t <= line_to_draw[1]):
                     self.offscreen_canvas.SetPixel(
@@ -265,14 +275,6 @@ class TransitFeedView(Observer, SampleBase):
                         line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
                         line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
                         line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
-                    )
-                elif x % 2 == self.viewmodel.stripes_offset % 2:
-                    self.offscreen_canvas.SetPixel(
-                        x,
-                        1,
-                        255,
-                        255,
-                        255
                     )
 
         for line_to_draw in lines_to_draw:

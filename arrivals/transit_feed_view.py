@@ -241,10 +241,7 @@ class TransitFeedView(Observer, SampleBase):
             elif step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 print(step['transit_details'])
-                if not line['short_name']:
-                    name = line['name']
-                else:
-                    name = line['short_name']
+                name = line['short_name'] if 'short_name' in line else line['name']
                 return name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             
         text = arrival_time + str([parse_step(step) for step in leg['steps']]) + departure_time

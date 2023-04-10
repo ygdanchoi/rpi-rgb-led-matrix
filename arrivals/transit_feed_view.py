@@ -229,8 +229,9 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        routes = self.viewmodel.google_directions['routes']
-        text = str(routes)
+        route = self.viewmodel.google_directions['routes'][0]
+        leg = route['legs'][0]
+        text = str(leg)
 
         graphics.DrawText(
             self.offscreen_canvas,

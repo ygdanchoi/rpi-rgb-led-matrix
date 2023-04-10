@@ -1,5 +1,6 @@
 import asyncio
 import json
+import math
 import time
 
 from datetime import datetime
@@ -231,16 +232,22 @@ class TransitFeedView(Observer, SampleBase):
 
         route = self.viewmodel.google_directions['routes'][0]
         leg = route['legs'][0]
-        arrival_time = leg['arrival_time']['text']
-        departure_time = leg['departure_time']['text']
-        text = arrival_time + str([step['travel_mode'] for step in leg['steps']]) + departure_time
+        arrival_time = leg['arrival_time']['text'] + ' '
+        departure_time = ' ' + leg['departure_time']['text']
+        text = arrival_time + str([parse_step(step) for step in leg['steps']]) + departure_time
+
+        def parse_step(step):
+            if step['travel_mode'] == 'WALKING':
+                return 'walk•' + math.ceil(step['duration']['value'] / 60) + 'm'
+            elif step['travel_mode'] == 'TRANSIT':
+                return step['transit_details']['line']['short_name'] + '•' + math.ceil(step['duration']['value'] / 60) + 'm'
 
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
             -self.viewmodel.transit_row_factory.beveled_zigzag(
-                self.viewmodel.max_rows * self.viewmodel.cell_height + 3 + self.viewmodel.google_directions_offset,
-                (len(text) - 4) * self.viewmodel.cell_width,
+                1 + self.viewmodel.google_directions_offset,
+                (len(text)) * self.viewmodel.cell_width,
                 2 * self.viewmodel.cell_height
             ),
             self.viewmodel.cell_height - 1,

@@ -237,12 +237,11 @@ class TransitFeedView(Observer, SampleBase):
 
         def parse_step(step):
             if step['travel_mode'] == 'WALKING':
-                return 'walk•' + math.ceil(step['duration']['value'] / 60) + 'm'
+                return 'walk•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             elif step['travel_mode'] == 'TRANSIT':
-                return step['transit_details']['line']['short_name'] + '•' + math.ceil(step['duration']['value'] / 60) + 'm'
+                return step['transit_details']['line']['short_name'] + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             
         text = arrival_time + str([parse_step(step) for step in leg['steps']]) + departure_time
-
 
         graphics.DrawText(
             self.offscreen_canvas,

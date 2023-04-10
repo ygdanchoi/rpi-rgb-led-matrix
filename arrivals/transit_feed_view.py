@@ -258,7 +258,7 @@ class TransitFeedView(Observer, SampleBase):
         for x in range(1, w):
             t = departure_time + incr * x
 
-            if (x // 2) % 3 < 2:
+            if x % 3 < 2:
                 self.offscreen_canvas.SetPixel(
                     x,
                     1,

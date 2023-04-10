@@ -271,7 +271,7 @@ class TransitFeedView(Observer, SampleBase):
             graphics.DrawText(
                 self.offscreen_canvas,
                 self.font,
-                line_to_draw[0] / (arrival_time - departure_time) * w,
+                math.floor((line_to_draw[0] - departure_time) / (arrival_time - departure_time) * w),
                 self.viewmodel.cell_height + 1,
                 self.get_text_color(line_to_draw[2]),
                 line_to_draw[3]

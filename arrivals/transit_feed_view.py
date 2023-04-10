@@ -223,13 +223,19 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
+        text = self.viewmodel.google_directions
+
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            1,
-            self.viewmodel.cell_height,
+            -self.viewmodel.transit_row_factory.beveled_zigzag(
+                self.viewmodel.max_rows * self.viewmodel.cell_height + 3 + self.viewmodel.horizontal_offset,
+                (len(text) - 4) * self.viewmodel.cell_width,
+                2 * self.viewmodel.cell_height
+            ),
+            self.viewmodel.cell_height - 1,
             self.get_text_color([255, 255, 255]),
-            str(self.viewmodel.google_directions)
+            str(text)
         )
 
     def draw_footer(self):

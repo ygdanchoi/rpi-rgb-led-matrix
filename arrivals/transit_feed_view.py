@@ -49,8 +49,8 @@ class TransitFeedViewModel(Observable):
         self.weather_hour = None
         self.is_light_mode = True
 
-        self.google_directions = ''
-        self.google_directions_offset = 0
+        # self.google_directions = '' # TODO pull out
+        # self.google_directions_offset = 0 # TODO delete
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())
@@ -98,7 +98,7 @@ class TransitFeedViewModel(Observable):
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
 
-            self.google_directions = json.loads(open('transit_mock_directions.json').read())
+            # self.google_directions = json.loads(open('transit_mock_directions.json').read()) # TODO pull out
             
             await asyncio.sleep(1)
     
@@ -120,7 +120,7 @@ class TransitFeedViewModel(Observable):
             self.vertical_offset = 0
             self.horizontal_offset = 0
 
-        self.google_directions_offset += 1
+        # self.google_directions_offset += 1 TODO: delete
     
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0
@@ -171,7 +171,7 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [31, 31, 31])
 
-        self.draw_header()
+        # self.draw_header() # TODO pull out
         self.draw_footer()
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 

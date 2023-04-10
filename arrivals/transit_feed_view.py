@@ -226,9 +226,9 @@ class TransitFeedView(Observer, SampleBase):
         if not self.viewmodel.google_directions:
             return
         
-        for yy in range(0, self.viewmodel.cell_height):
-            for xx in range(0, self.offscreen_canvas.width):
-                self.draw_stripe_pixel(xx, yy, [255, 255, 255])
+        # for yy in range(0, self.viewmodel.cell_height):
+        #     for xx in range(0, self.offscreen_canvas.width):
+        #         self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         route = self.viewmodel.google_directions['routes'][(self.viewmodel.google_directions_offset // 64) % len(self.viewmodel.google_directions['routes'])]
         leg = route['legs'][0]

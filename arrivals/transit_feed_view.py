@@ -263,7 +263,7 @@ class TransitFeedView(Observer, SampleBase):
         incr = (arrival_time - departure_time) / w
         for x in range(1, w):
             for y in range(0, self.viewmodel.cell_height):
-                t = departure_time + incr * x
+                t = departure_time + math.ceil(incr * x)
 
                 for line_to_draw in lines_to_draw:
                     if (line_to_draw[0] <= t and t <= line_to_draw[1]):
@@ -271,9 +271,9 @@ class TransitFeedView(Observer, SampleBase):
                             self.offscreen_canvas.SetPixel(
                                 x,
                                 y,
-                                line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
-                                line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
-                                line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
+                                (line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0) // 2,
+                                (line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57) // 2,
+                                (line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166) // 2
                             )
                         else:
                             self.draw_stripe_pixel(x, y, [
@@ -286,7 +286,7 @@ class TransitFeedView(Observer, SampleBase):
             graphics.DrawText(
                 self.offscreen_canvas,
                 self.font,
-                math.floor((line_to_draw[0] - departure_time) / (arrival_time - departure_time) * w),
+                math.ceil((line_to_draw[0] - departure_time) / (arrival_time - departure_time) * w),
                 self.viewmodel.cell_height - 1,
                 self.get_text_color([
                     line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,

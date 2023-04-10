@@ -232,18 +232,18 @@ class TransitFeedView(Observer, SampleBase):
 
         route = self.viewmodel.google_directions['routes'][0]
         leg = route['legs'][0]
-        arrival_time = datetime.fromtimestamp(leg['arrival_time']['value']).strftime('%-I:%M')
         departure_time = datetime.fromtimestamp(leg['departure_time']['value']).strftime('%-I:%M')
+        arrival_time = datetime.fromtimestamp(leg['arrival_time']['value']).strftime('%-I:%M')
 
         def parse_step(step):
             if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
-                return name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
+                return name + '/' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             else:
                 return ' '
             
-        text = arrival_time + ''.join([parse_step(step) for step in leg['steps']]) + departure_time
+        text = departure_time + ''.join([parse_step(step) for step in leg['steps']]) + arrival_time
 
         graphics.DrawText(
             self.offscreen_canvas,

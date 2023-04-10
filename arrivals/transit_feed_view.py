@@ -237,7 +237,7 @@ class TransitFeedView(Observer, SampleBase):
 
         lines_to_draw = []
 
-        def parse_step(step):
+        for step in leg['steps']:
             if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
@@ -249,39 +249,51 @@ class TransitFeedView(Observer, SampleBase):
                         int(color[1:3], 16),
                         int(color[3:5], 16),
                         int(color[5:7], 16)
-                    ]
+                    ],
+                    name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
                 ))
-                return name + '|' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
-            else:
-                return ' '
             
-        text = datetime.fromtimestamp(departure_time).strftime('%-I:%M') + ''.join([parse_step(step) for step in leg['steps']]) + datetime.fromtimestamp(arrival_time).strftime('%-I:%M')
-
-        incr = (arrival_time - departure_time) / 128
-        for x in range(1, 128):
+        w = 128
+        incr = (arrival_time - departure_time) / w
+        for x in range(1, w):
             t = departure_time + incr * x
-            # print(t, lines_to_draw[0])
             for line_to_draw in lines_to_draw:
                 if (line_to_draw[0] <= t and t <= line_to_draw[1]):
                     self.offscreen_canvas.SetPixel(
                         x,
                         1,
-                        line_to_draw[2][0] if line_to_draw[2][0] > 0 else 255,
-                        line_to_draw[2][1] if line_to_draw[2][1] > 0 else 255,
-                        line_to_draw[2][2] if line_to_draw[2][2] > 0 else 255
+                        line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
+                        line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
+                        line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
                     )
+
+        for line_to_draw in lines_to_draw:
+            graphics.DrawText(
+                self.offscreen_canvas,
+                self.font,
+                line_to_draw[0] / (arrival_time - departure_time) * w,
+                self.viewmodel.cell_height + 1,
+                self.get_text_color(line_to_draw[2]),
+                line_to_draw[3]
+            )
 
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            -self.viewmodel.transit_row_factory.beveled_zigzag(
-                1 + self.viewmodel.google_directions_offset,
-                len(text) * self.viewmodel.cell_width - self.offscreen_canvas.width,
-                2 * self.viewmodel.cell_height
-            ),
+            1,
             self.viewmodel.cell_height + 1,
             self.get_text_color([255, 255, 255]),
-            text
+            datetime.fromtimestamp(departure_time).strftime('%-I:%M')
+        )
+
+        right_align_text = datetime.fromtimestamp(arrival_time).strftime('%-I:%M')
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
+            self.offscreen_canvas.width - self.viewmodel.cell_width * right_align_text - 1,
+            self.viewmodel.cell_height + 1,
+            self.get_text_color([255, 255, 255]),
+            right_align_text
         )
 
     def draw_footer(self):

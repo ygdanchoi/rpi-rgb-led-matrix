@@ -240,7 +240,6 @@ class TransitFeedView(Observer, SampleBase):
                 return 'walk•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             elif step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
-                print(step['transit_details'])
                 name = line['short_name'] if 'short_name' in line else line['name']
                 return name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             
@@ -251,7 +250,7 @@ class TransitFeedView(Observer, SampleBase):
             self.font,
             -self.viewmodel.transit_row_factory.beveled_zigzag(
                 1 + self.viewmodel.google_directions_offset,
-                (len(text)) * self.viewmodel.cell_width,
+                len(text) * self.viewmodel.cell_width - self.offscreen_canvas.width,
                 2 * self.viewmodel.cell_height
             ),
             self.viewmodel.cell_height - 1,

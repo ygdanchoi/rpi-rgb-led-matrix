@@ -266,9 +266,9 @@ class TransitFeedView(Observer, SampleBase):
                     self.offscreen_canvas.SetPixel(
                         x,
                         1,
-                        line_to_draw[0][0] if line_to_draw[0][0] > 0 else 255,
-                        line_to_draw[0][1] if line_to_draw[0][1] > 0 else 255,
-                        line_to_draw[0][2] if line_to_draw[0][2] > 0 else 255
+                        line_to_draw[2][0] if line_to_draw[2][0] > 0 else 255,
+                        line_to_draw[2][1] if line_to_draw[2][1] > 0 else 255,
+                        line_to_draw[2][2] if line_to_draw[2][2] > 0 else 255
                     )
 
         graphics.DrawText(

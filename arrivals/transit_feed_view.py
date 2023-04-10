@@ -232,7 +232,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             -self.viewmodel.transit_row_factory.beveled_zigzag(
-                self.viewmodel.max_rows * self.viewmodel.cell_height + 3 + self.viewmodel.horizontal_offset,
+                self.viewmodel.max_rows * self.viewmodel.cell_height + 3 + self.viewmodel.google_directions_offset,
                 (len(text) - 4) * self.viewmodel.cell_width,
                 2 * self.viewmodel.cell_height
             ),

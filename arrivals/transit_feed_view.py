@@ -258,13 +258,13 @@ class TransitFeedView(Observer, SampleBase):
         for x in range(1, w):
             t = departure_time + incr * x
 
-            if (x + self.viewmodel.stripes_offset // 4) % 3 < 2:
+            if (x + self.viewmodel.stripes_offset // 4) % 4 < 3:
                 self.offscreen_canvas.SetPixel(
                     x,
                     1,
-                    63,
-                    63,
-                    63
+                    127,
+                    127,
+                    127
                 )
 
             for line_to_draw in lines_to_draw:

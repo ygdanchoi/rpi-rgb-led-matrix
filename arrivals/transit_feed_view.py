@@ -231,7 +231,7 @@ class TransitFeedView(Observer, SampleBase):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
         route = self.viewmodel.google_directions['routes'][0]
-        leg = route['legs'][0]
+        leg = route['legs'][(self.viewmodel.google_directions_offset // 64) % route['legs'].length]
         departure_time = leg['departure_time']['value']
         arrival_time = leg['arrival_time']['value']
 

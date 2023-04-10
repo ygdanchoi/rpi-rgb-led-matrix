@@ -252,7 +252,7 @@ class TransitFeedView(Observer, SampleBase):
         for x in range(1, 64):
             t = departure_time + incr * x
             for line_to_draw in lines_to_draw:
-                if (line_to_draw <= t and t <= line_to_draw):
+                if (line_to_draw[0] <= t and t <= line_to_draw[1]):
                     self.offscreen_canvas.SetPixel(
                         x,
                         1,

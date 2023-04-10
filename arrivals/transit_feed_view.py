@@ -266,7 +266,7 @@ class TransitFeedView(Observer, SampleBase):
                         line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
                         line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
                     )
-                elif x % 2 == self.stripes_offset % 2:
+                elif x % 2 == self.viewmodel.stripes_offset % 2:
                     self.offscreen_canvas.SetPixel(
                         x,
                         1,

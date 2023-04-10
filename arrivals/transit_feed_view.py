@@ -271,9 +271,9 @@ class TransitFeedView(Observer, SampleBase):
                             self.offscreen_canvas.SetPixel(
                                 x,
                                 y,
-                                (line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0) // 2,
-                                (line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57) // 2,
-                                (line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166) // 2
+                                (line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0),
+                                (line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57),
+                                (line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166)
                             )
                         else:
                             self.draw_stripe_pixel(x, y, [

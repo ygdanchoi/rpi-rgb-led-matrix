@@ -226,7 +226,7 @@ class TransitFeedView(Observer, SampleBase):
         if not self.viewmodel.google_directions:
             return
         
-        for yy in range(0, self.viewmodel.cell_height + 2):
+        for yy in range(0, self.viewmodel.cell_height):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
@@ -262,12 +262,12 @@ class TransitFeedView(Observer, SampleBase):
         w = 128
         incr = (arrival_time - departure_time) / w
         for x in range(1, w):
-            for y in range(1, 1 + self.viewmodel.cell_height):
+            for y in range(0, self.viewmodel.cell_height):
                 t = departure_time + incr * x
 
                 for line_to_draw in lines_to_draw:
                     if (line_to_draw[0] <= t and t <= line_to_draw[1]):
-                        if y == 1 or y == self.viewmodel.cell_height:
+                        if y == 0 or y == self.viewmodel.cell_height - 1:
                             self.offscreen_canvas.SetPixel(
                                 x,
                                 y,

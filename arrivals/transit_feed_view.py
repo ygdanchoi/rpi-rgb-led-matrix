@@ -232,8 +232,8 @@ class TransitFeedView(Observer, SampleBase):
 
         route = self.viewmodel.google_directions['routes'][0]
         leg = route['legs'][0]
-        arrival_time = datetime.strptime(leg['arrival_time']['value'], '%-I:%M') + ' '
-        departure_time = ' ' + datetime.strptime(leg['departure_time']['value'], '%-I:%M')
+        arrival_time = datetime.fromtimestamp(leg['arrival_time']['value']).strftime('%-I:%M') + ' '
+        departure_time = ' ' + datetime.fromtimestamp(leg['departure_time']['value']).strftime('%-I:%M')
 
         def parse_step(step):
             if step['travel_mode'] == 'WALKING':

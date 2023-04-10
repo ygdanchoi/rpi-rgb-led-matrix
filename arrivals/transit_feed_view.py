@@ -223,7 +223,7 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        print(self.google_directions['status'])
+        print(self.viewmodel.google_directions['status'])
         
         self.draw_text(
             None,

@@ -246,9 +246,9 @@ class TransitFeedView(Observer, SampleBase):
                     step['transit_details']['departure_time']['value'],
                     step['transit_details']['arrival_time']['value'],
                     [
-                        int(color[0:2], 16),
-                        int(color[2:4], 16),
-                        int(color[4:6], 16)
+                        int(color[1:3], 16),
+                        int(color[3:5], 16),
+                        int(color[5:7], 16)
                     ]
                 ))
                 return name + '|' + str(math.ceil(step['duration']['value'] / 60)) + 'm'

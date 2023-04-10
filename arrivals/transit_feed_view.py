@@ -49,6 +49,7 @@ class TransitFeedViewModel(Observable):
         self.is_light_mode = True
 
         self.google_directions = ''
+        self.google_directions_offset = 0
 
         asyncio.ensure_future(self.main_thread())
         asyncio.ensure_future(self.background_thread())
@@ -117,6 +118,8 @@ class TransitFeedViewModel(Observable):
         if self.vertical_offset >= self.cell_height * len(self.rows):
             self.vertical_offset = 0
             self.horizontal_offset = 0
+
+        self.google_directions_offset += 1
     
     def is_stripe(self, x, y):
         return (x + y - self.stripes_offset // 2) // 8 % 2 == 0

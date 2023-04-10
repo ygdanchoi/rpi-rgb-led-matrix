@@ -223,12 +223,15 @@ class TransitFeedView(Observer, SampleBase):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])
 
-        print(self.viewmodel.google_directions['status'])
-        
-        self.draw_text(
-            None,
+        print(self.viewmodel.google_directions)
+
+        graphics.DrawText(
+            self.offscreen_canvas,
+            self.font,
             1,
-            f"{datetime.now().strftime('%a, %b %-d • %-I:%M:%S %p')}{temperature}" if temperature else datetime.now().strftime('%a, %b %-d, %Y • %-I:%M:%S %p')
+            1,
+            self.get_text_color([255, 255, 255]),
+            'hello'
         )
 
     def draw_footer(self):

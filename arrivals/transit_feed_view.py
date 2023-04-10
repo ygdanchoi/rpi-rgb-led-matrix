@@ -273,7 +273,11 @@ class TransitFeedView(Observer, SampleBase):
                 self.font,
                 math.floor((line_to_draw[0] - departure_time) / (arrival_time - departure_time) * w),
                 self.viewmodel.cell_height + 1,
-                self.get_text_color(line_to_draw[2]),
+                self.get_text_color([
+                    line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
+                    line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
+                    line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
+                ]),
                 line_to_draw[3]
             )
 
@@ -281,7 +285,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             1,
-            self.viewmodel.cell_height + 1,
+            self.viewmodel.cell_height + 0,
             self.get_text_color([255, 255, 255]),
             datetime.fromtimestamp(departure_time).strftime('%-I:%M')
         )
@@ -291,7 +295,7 @@ class TransitFeedView(Observer, SampleBase):
             self.offscreen_canvas,
             self.font,
             self.offscreen_canvas.width - self.viewmodel.cell_width * len(right_align_text) - 1,
-            self.viewmodel.cell_height + 1,
+            self.viewmodel.cell_height + 0,
             self.get_text_color([255, 255, 255]),
             right_align_text
         )

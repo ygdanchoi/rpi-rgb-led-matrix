@@ -96,7 +96,7 @@ class TransitFeedViewModel(Observable):
             update_transit_lines_timer -= 1
             update_weather_timer -= 1
 
-            self.google_directions = json.loads(open('weather_mock_forecast.json').read())
+            self.google_directions = json.loads(open('transit_mock_directions.json').read())
             
             await asyncio.sleep(1)
     

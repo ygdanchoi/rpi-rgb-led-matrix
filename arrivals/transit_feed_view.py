@@ -290,7 +290,7 @@ class TransitFeedView(Observer, SampleBase):
         graphics.DrawText(
             self.offscreen_canvas,
             self.font,
-            self.offscreen_canvas.width - self.viewmodel.cell_width * right_align_text - 1,
+            self.offscreen_canvas.width - self.viewmodel.cell_width * len(right_align_text) - 1,
             self.viewmodel.cell_height + 1,
             self.get_text_color([255, 255, 255]),
             right_align_text

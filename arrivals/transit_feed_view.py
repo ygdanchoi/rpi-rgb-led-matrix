@@ -222,6 +222,9 @@ class TransitFeedView(Observer, SampleBase):
         )
 
     def draw_header(self):
+        if not self.viewmodel.google_directions:
+            return
+        
         for yy in range(0, self.viewmodel.cell_height):
             for xx in range(0, self.offscreen_canvas.width):
                 self.draw_stripe_pixel(xx, yy, [255, 255, 255])

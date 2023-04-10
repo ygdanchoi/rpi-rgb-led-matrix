@@ -232,18 +232,34 @@ class TransitFeedView(Observer, SampleBase):
 
         route = self.viewmodel.google_directions['routes'][0]
         leg = route['legs'][0]
-        departure_time = datetime.fromtimestamp(leg['departure_time']['value']).strftime('%-I:%M')
-        arrival_time = datetime.fromtimestamp(leg['arrival_time']['value']).strftime('%-I:%M')
+        departure_time = datetime.fromtimestamp(leg['departure_time']['value'])
+        arrival_time = datetime.fromtimestamp(leg['arrival_time']['value'])
+
+        lines_to_draw = []
 
         def parse_step(step):
             if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
-                return name + '/' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
+                lines_to_draw.append((step['transit_details']['arrival_time']['value'], step['transit_details']['departure_time']['value']))
+                return name + '|' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             else:
                 return ' '
             
-        text = departure_time + ''.join([parse_step(step) for step in leg['steps']]) + arrival_time
+        text = departure_time.strftime('%-I:%M') + ''.join([parse_step(step) for step in leg['steps']]) + arrival_time.strftime('%-I:%M')
+
+        incr = (arrival_time - departure_time) / 64
+        for x in range(1, 64):
+            t = departure_time + incr * x
+            for line_to_draw in lines_to_draw:
+                if (line_to_draw <= t and t <= line_to_draw):
+                    self.offscreen_canvas.SetPixel(
+                        x,
+                        1,
+                        255,
+                        255,
+                        255
+                    )
 
         graphics.DrawText(
             self.offscreen_canvas,
@@ -253,7 +269,7 @@ class TransitFeedView(Observer, SampleBase):
                 len(text) * self.viewmodel.cell_width - self.offscreen_canvas.width,
                 2 * self.viewmodel.cell_height
             ),
-            self.viewmodel.cell_height - 1,
+            self.viewmodel.cell_height + 1,
             self.get_text_color([255, 255, 255]),
             text
         )

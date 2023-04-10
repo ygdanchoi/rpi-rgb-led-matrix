@@ -265,15 +265,22 @@ class TransitFeedView(Observer, SampleBase):
             for y in range(1, 1 + self.viewmodel.cell_height):
                 t = departure_time + incr * x
 
-                self.draw_stripe_pixel(x, y, [63, 63, 63])
-
                 for line_to_draw in lines_to_draw:
                     if (line_to_draw[0] <= t and t <= line_to_draw[1]):
-                        self.draw_stripe_pixel(x, y, [
-                            line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
-                            line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
-                            line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
-                        ])
+                        if y == 1 or y == self.viewmodel.cell_height:
+                            self.offscreen_canvas.SetPixel(
+                                x,
+                                y,
+                                line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
+                                line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
+                                line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
+                            )
+                        else:
+                            self.draw_stripe_pixel(x, y, [
+                                line_to_draw[2][0] if line_to_draw[2][0] > 0 else 0,
+                                line_to_draw[2][1] if line_to_draw[2][1] > 0 else 57,
+                                line_to_draw[2][2] if line_to_draw[2][2] > 0 else 166
+                            ])
 
         for line_to_draw in lines_to_draw:
             graphics.DrawText(

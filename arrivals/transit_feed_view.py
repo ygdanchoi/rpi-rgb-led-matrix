@@ -239,8 +239,8 @@ class TransitFeedView(Observer, SampleBase):
             if step['travel_mode'] == 'WALKING':
                 return 'walk•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             elif step['travel_mode'] == 'TRANSIT':
-                print(line)
                 line = step['transit_details']['line']
+                print(line)
                 name = line['short_name'] if line['short_name'] else line['name']
                 return name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             

@@ -229,7 +229,7 @@ class TransitFeedView(Observer, SampleBase):
             1,
             self.viewmodel.cell_height,
             self.get_text_color([255, 255, 255]),
-            self.viewmodel.google_directions
+            str(self.viewmodel.google_directions)
         )
 
     def draw_footer(self):

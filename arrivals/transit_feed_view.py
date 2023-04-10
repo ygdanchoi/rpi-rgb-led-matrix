@@ -236,12 +236,12 @@ class TransitFeedView(Observer, SampleBase):
         departure_time = ' ' + datetime.fromtimestamp(leg['departure_time']['value']).strftime('%-I:%M')
 
         def parse_step(step):
-            if step['travel_mode'] == 'WALKING':
-                return str(math.ceil(step['duration']['value'] / 60)) + 'm'
-            elif step['travel_mode'] == 'TRANSIT':
+            if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
                 return name + '•' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
+            else:
+                return None
             
         text = arrival_time + ' '.join([parse_step(step) for step in leg['steps']]) + departure_time
 

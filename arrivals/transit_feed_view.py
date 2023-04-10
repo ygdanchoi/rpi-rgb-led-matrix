@@ -241,7 +241,7 @@ class TransitFeedView(Observer, SampleBase):
             if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
-                lines_to_draw.append((step['transit_details']['arrival_time']['value'], step['transit_details']['departure_time']['value']))
+                lines_to_draw.append((step['transit_details']['departure_time']['value'], step['transit_details']['arrival_time']['value']))
                 return name + '|' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             else:
                 return ' '
@@ -251,7 +251,7 @@ class TransitFeedView(Observer, SampleBase):
         incr = (arrival_time - departure_time) / 64
         for x in range(1, 64):
             t = departure_time + incr * x
-            print(t, lines_to_draw[0])
+            # print(t, lines_to_draw[0])
             for line_to_draw in lines_to_draw:
                 if (line_to_draw[0] <= t and t <= line_to_draw[1]):
                     self.offscreen_canvas.SetPixel(

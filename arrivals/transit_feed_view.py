@@ -231,7 +231,9 @@ class TransitFeedView(Observer, SampleBase):
 
         route = self.viewmodel.google_directions['routes'][0]
         leg = route['legs'][0]
-        text = str(leg)
+        arrival_time = leg['arrival_time']['text']
+        departure_time = leg['departure_time']['text']
+        text = arrival_time + str([step['travel_mode'] for step in leg['steps']]) + departure_time
 
         graphics.DrawText(
             self.offscreen_canvas,

@@ -241,15 +241,24 @@ class TransitFeedView(Observer, SampleBase):
             if step['travel_mode'] == 'TRANSIT':
                 line = step['transit_details']['line']
                 name = line['short_name'] if 'short_name' in line else line['name']
-                lines_to_draw.append((step['transit_details']['departure_time']['value'], step['transit_details']['arrival_time']['value']))
+                color = step['transit_details']['line']['color']
+                lines_to_draw.append((
+                    step['transit_details']['departure_time']['value'],
+                    step['transit_details']['arrival_time']['value'],
+                    [
+                        int(color[0:2], 16),
+                        int(color[2:4], 16),
+                        int(color[4:6], 16)
+                    ]
+                ))
                 return name + '|' + str(math.ceil(step['duration']['value'] / 60)) + 'm'
             else:
                 return ' '
             
         text = datetime.fromtimestamp(departure_time).strftime('%-I:%M') + ''.join([parse_step(step) for step in leg['steps']]) + datetime.fromtimestamp(arrival_time).strftime('%-I:%M')
 
-        incr = (arrival_time - departure_time) / 64
-        for x in range(1, 64):
+        incr = (arrival_time - departure_time) / 128
+        for x in range(1, 128):
             t = departure_time + incr * x
             # print(t, lines_to_draw[0])
             for line_to_draw in lines_to_draw:
@@ -257,9 +266,9 @@ class TransitFeedView(Observer, SampleBase):
                     self.offscreen_canvas.SetPixel(
                         x,
                         1,
-                        255,
-                        255,
-                        255
+                        line_to_draw[0][0] if line_to_draw[0][0] > 0 else 255,
+                        line_to_draw[0][1] if line_to_draw[0][1] > 0 else 255,
+                        line_to_draw[0][2] if line_to_draw[0][2] > 0 else 255
                     )
 
         graphics.DrawText(

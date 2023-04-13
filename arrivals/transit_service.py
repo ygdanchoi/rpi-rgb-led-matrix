@@ -349,10 +349,9 @@ class CompositeTransitService(BaseTransitService):
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
-                '404947', # 1 AV/E 93 ST
+                '401718', # 1 AV/E 93 ST
                 '0' # northbound
             ),
-            401718
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nyc_ferry_service.get_transit_lines, 

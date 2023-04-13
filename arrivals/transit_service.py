@@ -343,14 +343,14 @@ class CompositeTransitService(BaseTransitService):
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
-                '404947', # LEXINGTON AV/E 92 ST
-                '1' # southbound
+                '401718', # 1 AV/E 93 ST
+                '0' # northbound
             ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
-                '401718', # 1 AV/E 93 ST
-                '0' # northbound
+                '404947', # LEXINGTON AV/E 92 ST
+                '1' # southbound
             ),
             self.get_loop().run_in_executor(
                 self.executor, 

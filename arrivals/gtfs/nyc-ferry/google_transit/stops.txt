@@ -38,7 +38,6 @@
 105,,"Rockaway Beach Blvd & Beach 77th St",40.588350,-73.804470
 107,,"Madison Ave & East 41st St",40.752068,-73.979817
 108,,"Madison Ave & East 44th St",40.754007,-73.978385
-111,,"Gov. Island/Yankee Pier",40.686640,-74.016482
 112,,"Soundview",40.804202,-73.848703
 113,,"East 90th St",40.777475,-73.942172
 114,,"Stuyvesant Cove",40.731979,-73.972922

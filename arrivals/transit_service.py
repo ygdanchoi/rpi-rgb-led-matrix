@@ -328,30 +328,30 @@ class CompositeTransitService(BaseTransitService):
                 '1', # southbound
                 'gtfs-nqrw' # NQRW
             ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.mta_bus_service.get_transit_lines, 
-                '401921', # E 86 ST/3 AV
-                '1' # westbound
-            ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.mta_bus_service.get_transit_lines, 
-                '401957', # E 96 ST/3 AV
-                '1' # westbound
-            ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '401921', # E 86 ST/3 AV
+            #     '1' # westbound
+            # ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '401957', # E 96 ST/3 AV
+            #     '1' # westbound
+            # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
                 '401718', # 1 AV/E 93 ST
                 '0' # northbound
             ),
-            # self.get_loop().run_in_executor(
-            #     self.executor, 
-            #     self.mta_bus_service.get_transit_lines, 
-            #     '404947', # LEXINGTON AV/E 92 ST
-            #     '1' # southbound
-            # ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_bus_service.get_transit_lines, 
+                '404947', # LEXINGTON AV/E 92 ST
+                '1' # southbound
+            ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nyc_ferry_service.get_transit_lines, 

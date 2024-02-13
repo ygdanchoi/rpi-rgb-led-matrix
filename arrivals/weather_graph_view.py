@@ -236,7 +236,7 @@ class WeatherGraphView(Observer, SampleBase):
                 self.draw_text(
                     7 + i * 19 - len(max_pop) * self.viewmodel.cell_width / 2,
                     self.offscreen_canvas.height - 1 - self.viewmodel.cell_height,
-                    max_pop + max_snow,
+                    max_pop + f'{max_snow}',
                     [81, 121, 243]
                 )
             else:

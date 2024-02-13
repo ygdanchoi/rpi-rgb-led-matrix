@@ -4,7 +4,7 @@ import random
 
 from datetime import datetime
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop', 'uv', 'coords'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop', 'snow', 'uv', 'coords'])
 
 
 class WeatherPointFactory:
@@ -43,6 +43,7 @@ class WeatherPointFactory:
                 color = self.get_color(weather_hour),
                 temp = f'{int(round(weather_hour.temp, 0))}°',
                 pop = f'{weather_hour.pop}%',
+                snow = weather_hour.snow,
                 uv = f'uv{round(weather_hour.uv)}',
                 coords = coords
             ))

@@ -145,7 +145,7 @@ class MtaSubwayService(GtfsService):
         return row[0]
 
     def get_stop_name(self, row):
-        return row[2]
+        return row[1]
     
     def get_transit_lines(self, stop_id, direction, gtfs_id):
         transit_lines_by_key = {}
@@ -192,7 +192,6 @@ class MtaSubwayService(GtfsService):
                 print(f'invalid trip id: {trip_id}')
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]
-            print(self.trips[nearest_trip_id])
             return self.trips[nearest_trip_id]
     
     def is_applicable_trip(self, key, trip_id, route_id):

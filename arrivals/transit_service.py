@@ -34,7 +34,7 @@ class GtfsService(BaseTransitService):
             next(csv_reader) # skip header
 
             for row in csv_reader:
-                route_id = self.get_route_id(row)
+                route_id = self.get_route_id_from_routes(row)
                 route_color = self.get_route_color(row)
 
                 if route_color:
@@ -68,12 +68,9 @@ class GtfsService(BaseTransitService):
                 self.trips[trip_id] = Trip(
                     trip_id=trip_id,
                     trip_headsign=self.get_trip_headsign(row),
-                    route_id=self.get_route_id(row),
+                    route_id=self.get_route_id_from_trips(row),
                     direction_id=self.get_direction_id(row)
                 )
-
-                if "130300_Q" in trip_id:
-                    print(self.trips[trip_id])
     
     def get_routes_path(self):
         pass
@@ -81,7 +78,10 @@ class GtfsService(BaseTransitService):
     def get_trips_path(self):
         pass
 
-    def get_route_id(self, row):
+    def get_route_id_from_routes(self, row):
+        pass
+
+    def get_route_id_from_trips(self, row):
         pass
 
     def get_trip_id(self, row):
@@ -122,9 +122,12 @@ class MtaSubwayService(GtfsService):
     def get_trips_path(self):
         return './gtfs/mta-subway/google_transit/trips.txt'
     
-    def get_route_id(self, row):
+    def get_route_id_from_routes(self, row):
         return row[0]
 
+    def get_route_id_from_trips(self, row):
+        return row[1]
+    
     def get_trip_id(self, row):
         match = re.search(r'\d{6}_\w+\.{2}[NS]', row[1])
         return match.group() if match else '' 
@@ -195,12 +198,6 @@ class MtaSubwayService(GtfsService):
         suffix = r'\.{2}[NS]'
         key_match = re.search(suffix, key)
         trip_id_match = re.search(suffix, trip_id)
-        if "131300_Q" in key and "131300_Q" in trip_id:
-            print(key)
-            print(route_id)
-            print(self.trips[key].route_id)
-            print(key_match.group())
-            print(trip_id_match.group())
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()
 
 class MtaBusService(BaseTransitService):
@@ -253,7 +250,10 @@ class NycFerryService(GtfsService):
     def get_trips_path(self):
         return './gtfs/nyc-ferry/google_transit/trips.txt'
     
-    def get_route_id(self, row):
+    def get_route_id_from_routes(self, row):
+        return row[0]
+    
+    def get_route_id_from_trips(self, row):
         return row[0]
 
     def get_trip_id(self, row):

@@ -197,7 +197,10 @@ class MtaSubwayService(GtfsService):
         trip_id_match = re.search(suffix, trip_id)
         if "131300_Q" in key and "131300_Q" in trip_id:
             print(key)
+            print(key_match.group())
             print(trip_id)
+            print(trip_id_match.group())
+            print(route_id)
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()
 
 class MtaBusService(BaseTransitService):

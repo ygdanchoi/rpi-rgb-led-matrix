@@ -123,7 +123,7 @@ class MtaSubwayService(GtfsService):
         return row[0]
 
     def get_trip_id(self, row):
-        match = re.search(r'\d{6}_\w+\.{2}[NS]', row[2])
+        match = re.search(r'.+_\d{6}_\w+\.{2}[NS]', row[2])
         return match.group() if match else '' 
     
     def get_trip_headsign(self, row):

@@ -180,10 +180,10 @@ class MtaSubwayService(GtfsService):
         if (trip_id in self.trips):
             return self.trips[trip_id]
         else:
-            print(self.trips.keys())
             keys = sorted(key for key in self.trips.keys() if self.is_applicable_trip(key, trip_id, route_id))
             i = bisect.bisect_left(keys, trip_id)
             if len(keys) == 0:
+                print(self.trips.keys())
                 print(f'invalid trip id: {trip_id}')
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]

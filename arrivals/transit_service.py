@@ -195,7 +195,7 @@ class MtaSubwayService(GtfsService):
         suffix = r'\.{2}[NS]'
         key_match = re.search(suffix, key)
         trip_id_match = re.search(suffix, trip_id)
-        if "131300_Q" in trip_id:
+        if "131300_Q" in key and "131300_Q" in trip_id:
             print(key)
             print(trip_id)
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()

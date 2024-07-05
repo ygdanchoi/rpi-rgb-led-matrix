@@ -120,7 +120,7 @@ class MtaSubwayService(GtfsService):
         return './gtfs/mta-subway/google_transit/trips.txt'
     
     def get_route_id(self, row):
-        return row[0]
+        return row[1]
 
     def get_trip_id(self, row):
         match = re.search(r'\d{6}_\w+\.{2}[NS]', row[1])

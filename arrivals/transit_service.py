@@ -126,7 +126,7 @@ class MtaSubwayService(GtfsService):
         return row[1]
 
     def get_trip_id(self, row):
-        match = re.search(r'\d{6}_\w+\.\.[NS]', row[1])
+        match = re.search(r'\d{6}_\w+\.{2}[NS]', row[1])
         return match.group() if match else '' 
     
     def get_trip_headsign(self, row):
@@ -193,7 +193,7 @@ class MtaSubwayService(GtfsService):
             return self.trips[nearest_trip_id]
     
     def is_applicable_trip(self, key, trip_id, route_id):
-        suffix = r'\.\.[NS]'
+        suffix = r'\.{2}[NS]'
         key_match = re.search(suffix, key)
         trip_id_match = re.search(suffix, trip_id)
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()

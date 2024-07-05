@@ -192,6 +192,7 @@ class MtaSubwayService(GtfsService):
                 print(f'invalid trip id: {trip_id}')
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]
+            print(self.trips[nearest_trip_id])
             return self.trips[nearest_trip_id]
     
     def is_applicable_trip(self, key, trip_id, route_id):

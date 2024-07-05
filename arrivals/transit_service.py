@@ -126,9 +126,10 @@ class MtaSubwayService(GtfsService):
         return row[1]
 
     def get_trip_id(self, row):
+        match = re.search(r'\d{6}_\w+\.{2}[NS]', row[1])
         if '130300_Q..S' in row[1]:
             print(row[1])
-        match = re.search(r'\d{6}_\w+\.{2}[NS]', row[1])
+            print(match)
         return match.group() if match else '' 
     
     def get_trip_headsign(self, row):

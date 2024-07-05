@@ -186,7 +186,7 @@ class MtaSubwayService(GtfsService):
             keys = sorted(key for key in self.trips.keys() if self.is_applicable_trip(key, trip_id, route_id))
             i = bisect.bisect_left(keys, trip_id)
             if len(keys) == 0:
-                print([key for key in self.trips.keys() if "_6" in key or "_5" in key or "_4" in key or "_Q" in key])
+                # print([key for key in self.trips.keys() if "_6" in key or "_5" in key or "_4" in key or "_Q" in key])
                 print(f'invalid trip id: {trip_id}')
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]

@@ -72,7 +72,7 @@ class GtfsService(BaseTransitService):
                     direction_id=self.get_direction_id(row)
                 )
 
-                if trip_id == "130300_Q":
+                if "130300_Q" in trip_id:
                     print(self.trips[trip_id])
     
     def get_routes_path(self):

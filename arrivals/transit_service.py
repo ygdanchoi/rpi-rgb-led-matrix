@@ -186,7 +186,6 @@ class MtaSubwayService(GtfsService):
             keys = sorted(key for key in self.trips.keys() if self.is_applicable_trip(key, trip_id, route_id))
             i = bisect.bisect_left(keys, trip_id)
             if len(keys) == 0:
-                print([key for key in sorted(self.trips.keys()) if "_Q" in key])
                 print(f'invalid trip id: {trip_id}')
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]
@@ -196,6 +195,9 @@ class MtaSubwayService(GtfsService):
         suffix = r'\.{2}[NS]'
         key_match = re.search(suffix, key)
         trip_id_match = re.search(suffix, trip_id)
+        if "131300_Q" in trip_id:
+            print(key)
+            print(trip_id)
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()
 
 class MtaBusService(BaseTransitService):

@@ -184,7 +184,7 @@ class MtaSubwayService(GtfsService):
             i = bisect.bisect_left(keys, trip_id)
             if len(keys) == 0:
                 print(f'invalid trip id: {trip_id}')
-                print(self.trips.keys())
+                print([key for key in self.trips.keys() if "_6" in key])
                 return None
             nearest_trip_id = keys[min(i, len(keys) - 1)]
             return self.trips[nearest_trip_id]

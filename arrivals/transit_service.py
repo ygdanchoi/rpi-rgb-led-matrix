@@ -349,12 +349,12 @@ class CompositeTransitService(BaseTransitService):
             #     '401957', # E 96 ST/3 AV
             #     '1' # westbound
             # ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.mta_bus_service.get_transit_lines, 
-                '401718', # 1 AV/E 93 ST
-                '0' # northbound
-            ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '401718', # 1 AV/E 93 ST
+            #     '0' # northbound
+            # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 

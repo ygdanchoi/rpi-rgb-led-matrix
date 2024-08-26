@@ -1,3 +1,10 @@
+```
+touch config.py
+pip install requests
+pip install protobuf~=3.20.0
+pip install google-api-python-client
+```
+
 Controlling RGB LED display with Raspberry Pi GPIO
 ==================================================
 

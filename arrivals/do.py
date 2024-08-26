@@ -31,17 +31,19 @@ if __name__ == "__main__":
 
         asyncio.get_event_loop().run_forever()
     else:
-        asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())
-        
-        rows = transit_row_factory.create_rows(
-            transit_lines=transit_service.transit_lines,
-            vertical_offset=0,
-            horizontal_offset=0,
-            cell_height=7,
-            cell_width=4,
-            max_rows=4
-        )
-        for row in rows:
-            print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
-        print(weather_service.get_forecast())
-        print(weather_service.get_sunrise_sunset())
+        if config.show_transit:
+            asyncio.get_event_loop().run_until_complete(transit_service.update_transit_lines())
+            
+            rows = transit_row_factory.create_rows(
+                transit_lines=transit_service.transit_lines,
+                vertical_offset=0,
+                horizontal_offset=0,
+                cell_height=7,
+                cell_width=4,
+                max_rows=4
+            )
+            for row in rows:
+                print(f'{row.name[:4]:<5}{row.description[:17]:<19}{row.etas}')
+        else:
+            print(weather_service.get_forecast())
+            print(weather_service.get_sunrise_sunset())

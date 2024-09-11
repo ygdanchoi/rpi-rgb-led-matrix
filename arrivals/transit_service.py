@@ -356,7 +356,7 @@ class NjTransitService(BaseTransitService):
                 name=route_trip['public_route'],
                 description=route_trip['header'],
                 etas=[],
-                color=[188, 34, 140]
+                color=[4, 82, 156]
             )).etas.append(eta)
         
         for transit_line in transit_lines_by_key.values():

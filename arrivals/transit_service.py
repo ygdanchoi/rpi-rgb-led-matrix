@@ -307,12 +307,48 @@ class NycFerryService(GtfsService):
             transit_line.etas.sort()
 
         return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
+    
+class NjTransitService(BaseTransitService):
+    def get_transit_lines(self, stop_id, direction):
+        transit_lines_by_key = {}
+
+        response = requests.post(f'https://pcsdata.njtransit.com/api/BUSDV2/getRouteTrips', data={
+            'token': config.nj_transit_token,
+            'location': 'PABT',
+            'route': '166'
+        })
+        route_trips = json.loads(response.content)
+        
+        for route_trip in route_trips:
+            eta = self.get_eta(route_trip)
+
+            key = route_trip['public_route']
+
+            transit_lines_by_key.setdefault(key, TransitLine(
+                key=key,
+                name=route_trip['public_route'],
+                description=route_trip['header'],
+                etas=[],
+                color=[188, 34, 140]
+            )).etas.append(eta)
+        
+        for transit_line in transit_lines_by_key.values():
+            transit_line.etas.sort()
+        
+        return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
+    
+    def get_eta(self, route_trip):
+        return datetime.strptime(
+            route_trip['sched_dep_time'],
+            "%m/%d/%Y %I:%M:%S %p"
+        ).timestamp()
 
 class CompositeTransitService(BaseTransitService):
     def __init__(self):
         self.mta_subway_service = MtaSubwayService()
         self.mta_bus_service = MtaBusService()
         self.nyc_ferry_service = NycFerryService()
+        self.nj_transit_service = NjTransitService()
         self.transit_lines = []
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
     
@@ -366,6 +402,12 @@ class CompositeTransitService(BaseTransitService):
                 self.nyc_ferry_service.get_transit_lines, 
                 '113', # East 90th Street
                 '0' # southbound
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.nj_transit_service.get_transit_lines, 
+                '617', # BROAD AVE AT W EDSALL BLVD
+                '0'
             )
         ]
         for response in await asyncio.gather(*futures, return_exceptions=True):

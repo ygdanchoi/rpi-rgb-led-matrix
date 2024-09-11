@@ -309,15 +309,42 @@ class NycFerryService(GtfsService):
         return sorted(transit_lines_by_key.values(), key=lambda transit_line: transit_line.key)
     
 class NjTransitService(BaseTransitService):
-    def get_transit_lines(self, stop_id, direction):
+    def __init__(self):
+        super().__init__()
+
+        self.token = None
+
+    def get_transit_lines(self, location, route):
         transit_lines_by_key = {}
 
+        if not self.token:
+            token_response = requests.post(f'https://pcsdata.njtransit.com/api/BUSDV2/authenticateUser', data={
+                'username': config.nj_transit_username,
+                'password': config.nj_transit_password
+            })
+            self.token = json.loads(token_response.content)['UserToken']
+
         response = requests.post(f'https://pcsdata.njtransit.com/api/BUSDV2/getRouteTrips', data={
-            'token': config.nj_transit_token,
-            'location': 'PABT',
-            'route': '166'
+            'token': self.token,
+            'location': location,
+            'route': route
         })
         route_trips = json.loads(response.content)
+
+        if 'errorMessage' in route_trips:
+            # extract into helper function
+            token_response = requests.post(f'https://pcsdata.njtransit.com/api/BUSDV2/authenticateUser', data={
+                'username': config.nj_transit_username,
+                'password': config.nj_transit_password
+            })
+            self.token = json.loads(token_response.content)['UserToken']
+
+            response = requests.post(f'https://pcsdata.njtransit.com/api/BUSDV2/getRouteTrips', data={
+                'token': self.token,
+                'location': location,
+                'route': route
+            })
+            route_trips = json.loads(response.content)
         
         for route_trip in route_trips:
             eta = self.get_eta(route_trip)
@@ -385,18 +412,18 @@ class CompositeTransitService(BaseTransitService):
             #     '401957', # E 96 ST/3 AV
             #     '1' # westbound
             # ),
-            # self.get_loop().run_in_executor(
-            #     self.executor, 
-            #     self.mta_bus_service.get_transit_lines, 
-            #     '401718', # 1 AV/E 93 ST
-            #     '0' # northbound
-            # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
-                '404947', # LEXINGTON AV/E 92 ST
-                '1' # southbound
+                '401718', # 1 AV/E 93 ST
+                '0' # northbound
             ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '404947', # LEXINGTON AV/E 92 ST
+            #     '1' # southbound
+            # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nyc_ferry_service.get_transit_lines, 
@@ -406,9 +433,9 @@ class CompositeTransitService(BaseTransitService):
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nj_transit_service.get_transit_lines, 
-                '617', # BROAD AVE AT W EDSALL BLVD
-                '0'
-            )
+                'PABT',
+                '166'
+            ),
         ]
         for response in await asyncio.gather(*futures, return_exceptions=True):
             if isinstance(response, Exception):

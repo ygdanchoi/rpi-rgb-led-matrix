@@ -354,7 +354,7 @@ class NjTransitService(BaseTransitService):
             transit_lines_by_key.setdefault(key, TransitLine(
                 key=key,
                 name=route_trip['public_route'],
-                description=route_trip['header'],
+                description=re.sub('  +', ' ', route_trip['header'].strip()),
                 etas=[],
                 color=[188, 34, 140]
             )).etas.append(eta)
@@ -435,6 +435,18 @@ class CompositeTransitService(BaseTransitService):
                 self.nj_transit_service.get_transit_lines, 
                 'PABT',
                 '166'
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.nj_transit_service.get_transit_lines, 
+                '12935', # BROAD AVE AT W EDSALL BLVD
+                '166'
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.nj_transit_service.get_transit_lines, 
+                '13669', # FRANK W. BURR BLVD 590'N OF GLENWOOD AVE.
+                '167'
             ),
         ]
         for response in await asyncio.gather(*futures, return_exceptions=True):

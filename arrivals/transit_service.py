@@ -16,7 +16,7 @@ import gtfs_realtime_pb2
 
 Stop = collections.namedtuple('Stop', ['stop_id', 'stop_name'])
 Trip = collections.namedtuple('Trip', ['trip_id', 'trip_headsign', 'route_id', 'direction_id'])
-TransitLine = collections.namedtuple('TransitLine', ['key', 'name', 'description', 'etas', 'color'])
+TransitLine = collections.namedtuple('TransitLine', ['key', 'name', 'description', 'etas', 'color', 'eta_threshold_min'])
 
 
 class BaseTransitService:
@@ -147,7 +147,7 @@ class MtaSubwayService(GtfsService):
     def get_stop_name(self, row):
         return row[1]
     
-    def get_transit_lines(self, stop_id, direction, gtfs_id):
+    def get_transit_lines(self, stop_id, direction, gtfs_id, eta_threshold_min):
         transit_lines_by_key = {}
 
         response = requests.get(f'https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2F{gtfs_id}', headers={
@@ -174,7 +174,8 @@ class MtaSubwayService(GtfsService):
                     name=route_id,
                     description=self.get_last_stop_name(trip_update),
                     etas=[],
-                    color=self.colors[route_id]
+                    color=self.colors[route_id],
+                    eta_threshold_min=eta_threshold_min
                 )).etas.append(eta)
 
         for transit_line in transit_lines_by_key.values():
@@ -201,7 +202,7 @@ class MtaSubwayService(GtfsService):
         return key and route_id == self.trips[key].route_id and key_match and trip_id_match and key_match.group() == trip_id_match.group()
 
 class MtaBusService(BaseTransitService):
-    def get_transit_lines(self, stop_id, direction):
+    def get_transit_lines(self, stop_id, direction, eta_threshold_min):
         transit_lines_by_key = {}
 
         response = requests.get("https://bustime.mta.info/api/siri/stop-monitoring.json", params={
@@ -226,7 +227,8 @@ class MtaBusService(BaseTransitService):
                     name=published_line_name,
                     description=vehicle_journey['DestinationName'].title(),
                     etas=[],
-                    color=[0, 57, 166]
+                    color=[0, 57, 166],
+                    eta_threshold_min=eta_threshold_min
                 )).etas.append(eta)
         
         for transit_line in transit_lines_by_key.values():
@@ -274,7 +276,7 @@ class NycFerryService(GtfsService):
     def get_stop_name(self, row):
         return row[2]
 
-    def get_transit_lines(self, stop_id, direction):
+    def get_transit_lines(self, stop_id, direction, eta_threshold_min):
         transit_lines_by_key = {}
 
         response = requests.get('http://nycferry.connexionz.net/rtt/public/utility/gtfsrealtime.aspx/tripupdate')
@@ -300,7 +302,8 @@ class NycFerryService(GtfsService):
                     name=trip.route_id,
                     description=trip.trip_headsign,
                     etas=[],
-                    color=self.colors[trip.route_id]
+                    color=self.colors[trip.route_id],
+                    eta_threshold_min=eta_threshold_min
                 )).etas.append(eta)
 
         for transit_line in transit_lines_by_key.values():
@@ -314,7 +317,7 @@ class NjTransitService(BaseTransitService):
 
         self.token = None
 
-    def get_transit_lines(self, location, route):
+    def get_transit_lines(self, location, route, eta_threshold_min):
         transit_lines_by_key = {}
 
         if not self.token:
@@ -356,7 +359,8 @@ class NjTransitService(BaseTransitService):
                 name=route_trip['public_route'],
                 description=re.sub('  +', ' ', route_trip['header'].strip()).title(),
                 etas=[],
-                color=[188, 34, 140]
+                color=[188, 34, 140],
+                eta_threshold_min=eta_threshold_min
             )).etas.append(eta)
         
         for transit_line in transit_lines_by_key.values():
@@ -391,63 +395,73 @@ class CompositeTransitService(BaseTransitService):
                 self.mta_subway_service.get_transit_lines, 
                 '626S', # 86 St
                 '1', # southbound
-                'gtfs' # 1234567
+                'gtfs', # 1234567
+                7 # minutes
             ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_subway_service.get_transit_lines, 
                 'Q05S', # 96 St
                 '1', # southbound
-                'gtfs-nqrw' # NQRW
+                'gtfs-nqrw', # NQRW
+                5 # minutes
             ),
             # self.get_loop().run_in_executor(
             #     self.executor, 
             #     self.mta_bus_service.get_transit_lines, 
             #     '401921', # E 86 ST/3 AV
-            #     '1' # westbound
+            #     '1', # westbound
+            #     0 # minutes
             # ),
             # self.get_loop().run_in_executor(
             #     self.executor, 
             #     self.mta_bus_service.get_transit_lines, 
             #     '401957', # E 96 ST/3 AV
-            #     '1' # westbound
+            #     '1', # westbound
+            #     0 # minutes
             # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
                 '401718', # 1 AV/E 93 ST
-                '0' # northbound
+                '0', # northbound
+                5 # minutes
             ),
             # self.get_loop().run_in_executor(
             #     self.executor, 
             #     self.mta_bus_service.get_transit_lines, 
             #     '404947', # LEXINGTON AV/E 92 ST
-            #     '1' # southbound
+            #     '1', # southbound
+            #     0 # minutes
             # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nyc_ferry_service.get_transit_lines, 
                 '113', # East 90th Street
-                '0' # southbound
+                '0', # southbound
+                15 # minutes
             ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nj_transit_service.get_transit_lines, 
                 'PABT',
-                '166'
+                '166',
+                25 # minutes
             ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.nj_transit_service.get_transit_lines, 
-                '12935', # BROAD AVE AT W EDSALL BLVD
-                '166'
-            ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.nj_transit_service.get_transit_lines, 
-                '13669', # FRANK W. BURR BLVD 590'N OF GLENWOOD AVE.
-                '167'
-            ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.nj_transit_service.get_transit_lines, 
+            #     '12935', # BROAD AVE AT W EDSALL BLVD
+            #     '166',
+            #     0 # minutes
+            # ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.nj_transit_service.get_transit_lines, 
+            #     '13669', # FRANK W. BURR BLVD 590'N OF GLENWOOD AVE.
+            #     '167',
+            #     0 # minutes
+            # ),
         ]
         for response in await asyncio.gather(*futures, return_exceptions=True):
             if isinstance(response, Exception):

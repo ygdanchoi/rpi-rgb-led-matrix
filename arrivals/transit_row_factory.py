@@ -11,7 +11,7 @@ class TransitRowFactory:
         current_time = time.time()
 
         filtered_transit_lines = [transit_line for transit_line in transit_lines if any(
-            eta for eta in transit_line.etas if self.is_visible_eta(eta, current_time)
+            eta for eta in transit_line.etas if self.is_visible_eta(eta, current_time, transit_line.eta_threshold_min)
         )]
 
         if len(filtered_transit_lines) == max_rows:
@@ -34,7 +34,7 @@ class TransitRowFactory:
             rows.append(TransitRow(
                 name=transit_line.name,
                 description=transit_line.description,
-                etas=self.format_etas(transit_line.etas, current_time),
+                etas=self.format_etas(transit_line.etas, current_time, transit_line.eta_threshold_min),
                 color=transit_line.color,
                 y = y,
                 dx_name = -self.beveled_zigzag(
@@ -64,8 +64,8 @@ class TransitRowFactory:
             )
         ))
 
-    def format_etas(self, etas, current_time):
-        eta_strings = self.convert_etas(etas, current_time)
+    def format_etas(self, etas, current_time, eta_threshold_min):
+        eta_strings = self.convert_etas(etas, current_time, eta_threshold_min)
         text = f'{eta_strings[0]}'
         for eta_string in eta_strings[1:]:
             if len(text) + 1 + len(eta_string) + 1 <= 8:
@@ -75,8 +75,8 @@ class TransitRowFactory:
         text += 'm'
         return text
     
-    def convert_etas(self, etas, current_time):
-        return [str(int((eta - current_time) // 60)) for eta in etas if self.is_visible_eta(eta, current_time)]
+    def convert_etas(self, etas, current_time, eta_threshold_min):
+        return [str(int((eta - current_time) // 60)) for eta in etas if self.is_visible_eta(eta, current_time, eta_threshold_min)]
     
-    def is_visible_eta(self, eta, current_time):
-        return (eta - current_time) // 60 >= 5
+    def is_visible_eta(self, eta, current_time, eta_threshold_min):
+        return (eta - current_time) // 60 >= eta_threshold_min

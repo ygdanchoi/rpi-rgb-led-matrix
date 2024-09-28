@@ -224,7 +224,7 @@ class MtaBusService(BaseTransitService):
                 transit_lines_by_key.setdefault(key, TransitLine(
                     key=key,
                     name=published_line_name,
-                    description=vehicle_journey['DestinationName'],
+                    description=vehicle_journey['DestinationName'].title(),
                     etas=[],
                     color=[0, 57, 166]
                 )).etas.append(eta)
@@ -354,7 +354,7 @@ class NjTransitService(BaseTransitService):
             transit_lines_by_key.setdefault(key, TransitLine(
                 key=key,
                 name=route_trip['public_route'],
-                description=re.sub('  +', ' ', route_trip['header'].strip()),
+                description=re.sub('  +', ' ', route_trip['header'].strip()).title(),
                 etas=[],
                 color=[188, 34, 140]
             )).etas.append(eta)

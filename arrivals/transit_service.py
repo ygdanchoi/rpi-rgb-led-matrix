@@ -470,7 +470,8 @@ class CompositeTransitService(BaseTransitService):
                     name='ERR!',
                     description=f'{response}',
                     etas=[time.time() + 1 + 60 * 888888888],
-                    color=[255, 0, 0]
+                    color=[255, 0, 0],
+                    eta_threshold_min=0
                 ))
                 strftime = time.strftime('%c', time.localtime())
                 print(f'{strftime} {response}')

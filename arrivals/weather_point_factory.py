@@ -82,7 +82,7 @@ class WeatherPointFactory:
                 random.randint(64, 255)
         ]
 
-    def is_thunderstorm(weather_hour):
+    def is_thunderstorm(self, weather_hour):
         return 200 <= weather_hour.code and weather_hour.code <= 299
 
     def get_sunrises_x(self, points, sunrise_sunset, matrix_w):

@@ -167,9 +167,9 @@ class WeatherGraphView(Observer, SampleBase):
 
         self.viewmodel.add_observer(self)
 
-    def is_lightning(self, point):
-        return point[0] == 232 and point[1] == 50 and point[2] == 243 \
-            or point[0] == 81 and point[1] == 121 and point[2] == 243
+    def is_lightning(self, color):
+        return color[0] == 232 and color[1] == 50 and color[2] == 243 
+            # or color[0] == 81 and color[1] == 121 and color[2] == 243
 
     def update(self):
         self.offscreen_canvas.Clear()
@@ -180,7 +180,7 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
             should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            color = [255, 127, 127] if self.is_lightning(point) and should_flash else point.color
+            color = [255, 127, 127] if self.is_lightning(point.color) and should_flash else point.color
 
             for (x, y) in point.coords:
                 for yy in range(0, y - 1):

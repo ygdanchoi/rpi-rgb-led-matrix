@@ -173,11 +173,7 @@ class WeatherGraphView(Observer, SampleBase):
         points = self.viewmodel.weather_points
 
         for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
-
-            # TODO: helper function
-            should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
+            color = self.get_color(point)
 
             for (x, y) in point.coords:
                 for yy in range(0, y - 1):
@@ -193,11 +189,7 @@ class WeatherGraphView(Observer, SampleBase):
                     self.draw_stripe_pixel(x, yy, color)
 
         for i, point in enumerate(points):
-            color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
-
-            # TODO: helper function
-            should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
+            color = self.get_color(point)
 
             for (x, y) in point.coords:
                 if x in self.viewmodel.date_boundaries_x:
@@ -223,10 +215,8 @@ class WeatherGraphView(Observer, SampleBase):
                                             
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
-
-            # TODO: helper function
-            should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
+            
+            color = self.get_color(point)
 
             self.draw_text(
                 7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
@@ -263,6 +253,13 @@ class WeatherGraphView(Observer, SampleBase):
                     )
 
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
+
+    def get_color(self, point):
+        if self.viewmodel.is_light_mode:
+            should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
+            return [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
+        else:
+            return self.dark_mode_color
 
     def should_draw_day_boundary(self, point, i, x, y, yy):
         return x == point.x and point.hr == '12a' and yy % 2 == y % 2 and (i % 4 != 2 or yy < self.offscreen_canvas.height - 13)

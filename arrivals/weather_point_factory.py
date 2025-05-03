@@ -4,7 +4,7 @@ import random
 
 from datetime import datetime
 
-WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop', 'snow', 'uv', 'coords'])
+WeatherPoint = collections.namedtuple('WeatherPoint', ['ts', 'hr', 'x', 'y', 'color', 'temp', 'pop', 'snow', 'uv', 'coords', 'is_thunderstorm'])
 
 
 class WeatherPointFactory:
@@ -45,7 +45,8 @@ class WeatherPointFactory:
                 pop = f'{weather_hour.pop}%',
                 snow = weather_hour.snow,
                 uv = f'uv{round(weather_hour.uv)}',
-                coords = coords
+                coords = coords,
+                is_thunderstorm = self.is_thunderstorm(weather_hour)
             ))
 
         return points
@@ -60,7 +61,7 @@ class WeatherPointFactory:
     def get_color(self, weather_hour):
         code = weather_hour.code
 
-        if 200 <= code and code <= 299: # thunderstorm
+        if self.is_thunderstorm(weather_hour):
             return [232, 50, 243]
         elif 300 <= code and code <= 399: # drizzle
             return [81, 121, 243]
@@ -80,6 +81,9 @@ class WeatherPointFactory:
                 random.randint(64, 255),
                 random.randint(64, 255)
         ]
+
+    def is_thunderstorm(weather_hour):
+        return 200 <= weather_hour.code and weather_hour.code <= 299
 
     def get_sunrises_x(self, points, sunrise_sunset, matrix_w):
         if len(points) == 0:

@@ -179,7 +179,7 @@ class WeatherGraphView(Observer, SampleBase):
             color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
             should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            color = [255, 127, 127] if point.color and should_flash else point.color
+            color = [255, 127, 127] if self.is_lightning(point) and should_flash else point.color
 
             for (x, y) in point.coords:
                 for yy in range(0, y - 1):

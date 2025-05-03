@@ -168,7 +168,8 @@ class WeatherGraphView(Observer, SampleBase):
         self.viewmodel.add_observer(self)
 
     def is_lightning(self, point):
-        return point[0] == 232 and point[1] == 50 and point[2] == 243
+        return point[0] == 232 and point[1] == 50 and point[2] == 243 \
+            or point[0] == 81 and point[1] == 121 and point[2] == 243
 
     def update(self):
         self.offscreen_canvas.Clear()

@@ -175,6 +175,7 @@ class WeatherGraphView(Observer, SampleBase):
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
+            # TODO: helper function
             should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
             color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
 
@@ -189,11 +190,12 @@ class WeatherGraphView(Observer, SampleBase):
                     color[2]
                 )
                 for yy in range(y + 1, self.offscreen_canvas.height): 
-                    self.draw_stripe_pixel(x, yy, point.color)
+                    self.draw_stripe_pixel(x, yy, color)
 
         for i, point in enumerate(points):
             color = point.color if self.viewmodel.is_light_mode else self.dark_mode_color
 
+            # TODO: helper function
             should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
             color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
 
@@ -222,11 +224,15 @@ class WeatherGraphView(Observer, SampleBase):
         for i, point in enumerate(points[2:27:4]):
             p_i = 2 + i * 4
 
+            # TODO: helper function
+            should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
+            color = [255, 127, 127] if point.is_thunderstorm and should_flash else point.color
+
             self.draw_text(
                 7 + i * 19 - len(point.temp) * self.viewmodel.cell_width / 2,
                 min([pt.y - 1 for pt in points[(p_i - 1):(p_i + 1)]]),
                 point.temp,
-                point.color
+                color
             )
 
             self.draw_text(

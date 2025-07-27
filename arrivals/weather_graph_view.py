@@ -257,7 +257,7 @@ class WeatherGraphView(Observer, SampleBase):
     def get_color(self, point):
         if self.viewmodel.is_light_mode:
             should_flash = (self.viewmodel.vertical_offset // 8) % 2 == 0
-            return [255, 191, 255] if point.is_thunderstorm and should_flash else point.color
+            return [255, 127, 255] if point.is_thunderstorm and should_flash else point.color
         else:
             return self.dark_mode_color
 

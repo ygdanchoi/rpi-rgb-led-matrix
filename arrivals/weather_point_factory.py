@@ -62,7 +62,7 @@ class WeatherPointFactory:
         code = weather_hour.code
 
         if self.is_thunderstorm(weather_hour):
-            return [232, 50, 243]
+            return [81, 121, 243]
         elif 300 <= code and code <= 399: # drizzle
             return [81, 121, 243]
         elif 500 <= code and code <= 599: # rain

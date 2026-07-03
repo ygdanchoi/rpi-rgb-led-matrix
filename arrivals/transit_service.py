@@ -411,14 +411,14 @@ class CompositeTransitService(BaseTransitService):
                 self.mta_bus_service.get_transit_lines, 
                 '401921', # E 86 ST/3 AV
                 '1', # westbound
-                0 # minutes
+                5 # minutes
             ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
                 '401957', # E 96 ST/3 AV
                 '1', # westbound
-                0 # minutes
+                5 # minutes
             ),
             self.get_loop().run_in_executor(
                 self.executor, 

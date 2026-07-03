@@ -406,20 +406,20 @@ class CompositeTransitService(BaseTransitService):
                 'gtfs-nqrw', # NQRW
                 5 # minutes
             ),
-            # self.get_loop().run_in_executor(
-            #     self.executor, 
-            #     self.mta_bus_service.get_transit_lines, 
-            #     '401921', # E 86 ST/3 AV
-            #     '1', # westbound
-            #     0 # minutes
-            # ),
-            # self.get_loop().run_in_executor(
-            #     self.executor, 
-            #     self.mta_bus_service.get_transit_lines, 
-            #     '401957', # E 96 ST/3 AV
-            #     '1', # westbound
-            #     0 # minutes
-            # ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_bus_service.get_transit_lines, 
+                '401921', # E 86 ST/3 AV
+                '1', # westbound
+                0 # minutes
+            ),
+            self.get_loop().run_in_executor(
+                self.executor, 
+                self.mta_bus_service.get_transit_lines, 
+                '401957', # E 96 ST/3 AV
+                '1', # westbound
+                0 # minutes
+            ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.mta_bus_service.get_transit_lines, 
@@ -427,20 +427,20 @@ class CompositeTransitService(BaseTransitService):
                 '0', # northbound
                 5 # minutes
             ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.mta_bus_service.get_transit_lines, 
-                '404947', # LEXINGTON AV/E 92 ST
-                '1', # southbound
-                0 # minutes
-            ),
-            self.get_loop().run_in_executor(
-                self.executor, 
-                self.nyc_ferry_service.get_transit_lines, 
-                '113', # East 90th Street
-                '0', # southbound
-                15 # minutes
-            ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.mta_bus_service.get_transit_lines, 
+            #     '404947', # LEXINGTON AV/E 92 ST
+            #     '1', # southbound
+            #     0 # minutes
+            # ),
+            # self.get_loop().run_in_executor(
+            #     self.executor, 
+            #     self.nyc_ferry_service.get_transit_lines, 
+            #     '113', # East 90th Street
+            #     '0', # southbound
+            #     15 # minutes
+            # ),
             self.get_loop().run_in_executor(
                 self.executor, 
                 self.nj_transit_service.get_transit_lines, 
